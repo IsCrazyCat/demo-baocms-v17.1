@@ -1,0 +1,156 @@
+<include  file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('user/member/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			今日签到
+		</div>
+        <div class="top-signed">
+			<a id="search-btn" href="<{:U('jifen/index')}>"><i class="iconfont icon-lipin4"></i></a>
+		</div>
+	</header>
+<style>
+.sign-table{
+	width:100%;
+	font-size: 0.7rem;
+}
+.sign-table tr{
+	width:100%;
+	border-bottom: 1px solid #fcfcfc;
+}
+.sign-table td{
+	width:14.285%;
+	text-align: center;
+	height:4rem;
+	padding: 0;
+	font-size: 0.8rem;
+	border-right:1px solid #fcfcfc;
+}
+.sign-table td p{
+	margin:0;
+	font-size: 0.6rem;
+}
+.sign-table td.after{
+	background: #ddd;
+}
+.sign-table td.complate{
+	background: #FCEFA1;
+}
+.sign-table td.complate img{
+	width:1rem;
+	height: 1rem;
+	display: block;
+	margin:0 auto;
+}
+.sign-table td.today{
+	background: #FFDA44;
+}
+.sign-table td.before{
+	background: #FCEFA1;
+}
+.sign-table th{
+	width:14.285%;
+	text-align: center;
+	font-weight: normal;
+	color:#999;
+	height:2.4rem;
+	line-height:2.4rem;
+}
+
+</style>
+
+
+	<div id="page-sign-index" class="page page-current">		
+			
+			<div class="content">
+				<table class="sign-table">
+					<thead>
+						<tr>
+							<th>周日</th>
+							<th>周一</th>
+							<th>周二</th>
+							<th>周三</th>
+							<th>周四</th>
+							<th>周五</th>
+							<th>周六</th>
+						</tr>
+					</thead>
+                    
+                    
+                     <tbody id="signrili">
+                        <notempty name='blankArr'>
+                            <tr>
+                                <foreach name="blankArr" item="row">
+                                    <td>-</td>
+                                    <if condition="$row%7  eq $first"></tr></if>
+                                </foreach>
+                        </notempty>
+                        <foreach name="days" item="row">
+                            <if condition="$row['key2']  eq 0"><tr></if>
+                            <{:getSign($row['key'],$MEMBER['user_id'])}>
+                            <if condition="$row['key2']  eq 7"></tr></if>
+                        </foreach>
+                        <foreach name="other" item="row">
+                            <td>-</td>
+                        </foreach>
+                    </tbody>
+                                                                                 
+				</table>
+			</div>
+		</div>
+     <div class="blank-10 bg"></div>   
+     <div id="main">
+		<div class="blank-10"></div>
+		<ul class="shadow">
+			<if condition="!empty($MEMBER)">
+                <li class="asset">
+                    您已连续签到<span><{$sign.day}></span> 天，积分可兑换礼品哦！
+                </li>
+			</if>
+			<li class="btn">
+				<if condition="!empty($MEMBER)">
+					<if condition="empty($sign['is_sign'])">
+                   	<a class="btn" id="www-hatudou-com-url-btn" href="<{:U('sign/signing')}>">立刻签到</a>
+                    <else />
+                    <a class="btn" href="javascript:void(0);">明日签到 +<{$sign.integral}></a>
+                    </if>
+				<else/>
+				<a class="btn" href="<{:U('passport/login')}>">立刻登录</a>
+				</if>
+			</li>
+			<li class="btn">
+				<a class="btn" href="<{:U('jifen/index')}>">礼品兑换区</a>
+			</li>
+		</ul>
+		<div class="blank-10"></div>
+	</div>
+    
+    
+        
+<script>
+   function signDay(obj){
+	  var url = "<{:U('sign/signing')}>";
+	  $.post(url,function(data){
+
+		 var num = obj.find("span").text();
+         var td = "<td class='complate'><span>" + num + "</span><img src='/static/default/wap/image/index/sign.gif' /><p>已签</p></td>";
+         obj.before(td);
+         obj.remove();
+		 
+		 
+           if(data.code == '0'){
+                layer.msg(data.msg);
+           }else{
+               layer.msg(data.msg);
+                  setTimeout(function(){
+                  window.location.reload(true);
+               },1000)
+           }
+         },'json')
+    }
+</script>        
+        
+
+
+<include file="public:footer"/>

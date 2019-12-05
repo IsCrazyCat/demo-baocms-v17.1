@@ -1,0 +1,214 @@
+<include file="public:header"/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>  
+<script src="__TMPL__statics/js/jscookie.js"></script>
+
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1)"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">房间列表</div>
+		<div class="top-signed"></div>
+	</header>
+    
+    
+    
+    
+<style>
+footer{height:3rem;}
+.hotel_time{border-bottom: 0.1rem solid #f0efed;border-top: 0.1rem solid #f0efed;}
+.container{margin-top:0rem;}
+.shop-list .item{overflow:hidden;padding:10px 0;border-bottom:thin solid #EEE;display:block;position:relative;}
+.shop-list .item .pic{float:left;width:100px;width:80px;}
+.shop-list .item .des{float:left;width:100%;padding-left:90px;position:absolute;left:0;}
+.shop-list .item .des h5{overflow:hidden;margin-bottom:5px;width:100%;}
+.shop-list .item .des .info span.ui-starbar{ margin-top:2px;}
+.shop-list .item .des .info span.shopyouhui{color:#F00;font-size:14px; padding: 0 3px;float: right;}
+.shop-list .item .des .distance{float:right;}
+.shop-list .item .des .addr{font-size:12px;color:#999; display:block;overflow:hidden;margin-bottom: 0px;}
+.shop-list .item .des span.distance {color: #Fff;font-size: 12px;padding: 0 3px;background: #F00;}
+</style>
+
+
+
+  <!--酒店预订开始-->
+        <div class="blank-10 bg"></div>
+        <div class="hotel_time">
+            <div class="left">
+                <span class="maincl">
+                <input type="text" value="<{$into_time}>" readonly id="ft" class="time_select" onFocus="WdatePicker({onpicked:function(op){test()},dateFmt: 'yyyy-MM-dd',minDate:'%y-%M-{%d}'});" />
+                </span>入住-
+                <span class="maincl">
+                <input type="text" value="<{$out_time}>" readonly id="tt" class="time_select" onFocus="WdatePicker({onpicked:function(op){test()},dateFmt: 'yyyy-MM-dd',minDate:$('#ft').val()});" />
+                </span>离店
+            </div>
+            <div class="right maincl">共<span id="night_num"></span>晚<em class="linkIco"></em></div>
+        </div>
+    <div class="blank-10 bg"></div>
+ <!--酒店预订结束-->
+
+<div id="filter2" class="filter2">
+    <ul class="tab clearfix">
+   
+       <li class="item">
+        <a href="javascript:void(0);"> 
+            <if condition="!empty($type)">
+            	<volist name='roomtype' id='item'> 
+                	<if condition="$type eq $i">
+                		<span id="str_b_node" style="color:#f60"> <{$item}></span>
+                    </if>
+                </volist>
+            <else/>
+                <span id="str_b_node">房型类型</span>
+            </if>
+            <em></em>
+        </a>
+      </li>
+      
+      
+      <li class="item">
+        <a href="javascript:void(0);">
+            <if condition="empty($cat)">
+            	<span id="str_e_node">房型项目</span>
+            <elseif condition="$cat eq 0"/>
+            	<span id="str_b_node" style="color:#f60;">默认状态</span>
+            <elseif condition="$cat eq 1"/>
+            	<span id="str_b_node" style="color:#f60;">提供早餐</span>
+            <elseif condition="$cat eq 2"/>
+            	<span id="str_b_node" style="color:#f60;">提供带宽</span>
+            <elseif condition="$cat eq 3"/>
+            	<span id="str_b_node" style="color:#f60;">是否可取消</span>
+            </if>
+        <em></em>
+        </a>
+      </li>
+      
+       
+      
+      <li class="item">
+        <a href="javascript:void(0);">
+            <if condition="empty($order)">
+            	<span id="str_e_node">房型排序</span>
+            <elseif condition="$order eq 0"/>
+            	<span id="str_b_node" style="color:#f60;">默认排序</span>
+            <elseif condition="$order eq 1"/>
+            	<span id="str_b_node" style="color:#f60;">时间排序</span>
+            <elseif condition="$order eq 2"/>
+            	<span id="str_b_node" style="color:#f60;">价格排序</span>
+            <elseif condition="$order eq 3"/>
+            	<span id="str_b_node" style="color:#f60;">剩余房间排序</span>
+            </if>
+        <em></em>
+        </a>
+      </li>
+    </ul>
+
+    
+    
+    <div class="inner" style=" display:none">
+      <ul>
+       <li><a <if condition='empty($type)'>style="color:red;"</if> href="<{:LinkTo('hotels/room',$linkArr,array('type'=>0))}>">全部状态</a></li>
+       <volist name="roomtype" id="item"> 
+       		<li><a <if condition="$star eq $i">cstyle="color:red;"</if> href="<{:LinkTo('hotels/room',$linkArr,array('type'=>$key))}>"><{$item}></a></li>
+       </volist>
+       </ul>
+    </div>
+    
+    
+   <div class="inner" style="display:none;">
+      <ul>
+        <li><a <if condition="$cat eq 0"> style="color:red;"</if> href="<{:LinkTo('hotels/room',$linkArr,array('cat'=>0))}>">默认类型</a></li>
+        <li><a <if condition="$cat eq 1"> style="color:red;"</if> href="<{:LinkTo('hotels/room',$linkArr,array('cat'=>1))}>">提供早餐</a></li>
+        <li><a <if condition="$cat eq 2"> style="color:red;"</if> href="<{:LinkTo('hotels/room',$linkArr,array('cat'=>2))}>">提供带宽</a></li>
+        <li><a <if condition="$cat eq 3"> style="color:red;"</if> href="<{:LinkTo('hotels/room',$linkArr,array('cat'=>3))}>">是否可取消</a></li>
+      </ul>
+   </div>
+    
+   <div class="inner" style="display:none;">
+      <ul>
+        <li><a <if condition="$order eq 0"> style="color:red;"</if> href="<{:LinkTo('hotels/room',$linkArr,array('order'=>0))}>">默认排序</a></li>
+        <li><a <if condition="$order eq 1"> style="color:red;"</if> href="<{:LinkTo('hotels/room',$linkArr,array('order'=>1))}>">时间排序</a></li>
+        <li><a <if condition="$order eq 2"> style="color:red;"</if> href="<{:LinkTo('hotels/room',$linkArr,array('order'=>2))}>">价格排序</a></li>
+        <li><a <if condition="$order eq 3"> style="color:red;"</if> href="<{:LinkTo('hotels/room',$linkArr,array('order'=>3))}>">剩余房间排序</a></li>
+      </ul>
+   </div>
+      <div id="parent_container" class="inner_parent" style="display:none;"><div class="innercontent"></div></div>
+      <div id="inner_container" class="inner_child" style="display:none;"><div class="innercontent"></div> </div>
+ </div>
+ 
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;"><i class="pull2"></i></div>
+
+<!--end-->   
+
+    
+	<div class="container">
+		<div id="shop-list" class="shop-list"></div>
+	</div>
+	
+    
+    <script>
+        function get_night(stime,ltime){
+            var  aDate,  oDate1,  oDate2,  iDays  
+            aDate  =  stime.split("-")  
+			s1 = new Date(stime.replace(/-/g, "/"));
+			s2 = new Date(ltime.replace(/-/g, "/"));
+			var days = s2.getTime() - s1.getTime();
+			var iDays = parseInt(days / (1000 * 60 * 60 * 24));
+            return  iDays  
+        }
+ 		
+		
+		function test() {
+            var price = "<{$detail.price}>";
+            var stime = $("#ft").val();
+            var ltime = $("#tt").val();
+            if(ltime&&stime){
+                if(ltime <= stime){
+                    layer.msg('选择时间不正确');
+                }
+                var night_num =  get_night(stime,ltime);
+					
+                $("#night_num").html(night_num);
+            }
+            
+        }
+		
+		
+        $(document).ready(function(){
+            var stime = $("#ft").val();
+            var ltime = $("#tt").val();
+            if(ltime&&stime){
+                var night_num =  get_night(stime,ltime) ||0;
+                $("#night_num").html(night_num);
+            }
+            $(".query_order").click(function(){
+                var ft = $("#ft").val();
+                var tt = $("#tt").val();
+                var url = $(this).attr('rel');
+                SetCookie('into_time',ft);
+                SetCookie('out_time',tt);
+                setTimeout(function () {
+                      window.location.href = url;
+                }, 1000);
+            })
+            
+        })
+        function SetCookie(name, value){
+                var Days = 30; 
+                var exp = new Date();
+                exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+                document.cookie = name + "=" + value + ";expires=" + exp.toGMTString() +";path=/";
+       }
+    </script>
+    
+    
+    <script>
+		showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+    
+    
+    
+<include file="public:footer"/>

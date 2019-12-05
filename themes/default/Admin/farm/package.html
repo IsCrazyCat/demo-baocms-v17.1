@@ -1,0 +1,53 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">农家乐</li>
+        <li class="li2">套餐管理</li>
+        <li class="li2 li3">套餐列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里管理单个农家乐的套餐列表管理，当前农家乐名称： <a style="color:#F00">【<{$detail.farm_name}>】</a></p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('farm/setpackage',array('farm_id'=>$detail['farm_id']),'添加套餐')}>
+            </div>
+            <div class="right">
+               
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="pid" /></td>
+                    <td>套餐名称</td>
+                    <td>套餐价格</td>
+                    <td>结算价格</td>
+                    <td class="w360">操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_pid" type="checkbox" name="pid[]" value="<{$var.pid}>" /></td>
+                        <td><{$var.title}></td>
+                        <td><{$var.price}></td>
+                        <td><{$var.jiesuan_price}></td>
+                    <td>
+                        <{:BA('farm/editpackage',array("pid"=>$var["pid"],"farm_id"=>$var["farm_id"]),'编辑套餐','','remberBtn')}>
+                        <{:BA('farm/deletepackage',array("pid"=>$var["pid"],"farm_id"=>$var["farm_id"]),'删除套餐','act','remberBtn')}>
+                    </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

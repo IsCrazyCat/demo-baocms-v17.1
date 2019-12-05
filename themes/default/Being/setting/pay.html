@@ -1,0 +1,62 @@
+<include  file='public:header'/>
+<style>
+.profit {text-align: center;color: #333;font-weight: bold; background: #F5F5FB;}
+.lfTdBt{width:220px;}
+.sogn{ width:120px; margin:5px 0;height: 30px;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">支付设置</li>
+    </ul>
+</div>
+<p class="attention">这里写一些支付基本设置<span>注意：以后关于支付设置全部写这里！</span></p>
+<form  target="x-frame" action="<{:U('setting/pay')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+            
+            	<tr>
+                    <td class="lfTdBt">强制支付开启验证成功：</td>
+                    <td class="rgTdBt">
+                    <label><input type="radio" name="data[force_respond]" <eq name="CONFIG.pay.force_respond" value="1">checked="checked"</eq> value="1"/>开启</label>
+                    <label><input type="radio" name="data[force_respond]" <eq name="CONFIG.pay.force_respond" value="0">checked="checked"</eq> value="0"/>关闭</label>
+                    <code>某些iis服务器，经常支付成功后，订单状态已付款，后却显示验证失败的情况请开启，一般不要开启否则会导致错误，开启之前请联系客服Q.28.6.099.9.21，否则引起的错误不负责</code>
+                    </td>
+                </tr>
+            
+            
+              <tr>
+                    <td class="lfTdBt">wap付款自动选择支付方式：</td>
+                    <td class="rgTdBt">
+                        <select name="data[auto]"  class="scAddTextName sogn">
+                        	<option value="" <if condition="$CONFIG['pay']['auto'] eq ''">selected='selected'</if>>请选择</option>
+                            <option value="alipay" <if condition="$CONFIG['pay']['auto'] eq alipay">selected='selected'</if>>支付宝</option>
+                            <option value="weixin" <if condition="$CONFIG['pay']['auto'] eq weixin">selected='selected'</if>>微信</option>
+                            <option value="money" <if condition="$CONFIG['pay']['auto'] eq money">selected='selected'</if>>余额</option>
+                            <option value="paypal" <if condition="$CONFIG['pay']['auto'] eq paypal">selected='selected'</if>>paypal</option>
+                        </select>
+                        <code>填写后，用户wap端下单后，会给用户一个默认支付方式，部分模块支持，修改教程：http://www.juhucms.com/forum-37-1.html</code></td>
+                </tr>
+                
+                
+              <tr>
+                    <td class="lfTdBt">用户申请提现默认选择支付：</td>
+                    <td class="rgTdBt">
+                        <select name="data[cash]"  class="scAddTextName sogn">
+                        	<option value="" <if condition="$CONFIG['pay']['cash'] eq ''">selected='selected'</if>>请选择方式</option>
+                            <option value="weixin" <if condition="$CONFIG['pay']['cash'] eq weixin">selected='selected'</if>>微信</option>
+                            <option value="bank" <if condition="$CONFIG['pay']['cash'] eq bank">selected='selected'</if>>银行卡</option>
+                        </select>
+                        <code>用户在会员中心收你钱提现的时候默认提现付款方式</code></td>
+                </tr>
+                
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       

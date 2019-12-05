@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>交易大数据</title>
+    <link rel="stylesheet" type="text/css" href="__TMPL__transaction/css/jy_common.css"/>
+    <script type="text/javascript" src="__TMPL__transaction/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="__TMPL__transaction/js/jy_common.js"></script>
+
+    <!-- 仅大数据调用 -->
+    <link rel="stylesheet" type="text/css" href="__TMPL__transaction/css/bigData.css"/>
+    <script type="text/javascript" src="__TMPL__transaction/js/bigData.js"></script>
+    <script type="text/javascript" src="__TMPL__transaction/js/carouselPlugin.min.js"></script>
+    <script type="text/javascript" src="__TMPL__transaction/js/autoScroll.js"></script>
+
+</head>
+<body>
+
+    <div class="bigData">
+
+        <div class="inner">
+
+            <div class="caption">
+                <img class="gradientImg" src="__TMPL__transaction/images/linejianbian.png" alt="">
+                <div class="time">
+                
+                <php>
+                	echo "今天:".date("Y-m-d");  
+                </php>&nbsp;&nbsp;&nbsp;
+                <php>
+                    $weekarray=array("日","一","二","三","四","五","六");
+                    echo "星期".$weekarray[date("w")];
+                </php>
+                
+                </div>
+                <img class="titlePic" src="__TMPL__transaction/images/titlePic.png" alt="">
+                <a class="linkHome" href="<{:U('Pchome/index/index')}>"><i class="iconfont">&#xe70e;</i><span>网站首页</span></a>
+            </div>
+
+            <div class="fourBox">
+                <ul>
+                    <li class="blue">
+                        <a href="javascript:void(0)">
+                            <div class="caption_">商家总数</div>
+                            <div class="detail"><{$shop_count}></div>
+                        </a>
+                    </li>
+                    <li class="red">
+                        <a href="javascript:void(0)">
+                            <div class="caption_">产品种类</div>
+                            <div class="detail"><{$goodscate_count}></div>
+                        </a>
+                    </li>
+                    <li class="green">
+                        <a href="javascript:void(0)">
+                            <div class="caption_">交易次数（2017）</div>
+                            <div class="detail"><{$order_count}></div>
+                        </a>
+                    </li>
+                    <li class="purple">
+                        <a href="javascript:void(0)">
+                            <div class="caption_">交易总量</div>
+                            <php>
+                            	$order_price_count = round($order_price_count/100,0)
+                            </php>
+                            <div class="detail"><label><{$order_price_count}></label><span>吨</span></div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="threeBox">
+                <ul>
+                    <li>
+                        <div class="out">
+                            <div class="cpt"><span>商家列表</span></div>
+                            <div class="in">
+                                <div class="title">
+                                    <span class="nam">商家名称</span><label class="area">区域</label>
+                                </div>
+                                <div class="switchPond" id="fadeSwitch">
+                                
+                            
+                        
+                                 <foreach name="shop_list" item="var">
+                                 
+                                     
+                                        <div class="item">
+                                        	<foreach name="var" item="item">
+                                            	<a href="#"><span><{$item.shop_name}></span><label><{$item.area}></label></a>
+                                            </foreach>
+                                        </div>
+                                      
+                                 </foreach>  
+                                    
+                                  
+                                    
+                                    <!-- 这里的ul与li是隐藏的不用显示上面有多少个.item就循环多少个li -->
+                                    <ul class="changeBanner">
+                                        <li class="active"></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="out">
+                            <div class="cpt"><span>交易分布（2017）</span></div>
+                            <div class="in" id="chars">
+
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="out">
+                            <div class="cpt"><span>农副产品交易排行榜</span></div>
+                            <div class="in">
+                                <div class="title">
+                                    <ul class="nam_">
+                                        <li>排行</li><li>商品类型</li><li>重量</li>
+                                    </ul>
+                                </div>
+                                <div class="switchPond" id="scroll">
+                                    <ul class="list">
+									  <li class="top"><a href="#"><span><label>1</label></span><span><{$CONFIG.goods.cate_1_name}></span><span><{$CONFIG.goods.cate_1_num}>吨</span></a></li>
+                                      <li class="top"><a href="#"><span><label>2</label></span><span><{$CONFIG.goods.cate_2_name}></span><span><{$CONFIG.goods.cate_2_num}>吨</span></a></li>
+                                      <li class="top"><a href="#"><span><label>3</label></span><span><{$CONFIG.goods.cate_3_name}></span><span><{$CONFIG.goods.cate_3_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>4</label></span><span><{$CONFIG.goods.cate_4_name}></span><span><{$CONFIG.goods.cate_4_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>5</label></span><span><{$CONFIG.goods.cate_5_name}></span><span><{$CONFIG.goods.cate_5_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>6</label></span><span><{$CONFIG.goods.cate_6_name}></span><span><{$CONFIG.goods.cate_6_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>7</label></span><span><{$CONFIG.goods.cate_7_name}></span><span><{$CONFIG.goods.cate_7_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>8</label></span><span><{$CONFIG.goods.cate_8_name}></span><span><{$CONFIG.goods.cate_8_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>9</label></span><span><{$CONFIG.goods.cate_9_name}></span><span><{$CONFIG.goods.cate_9_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>10</label></span><span><{$CONFIG.goods.cate_10_name}></span><span><{$CONFIG.goods.cate_10_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>11</label></span><span><{$CONFIG.goods.cate_11_name}></span><span><{$CONFIG.goods.cate_11_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>12</label></span><span><{$CONFIG.goods.cate_12_name}></span><span><{$CONFIG.goods.cate_12_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>13</label></span><span><{$CONFIG.goods.cate_13_name}></span><span><{$CONFIG.goods.cate_13_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>14</label></span><span><{$CONFIG.goods.cate_14_name}></span><span><{$CONFIG.goods.cate_14_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>15</label></span><span><{$CONFIG.goods.cate_15_name}></span><span><{$CONFIG.goods.cate_15_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>16</label></span><span><{$CONFIG.goods.cate_16_name}></span><span><{$CONFIG.goods.cate_16_num}>吨</span></a></li>
+                                      <li><a href="#"><span><label>17</label></span><span><{$CONFIG.goods.cate_17_name}></span><span><{$CONFIG.goods.cate_17_num}>吨</span></a></li>
+                                   </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+    <input type="hidden" value="<{$CONFIG.goods.cate_1_name}>" id="frist">
+	<input type="hidden" value="<{$CONFIG.goods.cate_2_name}>" id="second">
+	<input type="hidden" value="<{$CONFIG.goods.cate_3_name}>" id="three">
+	<input type="hidden" value="<{$CONFIG.goods.cate_4_name}>" id="four">
+	<input type="hidden" value="<{$CONFIG.goods.cate_5_name}>" id="five">
+	
+	<input type="hidden" value="<{:round($CONFIG['goods']['cate_1_num']*100,0)}>" id="diyi">
+	<input type="hidden" value="<{:round($CONFIG['goods']['cate_2_num']*100,0)}>" id="dier">
+	<input type="hidden" value="<{:round($CONFIG['goods']['cate_3_num']*100,0)}>" id="disan">
+	<input type="hidden" value="<{:round($CONFIG['goods']['cate_4_num']*100,0)}>" id="disi">
+	<input type="hidden" value="<{:round($CONFIG['goods']['cate_5_num']*100,0)}>" id="diwu">
+    <script type="text/javascript" src="__TMPL__transaction/js/echarts-all.js"></script>
+    <script type="text/javascript">
+
+        var hh = document.body.scrollHeight;
+        var dom_ = document.getElementById('chars');
+        dom_.style.height = (hh - 400) + 'px';
+
+        var myChart = echarts.init(document.getElementById('chars'));
+		var one=$('#frist').val();
+		var two=$('#second').val();
+		var three=$('#three').val();
+		var four=$('#four').val();
+		var five=$('#five').val();
+		
+		var diyi=$('#diyi').val();
+		var dier=$('#dier').val();
+		var disan=$('#disan').val();
+		var disi=$('#disi').val();
+		var diwu=$('#diwu').val();
+        var option = {
+            legend: {
+                orient:'vertical',
+                x :'left',
+                textStyle:{color:'#FFF'},
+                data:[one,two,three,four,five]
+            },
+            calculable : false,
+            color:[
+                '#FE2D5F', '#FFB207', '#0169A9', '#18C2FF', '#6729E4',
+                '#1e90ff', '#ff6347', '#7b68ee', '#00fa9a', '#ffd700',
+                '#6b8e23', '#ff00ff', '#3cb371', '#b8860b', '#30e0e0'
+            ],
+            series : [
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:diyi, name:one},
+                        {value:dier, name:two},
+                        {value:disan, name:three},
+                        {value:disi, name:four},
+                        {value:diwu, name:five}
+                    ]
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,241 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">教育</li>
+        <li class="li2">课程管理</li>
+        <li class="li2 li3">编辑课程</li>
+    </ul>
+</div>
+<form  target="x-frame" action="<{:U('edu/course_edit',array('edu_id'=>$detail_edit['edu_id'],'course_id'=>$detail['course_id']))}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                   <tr>
+                    <td class="lfTdBt">课程名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="scAddTextName w210" />
+					<code>请填写课程名称</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">课程封面：</td>
+                 <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
+                        <div id="fileToUpload" >上传课程封面主图</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_img" width="120" height="80"  src="<{:config_img($detail['photo'])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.course.thumb}>
+                    </div>
+                    <script>                                            
+						var width_course = '<{:thumbSize($CONFIG[attachs][course][thumb],0)}>';                         
+						var height_course = '<{:thumbSize($CONFIG[attachs][course][thumb],1)}>';                         
+						var uploader = WebUploader.create({                             
+						auto: true,                             
+						swf: '/static/default/webuploader/Uploader.swf',                             
+						server: '<{:U("app/upload/uploadify",array("model"=>"course"))}>',                             
+						pick: '#fileToUpload',                             
+						resize: true,  
+						compress : {width: width_course,height: height_course,quality: 80,allowMagnify: false,crop: true}                       
+					});                                                 
+					uploader.on( 'uploadSuccess', function( file,resporse) {                             
+						$("#data_photo").val(resporse.url);                             
+						$("#photo_img").attr('src',resporse.url).show();                         
+					});                                                
+					uploader.on( 'uploadError', function( file ) {                             
+						alert('上传出错');                         
+					});                     
+                    </script>
+                </td>
+            </tr>
+            
+                <tr>
+                    <td class="lfTdBt">教育分类：</td>
+                    <td class="rgTdBt"> 
+
+                        <select id="cate_id" name="data[cate_id]" class="manageSelect w150">
+                            <foreach name="cates" item="var">
+                                <eq name="var.parent_id" value="0">
+                                <option value="<{$var.cate_id}>"  <eq name="var.cate_id" value="$detail.cate_id">selected="selected"</eq> ><{$var.cate_name}></option>                
+                                <foreach name="cates" item="var2">
+                                    <eq name="var2.parent_id" value="$var.cate_id">
+                                    <option value="<{$var2.cate_id}>"  <eq name="var2.cate_id" value="$detail.cate_id">selected="selected"</eq> > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<{$var2.cate_name}></option>
+                                    </eq>
+                                </foreach>
+                                </eq>
+                            </foreach> 
+                        </select>
+                        <code>不能选择主分类，只能选择二级分类</code>
+                    </td> 
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">开启试课模式：</td>
+                    <td class="rgTdBt">
+                   		<input type="radio" class="jq_type" name="data[type]" value="0" <if condition="$detail[type] eq 0">checked="checked"</if> />不开启
+				   		<input type="radio" class="jq_type"  name="data[type]" value="1" <if condition="$detail[type] eq 1">checked="checked"</if> />开启
+					<code>开启后显示试课价，如果不开启前台不显示试课模式</code>
+                    </td>
+                </tr>
+                
+                
+                 <script>
+                    $(document).ready(function (){
+                        $(".jq_type").change(function (){
+                            if($(this).val() == 1){
+                                $(".jq_type_2").show();
+                            }else{
+                                $(".jq_type_2").hide();
+                            }
+                        });
+                        $(".jq_type").change();
+                    });
+                </script>
+                
+
+                
+                <tr>
+                    <td class="lfTdBt">原价：</td>
+                    <td  class="rgTdBt">
+                        <input type="text" name="data[price]" value="<{:round($detail['price']/100,2)}>" class="manageInput" />
+                        <code>课程原价，前台展示使用</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >课程售价：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[course_price]" value="<{:round($detail['course_price']/100,2)}>" class="manageInput" />
+                        <code>这里是选择完整课程的时候客户购买的实际支付价格</code>
+                    </td>
+                </tr>
+                
+                <tr class="jq_type_2" style="background: rgb(255, 240, 240);">
+                    <td class="lfTdBt" style="background: rgb(255, 240, 240);">试课价格：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[test_price]" value="<{:round($detail['test_price']/100,2)}>" class="manageInput" />
+                        <code>课程售价跟试课价格不一样，一个商家可以添加试课，可以添加原价课程，如果您上面选择试课，那么客户就会支付试课价格，只是价格区别</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">年龄：</td>
+                    <td class="rgTdBt"> 
+                        <foreach name="age" item="var" key="index">
+                            <label style="margin-right: 10px;">
+                              <span><{$var}>：</span>
+                              <input type="radio" name="data[age_id]" value="<{$index}>" <eq name="index" value="$detail.age_id">checked="checked"</eq> />
+                            </label>
+                        </foreach>   
+                </td> 
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">时段：</td>
+                    <td class="rgTdBt"> 
+                        <foreach name="get_time" item="var" key="index">
+                            <label style="margin-right: 10px;">
+                              <span><{$var}>：</span>
+                              <input type="radio" name="data[time_id]" value="<{$index}>" <eq name="index" value="$detail.time_id">checked="checked"</eq> />
+                            </label>
+                        </foreach>   
+                </td> 
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">类型：</td>
+                    <td class="rgTdBt"> 
+                        <foreach name="class" item="var" key="index">
+                            <label style="margin-right: 10px;">
+                              <span><{$var}>：</span>
+                              <input type="radio" name="data[class_id]" value="<{$index}>" <eq name="index" value="$detail.class_id">checked="checked"</eq> />
+                            </label>
+                        </foreach>   
+                </td> 
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >课时：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[class_time]" value="<{$detail['class_time']}>" class="manageInput" />
+                        <code>这里填写课时</code>
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="lfTdBt" >上课时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[course_time]" value="<{$detail['course_time']}>" class="manageInput" />
+                        <code>这里填写上课时间</code>
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="lfTdBt" >报名时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[apply_time]" value="<{$detail['apply_time']}>" class="manageInput" />
+                        <code>这里填写报名时间</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                   <td class="lfTdBt">是否随时退：</td>
+                   <td class="rgTdBt">
+                   <input type="radio" name="data[is_refund]" value="0"  <if condition="$detail[is_refund] eq 0">checked="checked"</if> />不支持 
+				   <input type="radio" name="data[is_refund]" value="1"  <if condition="$detail[is_refund] eq 1">checked="checked"</if> />支持
+                   <code> 如果选择开启后前台显示随时退款</code>
+                   </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt" >浏览人数：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[views]" value="<{$detail['views']}>" class="manageInput" />
+                        <code>这里填写后前台显示，就是浏览次数显示</code>
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="lfTdBt" >已售数量：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[sale]" value="<{$detail['sale']}>" class="manageInput" />
+                        <code>课程已销售数量，注意这作弊使用，前台用户付款成功后还是会累加，只能填写整数</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt" >排序：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[orderby]" value="<{$detail['orderby']}>" class="manageInput" />
+                        <code>不填写默认100，填写数字越小显示越前面</code>
+                    </td>
+                </tr>
+                
+                
+                
+               
+         
+       <tr>
+        <td class="lfTdBt">课程详情：</td>
+        <td class="rgTdBt">
+        	<script type="text/plain" id="data_details" name="data[details]" style="width:800px;height:360px;"><{$detail.details}></script>
+        </td>
+      </tr>
+          <link rel="stylesheet" href="__PUBLIC__/qiniu_ueditor/themes/default/css/ueditor.min.css" type="text/css">
+          <script type="text/javascript" charset="utf-8" src="__PUBLIC__/qiniu_ueditor/ueditor.config.js"></script>
+          <script type="text/javascript" charset="utf-8" src="__PUBLIC__/qiniu_ueditor/ueditor.all.min.js"></script>
+          <script type="text/javascript" src="__PUBLIC__/qiniu_ueditor/lang/zh-cn/zh-cn.js"></script>
+          <script>
+            um = UE.getEditor('data_details', {
+            lang: 'zh-cn',
+            toolbars:[['fullscreen', 'source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'backcolor', 'fontsize', 'fontfamily', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', 'link', 'unlink', 'map', 'template', 'background','inserttable','print','attachment',  'emotion',  'snapscreen','insertimage', 'music', 'insertvideo']],  
+               });
+         </script>
+     
+        
+    </table>
+       <div class="smtQr"><input type="submit" value="确定编辑" class="smtQrIpt" /></div>
+</div>
+
+</div>
+</form>
+<include  file='public:footer'/>       

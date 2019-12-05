@@ -1,0 +1,46 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">会员分销</li>
+        <li class="li2 li3">编辑分销</li>
+    </ul>
+</div>
+<div class="mainScAdd">
+<p class="attention"><span>注意：</span>当前会员上级ID【<{$profit['user_id']|default='平台无ID'}>】 上级昵称：【<{$profit['nickname']|default='平台'}>】 </p>
+<div class="tableBox">
+        <form target="x-frame" action="<{:U('user/profit',array('user_id'=>$detail['user_id']))}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+             <tr>
+                    <td class="lfTdBt">我的上级：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="user_id" name="fuid1" value="<{$profit.user_id|default=''}>" />
+                            <input class="scAddTextName w210 sj" type="text" name="nickname" id="nickname"  value="<{$profit.nickname}>" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                        <code>点击选择用户可更新用户的上级，谨慎修改</code>
+                    </td>
+           </tr>    
+           <tr>
+                    <td class="lfTdBt">安全码：</td>
+                     <td class="rgTdBt">
+                          <input type="text" name="safety" value="******"  class="scAddTextName w360" />
+                          <code>输入你的网站安全码，输入错误会导致修改失败哦，安全码咨询qq 286099981</code>
+                    </td>
+           </tr>
+              
+            </table>
+               <div style="margin-left:140px;margin-top:20px">
+                 <input type="submit" value="确认更新" class="smtQrIpt" />
+            </div> 
+
+        </form>
+
+</div>
+
+    </div>
+
+<include  file='public:footer'/>
+

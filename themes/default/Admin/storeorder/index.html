@@ -1,0 +1,161 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">便利店管理</li>
+        <li class="li2">订单管理</li>
+        <li class="li2 li3">订单列表</li>
+    </ul>
+</div>
+<style>
+.sstoreK{height: 30px;}
+.sstoreK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.sstoreK .text{height: 28px; width:120px !important;}
+.sstoreK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span> 便利店订单可以导出了，您可以按照时间、选择会员、商家、还有订单ID交易状态筛选后导出订单！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="right">
+                <form method="post" action="<{:U('storeorder/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="sstoreK">
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                            <label>
+                                <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                                <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text " />
+                                <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="sumit">选择商家</a>
+                            </label>
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>状态：</span>
+                                <select class="select w120" name="st">
+                                 <option <eq name="st" value="999">selected="selected"</eq> value="999">请选择</option>
+                                	<foreach name="cfg" key="key" item="item">
+                                        <option <eq name="st" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                                    </foreach>
+                                </select>
+                            </label>
+                            <label>
+                                <span>  订单ID：</span>   
+                                <input type="text" name="order_id" value="<{$order_id|default=''}>" class="inptText" />
+                                <input type="submit" class="inptButton" value="搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="order_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>商家</td>
+                        <td>用户</td>
+                        <td>总金额</td>
+                        <td>配送费</td>
+                        <td>免配送费</td>
+                        <td>新单立减</td>
+                        <td>满减优惠</td>
+                        <td>餐具费用</td>
+                        <td>数量</td>
+                        <td>实付金额</td>
+                        <td>结算金额</td>
+                        <td>实际结算金额</td>
+                        <td>状态</td>
+                        <td>支付方式</td>
+                        <td>打印</td>
+                        <td>点评</td>
+                        <td>留言</td>
+                        <td>时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_order_id" type="checkbox" name="order_id[]" value="<{$var.order_id}>" /></td>
+                            <td><{$var.order_id}></td>
+                            <td><{$shops[$var['shop_id']]['shop_name']}></td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td>&yen;<{:round($var['total_price']/100,2)}></td>
+                            <td>&yen;<{:round($var['logistics']/100,2)}></td>
+                            <td>&yen;<{:round($var['logistics_full_money']/100,2)}></td>
+                            <td>&yen;<{:round($var['new_money']/100,2)}></td>
+                            <td>&yen;<{:round($var['full_reduce_price']/100,2)}></td>
+                            <td style="color:#F00">&yen;<{:round($var['tableware_price']/100,2)}></td>
+                            <td><{$var.num}></td>
+                            <td>&yen;<{:round($var['need_pay']/100,2)}></td>
+                            <td>&yen;<{:round($var['settlement_price']/100,2)}></td>
+                            <td style="color:#00F">
+                                <if condition="$var['actual_settlement_amount']">
+                                	<a val="<{$var.order_id}>" id="accounts_<{$var.order_id}>" onmouseover="getAccounts(<{$var.order_id}>)" >&yen;<{:round($var['actual_settlement_amount']/100,2)}>元</a>
+                                </if>
+                            </td>
+                            <td><{$cfg[$var['status']]}></td>
+                            <td><if condition="$var['is_daofu'] eq 1">餐到付款 <else/>在线支付</if></td>
+                            <td><if condition="$var['is_print'] eq 1">已打印 <else/>未打印</if></td>
+                            <td><if condition="$var['is_dianping'] eq 1">已点评 <else/>未点评</if></td>
+                            <td><{$var.message}></td>
+                        <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                        <td>
+                        <if condition="$var['status'] egt 4">
+                            <{:BA('storeorder/delete',array("order_id"=>$var["order_id"]),'删除','act','remberBtn')}>
+                        </if>
+                        <if condition="$var['status'] eq 3">
+                            <{:BA('storeorder/tui',array("order_id"=>$var["order_id"]),'同意','act','remberBtn')}>
+                        </if>
+                        <{:BA('storeorder/detail',array("order_id"=>$var["order_id"]),'详细','','remberBtn')}>
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('storeorder/delete','','批量取消订单','list','a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+function getAccounts(id){
+	var order_id = id;
+	$.ajax({
+        url: "<{:U('storeorder/getAccounts')}>",
+        type: 'post',
+        data: 'order_id='+order_id,
+        success: function(data){
+          if(data.status == 'success'){
+             layer.tips(data.msg, '#accounts_'+order_id, {
+			   tips: [4, '#78BA32']
+			 });
+          }else{
+			  layer.tips(data.msg, '#accounts_'+order_id, {
+			   tips: [4, '#838484']
+			 });
+          }
+        }
+	});
+}
+</script> 
+
+
+<include  file='public:footer'/>       

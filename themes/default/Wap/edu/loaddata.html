@@ -1,0 +1,40 @@
+<volist name="list" id="var">
+        <li onclick="location='<{:U('edu/course_detail',array('course_id'=>$var['course_id']))}>'"> 
+            <div class="course"> 
+                <div class="course-left">
+                    <a class="course-link" href="<{:U('edu/course_detail',array('course_id'=>$var['course_id']))}>">
+                   		<img src="<{:config_img($var['photo'])}>">
+                    </a>
+                    <i class="verify"></i>
+                    <div class="course-po">   
+                        <if condition="$var['type'] eq 1">     
+                            <a>试课:<{:round($var['test_price']/100,2)}> 元</a> 
+                        <else/>
+                            <a>售价:<{:round($var['course_price']/100,2)}> 元</a> 
+                        </if>           
+                        <a>报名:<{$var['sale']}> 人</a>
+                    </div>
+                </div> 
+                <div class="course-right"> 
+                <php>
+                $edu = D('Edu')->where(array('edu_id'=>$var['edu_id']))->find();
+                $score = D('EduComment')->where(array('course_id'=>$var['course_id']))->avg('score');
+                </php>
+                    <a class="course-title"><{$var['title']}>
+                    <if condition="!empty($var['is_refund'])"> 
+                    	<em>随时退</em>
+                    </if>
+                    </a> 
+                    <p class="course-addr"><{$edu['edu_name']}></p>
+                    <p class="shike-star">
+                      <if condition="!empty($score)"> 
+                        <span class="ui-starbar"><span style="width:<{$score*20}>%"></span></span><em><{:round($score/1,2)}>分</em>
+                      <else/>
+                       <p class="course-addr">暂无评价</p>
+                      </if> 
+                    </p>
+                </div>
+            </div>
+        </li>
+       </volist> 
+   

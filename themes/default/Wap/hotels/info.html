@@ -1,0 +1,56 @@
+<php>$mobile_title = $detail['hotel_name'].'酒店预订';</php>
+
+<include file="public:header"/>
+ 	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('hotels/detail',array('hotel_id'=>$detail['hotel_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			酒店介绍
+		</div>
+		<div class="top-signed">
+		</div>
+	</header> 
+<style>
+body {background: #fafafa;}
+footer {height: 3.0rem;}
+</style>   
+
+<div class="page-center-box">
+    <div class="hotel_serv">
+    	<h2>酒店服务</h2>
+
+        <ul>
+            <if condition="$detail['is_kt'] eq 1"> <li class="list"><em class="ico ico_1"></em>早餐</li></if>
+            <if condition="$detail['is_wifi'] eq 1"><li class="list"><em class="ico ico_2"></em>WIFI</li></if>
+            <if condition="$detail['is_xyj'] eq 1"><li class="list"><em class="ico ico_3"></em>洗衣机</li></if>
+            <if condition="$detail['is_tv'] eq 1"><li class="list"><em class="ico ico_4"></em>电视机</li></if>
+            <if condition="$detail['is_ly'] eq 1"> <li class="list"><em class="ico ico_5"></em>淋浴</li></if>
+            <if condition="$detail['is_bx'] eq 1"><li class="list"><em class="ico ico_7"></em>电冰箱</li></if>
+            <if condition="$detail['is_rsh'] eq 1"><li class="list"><em class="ico ico_8"></em>热水壶</li></if>
+        </ul>
+
+    </div>
+
+    <div class="hotel_tel">酒店电话：<{$detail.tel}></div>
+    <div class="hotel_infor border_t border_b">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th>酒店入住：</th>
+                <td><{$detail.in_time}>以后    离店时间：<{$detail.out_time}>以前</td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="padding border-bottom" style="background:#f5f5f5;">
+            <div class="line">
+                <span class="x12 text-gray">酒店简介</span>
+            </div>
+        </div>
+    <div class="hotel_intro border_b">
+        <p><{$detail['details']}></p>
+    </div>
+</div>
+
+ <include file="public:footer"/> 

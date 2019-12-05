@@ -1,0 +1,90 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">微信</li>
+        <li class="li2">微信管理</li>
+        <li class="li2 li3">自定义菜单</li>
+    </ul>
+</div>
+<style>
+.w380 {width:380px !important;}
+</style>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>新版自定义菜单，支持一级菜单填写url了，目前还不支持关键字回复，后期开发二开qq286099981！</p>
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/weixinmenu')}>" method="post">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF; text-align:center;">
+                <tr bgcolor="#f5f5f5" height="48px;" style="color:#333; font-size:16px; line-height:48px;">
+                    <td style="text-align: center;">项目</td>
+                    <td>名称</td>
+                    <td>链接地址</td>
+                </tr>
+                <tr bgcolor="#f1f1f1" style="font-size:14px; color:#545454; text-align:left; line-height:48px;">
+                    <td width="140" align="center">BUTTON_1</td>
+                    <td  class="rgTdBt">
+                        <input class="manageInput w80" name="data[button][1][name]" type="text" value="<{$CONFIG['weixinmenu']['button'][1][name]}>"  />
+                    </td>
+                    <td class="rgTdBt">
+                         <input class="manageInput w380" name="data[button][1][url]" type="text" value="<{$CONFIG['weixinmenu']['button'][1]['url']}>"  />
+                         <code>如果您不需要启动二级菜单，请填写URL，如果您需要启动二级菜单，那么一级菜单的URL失效</code>
+                    </td>
+                </tr>
+                <for start="1" end="6">
+                    <tr style="font-size:14px; color:#545454; text-align:center; line-height:48px;">
+                        <td width="140" >子菜单<{$i}></td>
+                        <td class="rgTdBt">
+                            <input class="manageInput w80" name="data[child][1][<{$i}>][name]" type="text" value="<{$CONFIG['weixinmenu']['child'][1][$i]['name']}>"  />
+                        </td>
+                        <td class="rgTdBt">
+                            <input class="manageInput w380" name="data[child][1][<{$i}>][url]" type="text" value="<{$CONFIG['weixinmenu']['child'][1][$i]['url']}>"  />
+                        </td>
+                    </tr>
+                </for>    
+                <tr bgcolor="#f1f1f1" style="font-size:14px; color:#545454; text-align:left; line-height:48px;">
+                    <td width="140" align="center">BUTTON_2</td>
+                    <td  class="rgTdBt">
+                        <input class="manageInput w80" name="data[button][2][name]" type="text" value="<{$CONFIG['weixinmenu']['button'][2][name]}>"  />
+                    </td>
+                    <td class="rgTdBt">
+                            <input class="manageInput w380" name="data[button][2][url]" type="text" value="<{$CONFIG['weixinmenu']['button'][2]['url']}>"  />
+                            <code>独家升级网址：www.juhucms.com</code>
+                    </td>
+                </tr>
+                <for start="1" end="6">
+                    <tr style="font-size:14px; color:#545454; text-align:center; line-height:48px;">
+                        <td width="140" >子菜单<{$i}></td>
+                        <td class="rgTdBt">
+                            <input class="manageInput w80" name="data[child][2][<{$i}>][name]" type="text" value="<{$CONFIG['weixinmenu']['child'][2][$i]['name']}>"  />
+                        </td>
+                        <td class="rgTdBt">
+                            <input class="manageInput w380" name="data[child][2][<{$i}>][url]" type="text" value="<{$CONFIG['weixinmenu']['child'][2][$i]['url']}>"  />
+                        </td>
+                    </tr>
+                </for>    
+                <tr bgcolor="#f1f1f1" style="font-size:14px; color:#545454; text-align:left; line-height:48px;">
+                    <td width="140" align="center">BUTTON_3</td>
+                    <td  class="rgTdBt">
+                        <input class="manageInput w80" name="data[button][3][name]" type="text" value="<{$CONFIG['weixinmenu']['button'][3][name]}>"  />
+                    </td>
+                    <td class="rgTdBt">
+                            <input class="manageInput w380" name="data[button][3][url]" type="text" value="<{$CONFIG['weixinmenu']['button'][3]['url']}>"  />
+                            <code>二开qq 286099981</code>
+                    </td>
+                </tr>
+                <for start="1" end="6">
+                    <tr style="font-size:14px; color:#545454; text-align:center; line-height:48px;">
+                        <td width="140" >子菜单<{$i}></td>
+                        <td class="rgTdBt">
+                            <input class="manageInput w80" name="data[child][3][<{$i}>][name]" type="text" value="<{$CONFIG['weixinmenu']['child'][3][$i]['name']}>"  />
+                        </td>
+                        <td class="rgTdBt">
+                            <input class="manageInput w380" name="data[child][3][<{$i}>][url]" type="text" value="<{$CONFIG['weixinmenu']['child'][3][$i]['url']}>"  />
+                        </td>
+                    </tr>
+                </for>    
+            </table>
+            <div class="smtQr"><input type="submit" value="确定保存" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

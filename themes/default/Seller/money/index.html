@@ -1,0 +1,60 @@
+<include file='public:header'/>  
+<style>
+.panel-list li em {float: inherit !important; margin-left:20px;}
+</style>	
+<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			商家资金
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="cate-btn"></a>
+		</div>
+	</header>
+
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+     <li style="width:25%;"><a href="<{:U('money/index')}>"  class="on">商家资金</a></li>
+     <li style="width:25%;"><a href="<{:U('money/detail')}>">资金日志</a></li>
+     <li style="width:25%;"><a href="<{:U('money/cashlogs')}>">提现日志</a></li>
+     <li style="width:25%;"><a href="<{:U('money/cash')}>">申请提现</a></li>
+</ul>  
+
+
+<div class="blank-30"></div>
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+		<li><a href="<{:U('shop/about')}>">商户名称<em><{$SHOP.shop_name}> ID【<{$SHOP.shop_id}>】</em><i class="iconfont icon-angle-right"></i></a></li>
+		<if condition="$MEMBER['gold']">
+			<li><a href="<{:U('money/cash')}>">商户资金余额<em class="text-dot"> &yen; <{:round($MEMBER['gold']/100,2)}> 元</em><i class="iconfont icon-angle-right"></i></a></li>
+        </if>
+        
+        <if condition="$MEMBER['frozen_gold']">
+			<li><a href="javascript:;">商户资金冻结金<em class="text-yellow"> &yen; <{:round($MEMBER['frozen_gold']/100,2)}> 元</em></a></li>
+        </if>
+        <li><a href="javascript:;">商户资金总收入<em class="text-blue"> &yen; <{:round($counts['money']/100,2)}> 元</em></a></li>
+		<li><a href="javascript:;">商户资金今日收入<em class="text-blue"> &yen; <{:round($counts['money_day']/100,2)}> 元</em></a></li>
+		<li><a href="javascript:;">商户资金昨日收入<em class="text-blue"> &yen; <{:round($counts['money_day_yesterday']/100,2)}> 元</em></a></li>
+	</ul>
+</div>
+
+
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+    	<li><a href="<{:U('user/index/index')}>">会员账户昵称<em><{$MEMBER['nickname']}> ID【<{$MEMBER.user_id}>】</em><i class="iconfont icon-angle-right"></i></a></li>
+		<if condition="$MEMBER['money']">
+			<li><a href="<{:U('user/index/index')}>">会员账户余额<em class="text-dot"> &yen; <{:round($MEMBER['money']/100,2)}> 元</em><i class="iconfont icon-angle-right"></i></a></li>
+        </if>
+        
+        <if condition="$MEMBER['frozen_money']">
+			<li><a href="javascript:;">会员账户冻结金<em class="text-yellow"> &yen; <{:round($MEMBER['frozen_money']/100,2)}> 元</em></a></li>
+        </if>
+	</ul>
+</div>
+
+<include file="public:footer"/>
+

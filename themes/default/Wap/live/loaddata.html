@@ -1,0 +1,19 @@
+<volist name="list" id="item" key="index">
+    <li>	
+      <a class="item line" href="<{:U('live/view',array('live_id'=>$item['live_id']))}>">
+            <div class="x3">
+                <img src="<{:config_img($item['photo'])}>">
+                <span class="zhibo"></span>
+            </div>
+            <div class="x9">
+                    <h5><{:msubstr($item['name'],0,16,'utf-8',false)}></h5>
+                    <p class="des-star">
+                        <span class="ui-starbar"><span style="width:<{:round($item['score']*2,2)}>%"></span></span>
+                        <span attr-ctrl="distance" attr-lat="<{$item.lat}>" attr-lon="<{$item.lng}>" class="float-right"><{$item.d}></span>
+                    </p>
+                   <p class="des-addr"><i class="iconfont icon-daohang"></i> <{$item.views}></p>
+                   
+            </div>
+         </a>
+    </li>
+</volist>       

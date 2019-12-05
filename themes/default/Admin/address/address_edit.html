@@ -1,0 +1,25 @@
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('address/address_edit',array('id'=>$detail['id']))}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">地址名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[name]" value="<{$detail.name|default=''}>" class="manageInput" />
+                    <code>地址名称不要重复</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">排序：</td>
+                    <td class="rgTdBt"><input type="text" name="data[displayorder]" value="<{$detail.displayorder|default=''}>" class="manageInput" />
+                    <code>数字越小越高</code>
+                    </td>
+                </tr>
+            </table>
+            <div class="smtQr">
+                <input type="hidden" name="p1" value="<{$p|default='0'}>" class="admin-manage-input" />
+                <input type="submit" value="确认编辑" class="smtQrIpt" />
+            </div>
+        </form>
+    </div>
+</div>

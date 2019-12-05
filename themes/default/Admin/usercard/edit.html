@@ -1,0 +1,48 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">会员卡管理</li>
+        <li class="li2 li3">编辑会员卡</li>
+    </ul>
+</div>
+<form  target="x-frame"  action="<{:U('usercard/edit',array('card_id'=>$detail['card_id']))}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+              <tr>
+                    <td class="lfTdBt">卡号：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="card_num" id="card_num" value="<{$detail.card_num|default=''}>" class="scAddTextName w300" />
+                        <code>请输入用户的会员卡卡号，建议12位，前缀建议8008，比如：8008 0080 9574</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">绑定会员：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="user_id" name="user_id" value="<{$detail.user_id|default=''}>" />
+                            <input class="scAddTextName sj" type="text" name="nickname" id="nickname"  value="<{$user.nickname}>" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                         <code>绑定会员的时候用户必选！</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">会员卡有效期：</td>
+                    <td class="rgTdBt"><input type="text" name="end_date" value="<{$detail.end_date|default=''}>" onfocus="WdatePicker();"  class="inputData"  />
+                    </td>
+                </tr>
+        
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认编辑" class="smtQrIpt" /></div>
+    </div>
+</form>
+<script>
+    $(document).ready(function(){
+        $("#card_num").focus();
+    });
+</script>
+
+<include  file='public:footer'/>       

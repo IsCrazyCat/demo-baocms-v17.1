@@ -1,0 +1,47 @@
+<foreach name="shops" item="var">
+    <div class="tuan-shop">
+        <div class="shop-con">
+            <div class="shop-name"><a title="<{$var.shop_name}>" href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>"><{$var.shop_name}></a></div>
+            <div class="shop-tags">  
+                <!--暂时可以不用开始-->
+                <if condition="$var['is_renzheng'] eq 1"> <span class="z">证</span>  </if>
+                <!--暂时可以不用结束-->     
+                <div class="shop-local"><span class="mui-icon mui-icon-location"></span><{$var.d}></div>
+            </div>
+        </div>		
+        <div class="main-tuan">
+		<ul>		
+        <foreach name="list" item="item">	
+        <eq name="item.shop_id" value="$var['shop_id']">	
+            <li>
+                <a class="line" href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>" >
+                    <div class="container">
+                        <img class="x4" src="<{:config_img($item['photo'])}>" />	
+                        <div class="des x8">
+                            <h5><{:tu_msubstr($item['title'],0,28,false)}></h5>
+                            <p class="intro"><em class="clock_ico"></em><{:tu_msubstr($item['intro'],0,42,false)}></p>
+                            <p class="info">
+                                <span class="text-gray">库存：<{$item.num}></span> 
+                                <if condition="$item['use_integral']">
+                                	<span class="text-gray margin-left">积分抵扣：&yen;<{:deduction($item['use_integral'])}> 元</span>
+                                </if>
+                                <if condition="$item['xiangou']">
+                                	<span class="text-little float-right badge bg-dot margin-small-top padding-right">限购<{$item.xiangou}></span>
+                                </if>
+                            </p>
+                            <p class="info">
+                                <span>抢购价：&yen; <em><{:round($item['tuan_price']/100,2)}></em></span> <del>&yen; <{:round($item['price']/100,2)}></del>
+                                <if condition="$item['sold_num']">
+                                	<span class="text-little float-right badge bg-yellow margin-small-top padding-right">已售<{$item.sold_num}></span>
+                                </if>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </li>		
+        </eq>		
+       </foreach>
+		</ul>		
+        </div>
+    </div>
+</foreach>

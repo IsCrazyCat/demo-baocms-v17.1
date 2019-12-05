@@ -1,0 +1,71 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">智慧乡村</a> > <a href="">入驻管理</a> > <a>添加入驻</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">审核通过审核后，才能再该乡村展示，同一个商品不能重复申请同一个商家</div>
+        </div>
+    </div> 
+    
+     <div class="tuanfabu_tab">
+       <ul>
+         <li class="tuanfabu_tabli on"><a href="<{:U('shop/village',array('type'=>$type,'id'=>$id))}>">申请入驻</a></li>
+        <eq name="type" value="1">  <li class="tuanfabu_tabli"><a href="<{:U('goods/index')}>">返回列表</a></li></eq>
+        <eq name="type" value="2">  <li class="tuanfabu_tabli"><a href="<{:U('tuan/index')}>">返回列表</a></li></eq>
+      </ul>
+    </div>
+
+    <div class="tabnr_change  show">
+        <form method="post"  action="<{:U('shop/village',array('type'=>$type,'id'=>$id))}>"  target="x-frame">
+            <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            	<input id="type" type="hidden" name="data[type]" value="<{$type}>" />
+                <input id="id" type="hidden" name="data[id]" value="<{$id}>" />
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">申请理由：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[intro]" value="<{$detail.intro|default=''}>" class="tuanfabu_int tuanfabu_intw3" />
+                            <code>填写30字以内的申请说明</code>
+                        </div></td>
+                </tr>
+                
+                
+                  <tr>
+                    <td width="120"><p class="tuanfabu_t">选择乡村：</p></td>
+                    <td><div class="tuanfabu_nr">
+                        <select name="data[village_id]" id="village_id" class="seleFl w100"  style="display: inline-block; margin-right: 10px;">
+                            <option value="0">请选择...</option>
+                            <foreach name="villages" item="var">
+                                <option value="<{$var.village_id}>"  <eq name="var.village_id" value="$detail['village_id']">selected="selected"</eq> ><{$var.name}></option><br/>
+                            </foreach>
+                        </select>
+                         <code>必须选择您需要入驻的乡村</code>   
+                    </div></td>
+                </tr>    
+         
+             
+                <!--<tr>
+                    <td width="120"><p class="tuanfabu_t">开始时间：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[bg_date]" value="<{$detail.bg_date|default=''}>" onfocus="WdatePicker();" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">结束时间：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[end_date]" value="<{$detail.end_date|default=''}>" onfocus="WdatePicker();" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                </tr>-->
+               
+            </table>
+            <div class="tuanfabu_an">
+                <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认申请入驻" />
+            </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>

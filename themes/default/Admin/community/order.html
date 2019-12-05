@@ -1,0 +1,174 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">智慧小区</li>
+        <li class="li2">业主管理</li>
+        <li class="li2 li3">业主列表</li>
+    </ul>
+</div>
+
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('community/order',array('community_id'=>$community_id))}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                     <div class="seleK">
+                      
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>选择小区</span>
+                            <input type="hidden" id="community_id" name="community_id" value="<{$community_id|default=''}>"/>
+                            <input type="text"   id="name" name="name" value="<{$name}>" class="text w150" />
+                            <a style="margin-right: 5px;"  href="<{:U('community/select')}>" mini='select' w='800' h='600' class="sumit">选择小区</a>
+                        </label>
+                        <label>
+                            <span>选择用户</span>
+                            <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                            <input class="text" type="text" name="nickname" id="nickname"  value="<{$nickname}>" />
+                            <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                        </label> 
+                        <label>
+                            <span>账单月份：</span>
+                            <select class="select w120" name="order_date">
+                            	<option <eq name="order_date" value="999">selected="selected"</eq> value="999">请选择月份</option>
+                            	<foreach name="days" item="item">   
+									<option <if condition="$item eq $order_date">selected="selected"</if> value="<{$item}>"><{$item}></option>
+           						</foreach>
+                             </select>
+                         </label>
+                        <input type="submit" value="  搜索"  class="inptButton" />
+                        </div>                    
+                       </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK"></div>
+                </div>
+                <div class="right"></div>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td><input type="checkbox" class="checkAll" rel="order_id" /></td>
+                    <td>账单ID</td>
+                    <td>账单日期</td>
+                    <td>业主姓名</td>
+                    <td>业主户号</td>
+                    <td>业主地址</td>
+                    <td>用户昵称</td>
+                    <td>小区名称</td>
+                    <td>水费</td>
+                    <td>电费</td>
+                    <td>燃气费</td>
+                    <td>停车费</td>
+                    <td>物业费</td>
+                    <td>申请时间</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_order_id" type="checkbox" name="order_id[]" value="<{$var.order_id}>" /></td>
+                        <td><{$var.order_id}></td>
+                        <td><{$var.order_date}></td>
+                        <td><{$var.owner.name}></td>
+                        <td><{$var.owner.number}></td>
+                        <td><{$var.owner.location}></td>
+                        <td><{$var.user.nickname}></td>
+                        <td><{$var.community.name}></td>
+                        
+                        <td>
+                <if condition="$var['type1']['money'] eq 0">
+                未设置
+                <else/>
+                <{:round($var['type1']['money']/100,2)}>
+                <php>
+                $var1 = $var['type1']['is_pay']
+                </php>
+                (<if condition="$var1 eq 1">已缴清<else/>未缴</if>)
+                </if>
+                </td>
+                
+                 <td>
+                <if condition="$var['type2']['money'] eq 0">
+                未设置
+                <else/>
+                <{:round($var['type2']['money']/100,2)}>
+                <php>
+                $var2 = $var['type2']['is_pay']
+                </php>
+                (<if condition="$var2 eq 1">已缴清<else/>未缴</if>)
+                </if>
+                </td>
+                
+                 <td>
+                <if condition="$var['type3']['money'] eq 0">
+                未设置
+                <else/>
+                <{:round($var['type3']['money']/100,2)}>
+                <php>
+                $var3 = $var['type3']['is_pay']
+                </php>
+                (<if condition="$var3 eq 1">已缴清<else/>未缴</if>)
+                </if>
+                </td>
+                
+                 <td>
+                <if condition="$var['type4']['money'] eq 0">
+                未设置
+                <else/>
+                <{:round($var['type4']['money']/100,2)}>
+                <php>
+                $var4 = $var['type4']['is_pay']
+                </php>
+                (<if condition="$var4 eq 1">已缴清<else/>未缴</if>)
+                </if>
+                </td>
+                
+                 <td>
+                <if condition="$var['type5']['money'] eq 0">
+                未设置
+                <else/>
+                <{:round($var['type5']['money']/100,2)}>
+                <php>
+                $var5 = $var['type5']['is_pay']
+                </php>
+                (<if condition="$var5 eq 1">已缴清<else/>未缴</if>)
+                </if>
+                </td>
+                        
+                        
+                        <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                        <td>
+                           
+                        </td>
+
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+

@@ -1,0 +1,69 @@
+<include file='public:header'/>  
+<style>.xiaoqu-search { margin-top:2rem;}</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('member/index',array('aready'=>0))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			申请推手
+		</div>
+		<div class="top-share">
+		</div>
+	</header>
+
+ 
+<div class="blank-40 bg"></div>  
+    <ul id="shangjia_tab">
+    	<li class="x4"><a href="<{:LinkTo('backers/apply')}>" <if condition="($act eq 'apply')">class="on"</if>>申请推手</a></li>
+        <li class="x4"><a href="<{:LinkTo('backers/reward')}>" <if condition="($act eq 'reward')">class="on"</if>>推荐提成</a></li>
+        <li class="x4"><a href="<{:LinkTo('backers/discount')}>" <if condition="($act eq 'discount')">class="on"</if>>折扣返利</a></li>
+    </ul>
+   
+
+<div class="blank-10 bg"></div>   
+
+    <div class="container">
+		<div class="blank-10"></div>
+		<p><span class="text-dot">小提示：</span> <{$CONFIG[backers][intro]}></p>
+	</div>
+    
+    <if condition="$MEMBER['is_aux'] neq 1">
+        <div class="container">
+            <div class="blank-20"></div>
+            <a class="button button-big button-block bg-dot" href="<{:u('usersaux/index')}>">第一步，申请实名认证</a>
+            <div class="blank-20"></div>
+        </div>
+    <else/>
+    	<div class="container">
+            <div class="blank-20"></div>
+            <a class="button button-big button-block bg-gray">您已通过实名认证，请进行第二步</a>
+            <div class="blank-20"></div>
+        </div>
+    </if>
+   
+    
+    <if condition="$MEMBER['is_backers'] eq 0">
+        <div class="container">
+            <div class="blank-20"></div>
+            <a target="x-frame" class="button button-big button-block bg-yellow" href="<{:U('backers/add')}>">第二步，点击申请推手</a>
+            <div class="blank-20"></div>
+        </div>
+    </if>
+    
+    <if condition="$MEMBER['is_backers'] eq 1">
+        <div class="container">
+            <div class="blank-20"></div>
+            <a target="x-frame" class="button button-big button-block bg-blue">您申请的推手正在审核中</a>
+            <div class="blank-20"></div>
+        </div>
+    </if>
+    
+    <if condition="$MEMBER['is_backers'] eq 2">
+        <div class="container">
+            <div class="blank-20"></div>
+            <a class="button button-big button-block bg-dot" href="<{:U('wap/api/qrcode', array('fuid'=>$MEMBER['user_id']))}>">第三步，去分享二维码推广吧</a>
+            <div class="blank-20"></div>
+        </div>
+	</if>
+
+<include file="public:footer"/>

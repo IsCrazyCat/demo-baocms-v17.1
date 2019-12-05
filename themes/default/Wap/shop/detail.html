@@ -1,0 +1,396 @@
+<include file="public:header"/>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('shop/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title"><{$detail.shop_name}></div>
+		<div class="top-share">
+        	<a href="<{:U('user/dianping/index',array('shop_id'=>$detail['shop_id']))}>" class="iconfont icon-fabu"></a>
+        </div>
+	</header>
+
+<if condition="!empty($detail['panorama_url'])">
+    <div class="panorama_url global_focus">
+    <iframe height="240" marginheight="0" border="0" src="<{$detail.panorama_url}>" frameborder="no" width="100%" allowtransparency="" marginwidth="0" scrolling="no"></iframe>
+    </div>
+</if>
+
+<include file="shop:nav"/>
+
+ <if condition="!empty($pics)">
+        <div class="tuan-detail-focus">
+        <div class="line banner">	
+            <div id="focus" class="focus">
+                <div class="hd"><ul></ul></div>
+                <div class="bd">
+                    <ul>
+                        <foreach  name="pics" item="item">
+                        	<li><a><img src="<{:config_img($item['photo'])}>" /></a></li>
+                        </foreach>
+                    </ul>
+                </div>
+            </div>
+        </div>            
+        <script type="text/javascript">
+            TouchSlide({ 
+                slideCell:"#focus",
+                titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                mainCell:".bd ul", 
+                effect:"left", 
+                autoPlay:true,//自动播放
+                autoPage:true, //自动分页
+                switchLoad:"_src" //切换加载，真实图片路径为"_src" 
+            });
+        </script>
+    </if>  
+    <if condition="!empty($news)">    
+        <div class="www-hatudou-com-similar" style="display: block;">
+            <a href="<{:U('shop/news_detail',array('news_id'=>$news['news_id']))}>">
+               <span>公告：<b id="similar_num"><{:msubstr($news['title'],0,14)}></b></span>
+               <em>查看详情<i></i></em>
+            </a>
+        </div> 
+    </if>
+    
+
+    
+ <script>
+		var news = new fz.Scroll('.scroller-news', {
+			scrollY: false,
+			scrollX: true
+		});
+		news.scrollToElement("li:nth-child(1)", 120, true, true);
+		$(document).ready(function () {
+			$("#share-box").hide();
+			$("#share-btn").click(function () {
+				$("#share-box").toggle();
+				$('html,body').animate({scrollTop:0}, 'slow');
+			});
+			$("#mui-card-close").click(function () {
+				$("#share-box").hide();
+			});
+		});
+	</script>
+       
+
+       
+
+<div class="blank-10 bg"></div>
+	<div class="container2">
+		<div class="line detail-contact">
+			<div class="<if condition="$CONFIG['shop']['is_shop_zan']">x6<else/>x9</if>">
+				<p class="addr"><i class="iconfont icon-dizhi1"></i> <{$detail.addr}> </p>
+				<p class="margin-top"><i class="iconfont icon-shouji2"></i> <a class="text-big" href="tel:<{$detail.tel}>"><{$detail.tel}></a></p>
+			</div>
+
+			<div class="x3">
+				<a class="favor" href="<{:U('shop/favorites',array('shop_id'=>$detail['shop_id']))}>">
+					<div class="txt radius-circle bg-green"><i class="iconfont icon-25"></i></div>
+					<p>关注该商家</p>
+					<p class="text-small">粉丝<em class="text-yellow"><{$favnum}></em>人</p>
+				</a>
+			</div>
+            <if condition="$CONFIG['shop']['is_shop_zan']"> 
+                <div class="x3">
+                    <a class="favor" id="www-hatudou-com-url-btn" href="<{:U('shop/zan',array('shop_id'=>$detail['shop_id']))}>">
+                        <div class="txt radius-circle bg-yellow"><i class="iconfont icon-dianzan"></i></div>
+                        <p>给商家点赞</p>
+                        <p class="text-small">点赞<em class="text-yellow"><{$detail['zan_num']}></em>人</p>
+                    </a>
+                </div>
+           </if> 
+            
+		</div>
+
+		<if condition="$detail['parent_id']">
+            <php>$branch = D('Shop')->where(array('parent_id'=>$detail['shop_id'],'closed' => 0,'audit' =>1))->count();</php>
+            <if condition="$branch"> 
+               <div class="list-link detail-link radius-none">
+                <a href="<{:U('shop/branch',array('shop_id'=>$detail['shop_id']))}>">
+                    <span class="txt txt-little radius-little bg-yellow">店</span> 查看另外<{$branch}>家分店
+                    <span class="float-right iconfont icon-angle-right"></span>
+                </a>
+               </div>
+            </if>
+           </div> 
+	    </if>
+        
+
+        <div class="blank-10 bg"></div>
+        <if condition="!empty($shopyouhui)"> 
+        	<div class="container2" style="margin:10px;">
+				<div class="form-button"><a  href="<{:U('shop/breaks',array('shop_id'=>$detail['shop_id']))}>" class="button button-block button-big bg-dot text-center" type="submit">优惠买单</a></div>
+			</div>
+        </if>    
+
+
+
+      <div class="container2"> 
+        <div class="list-link detail-link radius-none">
+			<div class="line border-bottom padding">
+				<div class="<if condition="$detail['service_weixin_qrcode']"> x4<else/>x6</if> border-right text-center">
+					<a class="button button-small bg-yellow margin-small-right" href="<{:U('shop/gps',array('shop_id'=>$detail['shop_id']))}>"><i class="iconfont icon-daohang"></i> 导航进店</a>
+				</div>
+                <if condition="$detail['service_weixin_qrcode']"> 
+                    <div class="x4 border-right text-center">
+                        <a class="button button-small bg-blue margin-small-right"  id="service_weixin_qrcode" data = "<{:config_img($detail['service_weixin_qrcode'])}>"><i class="iconfont icon-wo"></i> 联系客服</a>
+                    </div>
+                </if>  
+                
+                <div class="<if condition="$detail['service_weixin_qrcode']"> x4<else/>x6</if> text-center">
+					<a class="button button-small bg-dot margin-small-right"  href="<{:U('shop/qrcode',array('shop_id'=>$detail['shop_id']))}>"><i class="iconfont icon-erweima2"></i> 二维码进店</a>
+				</div>
+			</div>
+            
+            
+            
+            
+<style>
+.layui-layer-page .layui-layer-content .service_weixin_qrcode{text-align:center}
+.layui-layer-page .layui-layer-content .service_weixin_qrcode img{width:100%}
+.list-link a{padding:10px 10px !important;}
+</style>            
+<script>
+	$(document).ready(function(){
+		$(document).on('click','#service_weixin_qrcode',function(e){
+				var img = $(this).attr('data');
+				layer.open({
+				  type: 1,
+				  title: false ,
+				  closeBtn: false,
+				  area: ['90%','auto'], //宽高
+				  shade: 0.8,
+				  id: 'LAY_layuipro',
+				  resize: false,
+				  btn: ['关闭窗口'],
+				  btnAlign: 'c',
+				  moveType: 1 ,
+				  content: '<div class="service_weixin_qrcode"><img src='+img+'><br/><a>添加客服二维码</a></div>',success: function(layero){
+					var btn = layero.find('.layui-layer-btn');
+				  }
+				});
+				
+			});
+            
+        });
+</script>
+
+
+		    <if condition="!empty($tuans)"> 	
+               	<a href="<{:U('tuan/index',array('shop_id'=>$detail['shop_id']))}>">
+				   	<span class="txt txt-little radius-little bg-green">团</span> 去逛逛商家抢购
+			    	<span class="float-right iconfont icon-angle-right"></span>
+			    </a>		   
+            </if>		           
+
+            <!--优惠劵开始--> 
+            <if condition="!empty($coupon)">
+                <div class="blank-10 bg"></div>
+                <div class="panel-head"><b>优惠劵下载</b></div>
+                <php>$i=0;</php>	
+                <volist name="coupon" id="item" key="index"><!--循环输出的一条数据-->
+                    <php>$i++;</php>	
+                        <a href="<{:U('coupon/detail',array('coupon_id'=>$item['coupon_id']))}>">
+                                 <span class="txt txt-little radius-little bg-yellow"><{$i}></span> 
+                                 	<{:tu_msubstr($item['title'],0,10,false)}>
+                                 <em style="color:#999; font-size:12px;">
+                                 <if condition="!empty($item['num'])">
+                                 	剩余：<{$item.num}>
+                                 </if>
+                                 <if condition="!empty($item['downloads'])">
+                                 	已下载：<{$item.downloads}>
+                                 </if>
+                             </em>
+                             <span class="float-right  iconfont icon-angle-right"></span>
+                        </a>
+                </volist>
+            </if>
+            <!--优惠劵结束--> 
+
+            
+
+            <!--招聘开始--> 
+            <if condition="!empty($work)">
+                <div class="blank-10 bg"></div>
+                <div class="panel-head"><b>商家招聘信息</b></div>
+                <php>$i=0;</php>	
+                <volist name="work" id="item" key="index"><!--循环输出的一条数据-->
+                    <php>$i++;</php>	
+                        <a href="<{:U('nearwork/detail',array('work_id'=>$item['work_id']))}>">
+                                 <span class="txt txt-little radius-little bg-yellow"><{$i}></span> 
+                                 	<{:tu_msubstr($item['title'],0,12,false)}>
+                                 <em style="color:#999; font-size:12px;">
+                                 <if condition="!empty($item['money1'])">
+                                 	月薪：<{$item.money1}>
+                                 </if>
+                                 <if condition="!empty($item['money2'])">
+                                 	-<{$item.money2}> &nbsp;
+                                 </if>
+                                 <if condition="!empty($item['num'])">
+                                 	需：<{$item.num}>人
+                                 </if>
+                             </em>
+                             <span class="float-right  iconfont icon-angle-right"></span>
+                        </a>
+                </volist>
+                <div class="blank-10 bg"></div>
+            </if>
+            <!--招聘结束--> 
+            
+            
+            <!--活动开始--> 
+            <if condition="!empty($huodong)">
+                <div class="blank-10 bg"></div>
+                <div class="panel-head"><b>商家活动</b></div>
+                <php>$i=0;</php>	
+                <volist name="huodong" id="item" key="index"><!--循环输出的一条数据-->
+                    <php>$i++;</php>	
+                        <a href="<{:U('activity/detail',array('activity_id'=>$item['activity_id']))}>">
+                                 <span class="txt txt-little radius-little bg-yellow"><{$i}></span> 
+                                 	<{:tu_msubstr($item['title'],0,10,false)}>
+                                 <em style="color:#999; font-size:12px;">
+                                 <if condition="!empty($item['price'])">
+                                 	价格：<{$item.price}>
+                                 </if>
+                                 <if condition="!empty($item['sign_num'])">
+                                 	已报名：<{$item.sign_num}>
+                                 </if>
+                             </em>
+                             <span class="float-right  iconfont icon-angle-right"></span>
+                        </a>
+                </volist>
+                <div class="blank-10 bg"></div>
+            </if>
+            <!--活动结束--> 
+               
+
+            <if condition="!empty($ele_menu)"><!--显示近期外卖数据-->			
+                <a href="<{:U('wap/ele/shop/',array('shop_id'=>$detail['shop_id']))}>">
+			     	<span class="txt txt-little radius-little bg-dot">外</span> 商家外卖精选
+        		    <span class="float-right iconfont icon-angle-right"></span>
+			    </a>
+            </if><!--显示近期外卖结束-->                
+
+			<a href="<{:U('shop/book',array('shop_id'=>$detail['shop_id']))}>">
+				<span class="txt txt-little radius-little bg-blue">约</span> 预约去消费
+				<span class="float-right iconfont icon-angle-right"></span>
+			</a>
+		</div>
+	</div>
+
+        
+
+        
+
+   <div class="blank-10 bg"></div>
+     <div class="container2">
+		<div class="panel detail-intro radius-none">
+			<div class="panel-head">商家介绍</div>
+			<div class="panel-body">
+            
+            	<{$ex['details']}>
+            
+                <php>
+                    $pic = getImgs($ex['details']);
+                </php>
+                <foreach name="pic" item="var">
+                    <li><a href="<{:U('shop/pic',array('shop_id'=>$detail['shop_id']))}>"><img src="<{:config_img($var)}>" /></a></li>
+                </foreach>
+				
+			</div>
+		</div>		
+	</div>
+
+   <div class="blank-10 bg"></div>
+
+       
+       <div class="container2">
+        <div class="panel detail-intro radius-none">
+			<div class="panel-head" onclick="location='<{:U('shop/goods',array('shop_id'=>$detail['shop_id']))}>'">商家抢购 <span class="float-right iconfont icon-angle-right"></span></div>
+		    <div class="main-tuan" id="main-tuan" style="padding:0 10px;">
+            <volist name="goods" id="item">		
+	        <li>
+			<a class="line" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>" >
+				<div class="container1">
+					<img class="x3" src="<{:config_img($item['photo'])}>" />	
+					<div class="des x9">
+						<h5><{:tu_msubstr($item['title'],0,12,false)}></h5>
+						<p class="intro"><{:tu_msubstr($item['intro'],0,20,false)}></p>
+						<p class="info">
+							<span>￥ <em><{:round($item['mall_price']/100,2)}></em></span> <del>¥ <{:round($item['price']/100,2)}></del>
+							<span class="text-little float-right badge bg-yellow margin-small-top padding-right">立省<{:round($item['price']/100 - $item['mall_price']/100,2)}>元</span>
+						</p>
+					</div>
+				</div>
+			</a>
+		</li>			
+		</volist>
+     </div>
+ </div>
+</div>
+
+
+<div class="blank-10"></div>
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
+    wx.config({
+	debug: false,
+	appId: '<{$signPackage.appId}>',
+    timestamp: '<{$signPackage.timestamp}>',
+    nonceStr: '<{$signPackage.nonceStr}>',
+    signature: '<{$signPackage.signature}>',
+	jsApiList: [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'onMenuShareQZone'
+		]
+	});
+</script>
+<script>
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+            title: '【<{$detail["shop_name"]}>】成功加入<{$CONFIG.site.sitename}>优质商家',
+        	link: "<{$CONFIG.site.host}><{:U('wap/shop/detail',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'shop_id'=>$detail['shop_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($detail['photo'])}>", 
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+        });
+        //分享给朋友
+        wx.onMenuShareAppMessage({
+            title: '【<{$detail["shop_name"]}>】成功加入<{$CONFIG.site.sitename}>优质商家',
+            desc: '<{$CONFIG.site.description}>',
+            link: "<{$CONFIG.site.host}><{:U('wap/shop/detail',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'shop_id'=>$detail['shop_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($detail['photo'])}>", 
+            type: '',
+            dataUrl: '',
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+        });
+
+});
+
+</script>
+
+
+<include file="public:footer"/>
+
+
+<if condition="!empty($detail['service']) and !empty($detail['service_audit'])">  <!--客服代码-->      
+	<{$detail.service}>	
+</if>
+
+
+

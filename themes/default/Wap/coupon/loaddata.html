@@ -1,0 +1,8 @@
+<foreach name='list' item='item'>
+    <div class="stamp stamp02" onclick="location='<{:U('coupon/detail',array('coupon_id'=>$item['coupon_id']))}>'">
+        <div class="par"><p><{:tu_msubstr($item['title'],0,26,true)}></p><sub class="sign">￥</sub><span><{:round($item['reduce_price']/100,2)}></span><sub>优惠券</sub><p>订单满<{:round($item['full_price']/100,2)}>元</p></div>
+        <div class="copy">有效期：<p><{$item.expire_date}><br>下载：<{$item.downloads}>次</p></div>
+        <i></i>
+    </div>
+    <div class="blank-10"></div>
+</foreach>

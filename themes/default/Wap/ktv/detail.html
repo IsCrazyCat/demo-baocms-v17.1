@@ -1,0 +1,165 @@
+<php>$mobile_title = $detail['ktv_name'].'Ktv详情页';</php>
+<style>
+.farm_detail_play{ background: #fff;padding: 1rem;border-bottom: 0.1rem solid #e6e6e6;line-height:2.5rem;}
+.gray{ background:#9E9898 !important}
+#www-hatudou-com-chk-room-id li{ height:auto;   border: 2px #ccc solid;}
+#www-hatudou-com-chk-room-id li:hover{ border: 2px #F90500 solid;}
+#www-hatudou-com-chk-room-id li .x3 img{ width:90%}
+#www-hatudou-com-chk-room-id li .x3 p.ktv_title{ font-size:16px; font-weight:bold; background:none; color:#000;}
+#www-hatudou-com-chk-room-id li .x3 p.ktv_title:hover{color:#fff !important;}
+#www-hatudou-com-chk-room-id li .x5 p.text-dot:hover{color:#fff;}
+.ktv-intro{display: block;}
+</style>
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('ktv/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$detail.ktv_name}>
+		</div>
+		<div class="top-signed">
+		</div>
+	</header> 
+	 
+
+    <div class="tuan-detail">
+    <div class="line banner">	
+        <div id="focus" class="focus">
+            <div class="hd"><ul></ul></div>
+            <div class="bd">
+                <ul>
+                  <li><a><img src="<{:config_img($detail['photo'])}>" /></a></li>
+                </ul>
+            </div>
+
+        </div>
+    		<div class="title">
+				<h1><{:tu_msubstr($detail['ktv_name'],0,48,false)}>  </h1>
+				<p><{:tu_msubstr($detail['addr'],0,88,false)}></p>
+			</div>
+		</div>
+</div>            
+
+
+
+	<!--小区广告结束-->
+
+	<div class="tuan-detail">
+        <div class="line info">
+			<div class="x12">
+                <span class="mr10">预订人数：<{$detail.orders_num}></span>
+                <span class="mr10">浏览：<{$detail.views}></span>
+                <span class="mr10"></span>
+			</div> 
+		</div>
+		<div class="blank-10 bg"></div>
+       
+        <div class="padding border-bottom">
+            <div class="line">
+                <span class="x2 text-gray">地址：</span>
+                <span class="x10"><{$detail.addr}></span>
+            </div>
+        </div>
+        
+         <div class="padding border-bottom">
+            <div class="line">
+                <span class="x2 text-gray">导航：</span>
+                <span class="x10">
+                    <a href="<{:U('shop/gps',array('shop_id'=>$detail['shop_id']))}>">地图导航到这去</a>
+                    <i class="iconfont icon-angle-right text-gray float-right"></i>
+                </span>
+            </div>
+        </div>
+       
+        <div class="padding border-bottom">
+            <div class="line">
+                <span class="x2 text-gray">电话：</span>
+                <span class="x10">
+                    <a href="tel:<{$detail.tel}>"><{$detail.tel}></a>
+                </span>
+            </div>
+        </div>
+        
+		<if condition="$room">
+            <div class="blank-10 bg"></div>
+            <div class="padding border-bottom">
+                <div class="line">
+                    <span class="x4 text-gray">点击选择房间</span>
+                    <span class="x8 text-right" >
+                        <a href="<{:U('ktv/index')}>">更多KTV&nbsp; </a>
+                        <i class="iconfont icon-angle-right text-gray float-right"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="line padding" id="divButtons" style="text-align: center">
+            	<ul id='www-hatudou-com-chk-room-id'>
+                    <volist name="room" id="item">
+                      <li class="button button-block button-big margin-top text-small text-left" val='<{$item.room_id}>'>
+                            <div class="x3">
+                                 <p class="ktv_title padding-top"><{$item.title}> </p>	
+                            </div>
+                            <div class="x4">
+                                <p>低消&yen;<{:round($item['small_price']/100,2)}>元</p>	
+                                <p>容纳<{$item.accommodate_number}>人</p>	
+                            </div>
+                            
+                            <div class="x5">
+                                <p class="text-dot">预支付：&yen;<{:round($item['price']/100,2)}>元</p>	
+                                <if condition="!empty($item['daofu_price'])">
+                                    <p>到店付：&yen;<{:round($item['daofu_price']/100,2)}>元</p>	
+                                </if>
+                            </div>
+                        <div class="blank-40"></div>
+                         <div class="ktv-intro margin-top">
+                         
+                        	 <p class="border border-dashed border-gray padding radius-small"><{$item.intro}> </p>	
+                        </div>
+                       </li> 
+                        
+                    </volist>
+               </ul>
+                <input type='hidden' name='room_id' id='www-hatudou-com-chk-room-id-val' value='0'>
+				<script>
+                        $(document).ready(function() {
+                            $('#www-hatudou-com-chk-room-id li').click(function(){
+                                $('#www-hatudou-com-chk-room-id li').removeClass('');
+                                $(this).addClass('');
+                                var val = $(this).attr('val');
+                                $('#www-hatudou-com-chk-room-id-val').val(val);
+                            })
+                            
+                            $('#www_hatudou_com_btn').click(function(){
+                                var room_id = $('#www-hatudou-com-chk-room-id-val').val();
+                                var ktv_id = "<{$detail.ktv_id}>";
+                                if(!room_id || room_id == 0){
+                                   layer.msg("请先选择上面房间后再点击预约");
+                                }else{
+                                     var link = "<{:U('ktv/order',array('ktv_id'=>__ktv_id,'room_id'=>__room_id))}>";
+                                     window.location.href = link.replace('__ktv_id',ktv_id).replace('__room_id',room_id);
+                                }
+                            })
+                        });
+                </script>
+            </div>
+            </if>
+       </div> 
+       
+
+        <div class="blank-10 bg"></div>
+		<div class="item-intro">
+			<h2>KTV介绍</h2>
+            <div id="focus" class="global_focus intro-bd">
+             <{$detail.details}>   
+            </div>
+		</div>		
+        
+        
+        <footer class="footer-cart">
+       		 <notempty name="room">
+                 <div class="btn-long" id="www_hatudou_com_btn"><a href="javascript:void(0);">立即预约</a></div>
+             <else/>
+                 <div class="btn-long gray"><a href="javascript:void(0);">暂无可预约房间</a></div>
+            </notempty>
+        </footer>
+<include file="public:footer_share"/>

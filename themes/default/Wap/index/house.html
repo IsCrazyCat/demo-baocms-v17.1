@@ -1,0 +1,213 @@
+<include file="public:header"/>
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			房贷计算器
+		</div>
+	<div class="top-signed">
+	</div>
+</header>
+
+<style>
+p, .p{margin-bottom:0; }
+.tabs{display:-webkit-box;display:-moz-box;display:box}
+.tabs li{padding:10px 0;width:100%;border-bottom:1px solid #eee;text-align:center;-webkit-box-flex:1;-webkit-flex:1;flex:1}
+.tabs .current{border-bottom:1px solid #f90;color:#f90}
+.daikuan_form{margin:0 10px;font-size:15px}
+.daikuan_form .bd li{position:relative;z-index:1;overflow:hidden;padding:8px 0 8px 100px;border-bottom:1px solid #eee}
+.daikuan_form .bd li .danwei,.daikuan_form .bd li .tit{position:absolute;top:9px;display:block}
+.daikuan_form .bd li .tit{left:0;padding-right:10px;width:90px;height:70%;border-right:1px solid #eee;text-align:right}
+.daikuan_form .bd li .danwei{right:0}
+.display0{display:none}
+.whiteipt{width:100%;outline:0;border:0 none;background-color:transparent}
+.whitebutton{display:block;margin-top:10px;padding:6px 0;width:100%;outline:0;border:0 none;border-radius:4px;background-color:#36c;color:#fff}
+.whiteradio{display:inline-block;margin-right:5px;vertical-align:middle}
+.i_select{margin:0;padding:0;width:100%;outline:0;border:0 none;background:#fff;-webkit-appearance:none}
+select{font-size:15px}
+.wrap_select{position:relative;z-index:1}
+.wrap_select:after{position:absolute;top:3px;right:5px;width:7px;height:7px;border-top:2px solid #ddd;border-right:2px solid #ddd;background:#fff;content:"";-webkit-transform:rotate(135deg);-o-transform:rotate(135deg);transform:rotate(135deg);-ms-transform:rotate(135deg)}
+.res{position:absolute;top:17px;left:15px;display:inline-block;padding:0 0 0 13px;outline:0;border:0 none;background:0 0;color:#fff;color:#fff!important;font-size:13px}
+.res:before{position:absolute;top:2px;left:0;display:block;width:10px;height:10px;border-top:2px solid #fff;border-left:2px solid #fff;content:' ';-webkit-transform:rotateZ(-45deg);transform:rotateZ(-45deg)}
+.iTable td,.iTable th{padding-left:10px;width:20%;color:#444;text-align:left;font-size:12px;line-height:36px}
+.iTable th{background-color:#eee;color:#888}
+.total{position:relative;z-index:1;padding:50px 0 10px;background-color:#e33737;color:#fff;text-align:center}
+.total ul{display:-webkit-box;display:-moz-box;display:box;margin:6px 0}
+.total ul li{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;padding-left:10px;width:100%;text-align:left;font-size:12px;-webkit-box-flex:1;-webkit-flex:1;flex:1}
+.total .big{font-size:20px}
+.total .total_tabs{position:absolute;top:10px;right:10px;display:-webkit-box;display:-moz-box;display:box;margin:0 auto 10px;padding:1px;width:200px;height:24px;border:1px solid #fff;border-radius:15px;line-height:24px}
+.total .total_tabs p{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;width:100%;border-radius:13px;text-align:center;-webkit-box-flex:1;-webkit-flex:1;flex:1}
+.total .total_tabs .current{background-color:#fff;color:#f78115}
+#result_node_2{overflow:auto;height:200px;-webkit-overflow-scrolling:touch}
+.result_node{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1000;display:block;background-color:#fff}
+.gx_radio{margin:2px 0;background-size:18px auto}
+.gx_radio{display:inline-block;margin-right:15px;padding-left:25px;background-position:0 -31px;vertical-align:middle}
+.gx_radio.current{background-position:0 1px}
+.btn{display:block;padding:10px 0;width:100%;border:0;border-radius:3px;background:#f55858;color:#fff!important;text-align:center;font-size:18px}
+#myForm{margin-bottom:10px}
+.zuhe_1 p{margin:2px 0}
+</style>
+
+<script src="/static/default/wap/js/house.js"></script>
+<div class="daikuan_form" id="form_node">
+    <form name="form1" id="form1">
+        <ul class="tabs" id="tabs">
+            <li class="item current" data-val="1">商业贷款</li>
+            <li class="item" data-val="2">公积金贷款</li>
+            <li class="item" data-val="3">组合贷款</li>
+        </ul>
+        <div class="bd">
+            <ul id="myForm">
+                <li class="zuhe_1"><span class="tit">商业贷款</span><input class="whiteipt" id="loana_input" name="loana_input" /><span class="danwei">万元</span></li>
+                <li class="zuhe_2" style="display:none;"><span class="tit">公积金贷款</span><input class="whiteipt" id="loanb_input" name="loanb_input" /><span class="danwei">万元</span></li>
+                <li>
+                    <span class="tit">贷款期限</span>
+                    <p class="wrap_select">
+                        <select id="year1" name="year1" class="i_select">
+                            <option value="1">1年（12期）</option>
+                            <option value="2">2年（24期）</option>
+                            <option value="3">3年（36期）</option>
+                            <option value="4">4年（48期）</option>
+                            <option value="5">5年（60期）</option>
+                            <option value="6">6年（72期）</option>
+                            <option value="7">7年（84期）</option>
+                            <option value="8">8年（96期）</option>
+                            <option value="9">9年（108期）</option>
+                            <option value="10">10年（120期）</option>
+                            <option value="11">11年（132期）</option>
+                            <option value="12">12年（144期）</option>
+                            <option value="13">13年（156期）</option>
+                            <option value="14">14年（168期）</option>
+                            <option value="15">15年（180期）</option>
+                            <option value="16">16年（192期）</option>
+                            <option value="17">17年（204期）</option>
+                            <option value="18">18年（216期）</option>
+                            <option value="19">19年（228期）</option>
+                            <option value="20">20年（240期）</option>
+                            <option value="25">25年（300期）</option>
+                            <option value="30" selected="true">30年（360期）</option>
+                        </select>
+                    </p>
+                    <input type="hidden" id="year2" name="year2" />
+                </li>
+                <li class="zuhe_1">
+                    <span class="tit">商贷利率</span>
+                    <p><input class="whiteipt" id="rate2a" value="4.9" name="rate2a" /><span class="danwei">%</span></p>
+                    <p class="wrap_select">
+                        <select id="sd-rate" onchange="sdRate();" class="i_select">
+                            <option value="4.9" selected>最新基准利率</option>
+                            <option value="5.15">2015/08/26基准利率</option>
+                            <option value="5.4">2015/06/28基准利率</option>
+                            <option value="5.65">2015/05/11基准利率</option>
+                            <option value="5.9">2015/03/01基准利率</option>
+                            <option value="6.15">2014/11/22基准利率</option>
+                            <option value="6.55">2012/07/06基准利率</option>
+                            <option value="6.8">2012/06/08基准利率</option>
+                            <option value="7.05">2011/07/07基准利率</option>
+                            <option value="6.8">2011/04/06基准利率</option>
+                        </select>
+                    </p>
+                    <p class="wrap_select">
+                        <select id="sd-zk" onchange="sdRate();" class="i_select">
+                            <option value="1.1">1.1倍</option>
+                            <option value="1" selected>1倍</option>
+                            <option value="0.95">9.5折</option>
+                            <option value="0.93">9.3折</option>
+                            <option value="0.9">9.0折</option>
+                            <option value="0.88">8.8折</option>
+                            <option value="0.85">8.5折</option>
+                        </select>
+                    </p>
+                </li>
+                <li class="zuhe_2" style="display:none;">
+                    <span class="tit">公积金利率</span>
+                    <p class="wrap_select">
+                        <select name="rate2b" id="rate2b" class="i_select">
+                            <option value="3.25" selected>最新基准利率</option>
+                            <option value="3.25">2015/08/26基准利率</option>
+                            <option value="3.5">2015/06/28基准利率</option>
+                            <option value="3.75">2015/05/11基准利率</option>
+                            <option value="4">2015/03/01基准利率</option>
+                            <option value="4.25">2014/11/22基准利率</option>
+                            <option value="4.5">2012/07/06基准利率</option>
+                            <option value="4.7">2012/06/08基准利率</option>
+                            <option value="4.9">2011/07/07基准利率</option>
+                            <option value="4.7">2011/04/06基准利率</option>
+                        </select>
+                    </p>
+                </li>
+                <li>
+                    <span class="tit">还款方式</span>
+                    <p class="sel_radio_form" data-name="type">
+                        <span class="display0"><input type="radio" id="type1" name="type" value="1" checked /><input type="radio" id="type2" name="type" value="2" /></span>
+                        <span class="gx_radio current" data-val="1">等额本息法</span>
+                        <span class="gx_radio" data-val="2">等额本金法</span>
+                    </p>
+
+                </li>
+            </ul>
+            <a class="btn" onclick="javascript:caculate1()" type="button" value="商业贷款计算" id="button1">商业贷款计算</a>
+            <a class="btn" style="display:none;" onclick="javascript:caculate2()" type="button" value="公积金贷款计算" id="button2">公积金贷款计算</a>
+            <a class="btn" style="display:none;" onclick="javascript:caculate()" type="button" value="组合贷款计算" id="button3">组合贷款计算</a>
+        </div>
+        <div style="display:none">
+            1~3年 <input id=rate1 size=8 value=5.76 name=rate1c> %； 4~5年 <input id=rate2c size=8 value=5.85 name=rate2c> %；6~10年 <input id=rate3c size=8 value=6.12 name=rate3c> %；
+            消费贷款<input id=loanc_input name=loanc_input> 万元 年限<input id=year3 maxlength=2 size=3 name=year3> 年
+            放款日期
+            <input type="hidden" name="year" id="year" /><input type="hidden" name="month" id="month" />
+            <input id="loana" type="hidden" value="0" name="loana" />
+            <input id="loanb" type="hidden" value="0" name="loanb" />
+            <input id="loanc" type="hidden" value="0" name="loanc" />
+        </div>
+    </form>
+</div>
+
+<div class="result_node" style="display:none;" id="result_node">
+    <div class="total" id="result_node_1">
+        <a href="javascript:;" onclick="javascript:recaculate();" class="res">重新计算</a>
+        <div class="total_tabs">
+            <p class="current" id="i_type1">等额本息</p>
+            <p id="i_type2">等额本金</p>
+        </div>
+        <ul>
+            <li>月均还款(元)：<span id="i_firstMonthpay" class="big"></span></li>
+        </ul>
+        <ul>
+            <li>贷款总额(万)：<span id="loantotal"></span></li>
+            <li>支付利息(万)：<span id="interesttotal"></span></li>
+        </ul>
+        <ul>
+            <li>还款总额(万)：<span id="returntotal"></span></li>
+            <li>贷款期限(年)：<span id="i_year"></span></li>
+        </ul>
+    </div>
+    <table cellspacing=1 cellpadding=0 border=0 width="100%" class="iTable">
+        <thead>
+            <tr>
+                <th width="20%">月份</th>
+                <th width="20%">月供总额</th>
+                <th width="20%">月供本金</th>
+                <th width="20%">月供利息</th>
+                <th width="20%">贷款余额</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="result_node_2"><table cellspacing=1 cellpadding=0 border=0 width="100%" class="iTable" id="result"></table></div>
+</div>
+
+
+<script>
+    $('.sel_radio_form').radioForm();
+    var i_date = new Date();
+    var cur_month = i_date.getMonth();
+    var cur_year = i_date.getFullYear();
+    $('#year').val(cur_year);
+    $('#month').val(cur_month);
+    $('#form1').tabs();
+</script>
+
+
+<include  file='public:footer'/>
+

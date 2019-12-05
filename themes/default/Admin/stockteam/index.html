@@ -1,0 +1,68 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">队伍</li>
+        <li class="li2 li3">队伍列表</li>
+    </ul>
+</div>
+<div class="main-jsgl">
+    <p class="attention"><span>注意：</span>这里显示队伍列表！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin: 10px 20px;">
+            <div class="left">
+                <{:BA('stockteam/create','','添加队伍')}>
+            </div>
+            <form method="post" action="<{:U('stockteam/index')}>">
+                <div class="right">
+                    <input type="text" name="keyword" placeholder=" 输入队伍名称"  value="<{$keyword}>" class="inptText" />
+                    <input type="submit" value="  搜索"  class="inptButton" />
+                </div>
+            </form>
+        </div>
+        <form target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="team_id" /></td>
+                        <td class="w50">队伍ID</td>
+                        <td>管理员昵称</td>
+                        <td>队伍名称</td>
+                        <td>队伍LOGO</td>
+                        <td>队伍简介</td>
+                        <td>队伍排序</td>
+                        <td>创建时间</td>
+                        <td>创建IP</td>
+                        <td class="w120">操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_team_id" type="checkbox" name="team_id[]" value="<{$var.team_id}>"/></td>
+                            <td><{$var.team_id}></td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td><{$var.team_name}></td>
+                            <td><img style="width:60px;" src="<{:config_img($var['photo'])}>" /></td>
+                            <td><{$var.intro}></td>
+                            <td><{$var.orderby}></td>
+                            <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                        	<td><{$var.create_ip}></td>
+                            <td>
+                           		<{:BA('stockjury/index',array("team_id"=>$var["team_id"]),'团队管理','','remberBtn')}>
+                                <{:BA('stockteam/edit',array("team_id"=>$var["team_id"]),'编辑','','remberBtn')}>
+                                <{:BA('stockteam/delete',array("team_id"=>$var["team_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr">
+                <div class="left">
+                    <{:BA('stockteam/delete','','批量删除','list','a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       
+

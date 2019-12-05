@@ -1,0 +1,96 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">导航</li>
+        <li class="li2">导航分类</li>
+        <li class="li2 li3">分类列表</li>
+    </ul>
+</div>
+<div class="main-cate">
+     <p class="attention"><span>这里显示到PC首页 </span> 这里设置好了再首页显示</p>
+    <div class="jsglNr">
+        <form id="cate_action" action="" target="x-frame" method="post">
+            <div class="selectNr" style="border-top: 1px solid #dbdbdb;">
+                <div class="left">
+                    <{:BA('nav/create','','添加一级分类','load','',600,300)}>
+                </div>
+                <div class="right">
+                    <{:BA('nav/update','','更新','list','remberBtn')}>
+                </div>
+            </div>
+            <div class="tableBox">
+                <table bordercolor="#f5f5f5" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF; text-align:center;">
+                    <tr bgcolor="#f5f5f5" height="48px;" style="color:#333; font-size:16px; line-height:48px;">
+                        <td>分类</td>
+                        <td>类型</td>
+                        <td>排序</td>
+                        <td>图标</td>
+                        <td>链接</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <if condition="($var.parent_id eq 0)">  
+                            <tr bgcolor="#DDD" height="48px" style="font-size:14px; color:#545454; text-align:left; line-height:48px;">
+                                <td style="padding-left:10px;"><{$var.cate_name}>(<{$var.cate_id}>) 类型：<b style="color:#F00">【<{$types[$var['type']]}>】</b></td>
+                                <td style="padding-left:20px;"><input name="orderby[<{$var.cate_id}>]" value="<{$var.orderby}>" type="text" class="remberinput w80" /></td> 
+                                <td><img style="padding:5px;width:60px;" src="<{:config_img($var['photo'])}>" /></td>
+                                <td style="padding-left:20px;"><{$var.url}></td>
+                                <td style="text-align: center;">
+                                    <{:BA('nav/create',array("parent_id"=>$var["cate_id"]),'添加二级分类','load','remberBtn',600,300)}>
+                                    <{:BA('nav/edit',array("cate_id"=>$var["cate_id"]),'编辑','load','remberBtn',600,300)}>
+                                    <{:BA('nav/delete',array("cate_id"=>$var["cate_id"]),'删除','act','remberBtn')}>
+                                </td>
+                            </tr>
+                            
+                            
+                            <foreach name="list" item="var2">
+                                <eq name="var2.parent_id" value="$var.cate_id">
+                                <tr height="48px" style="font-size:14px; color:#545454; text-align:center; line-height:48px; background:#f4f4f4">
+                                    <td style="padding-left:20px;">&nbsp;&nbsp;|--<{$var2.cate_name}>(<{$var2.cate_id}>)</td>
+                                    <td style="padding-left:80px;"><input name="orderby[<{$var2.cate_id}>]" value="<{$var2.orderby}>" type="text" class="remberinput w80" /></td>
+                                    <td><img style="padding:5px;width:60px;" src="<{:config_img($var2['photo'])}>" /></td>
+                                    <td><{$var2.url}></td>
+                                    <td>
+                                    	<{:BA('nav/create',array("parent_id"=>$var2["cate_id"]),'添加三级分类','load','remberBtn',600,300)}>
+                                        <{:BA('nav/edit',array("cate_id"=>$var2["cate_id"]),'编辑','load','remberBtn',600,300)}>
+                                        <{:BA('nav/delete',array("cate_id"=>$var2["cate_id"]),'删除','act','remberBtn')}>
+                                    </td>
+                                </tr>
+                                
+                                 <foreach name="list" item="var3">
+                                    <eq name="var3.parent_id" value="$var2.cate_id">
+                                     <tr height="48px" style="font-size:14px; color:#545454; text-align:center; line-height:48px; background:#fff">
+                                        <td style="padding-left:100px;">&nbsp;&nbsp;&nbsp;&nbsp;|---<{$var3.cate_name}>(<{$var3.cate_id}>)</td>
+                                        <td style="padding-left:150px;"><input name="orderby[<{$var3.cate_id}>]" value="<{$var3.orderby}>" type="text" class="remberinput w80" /></td>
+                                        <td><img style="padding:5px;width:60px;" src="<{:config_img($var3['photo'])}>" /></td>
+                                        <td><{$var3.url}></td>
+                                        <td>
+                                            <{:BA('nav/edit',array("cate_id"=>$var3["cate_id"]),'编辑','load','remberBtn',600,300)}>
+                                            <{:BA('nav/delete',array("cate_id"=>$var3["cate_id"]),'删除','act','remberBtn')}>
+                                        </td>
+                                    </tr>
+                                    </eq>
+                                </foreach>
+                                
+                                
+                                
+                                </eq>
+                            </foreach>
+                            
+                            
+                            
+                        </if>
+                    </foreach>        
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+
+
+
+
+
+

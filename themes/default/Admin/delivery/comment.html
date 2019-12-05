@@ -1,0 +1,82 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">配送</li>
+        <li class="li2"> 配送点评</li>
+        <li class="li2 li3">点评列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>配送点评在这里可以删除编辑</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('delivery/comment_create','','添加点评')}>
+            </div>
+            <div class="right">
+                <form action="<{:U('delivery/comment')}>" >  
+                    <div class="seleHidden" id="seleHidden">
+                        <span>评论ID：</span>
+                        <input type="text"  name="id" value="<{$id}>" class="inptText" /><input type="submit" value="   搜索"  class="inptButton" />
+                    </div> 
+                </form>
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <th class="w50"><input type="checkbox" class="checkAll" rel="comment_id" /></th>
+                    <td class="w50">ID</td>
+                    <td>评论人昵称</td>
+                    <td>评论人ID</td>
+                    <td>配送订单ID</td>
+                    <td>配送员ID</td>
+                    <td>综合评分</td>
+                    <td><{$CONFIG['delivery']['d1']|default="描述相符"}></td>
+                    <td><{$CONFIG['delivery']['d1']|default="服务态度"}></td>
+                    <td><{$CONFIG['delivery']['d1']|default="快速守时"}></td>
+                    <td>评论内容</td>
+                    <td>评论时间</td>
+                    <td>回复内容</td>
+                    <td>回复时间</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_comment_id" type="checkbox" name="comment_id[]" value="<{$var.comment_id}>" /></td>
+                        <td><{$var.comment_id}></td>
+                        <td><{$users[$var['user_id']]['nickname']}></td>
+                        <td><{$var.user_id}></td>
+                        <td><{$var.order_id}></td>
+                        <td><{$var.delivery_id}></td>
+                        <td><{$var.score}></td>
+                        <td><{$var.d1}></td>
+                        <td><{$var.d2}></td>
+                        <td><{$var.d3}></td>
+                        <td><{$var.content}></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td><{$var.reply}></td>
+                        <td><{$var.reply_time|date='Y-m-d H:i:s',###}></td>
+                        <td>
+                            <{:BA('delivery/comment_edit',array("comment_id"=>$var["comment_id"]),'编辑','','remberBtn')}>
+                            <{:BA('delivery/comment_delete',array("comment_id"=>$var["comment_id"]),'删除','act','remberBtn')}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <{:BA('delivery/comment_delete','','批量删除','list',' a2')}>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  

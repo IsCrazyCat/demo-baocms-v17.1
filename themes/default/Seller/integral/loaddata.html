@@ -1,0 +1,23 @@
+ <foreach name="list" item="item">
+            <div class="line padding border-bottom">
+                <div class="x12 text-small">
+                    <p class="text-gray">核销ID：<{$item['cancel_id']}></p>
+                    <p class="text-gray">核销积分数量：<a class="text-red"><{$item.integral}></a></p>
+                    <php>
+                    $shop = D('Shop')->find($item['shop_id']);
+                    $worker = D('Shopworker')->where(array('worker_id'=>$item['worker_id']))->find();
+                    </php>
+                    <if condition="$item['type'] eq 2">
+                    	<p class="text-dot">核销店员姓名：<a class="text-red"><{$worker.name}></a></p>
+                    </if>
+                    <p class="text-gray">核销商家名称：<a class="text-blue"><{$shop.shop_name}></a></p>
+                    <p class="text-gray">核销时间：<{$item.create_time|date='Y-m-d H:i:s',###}></p>
+                </div>
+            </div>
+
+            <div class="line padding border-bottom" style="background: #F9F9F9;">
+                <span class="x12 text-gray text-small">核销说明：<{$item['intro']}></span>
+            </div>
+            <div class="blank-10 bg"></div>
+    </foreach>
+

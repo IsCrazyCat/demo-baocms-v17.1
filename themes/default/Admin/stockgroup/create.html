@@ -1,0 +1,41 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+         <li class="li1">群</li>
+        <li class="li2">群管理</li>
+        <li class="li2 li3">添加群</li>
+    </ul>
+</div>
+<form  target="x-frame" action="<{:U('stockgroup/create',array('jury_id'=>$jury_id))}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                 <tr>
+                    <td class="lfTdBt">群名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[group_name]" value="<{$detail.group_name|default=''}>" class="manageInput" />
+					&nbsp;&nbsp;<code>当前群的名称</code>
+                    </td>
+                </tr>
+          
+                 <tr>
+                    <td class="lfTdBt">群简介：</td>
+                    <td class="rgTdBt">
+                        <textarea name="data[intro]" rows="5" cols="40"><{$detail.intro|default=''}></textarea>
+                        <code>当前群的简介</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">排序：</td>
+                    <td class="rgTdBt"><input type="text" name="data[orderby]" value="<{$detail.orderby|default=''}>" class="manageInput" />
+                    &nbsp;&nbsp;<code>群排序</code>
+
+                    </td>
+                </tr>
+                
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       

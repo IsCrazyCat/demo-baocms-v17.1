@@ -1,0 +1,113 @@
+<include  file='public:header'/>
+
+<style>
+.profit{text-align: center;color: #333;font-weight: bold; background: #F5F5FB;}
+</style>
+
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">支付设置</li>
+        <li class="li2">支付宝</li>
+        <li class="li2 li3">支付宝安装</li>
+    </ul>
+</div>
+
+
+
+<p class="attention"><span>注意：</span>请填写完毕后检查空格，注意前面空格跟后面空格，填写好了一般都能通过！</p>
+<form target="x-frame" action="<{:U('payment/install',array('payment_id'=>$detail['payment_id']))}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                
+                <tr>
+                    <td class="lfTdBt">支付方式:</td>
+                     <td class="rgTdBt">
+                        <img src="__PUBLIC__/images/<{$detail.logo}>" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">支付方式介绍:</td>
+                     <td class="rgTdBt" style="font-size: 14px;">
+                        <{$detail.contents}>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">支付接口类型：</td>
+                     <td class="rgTdBt">
+                        <select  name="data[service]" class="seleFl w200">
+                            <option <eq name="detail.setting.service" value="0">selected="selected"</eq> value="0">标准双接口</option>
+                            <option <eq name="detail.setting.service" value="1">selected="selected"</eq> value="1">担保交易</option>
+                            <option <eq name="detail.setting.service" value="2">selected="selected"</eq> value="2">即时到帐</option>
+                        </select>
+                    </td>
+                </tr>  
+                <tr>
+                    <td class="lfTdBt">商户ID：</td>
+                     <td class="rgTdBt">
+                        <input type="text" name="data[alipay_partner]" value="<{$detail.setting.alipay_partner}>" class="scAddTextName w360" />
+                        <code>即时到账申请通过有就有，这里是商户ID不要搞错了</code>
+                    </td>
+                </tr>  
+                <tr>
+                    <td class="lfTdBt">商户KEY：</td>
+                     <td class="rgTdBt">
+                          <input type="text" name="data[alipay_key]" value="<{$detail.setting.alipay_key}>"  class="scAddTextName w360" />
+                          <code>即时到账申请通过有就有了，填写这里，不要有空格</code>
+                    </td>
+                </tr>  
+                <tr>
+                    <td class="lfTdBt">商户账号：</td>
+                     <td class="rgTdBt">
+                          <input type="text" name="data[alipay_account]" value="<{$detail.setting.alipay_account}>"  class="scAddTextName w360" />
+                          <code>您的企业支付宝账户，一般是手机号或者邮箱</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                	<td class="rgTdBt profit" colspan="2"> 支付宝单笔转账配置，需要去支付宝先申请后再来配置</td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">商户appId：</td>
+                     <td class="rgTdBt">
+                          <input type="text" name="data[alipay_app_id]" value="<{$detail.setting.alipay_app_id}>"  class="scAddTextName w360" />
+                          <code>商户appId</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">私钥：</td>
+                     <td class="rgTdBt">
+                          <input type="text" name="data[alipay_private_key]" value="<{$detail.setting.alipay_private_key}>"  class="scAddTextName w360" />
+                          <code>请填写开发者私钥去头去尾去回车，一行字符串</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">公钥：</td>
+                     <td class="rgTdBt">
+                          <input type="text" name="data[alipay_rsa_public_key]" value="<{$detail.setting.alipay_rsa_public_key}>"  class="scAddTextName w360" />
+                          <code>请填写支付宝公钥，一行字符串</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                	<td class="rgTdBt profit" colspan="2"> 安全码</td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">安全码：</td>
+                     <td class="rgTdBt">
+                          <input type="text" name="data[safety]" value="******"  class="scAddTextName w360" />
+                          <code>输入你的网站安全码，输入错误会导致修改失败哦，安全码咨询qq 286099981</code>
+                    </td>
+                </tr>
+                
+             </table>  
+             
+        </div>
+        <div class="smtQr"><input type="submit" value="确定安装" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       
+
+

@@ -1,0 +1,46 @@
+<style>
+footer{position:fixed;bottom:0;z-index:999; background:rgba(241,9,9,0.8);width:100%}
+footer>div{width:65%;float:left}
+footer p{text-align:center;color:#fff;font-size:12px}
+footer .icon{width:1.24rem;height:.24rem;margin:0 auto;margin-top:.04rem;font-size: 18px;}
+footer .icon{color:#fff;}
+.footer-cart .price{font-size:14px;color:#fff;height:.55rem;line-height:2.8rem;margin-left:2.0rem;margin-top:0.2rem;}
+.footer-cart .cart{width:2.32rem;height:2.32rem;position:absolute;top:0.7rem;left:.5rem}
+.footer-cart .cart-num{width:1.3rem;height:1.3rem;line-height:1.3rem;background:#EB6100;border-radius:2.5rem;color:#FFF;text-align:center;position:relative;bottom:2.2rem;left:.64rem}
+.footer-cart .btn{width: 25%;height:3rem;background:#2fbdaa;float:right;cursor:pointer;color:#FFF;text-align:center;font-size:16x;line-height:3rem;}
+.footer-cart .btn a{color:#FFF;}
+.footer-cart .disable{width:5.5rem;height:3rem;background:#dedede;float:right;cursor:pointer;color:#FFF;text-align:center;font-size:16x;line-height:3rem;}
+.footer-cart .gray {background:#BBB !important;}
+</style>
+<footer class="footer-cart eleFooter-cart">
+    <if condition="$detail['status'] eq 0">
+    	<div class="cart"><a><i class="icon icon-send"></i></a></div>
+    	<div class="price">未付款</p></div>
+        <div class="btn"><a href="<{:U('wap/store/pay',array('order_id'=>$detail['order_id']))}>"><i class="icon icon-yen"></i> 去付款</a></div>
+    <elseif condition="$detail['status'] eq 1" />
+    	<div class="cart"><a><i class="icon icon-star-half-empty "></i></a></div>
+        <div class="price">等待配送</p></div>
+        <div class="btn">请稍后...</div>
+    <elseif condition="$detail['status'] eq 2" />
+    	<div class="cart"><a><i class="icon icon-hourglass-end"></i></a></div>
+    <elseif condition="$detail['status'] eq 3" />
+    	<div class="cart"><a><i class="icon icon-yen"></i></a></div>
+    	<div class="price">已申请退款</p></div>
+        <div class="btn">
+        	<a target="x-frame" href="<{:U('store/qx',array('order_id'=>$detail['order_id']))}>"><i class="icon icon-yen"></i> 取消退款</a>
+        </div>
+    <elseif condition="$detail['status'] eq 4" />
+    	<div class="cart"><a><i class="icon icon-yen"></i></a></div>
+    	<div class="price">已完成退款</p></div>
+        <div class="btn"></div>
+    <elseif condition="$detail['status'] eq 8" />
+    	<div class="cart"><a><i class="icon icon-thumbs-o-up"></i></a></div>
+    	<div class="price">订单已完成</p></div>
+        <eq name="order.is_dianping" value="0">
+        <div class="btn"><a href="<{:U('store/dianping',array('order_id'=>$detail['order_id']))}>"><i class="icon icon-pencil-square-o"></i> 去点评</a></div>
+        <else/>
+        <div class="btn">已点评</a></div>
+        </if>
+    </if>
+</footer>
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>

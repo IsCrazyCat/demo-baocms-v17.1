@@ -1,0 +1,223 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">课程</a> > <a>编辑课程</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">编辑课程信息，价格暂不支持小数，结算价格必须小于课程价格</div>
+        </div>
+    </div> 
+    <div class="tabnr_change  show">
+        <form method="post"  action="<{:U('edu/course_edit',array('course_id'=>$detail['course_id']))}>"  target="x-frame">
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="tuanfabu_t">课程名称：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+                </div></td>
+            </tr>
+             <tr>
+                    <td width="120"><p class="tuanfabu_t">分类：</p></td>
+                    <td><div class="tuanfabu_nr">
+
+                        <select name="parent_id" id="parent_id" class="seleFl w100"  style="display: inline-block; margin-right: 10px;">
+                            <option value="0">请选择...</option>
+                            <foreach name="cates" item="var">
+                                <eq name="var.parent_id" value="0">
+                                <option value="<{$var.cate_id}>"  <eq name="var.cate_id" value="$parent_id">selected="selected"</eq> ><{$var.cate_name}></option><br/>
+                                </eq>
+                            </foreach>
+                        </select>
+                        <select id="cate_id" name="data[cate_id]" class="seleFl w100" style="display: inline-block; margin-right: 10px;">
+                            <option value="0">请选择...</option>
+                            <foreach name="cates" item="var">
+                                <eq name="var.parent_id" value="0">
+                                <eq name="var.cate_id" value="$parent_id">
+                                <foreach name="cates" item="var2">
+                                    <eq name="var2.parent_id" value="$var.cate_id">
+                                    <option value="<{$var2.cate_id}>"  <eq name="var2.cate_id" value="$detail.cate_id">selected="selected"</eq> ><{$var2.cate_name}></option>
+                                    <foreach name="cates" item="var3">
+                                        <eq name="var3.parent_id" value="$var2.cate_id">
+                                        <option  value="<{$var3.cate_id}>"  <eq name="var3.cate_id" value="$detail.cate_id">selected="selected"</eq> >&nbsp;&nbsp;-<{$var3.cate_name}></option>
+                                        </eq>
+                                    </foreach>
+                                    </eq>
+                                </foreach>
+                                </eq>
+                                </eq>
+                            </foreach>
+                        </select>
+                        <script>
+                            $(document).ready(function(e){
+                                $("#parent_id").change(function(){
+                                    var url = '<{:U("edu/child",array("parent_id"=>"0000"))}>';
+                                    if($(this).val() > 0){
+                                        var url2 = url.replace('0000',$(this).val());
+                                        $.get(url2,function(data){
+                                            $("#cate_id").html(data);
+                                        },'html');
+                                    }
+                                });
+                                
+                            });
+                        </script>
+                         <code>修改的时候必须选择二级分类</code>   
+                    </div></td>
+                </tr>    
+            
+           
+            <tr>
+                    <td class="lfTdBt"><p class="tuanfabu_t">课程图片：</p></td>
+                 <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
+                        <div id="fileToUpload" >上传缩略图</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_img" width="120" height="80"  src="<{:config_img($detail['photo'])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.course.thumb}>
+                    </div>
+                    <script>                                            
+						var width_course = '<{:thumbSize($CONFIG[attachs][course][thumb],0)}>';                         
+						var height_course = '<{:thumbSize($CONFIG[attachs][course][thumb],1)}>'; 
+						var uploader = WebUploader.create({                             
+						auto: true,                             
+						swf: '/static/default/webuploader/Uploader.swf',                             
+						server: '<{:U("app/upload/uploadify",array("model"=>"course"))}>',                             
+						pick: '#fileToUpload',                             
+						resize: true,  
+						accept: {
+							title: 'Images',
+							extensions: 'gif,jpg,jpeg,png',
+							mimeTypes: 'image/*'//只永许上传JPG格式文件
+						}, 
+						compress : {width: width_course,height: height_course,quality: 80,allowMagnify: false,crop: true}                                          
+					});                                                 
+					uploader.on( 'uploadSuccess', function( file,resporse) {                             
+						$("#data_photo").val(resporse.url);                             
+						$("#photo_img").attr('src',resporse.url).show();                         
+					});                                                
+					uploader.on( 'uploadError', function( file ) {                             
+						alert('上传出错');                         
+					});                     
+                    </script>
+                </td>
+            </tr>
+            
+            <tr>
+                <td width="120"><p class="tuanfabu_t">原价：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" name="data[price]" value="<{:round($detail['price']/100,2)}>" class="tuanfabu_int tuanfabu_intw2" />
+                <code>填写您课程的价值，已就是原价，建议售价的3-5倍</code>
+                </div></td>
+            </tr>
+            <tr>
+                <td width="120"><p class="tuanfabu_t">课程售价：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" name="data[course_price]" value="<{:round($detail['course_price']/100,2)}>" class="tuanfabu_int tuanfabu_intw2" />
+                <code>客户购买实际付款价格</code>
+                </div></td>
+            </tr>
+            <tr>
+                <td width="120"><p class="tuanfabu_t">年龄：</p></td>
+                <td>
+                    <div class="tuanfabu_nr">
+                        <foreach name="age" item="var" key="index">
+                                <label style="margin-right: 10px;">
+                                  <span><{$var}>：</span>
+                                  <input type="radio" name="data[age_id]" value="<{$index}>" <eq name="index" value="$detail.age_id">checked="checked"</eq> />
+                                </label>
+                            </foreach>   
+                    </div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td width="120"><p class="tuanfabu_t">时段：</p></td>
+                <td>
+                    <div class="tuanfabu_nr">
+                        <foreach name="get_time" item="var" key="index">
+                            <label style="margin-right: 10px;">
+                              <span><{$var}>：</span>
+                              <input type="radio" name="data[time_id]" value="<{$index}>" <eq name="index" value="$detail.time_id">checked="checked"</eq> />
+                            </label>
+                        </foreach>   
+                    </div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td width="120"><p class="tuanfabu_t">类型：</p></td>
+                <td>
+                    <div class="tuanfabu_nr">
+                        <foreach name="class" item="var" key="index">
+                            <label style="margin-right: 10px;">
+                              <span><{$var}>：</span>
+                              <input type="radio" name="data[class_id]" value="<{$index}>" <eq name="index" value="$detail.class_id">checked="checked"</eq> />
+                            </label>
+                        </foreach>   
+                    </div>
+                </td>
+            </tr>
+            
+              <tr>
+                <td width="120"><p class="tuanfabu_t">课时：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" name="data[class_time]" value="<{$detail['class_time']}>" class="tuanfabu_int tuanfabu_intw2" />
+                </div></td>
+            </tr>
+            
+              <tr>
+                <td width="120"><p class="tuanfabu_t">上课时间：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" name="data[course_time]" value="<{$detail['course_time']}>" class="tuanfabu_int tuanfabu_intw2" />
+                </div></td>
+            </tr>
+            
+              <tr>
+                <td width="120"><p class="tuanfabu_t">报名时间：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" name="data[apply_time]" value="<{$detail['apply_time']}>" class="tuanfabu_int tuanfabu_intw2" />
+                </div></td>
+            </tr>
+            
+             <tr>
+                <td><p class="tuanfabu_t">是否支持退款</td>
+                <td>
+                <div class="tuanfabu_nr">
+                  <label><input type="radio" <eq name="detail.is_refund" value="0"> checked="checked" </eq>  name="is_refund"  value="0"/>不支持</label>
+                  <label><input type="radio" <eq name="detail.is_refund" value="1"> checked="checked" </eq>  name="is_refund"  value="1"/>支持</label>
+                </div>
+                </td>
+            </tr>
+            
+             <tr>
+       	<td><p class="tuanfabu_t">课程详情：</p></td> 
+        <td><div class="tuanfabu_nr">
+                <script type="text/plain" id="data_details" name="data[details]" style="width:800px;height:360px;"><{$detail.details}></script>
+                <link rel="stylesheet" href="/Public/qiniu_ueditor/themes/default/css/ueditor.min.css" type="text/css">
+                <script type="text/javascript" charset="utf-8" src="/Public/qiniu_ueditor/ueditor.config.js"></script>
+                <script type="text/javascript" charset="utf-8" src="/Public/qiniu_ueditor/ueditor.all.min.js"></script>
+                <script type="text/javascript" src="/Public/qiniu_ueditor/lang/zh-cn/zh-cn.js"></script>
+                <script>
+                    um = UE.getEditor('data_details', {
+                        lang: 'zh-cn',
+						toolbars:[['fullscreen', 'source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'backcolor', 'fontsize', 'fontfamily', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', 'link', 'unlink', 'map', 'template', 'background','inserttable','print','attachment',  'emotion',  'snapscreen','insertimage', 'music', 'insertvideo']],  
+                        });
+                </script>
+                </div>
+           </td>
+       </tr>
+       
+        </table>
+        <div class="tuanfabu_an">
+        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认编辑" />
+        </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>

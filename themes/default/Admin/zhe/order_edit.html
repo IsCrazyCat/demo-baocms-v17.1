@@ -1,0 +1,28 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">五折卡</li>
+        <li class="li2">订单管理</li>
+        <li class="li2 li3">编辑</li>
+    </ul>
+</div>
+<p class="attention"><span>注意：</span> 这里只可以修改五折卡的结束时间，请不要胡乱修改哈，时间可以修改到秒为单位</p>
+<form target="x-frame" action="<{:U('zhe/order_edit',array('order_id'=>$detail['order_id']))}>" method="post">
+    <div class="mainScAdd ">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+               
+                <tr>
+                    <td class="lfTdBt">五折卡结束时间：</td>
+                    <td class="rgTdBt"><input type="text" name="data[end_time]" placeholder="点击选择时间"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="inputData" />
+                    <code>选择五折卡订单的结束时间，请不要胡乱修改</code>
+                    </td>
+                </tr>
+              
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>      
+    </div>
+</form>
+<include  file='public:footer'/>       

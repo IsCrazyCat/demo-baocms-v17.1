@@ -1,0 +1,238 @@
+<include  file='public:header'/>
+<style>
+.lfTdBt { width: 200px;}
+.profit{ text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">商城配置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里配置是商城相关的信息</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/goods')}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt" >商品置顶费用：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[top]" value="<{$CONFIG.goods.top}>" class="scAddTextName w80" />
+                        <code>单位元，商品置顶每天的费用，支持小数点，不能为空</code>
+                    </td>
+                </tr>
+                <tr><td class="rgTdBt  profit" colspan = "2" >下面控制wap商城首页新订单</td></tr>
+                <tr class="jq_type_bo">
+                    <td class="lfTdBt">wap商城首页新订单提示开关：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[scroll_open]" <eq name="CONFIG.goods.scroll_open" value="1">checked="checked"</eq> value="1" />开启</label>
+                        <label><input type="radio" name="data[scroll_open]"  <eq name="CONFIG.goods.scroll_open" value="0">checked="checked"</eq>  value="0" />关闭</label>
+                        <code>点击关闭后，wap商城首页新订单不显示</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">wap商城首页新订单提示排序：</td>
+                    <td class="rgTdBt">
+                        <select name="data[order]"  class="scAddTextName sogn">
+                        	<option value="0" <if condition="$CONFIG['goods']['order'] eq 0">selected='selected'</if>>默认排序</option>
+                            <option value="1" <if condition="$CONFIG['goods']['order'] eq 1">selected='selected'</if>>下单时间排序</option>
+                            <option value="2" <if condition="$CONFIG['goods']['order'] eq 2">selected='selected'</if>>订单价格排序</option>
+                        </select>
+                        <code>wap商城订单提醒排序方式</code></td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >wap商城首页新订单数量：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[limit]" value="<{$CONFIG.goods.limit}>" class="scAddTextName w80" />
+                        <code>循环播放的时候，显示多少条数据</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >wap商城首页新订单提醒时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[scroll_time]" value="<{$CONFIG.goods.scroll_time}>" class="scAddTextName w80" />
+                        <code>填写1000等于1秒，建议设置为1000-9000，这里建议设置整数</code>
+                    </td>
+                </tr>
+                <tr><td class="rgTdBt  profit" colspan = "2" >商城农副产品交易排行榜后台数据</td></tr>
+                <tr>
+                    <td class="lfTdBt" >类别1：</td>
+                    <td class="rgTdBt">
+                    	<code>类别1名称</code>
+                        <input type="text" name="data[cate_1_name]" value="<{$CONFIG.goods.cate_1_name}>" class="scAddTextName w80" />
+                        <code>类别1数量</code>
+                        <input type="text" name="data[cate_1_num]" value="<{$CONFIG.goods.cate_1_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别2：</td>
+                    <td class="rgTdBt">
+                    	<code>类别2名称</code>
+                        <input type="text" name="data[cate_2_name]" value="<{$CONFIG.goods.cate_2_name}>" class="scAddTextName w80" />
+                        <code>类别2数量</code>
+                        <input type="text" name="data[cate_2_num]" value="<{$CONFIG.goods.cate_2_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别3：</td>
+                    <td class="rgTdBt">
+                    	<code>类别3名称</code>
+                        <input type="text" name="data[cate_3_name]" value="<{$CONFIG.goods.cate_3_name}>" class="scAddTextName w80" />
+                        <code>类别3数量</code>
+                        <input type="text" name="data[cate_3_num]" value="<{$CONFIG.goods.cate_3_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别4：</td>
+                    <td class="rgTdBt">
+                    	<code>类别4名称</code>
+                        <input type="text" name="data[cate_4_name]" value="<{$CONFIG.goods.cate_4_name}>" class="scAddTextName w80" />
+                        <code>类别4数量</code>
+                        <input type="text" name="data[cate_4_num]" value="<{$CONFIG.goods.cate_4_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别5：</td>
+                    <td class="rgTdBt">
+                    	<code>类别5名称</code>
+                        <input type="text" name="data[cate_5_name]" value="<{$CONFIG.goods.cate_5_name}>" class="scAddTextName w80" />
+                        <code>类别5数量</code>
+                        <input type="text" name="data[cate_5_num]" value="<{$CONFIG.goods.cate_5_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别6：</td>
+                    <td class="rgTdBt">
+                    	<code>类别6名称</code>
+                        <input type="text" name="data[cate_6_name]" value="<{$CONFIG.goods.cate_6_name}>" class="scAddTextName w80" />
+                        <code>类别6数量</code>
+                        <input type="text" name="data[cate_6_num]" value="<{$CONFIG.goods.cate_6_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别7：</td>
+                    <td class="rgTdBt">
+                    	<code>类别7名称</code>
+                        <input type="text" name="data[cate_7_name]" value="<{$CONFIG.goods.cate_7_name}>" class="scAddTextName w80" />
+                        <code>类别7数量</code>
+                        <input type="text" name="data[cate_7_num]" value="<{$CONFIG.goods.cate_7_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别8：</td>
+                    <td class="rgTdBt">
+                    	<code>类别8名称</code>
+                        <input type="text" name="data[cate_8_name]" value="<{$CONFIG.goods.cate_8_name}>" class="scAddTextName w80" />
+                        <code>类别8数量</code>
+                        <input type="text" name="data[cate_8_num]" value="<{$CONFIG.goods.cate_8_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别9：</td>
+                    <td class="rgTdBt">
+                    	<code>类别9名称</code>
+                        <input type="text" name="data[cate_9_name]" value="<{$CONFIG.goods.cate_9_name}>" class="scAddTextName w80" />
+                        <code>类别9数量</code>
+                        <input type="text" name="data[cate_9_num]" value="<{$CONFIG.goods.cate_9_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别10：</td>
+                    <td class="rgTdBt">
+                    	<code>类别10名称</code>
+                        <input type="text" name="data[cate_10_name]" value="<{$CONFIG.goods.cate_10_name}>" class="scAddTextName w80" />
+                        <code>类别10数量</code>
+                        <input type="text" name="data[cate_10_num]" value="<{$CONFIG.goods.cate_10_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别11：</td>
+                    <td class="rgTdBt">
+                    	<code>类别11名称</code>
+                        <input type="text" name="data[cate_11_name]" value="<{$CONFIG.goods.cate_11_name}>" class="scAddTextName w80" />
+                        <code>类别11数量</code>
+                        <input type="text" name="data[cate_11_num]" value="<{$CONFIG.goods.cate_11_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别12：</td>
+                    <td class="rgTdBt">
+                    	<code>类别12名称</code>
+                        <input type="text" name="data[cate_12_name]" value="<{$CONFIG.goods.cate_12_name}>" class="scAddTextName w80" />
+                        <code>类别12数量</code>
+                        <input type="text" name="data[cate_12_num]" value="<{$CONFIG.goods.cate_12_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别13：</td>
+                    <td class="rgTdBt">
+                    	<code>类别13名称</code>
+                        <input type="text" name="data[cate_13_name]" value="<{$CONFIG.goods.cate_13_name}>" class="scAddTextName w80" />
+                        <code>类别13数量</code>
+                        <input type="text" name="data[cate_13_num]" value="<{$CONFIG.goods.cate_13_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别14：</td>
+                    <td class="rgTdBt">
+                    	<code>类别14名称</code>
+                        <input type="text" name="data[cate_14_name]" value="<{$CONFIG.goods.cate_14_name}>" class="scAddTextName w80" />
+                        <code>类别14数量</code>
+                        <input type="text" name="data[cate_14_num]" value="<{$CONFIG.goods.cate_14_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别15：</td>
+                    <td class="rgTdBt">
+                    	<code>类别15名称</code>
+                        <input type="text" name="data[cate_15_name]" value="<{$CONFIG.goods.cate_15_name}>" class="scAddTextName w80" />
+                        <code>类别15数量</code>
+                        <input type="text" name="data[cate_15_num]" value="<{$CONFIG.goods.cate_15_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别16：</td>
+                    <td class="rgTdBt">
+                    	<code>类别16名称</code>
+                        <input type="text" name="data[cate_16_name]" value="<{$CONFIG.goods.cate_16_name}>" class="scAddTextName w80" />
+                        <code>类别16数量</code>
+                        <input type="text" name="data[cate_16_num]" value="<{$CONFIG.goods.cate_16_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >类别17：</td>
+                    <td class="rgTdBt">
+                    	<code>类别17名称</code>
+                        <input type="text" name="data[cate_17_name]" value="<{$CONFIG.goods.cate_17_name}>" class="scAddTextName w80" />
+                        <code>类别17数量</code>
+                        <input type="text" name="data[cate_17_num]" value="<{$CONFIG.goods.cate_17_num}>" class="scAddTextName w80" />
+                    </td>
+                </tr>
+                
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

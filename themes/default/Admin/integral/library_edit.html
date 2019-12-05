@@ -1,0 +1,53 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">积分</li>
+        <li class="li2">积分库</li>
+        <li class="li2 li3">积分库编辑</li>
+    </ul>
+</div>
+<form target="x-frame" action="<{:U('integral/library_edit',array('library_id'=>$detail['library_id']))}>" method="post">
+    <div class="mainScAdd ">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">用户选择：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="user_id" name="data[user_id]" value="<{$detail.user_id|default=''}>" class="manageInput" />
+                            <input class="scAddTextName sj" type="text" name="nickname" id="nickname"  value="<{$user.nickname}>" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                        <code>选择您要增加积分库的用户，不要乱添加，添加后软删除</code>
+                    </td>
+                </tr> 
+                <tr>
+                    <td class="lfTdBt">积分库总额：</td>
+                    <td class="rgTdBt">
+                    	<input type="text" name="data[integral_library]" value="<{$detail.integral_library|default=''}>" class="manageInput w200" />
+                        <code>打算给这个会员新增多少积分，这里是总计积分</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">返还天数：</td>
+                    <td class="rgTdBt">
+                    <input type="text" name="data[integral_library_total]" value="<{$detail.integral_library_total|default=''}>" class="manageInput w200" />
+					<code>填写数字，不能写小数点，这里同上，积分总库/返还天数=每天返积分</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">添加理由：</td>
+                    <td class="rgTdBt">
+                        <textarea name="data[intro]" rows="5" cols="40"><{$detail.intro|default=''}></textarea>
+                        <code>为什么要给这个会员返积分？写简短理由</code>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <div class="smtQr"><input type="submit" value="确认编辑" class="smtQrIpt" /></div>
+        </div>
+</form>
+
+<include  file='public:footer'/>       

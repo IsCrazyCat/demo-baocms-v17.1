@@ -1,0 +1,91 @@
+ul{padding-left:0!important}
+.p,p{margin-bottom:0!important}
+em,i{ font-style:normal}
+ul,li{list-style:none}
+input,select{-webkit-appearance:none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+.ele_banner{height:150px;overflow:hidden;position:relative; width:100%;}
+.ele_banner .main_image{height:150px;overflow:hidden;position:relative; width:100%;}
+.ele_banner .main_image ul{ width:100%;height:150px;overflow:hidden;}
+.ele_banner .main_image li{float:left;width:100%;height:150px;}
+.ele_banner .main_image li a{display:block;width:100%;height:150px; text-align:center;}
+.ele_banner .main_image li a img{ width:100%;height:150px;  }
+.ele_banner div.flicking_con{position:absolute;bottom:0;left:0;z-index:99;width:100%;height:20px;margin:0 auto; text-align:center; font-size:0;}
+.ele_banner div.flicking_con a{width:10px;height:10px;margin:0px 0.05rem;padding:0; background-color:#dcdcdc; border-radius:50%;display:inline-block;text-indent:-1000px;}
+.ele_banner div.flicking_con a.on{ background-color:#3190e8;}
+
+.shike-nav{width:100%;overflow:hidden; margin-top:1em}
+.shike-nav ul {height:100%;width:100%;list-style:none}
+.shike-nav ul li{width:20%;float:left;text-align:center;margin:.3em 0;}
+.shike-nav ul li img{width:75%;}
+.shike-nav ul li a{line-height:200%;font-size:.875em;}
+
+
+footer{position:fixed;bottom:0;z-index:9999;background:#4e4e4e;width:100%}
+footer .icon{width:1.24rem;height:.24rem;margin:0 auto;margin-top:.04rem;background:url(../img/footIco.png) no-repeat center top;background-size:.24rem auto}
+
+.shike-h3{background:url(../image/sj.png) no-repeat 2% center;height:40px; line-height:40px; padding-left:10%; background-size:25px; font-size:14px; color:#333; border-bottom:1px #ececec solid; width:100%}
+.index-shike{padding: 0 10px;width:100%;display:table;}
+.school_list {width: 100%;display: table;}
+.school_list li {border-top: 1px solid #E8E8E8;display:inline-block;width:100%;padding:10px 0}
+.school_list li:first-child {border: 0;}
+.school_list li .course .course-left {width: 130px;float: left;position: relative;}
+.school_list li .course .course-left a.course-link {display: block}
+.school_list li .course .course-left a.course-link img { width:120px; height:90px;}
+.school_list li .course-left .course-po {position: absolute;bottom: 0;padding: 0;margin: 0;}
+.school_list li .course-left .course-po a {background: rgba(0,0,0,.4);display: block;float: left;color: #FFFFFF;font-size: 12px;width: 60px;text-align: center}
+.school_list li .course-right {margin-left: 130px;}
+.school_list li .course-right .course-title {font-size: 15px;font-weight: 700;}
+.school_list li .course-right .course-addr {font-size: 13px;color: #999999;line-height:24px;}
+.school_list li .course-right .course-title em{font-size: 12px;margin-left: 10px;background: #e2e2e2;padding: 3px 5px;color: #494949;border-radius: 5px;font-weight: normal;}
+.shike-star em{float:left;height:20px;line-height:20px;color: #999999;}
+.shike-star .ui-starbar{float:left;margin-top:2px;margin-right:5px}
+.shike-star i{color:#ff5500;font-style:normal}
+
+.shike-view{display: table;width: 100%}
+.shike-view .pic{width:100%;display: table;}
+.shike-view .pic img{width: 100%}
+.shike-view .course_info{padding: 0 10px}
+.shike-view .course_info h1 { -moz-box-orient: vertical;color: #000;display: -webkit-box;font-size: 16px;font-weight: 400;line-height: 22px;overflow: hidden;padding: 10px 0 5px;white-space: normal;}
+.shike-view .course_info h1 em{font-size: 12px;margin-left: 10px;background: #e2e2e2;padding: 3px 5px;color: #494949;border-radius: 5px;font-weight: normal;}
+.shike-view .course_info .course-class {border: 1px solid #e5e5e5;margin: 20px 0;padding: 15px 0;position: relative;}
+.shike-view .course_info .course-class h2 {background-color: #ffffff;left: 15px;line-height: 26px;padding: 0 15px;position: absolute;top: -13px;
+}
+.shike-view .course_info .course-class h2 span {color: #ff5500;font-size: 16px;}
+.shike-view .course_info .course-class h2 span del {color: #999;font-size: 12px;font-weight: 300;margin-left: 15px;}
+.shike-view .course_info .course-class h2 span b {color: #666;font-size: 14px;font-weight: 300;}
+.shike-view .course_info .course-class .course-z{width: 100%;display: table;}
+.shike-view .course_info .course-class .course-z p {margin-top: 6px;width: 50%;float: left;overflow: hidden;height: 30px;line-height: 30px;}
+.shike-view .course_info .course-class .course-z div{width: 100%;display: table; line-height: 30px;margin-top: 6px;color: #b9b9b9;padding-left: 10px;}
+.shike-view .icon_date {background-position: 0 -145px;}
+.shike-view .icon_tip {background-position: 0 -174px;}
+.shike-view .icon {color: #b9b9b9;padding-left: 10px;}
+.shike-view .course_info .course-class .price {background-color: #ffffff;bottom: -15px;color: #999;font-size: 14px;line-height: 30px;padding: 0 20px;position: absolute;right: 20px;}
+
+
+.slideTxtBox{ width:100%; display: table;}
+.slideTxtBox .hd{ background:#f4f4f4;  position:relative; }
+.slideTxtBox .hd ul{height:32px;   }
+.slideTxtBox .hd ul li{ float:left;cursor:pointer; width: 50%;text-align: center;line-height: 32px;}
+.slideTxtBox .hd ul li.on{ height:30px;  background:#fff;color: red}
+.slideTxtBox .bd ul{ padding:15px;  zoom:1;  }
+.slideTxtBox .info{font-size: 14px;line-height: 26px;margin: 15px 0}
+.slideTxtBox .info img{max-width: 100%}
+.slideTxtBox .info p{margin-top: 10px 0}
+
+
+.pay-form .row{padding:0 10px;overflow:hidden}
+.pay-form .row p{margin:0}
+.pay-form .text-input{width:100%;border:none;}
+.pay-form .text-area{width:100%;height:80px;resize:none;}
+
+.coupon-list .item{padding: 2% 0;width: 100%; display: table;}
+.coupon-list .item .x10{padding-left: 10px;}
+
+.cart-bar{bottom:0px;display:table;width:100%;height:50px;padding:0px;table-layout:fixed;position:fixed;z-index:10;right:0px;left:0px;background: #FAFAFA;box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.55);backface-visibility: hidden;}
+.cart-bar{overflow:hidden;padding:0 20px;}
+.cart-bar .cart{float:left;height:50px;line-height:50px;color:#999;}
+.cart-bar .num{float:left;height:50px;line-height:50px;font-size:18px;color:#E33;padding:0 5px;}
+.cart-bar i{float:left;color:#999;font-size:22px;margin-right:5px;}
+.cart-bar .result{float:right;margin-top:8px;}
+.cart-bar .tudou_result{margin-top:8px;}
+.cart-bar .jquery-last{color:#f00;font-size:12px;margin-left:20px;}

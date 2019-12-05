@@ -1,0 +1,213 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			发布拼车
+		</div>
+        <div class="top-signed">
+			<a id="search-btn" href="<{:U('pinche/index')}>"><i class="iconfont icon-shuaxin"></i><{:tu_msubstr($city_name,0,6,false)}></a>
+		</div>
+	</header>
+    
+    
+<style>
+ul{padding-left: 0px;}
+.top-fixed .top-signed a{font-size:16px;}
+.container .x3{width:23.8%}
+.container .x3 i.iconfont{font-size:18px;}
+.input-group .addbtn .button i.iconfont{font-size:20px;}
+.xiaoqu-search{padding:15px;background:#fafafa;border-bottom:thin solid #eee;}
+.xiaoqu-list p {height: 20px;line-height: 20px; margin: 0;color: #999;font-size: 12px;overflow: hidden;}
+.input-group .addbtn .button{font-size:14px;height: 34px;}
+.input-group .input{ border-radius:6px !important}
+.button-little-mobile{color:#FFFFFF !important;background-color: #f5b8b8;padding: 0 2px;height: 18px;text-align: center;line-height: 18px;border-radius: 3px;font-size: 11px;}
+</style>
+    
+    
+     <!--广告位开始-->
+     	<div id="tudou-slide" class="tudou-slide">
+			<div class="hd"><ul></ul></div>
+			<div class="bd">
+				<ul>
+					<calldata mdl="Ad" where=" closed=0 AND site_id=33 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+						<li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+        <script>
+			TouchSlide({
+				slideCell: "#tudou-slide",
+				titCell: ".hd ul",
+				mainCell: ".bd ul",
+				effect: "left",
+				autoPlay: true,
+				autoPage: true,
+				switchLoad: "_src",
+			});
+		</script>
+    <!--广告位END-->  
+    
+    <div class="container x12">
+		<div class="blank-10"></div>
+            <a class="x3 button button-small bg-dot margin-small-right text-center" href="<{:u('pinche/index')}>"><i class="iconfont icon-liulan"></i> 刷新</a>
+            <a class="x3 button button-small bg-blue margin-small-right text-center" href="<{:u('pinche/create')}>"><i class="iconfont icon-fabu"></i> 发布</a>
+            <a class="x3 button button-small bg-dot margin-small-right text-center" href="<{:u('pinche/index',array('cate_id'=>1))}>"><i class="iconfont icon-wo"></i> 找乘客</a>
+            <a class="x3 button button-small bg-blue text-center" href="<{:u('pinche/index',array('cate_id'=>2))}>"><i class="iconfont icon-pin"></i> 找司机</a>
+	</div>
+    
+    
+
+
+
+
+
+	<div class="line xiaoqu-search margin-top">
+		<form method="post"  action="<{:U('pinche/index')}>" id="form1" class="form1">
+			<div class="form-group">
+				<div class="field">
+					<div class="input-group x12">
+                        <span class="x5 padding-right radius-big">
+                            <input type="text" class="input" name="keyword" size="50" value="<{$keyword}>" placeholder="出发地搜索"/>
+                        </span>
+                        <span class="x5 radius-big">
+                            <input type="text" class="input" name="keyword2" size="50" value="<{$keyword2}>" placeholder="目的地搜索"/>
+                        </span>
+                        <span class="x2">
+                            <span class="addbtn"><button type="submit" class="button"><i class="iconfont icon-search"></i> </button></span>
+                        </span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+    
+
+    <if condition="empty($keyword) or empty($keyword2)">
+        <div class="container border-bottom">
+            <div class="blank-10"></div>
+            <span class="text-big">全部信息(共有<{$counts['pinche_day']}>条新信息)</span>
+            <div class="blank-10"></div>
+        </div> 
+    </if>
+
+   <!-- <div id="filter2" class="filter2">
+    <ul class="tab clearfix">
+      <li class="item">
+        <a href="javascript:void(0);">
+        <if condition="empty($cate_id)">
+        <span id="str_e_node">选择分类</span>
+        <elseif condition="$cate_id eq 1"/>
+        <span id="str_b_node" style="color:#f60;">车找人</span>
+        <elseif condition="$cate_id eq 2"/>
+        <span id="str_b_node" style="color:#f60;">人找车</span>
+        <elseif condition="$cate_id eq 3"/>
+        <span id="str_b_node" style="color:#f60;">车找货</span>
+        <elseif condition="$cate_id eq 4"/>
+        <span id="str_b_node" style="color:#f60;">货找车</span>
+        </if>
+        <em></em>
+        </a>
+      </li>
+
+      <li class="item">
+        <a href="javascript:void(0);"> 
+        <if condition="!empty($area_id)">
+        <span id="str_b_node" style="color:#f60;"><{$areass[$area_id]['area_name']}></span>
+        <else/>
+        <span id="str_d_node">选择地区</span>
+        </if>
+        <em></em>
+        </a>
+      </li>
+
+      <li class="item">
+        <a href="javascript:void(0);">
+         <if condition="empty($order)">
+        <span id="str_e_node">选择排序</span>
+        <elseif condition="$order eq 1"/>
+        <span id="str_b_node" style="color:#f60;">默认排序</span>
+        <elseif condition="$order eq 2"/>
+        <span id="str_b_node" style="color:#f60;">发布时间</span>
+        <elseif condition="$order eq 3"/>
+        <span id="str_b_node" style="color:#f60;">距离排序</span>
+        </if>
+        <em></em>
+        </a>
+      </li>
+    </ul>
+
+    
+
+    <div class="inner" style=" display:none">
+        <ul>
+       <li class="<if condition='empty($cate_id)'> style="color:red;"</if>"><a href="<{:U('pinche/index')}>" >全部</a></li>
+				<if condition="$cat">    
+					<li class="on"><a href="<{:LinkTo('pinche/index',array('cate_id'=>$cate_id))}>"><{$shopcates[$cat]['cate_name']}></a></li>
+				</if>   
+				<foreach name="getPincheCate" item="var" key="index">    
+						<li <if condition="$var.cate_id eq $cat"> style="color:red;"</if>> 
+							<a title="<{$var}>" href="<{:LinkTo('pinche/index',array('cate_id'=>$index))}>"><{$var}></a>
+						</li>
+				 </foreach>
+            </ul>
+    </div>
+
+    
+
+    <div class="inner" style=" display:none">
+      <ul id="inner2">
+        <li class="item">
+        <a class="rights" href="<{:LinkTo('pinche/index',array('area_id'=>$area_id))}>">全部地区</a>
+        </li>
+
+       <foreach name="areas" item="var">
+            <php>if($var['city_id'] == $city_id){</php>         
+                <li <if condition="$var.cate_id eq $cat"> style="color:red;"</if>> 
+                <a href="<{:LinkTo('pinche/index',array('area_id'=>$var['area_id']))}>"><{$var.area_name}></a>
+                </li>
+            <php>}</php>      
+        </foreach>
+      </ul>
+    </div>
+
+    <div class="inner" style="display:none;">
+              <ul>
+              <li <if condition="$_GET['order'] eq 3"> style="color:red;"</if> > 
+					<a href="<{:LinkTo('pinche/index',array('area'=>$area_id,'business'=>$business_id,'order'=>3))}>">距我最近</a>
+				</li>
+				<li <if condition="$_GET['order'] eq 2"> style="color:red;"</if> >
+					<a href="<{:LinkTo('pinche/index',array('area'=>$area_id,'business'=>$business_id,'order'=>2))}>">发布时间</a>
+				</li>
+                <li <if condition="$_GET['order'] eq 1"> style="color:red;"</if> >
+					<a href="<{:LinkTo('pinche/index',array('area'=>$area_id,'business'=>$business_id,'order'=>1))}>">默认排序</a>
+				</li>
+            </ul>
+      </div>
+
+      
+
+      <div id="parent_container" class="inner_parent" style="display:none;"> <div class="innercontent"></div></div>
+      <div id="inner_container" class="inner_child" style="display:none;"><divclass="innercontent"></div></div>
+
+
+</div>
+   
+
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;"><i class="pull2"></i></div>-->
+
+
+<div id="coupon-list" class="coupon-list"></div>
+    <script>
+        $(document).ready(function () {
+			showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+            loaddata('<{$nextpage}>', $("#coupon-list"), true);
+        });
+    </script>
+
+
+    
+  
+<include file='public:footer'/>   

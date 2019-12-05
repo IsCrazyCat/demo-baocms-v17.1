@@ -1,0 +1,65 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">酒店</li>
+        <li class="li2">房间管理</li>
+        <li class="li2 li3">房间列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里管理单个酒店的房间列表管理，当前酒店名称： <a style="color:#F00">【<{$detail.hotel_name}>】</a></p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('hotel/setroom',array('hotel_id'=>$detail['hotel_id']),'添加房间')}>
+            </div>
+            <div class="right">
+               
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="room_id" /></td>
+                    <td>房间名称</td>
+                    <td>房间图片</td>
+                    <td>房间类型</td>
+                    <td>房间价格</td>
+                    <td>房间剩余</td>
+                    <td>是否提供早餐</td>
+                    <td>是否有宽带</td>
+                    <td>是否可以取消</td>
+                    <td>创建时间</td>
+                    <td class="w360">操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_room_id" type="checkbox" name="room_id[]" value="<{$var.room_id}>" /></td>
+                        <td><{$var.title}></td>
+                        <td style="height: 80px;"><img src="<{:config_img($var['photo'])}>"  style="width: 80px;  margin: 0px auto;" /></td>
+                        <td><{$roomtype[$var['type']]}></td>
+                        <td><{$var.price}></td>
+                        <td><{$var.sku}></td>
+                        <td><eq name="var.is_zc" value="1">提供<else/>不提供</eq></td>
+                        <td><eq name="var.is_kd" value="1">提供<else/>不提供</eq></td>
+                        <td><eq name="var.is_cancel" value="1">可以<else/>不可以</eq></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                    <td>
+                        <{:BA('hotel/editroom',array("room_id"=>$var["room_id"],"hotel_id"=>$var["hotel_id"]),'编辑房间','','remberBtn')}>
+                        <{:BA('hotel/deleteroom',array("room_id"=>$var["room_id"],"hotel_id"=>$var["hotel_id"]),'删除房间','act','remberBtn')}>
+                    </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

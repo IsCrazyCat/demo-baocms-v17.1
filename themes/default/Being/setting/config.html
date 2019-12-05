@@ -1,0 +1,122 @@
+<include  file='public:header'/>
+<style>
+.lfTdBt { width: 200px;}
+.profit{ text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">常用功能</li>
+        <li class="li2 li3">功能设置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里配置的是网站常用API，以及其他的设置，以后不知道分来的尽量写在这里</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/config')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+             <tr>
+                    <td class="lfTdBt">开启会员等级购买：</td>
+                    <td class="rgTdBt">
+                    <label>
+                    	<input type="radio" name="data[is_buy_user_rank]" <eq name="CONFIG.config.is_buy_user_rank" value="1">checked="checked"</eq> value="1"/>
+                    	开启
+                    </label>
+                    <label>
+                    	<input type="radio" name="data[is_buy_user_rank]" <eq name="CONFIG.config.is_buy_user_rank" value="0">checked="checked"</eq> value="0"/>
+                    	关闭
+                    </label>
+                    <code>点击开启后，手机版会员中心出现购买等级功能，等级价格到会员》》》会员等级》》》编辑设置，不开启不出现会员等级购买功能。</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                  <td class="rgTdBt profit" colspan="2"> 下面是快递接口配置，建议申请企业接口更加稳定</td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">快递100接口选择：</td>
+                    <td class="rgTdBt">
+                    <label><input type="radio" name="data[express_api_type]" <eq name="CONFIG.config.express_api_type" value="1">checked="checked"</eq> value="1"/>免费接口</label>
+                    <label><input type="radio" name="data[express_api_type]" <eq name="CONFIG.config.express_api_type" value="2">checked="checked"</eq> value="2"/>企业接口</label>
+                    <code>先选择接口再填写下面的东西，接口申请点击：<a href="https://www.kuaidi100.com/openapi/applypoll.shtml" target="_blank">https://www.kuaidi100.com/openapi/applypoll.shtml</a></code>
+                    </td>
+                </tr>
+              
+                <tr>
+                    <td class="lfTdBt" >快递100key/customer：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[express_api_key]" value="<{$CONFIG.config.express_api_key}>" class="scAddTextName " />
+                        <code>←这里填写KEY</code>
+                        <input type="text" name="data[express_api_customer]" value="<{$CONFIG.config.express_api_customer}>" class="scAddTextName " />
+                        <code>←这里填写customer,免费版本接口无需填写customer</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                  <td class="rgTdBt profit" colspan="2"> 下面是网站地图配置，请网站第一次就必须配置好，中途不能更改，否则后果自负</td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">网站地图选择：</td>
+                    <td class="rgTdBt">
+                              <select name="data[map]" class="scAddTextName sogn">
+                              	  <option value="">请选择地图地图</option>
+                                  <option <eq name="CONFIG.config.map" value="1">selected="selected"</eq> value="1">百度地图</option>
+                                  <option <eq name="CONFIG.config.map" value="2">selected="selected"</eq> value="2">谷歌地图</option>
+                              </select>
+							<code>新版必须选择地图，否则失效，一旦选择数据将不可逆更改，请第一次就选择好地图，否则中途更换地图后数据混乱后概不负责</code>
+                    </td>
+                </tr>  
+                
+                
+                <tr>
+                    <td  class="lfTdBt" >百度LBS地图API链接：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[baidu_map_api]" value="<{$CONFIG.config.baidu_map_api}>" class="scAddTextName  manageInput2" />
+                        <code>如果您开启的是https，这里请一定要填写https开头，这里是填写整个百度地图链接，http或者https您自己填写，接口申请 <a href="http://lbsyun.baidu.com/" target="_blank">http://lbsyun.baidu.com/</a> 备用API：https://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td  class="lfTdBt" >谷歌LBS地图API链接：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[google_map_api]" value="<{$CONFIG.config.google_map_api}>" class="scAddTextName  manageInput2" />
+                        <code>这里是填写整个谷歌地图链接，http或者https您自己填写</code>
+                    </td>
+                </tr>
+                
+                
+               <tr>
+                  <td class="rgTdBt profit" colspan="2"> iocnfont图标调用连接</td>
+                </tr>
+                
+                 <tr>
+                    <td  class="lfTdBt" >iocnfont链接：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[iocnfont]" value="<{$CONFIG['config']['iocnfont']|default="//at.alicdn.com/t/font_295173_pummdrb002uik9.css"}>" class="scAddTextName  manageInput2" />
+                        <code>这需要加载字体，千万不要放在本地，不然第一次加载卡得你怀疑人生，这里是自己设计的阿里云图标，默认我们的连接是：//at.alicdn.com/t/font_295173_pummdrb002uik9.css  图标预览：<a href="http://www.juhucms.com/forum-37-1.html" target="_blank">http://www.juhucms.com/forum-37-1.html</a>
+                        
+                        </code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td  class="lfTdBt" >iocnfont2链接：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[iocnfont2]" value="<{$CONFIG['config']['iocnfont2']|default=""}>" class="scAddTextName  manageInput2" />
+                        <code>这里你额外增加的css阿里云的iocnfont图标cnd连接放在这里，然后自己就可以在模板中调用了，这样您可以不管基础库的css</code>
+                    </td>
+                </tr>
+                
+                
+               
+            </table>
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

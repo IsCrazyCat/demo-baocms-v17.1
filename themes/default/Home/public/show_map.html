@@ -1,0 +1,15 @@
+ 
+            <script type="text/javascript" src="<{$CONFIG['config']['baidu_map_api']}>"></script>
+                                <div id="allmap" style="width:250px; height:250px;"></div>
+                                <script type="text/javascript">
+                                    var map = new BMap.Map("allmap");
+                                    map.centerAndZoom(new BMap.Point("<{$detail.lng}>", "<{$detail.lat}>"), 15);
+                                    var point = new BMap.Point("<{$detail.lng}>", "<{$detail.lat}>");
+                                    map.centerAndZoom(point, 15);
+                                    var marker = new BMap.Marker(point); 
+                                    map.clearOverlays();
+                                    map.addOverlay(marker); 
+                                    marker.setAnimation(BMAP_ANIMATION_BOUNCE); 
+                                    map.addControl(new BMap.NavigationControl()); 
+                                </script>
+                                

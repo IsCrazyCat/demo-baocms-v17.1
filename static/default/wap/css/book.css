@@ -1,0 +1,39 @@
+.index-cate{}
+.index-cate ul{list-style:none;padding:0;}
+.index-cate .cate-name{height:50px;line-height:40px;padding:0 10px;padding-top:10px;}
+.index-cate .cate-name img{margin:10px 0;width:20px;float:left;}
+.index-cate .cate-name span{}
+.index-cate .cate-list{border-bottom: 1px #F0EFED dashed;overflow:hidden; padding:0 20px;}
+.index-cate .cate-list a{height:40px;line-height:40px;width:33%;float:left;}
+.index-cate .cate-more{text-align:center;height:40px;line-height:40px;padding-bottom:10px;}
+.index-cate .cate-more span{margin-right:5px;}
+.index-cate .cate-more i{color:#999;}
+.index-cate .cate-more .up{display:none;}
+.index-cate .active .up{display:inline-block;}
+.index-cate .active .down{display:none;}
+.index-cate .cate-name span.cate-name {font-weight: bold;}
+
+
+
+.www-hatudou-com-similar{height:2rem;background:#fff8de;display:none}
+.www-hatudou-com-similar a{display:block;line-height:2rem;padding-left:.6rem;font-size:12px}
+.www-hatudou-com-similar a span{color:#d39c4c;margin-right:.4375rem}
+.www-hatudou-com-similar a b{font-weight:400}
+.www-hatudou-com-similar a em{color:#ff542e}
+.www-hatudou-com-similar a i{font-style:normal;position:relative;top:0px;left:.6rem;width:.6rem;height:.6rem;border-top:1px solid #ff542e;border-right:1px solid #ff542e;display:inline-block;-webkit-transform:rotate(45deg);transform:rotate(45deg)}
+
+/* 发布信息 */
+.fabu-form .row{padding:10px;border-bottom:thin solid #eee;}
+.fabu-form .row .x3{color:#999;}
+.fabu-form .text-input{border:none;width:100%;}
+.fabu-form .text-select{border:none;width:100%;background:#fff!important;}
+.fabu-form .text-area{width:100%;border:thin solid #eee;resize:none;}
+.Upload-img-box {padding: 0 0 0px 10px;}
+.uploader .thumbnail{width:25%;max-height:100px;}
+.uploader .thumbnail img{width:95%;height:100px;background:url("../image/tieba/loading.png") center no-repeat;}
+.uploader-list{width:100%;overflow:hidden;background:#fff;}
+
+.pay-form .row{padding:0 10px;overflow:hidden}
+.pay-form .row p{margin:0}
+.pay-form .text-input{width:100%;border:none;}
+.pay-form .text-area{width:100%;height:80px;resize:none;}

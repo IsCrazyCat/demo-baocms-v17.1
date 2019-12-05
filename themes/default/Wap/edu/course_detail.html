@@ -1,0 +1,114 @@
+<include file='public:header'/> 
+<script type="text/javascript" src="/static/default/wap/js/jquery.SuperSlide.2.1.2.js"></script>
+<script>
+        $(function(){
+            $("#search-btn").click(function(){
+                if($(".top-search").css("display")=='block'){
+                    $(".top-search").hide();
+                    $(".top-title").show(200);
+                }
+                else{
+                    $(".top-search").show();
+                    $(".top-title").hide(200);
+                }
+            });
+        });
+    </script>
+
+<header class="top-fixed bg-yellow bg-inverse">
+        <div class="top-back">
+            <a class="top-addr" href="<{:U('edu/course')}>"><i class="iconfont icon-angle-left"></i></a>
+        </div>
+        <div class="top-title">
+           课程详情
+        </div>
+        <div class="top-search" style="display:none;">
+            <form method="post" action="<{:U('edu/course')}>">
+                <input name="keyword" placeholder="输入课程的关键字">
+                <button type="submit" class="iconfont icon-search"></button> 
+            </form>
+        </div>
+        <div class="top-signed">
+            <a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+        </div>
+    </header>
+        
+
+    <div class="shike-view">
+        <div class="pic"><img src="<{:config_img($detail['photo'])}>"></div>
+        <div class="course_info">
+            <h1><{$detail['title']}>
+                <if condition="!empty($detail['is_refund'])"> 
+                   <em>随时退</em>
+                </if>
+            </h1>
+
+        <div class="course-class">
+            <h2> 
+            <span><b>优惠价</b> &yen;<{:round($detail['course_price']/100,2)}> 元</span>
+            <span><del>原价 &yen;<{:round($detail['price']/100,2)}> 元</del></span>
+            </h2>
+            <div class="course-z">
+            <p class="icon"><b>上课时间：</b><{$detail['course_time']}></p>
+            <p class="icon"><b>报名时间：</b><{$detail['apply_time']}></p>
+            <p class="icon"><b>课程时长：</b><{$detail['class_time']}></p>
+            <p class="icon"><b>适合人群：</b><{$age[$detail['age_id']]}></p>
+            <p class="icon"><b>试课人数：</b><{$get_time[$detail['time_id']]}></p>
+            <p class="icon"><b>报名类型：</b><{$class[$detail['class_id']]}></p>
+            <div><b>上课地点：</b><{$edu.addr}></div>
+            </div>
+            <span class="price">试课价： &yen;<span><{:round($detail['test_price']/100,2)}></span></span>
+        </div>
+
+
+          
+<div class="slideTxtBox">
+            <div class="hd">
+
+                <ul><li>详细介绍</li><li>培训</li></ul>
+            </div>
+            <div class="bd">
+                <div class="info">
+                   <{$detail.details}>
+                </div>
+                
+    <div class="coupon-list">
+        <foreach name="list" item="var">
+            <div class="item">   
+                    <div class="x2">
+                     <img class="pic" src="<{:config_img($users[$var['user_id']]['face'])}>">
+                    </div>
+                    <div class="x10">
+                        <h5><{:config_user_name($users[$var['user_id']]['nickname'])}></h5> 
+                        <p class="intro"><{$var.content}></p>
+                        <p class="intro ui-starbar"><span style="width:<{:round($var['score']*20,2)}>%"></span></p>
+                        <span class="intro intro1 float-right "><{$var.create_time|date='Y-m-d',###}></span>
+                        <p class="info7 x12"></p><br>
+                        <if condition="!empty($var['reply'])"> 
+                        	<p class="intro x12">商家回复：<a style="color:#FF6430"><{$var.reply}></a></p>
+                        </IF>
+                    </div>
+            </div>
+            <div class="blank-10 bg"></div>
+        </foreach>
+    
+    <div class="x">
+        <{$page}>
+    </div>
+    
+    </div>
+</div>
+</div>
+<script type="text/javascript">jQuery(".slideTxtBox").slide();</script>
+    </div>
+</div>
+
+<nav class="cart-bar">
+	<div class="result">
+    <eq name="detail.type" value="1">
+      <a class="button bg-yellow" target="x-frame" href="<{:U('edu/buy',array('course_id'=>$detail['course_id'],'type'=>1))}>">预约试课</a>
+    </eq>
+	  <a class="button bg-dot"  target="x-frame" href="<{:U('edu/buy',array('course_id'=>$detail['course_id']))}>">购买课程</a>
+	</div>
+</nav>
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>

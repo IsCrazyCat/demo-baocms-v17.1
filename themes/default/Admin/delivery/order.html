@@ -1,0 +1,137 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">配送管理</li>
+        <li class="li2">配送订单</li>
+        <li class="li2 li3">配送订单列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span>这里可以删除没有参与配送的订单</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="right">
+                <form method="post" action="<{:U('delivery/order')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                                <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text " />
+                                <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="sumit">选择商家</a>
+                            </label>
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>配送状态：</span>
+                                <select class="select w120" name="st">
+                                    <option <eq name="st" value="999">selected="selected"</eq> value="999">请选择</option>
+                                    <option <eq name="st" value="0">selected="selected"</eq>  value="0">货到付款</option>
+                                    <option <eq name="st" value="1">selected="selected"</eq>  value="1">等待接单</option>
+                                    <option <eq name="st" value="2">selected="selected"</eq>  value="2">配送中</option>
+                                    <option <eq name="st" value="8">selected="selected"</eq>  value="8">已完成配送</option>
+                                </select>
+                            </label>
+                            
+                            <label>
+                                <span>订单类型：</span>
+                                <select class="select w120" name="type">
+                                    <option <eq name="type" value="999">selected="selected"</eq> value="999">请选择</option>
+                                    <option <eq name="type" value="0">selected="selected"</eq>  value="0">商城订单</option>
+                                    <option <eq name="type" value="1">selected="selected"</eq>  value="1">外卖订单</option>
+                                    <option <eq name="type" value="3">selected="selected"</eq>  value="3">菜市场订单</option>
+                                    <option <eq name="type" value="4">selected="selected"</eq>  value="4">便利店订单</option>
+                                </select>
+                            </label>
+                            <label>
+                                <span>  订单ID：</span>   <input type="text" name="order_id" value="<{$order_id|default=''}>" class="inptText" /><input type="submit" class="inptButton" value="搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="order_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>订单类型</td>
+                        <td>原始订单ID</td>
+                        <td>商家</td>
+                        <td>用户信息</td>
+                        <td>配送金额</td>
+                        <td>状态</td>
+                        <td>创建时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_order_id" type="checkbox" name="order_id[]" value="<{$var.order_id}>" /></td>
+                            <td><{$var.order_id}></td>
+                            <td>
+                                <eq name="var['type']" value="0">
+                                    商城订单
+                                </eq>
+                           		<eq name="var['type']" value="1">
+                                    外卖订单
+                                </eq>
+                                <eq name="var['type']" value="3">
+                                    菜市场订单
+                                </eq>
+                                <eq name="var['type']" value="4">
+                                    便利店订单
+                                </eq>
+                            </td>
+                            <td><{$var.type_order_id}></td>
+                            <td><{$var.shop_name}></td>
+                            <td>
+                            <{$users[$var['user_id']]['nickname']}>
+                            <a class="tips" rel="<{$var.name}>--<{$var.mobile}>--<{$var.addr}>" href="javascript:void(0)">(收货地址)</a>
+                            </td>
+                            <td> &yen; <{:round($var['logistics_price']/100,2)}>元</td>
+                            <td>
+                            
+                            <if condition="$var['status'] eq 0">
+                                <a class="remberBtn_small_quxiao">货到付款</a>
+                            <elseif condition="$var['status'] eq 1" />
+                            	<a class="remberBtn_small_quxiao ">等待接单</a>
+                            <elseif condition="$var['status'] eq 2" />
+                            	<a class="remberBtn_small">配送中</a>
+                            <elseif condition="$var['status'] eq 8" />
+                            	<a class="remberBtn_small">已完成配送</a>
+                            </if>
+                            </td>
+                        <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                        <td>
+                        <if condition="$var['status'] ELT 1">
+                            <{:BA('delivery/del_order',array("order_id"=>$var["order_id"]),'删除订单','act','remberBtn_small_quxiao')}>
+                        </if>
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+       $(document).ready(function (e) {
+			$(".tips").click(function () {
+				var tipnr = $(this).attr('rel');
+				layer.tips(tipnr, $(this), {
+					tips: [4, '#1ca290'],
+					time: 4000
+				});
+			})
+		});
+    </script>
+<include  file='public:footer'/>       

@@ -1,0 +1,211 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">会员管理</li>
+        <li class="li2 li3">会员管理</li>
+    </ul>
+</div>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height:30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height:36px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+.weixin{ background:#44b549!important;}
+.shang, .delivery, .weibo, .qq, .weixin{color:#FFF; padding:0 3px; margin:0 2px;}
+.shang{ background:#F00; }
+.delivery{ background: #00F;}
+.weibo{ background:#903;}
+.qq{ background:#09F}
+.weixin{ background:#0C0;}
+</style>
+
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>即将增加设置冻结金功能，冻结金无法提现，管理员可以解冻，冻结金设置后方便用户抢单等操作！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('user/create','','添加会员','load','',700,600)}>
+                <a class="remberBtn export"  href="javascript:void(0);" rel="<{:U('user/export_code')}>" admin_id="<{$admin.admin_id}>" info="导出会员">导出会员</a>
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('user/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                    
+                    <div class="seleK">
+                     <label><span>开始时间</span><input type="text" name="bg_date" placeholder=" 注册开始时间" value="<{$bg_date|default=''}>"onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});" class="text"/></label>
+                        <label><span>结束时间</span><input type="text" name="end_date"  placeholder=" 注册结束时间" value="<{$end_date|default=''}>"onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});" class="text"/></label>
+                        <label>
+                            <span>账户</span>
+                            <input type="text" placeholder=" 账户、昵称、手机号" name="keyword" value="<{$keyword}>" class="inptText" />
+                        </label>
+                        
+                        <label>
+                            <span><{$CONFIG.prestige.name|default='威望'}>状态</span>
+                            <select name="is_prestige_frozen" class="select w80">
+                                <option value="999">请选择</option>
+                                <option <eq name="is_prestige_frozen" value="1">selected="selected"</eq>  value="1">已激活</option>
+                                <option <eq name="is_prestige_frozen" value="0">selected="selected"</eq>  value="0">未激活</option>
+                            </select>
+                        </label>
+                        
+                        <label>
+                            <span>实名状态</span>
+                            <select name="is_aux" class="select w80">
+                                <option value="999">请选择</option>
+                                <option <eq name="is_aux" value="1">selected="selected"</eq>  value="1">已实名</option>
+                                <option <eq name="is_aux" value="0">selected="selected"</eq>  value="0">未实名</option>
+                            </select>
+                        </label>
+                        
+                        <label>
+                            <span>登录锁定状态</span>
+                            <select name="is_lock" class="select w80">
+                                <option value="999">请选择</option>
+                                <option <eq name="is_lock" value="1">selected="selected"</eq>  value="1">已锁定</option>
+                                <option <eq name="is_lock" value="0">selected="selected"</eq>  value="0">未锁定</option>
+                            </select>
+                        </label>
+                        
+                        
+                        <label>
+                            <span>推手状态</span>
+                            <select name="is_backers" class="select w80">
+                                <option value="999">请选择</option>
+                                <option <eq name="is_backers" value="1">selected="selected"</eq>  value="1">是推手</option>
+                                <option <eq name="is_backers" value="0">selected="selected"</eq>  value="0">否推手</option>
+                            </select>
+                        </label>
+                        
+                                                
+                         <label>
+                            <span>用户等级：</span>
+                            <select name="rank_id" class="select w100">
+                                <option value="0">请选择</option>
+                                <foreach name="ranks" item="item">           
+                                    <option <eq name="item.rank_id" value="$rank_id">selected="selected"</eq>  value="<{$item.rank_id}>"><{$item.rank_name}></option>
+                                </foreach>
+                            </select>
+                        </label>
+                        <label>
+                            <input type="submit" value="   搜索"  class="inptButton" />
+                        </label>
+                    </div> 
+                     </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                    </div>
+                </div>
+                <div class="right">
+                </div>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="user_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>账户</td>
+                    <td>手机</td>
+                    <td>邮箱</td>
+                    <td>会员等级</td>
+                    <td>账户余额</td>
+                    <td>冻结金</td>
+                    <td><{$CONFIG.prestige.name|default='威望'}>状态</td>
+                    <td>实名认证</td>
+                    <td>登录状态</td>
+                    <td>推手状态</td>
+                    <td>股权数量</td>
+                    <td>注册时间(IP)</td>
+                    <td class="w150">操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_user_id" type="checkbox" name="user_id[]" value="<{$var.user_id}>" /></td>
+                        <td><{$var.user_id}></td>
+                        <td>
+                        <if condition="!empty($var['account'])">
+                        	账户：<{$var.account}>
+                        </if>
+                        <eq name="var.is_shop" value="1"><span class="shang">商</span></eq>
+                        <eq name="var.is_delivery" value="1"><span class="delivery">配</span></eq>
+                        <eq name="var.is_weixin" value="1"><span class="weixin">微信</span></eq>
+                        <eq name="var.is_qq" value="1"><span class="qq">qq</span></eq>
+                        <eq name="var.is_weibo" value="1"><span class="weibo">微博</span></eq>
+                        <if condition="!empty($var['nickname'])">
+                        	<br/>账户：<{$var.nickname}>
+                        </if>
+                        
+                        </td>
+                        <td><{$var['mobile']|default='未绑定手机'}><br/></td>
+                        <td><{$var['email']|default='未设置邮箱'}><br/></td>
+                        <td><{$rank[$var['rank_id']]['rank_name']|default='无等级'}><br/></td>
+                        <td>
+                        余额：&yen; <{:round($var['money']/100,2)}> 元<br/>
+                        <eq name="var.is_shop" value="1"><span class="shang">商户资金：&yen; <{:round($var['gold']/100,2)}>元</span><br/></eq>
+                        积分：<{$var.integral}>&nbsp;&nbsp;<{$CONFIG.prestige.name|default='威望'}>：<{$var.prestige}>
+                        </td>
+                        <td>
+                        <eq name="var.is_shop" value="1">商户冻结金：&yen; <{:round($var['frozen_gold']/100,2)}>元</eq><br/>
+                        会员冻结金&yen; <{:round($var['frozen_money']/100,2)}>元
+                        </td>
+                        <td><eq name="var.is_prestige_frozen" value="1">已激活<else/>未激活</eq></td>
+                        <td><eq name="var.is_aux" value="1">已实名<else/>未实名</eq></td>
+                        <td><eq name="var.is_lock" value="1">已锁定<else/>未锁定</eq></td>
+                        <td><eq name="var.is_backers" value="1">是推手<else/>不是推手</eq></td>
+                        <td><{$var.stock_num|default='0'}></td>
+                        <td>
+                        <{$var.reg_time|date='Y-m-d H:i:s',###}><br/>
+                        <{$var.reg_ip}><br/>(<{$var.reg_ip_area}>)
+                        </td>
+                        
+                    <td class="w150">
+                        <{:BA('user/integral',array("user_id"=>$var["user_id"]),'积分','load','remberBtn_small',600,350)}>
+                        <{:BA('user/money',array("user_id"=>$var["user_id"]),'余额','load','remberBtn_small',600,350)}>
+                        <{:BA('user/edit',array("user_id"=>$var["user_id"]),'编辑','load','remberBtn_small',700,600)}>
+                        <{:BA('user/delete',array("user_id"=>$var["user_id"]),'删除','act','remberBtn_small')}>
+                        <eq name="var.closed" value="-1">
+                        	<{:BA('user/audit',array("user_id"=>$var["user_id"]),'审核通过','act','remberBtn_small')}>
+                        </eq>  
+                        <eq name="var.is_shop" value="1">
+                            <{:BA('user/frozen_gold',array("user_id"=>$var["user_id"]),'设置商户冻结金','load','remberBtn_small_quxiao',600,350)}>
+                            <{:BA('user/gold',array("user_id"=>$var["user_id"]),'商户资金','load','remberBtn_small_quxiao',600,350)}>  
+                        </eq>
+                        <{:BA('user/frozen_money',array("user_id"=>$var["user_id"]),'设置会员冻结金','load','remberBtn_small',600,350)}> 
+                        <{:BA('user/profit',array("user_id"=>$var["user_id"]),'分销设置','','remberBtn_small')}>          
+                        <a target="_blank" href="<{:U('user/manage',array('user_id'=>$var['user_id']))}>" class="remberBtn_small">管理用户</a>
+                    </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <{:BA('user/audit','','批量审核','list',' remberBtn')}>
+                <{:BA('user/delete','','批量删除','list',' a2')}>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+
+<script>
+            
+        </script>
+        
+        
+<include  file='public:footer'/>  
+
+

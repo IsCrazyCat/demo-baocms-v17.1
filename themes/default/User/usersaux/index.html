@@ -1,0 +1,389 @@
+<include  file='public:header'/>   
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/webuploader/webuploader.min.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		实名认证
+	</div>
+</header>
+<style>
+#login-input input.mapinputs{ width:48%; float:left; margin-right:5px;}
+#login-input input.mapinputs2{ width:100%; float:left; margin:10px 0px;}
+</style>
+
+
+<if condition="!empty($detail)">
+    <div class="container">
+            <div class="line" style="padding:10px">
+                <div class="x12">
+                 <if condition="$detail['audit'] eq 0">
+                    <h1>审核中，加快审核联系电话<{$CONFIG.site.tel}> <a class="button button-small bg-yellow" href="<{:U('usersaux/edit',array('user_id'=>$detail['user_id']))}>">编辑</a></h1>
+                 <elseif condition="$detail['audit'] eq -1" />
+                 	<h1>已驳回，拒绝理由：<{$detail.reason}> <a class="button button-small bg-dot" href="<{:U('usersaux/edit',array('user_id'=>$detail['user_id']))}>">重新编辑</a></h1>
+                 <elseif condition="$detail['audit'] eq 1" />
+                 <a class="button button-block button-big bg-dot text-center">已通过实名认证</a>
+                 <div class="blank-20"></div>
+                 <a class="button button-block button-big bg-yellow text-center" href="javascript:history.back(-1);">返回会员中心</a>
+                 </if>
+                </div>
+            </div>
+           </div>
+    <div class="blank-10 bg"></div>
+<else/>
+    <form class="fabu-form" method="post"  target="x-frame" action="<{:U('usersaux/index')}>">
+    <div class="blank-10"></div>
+    <div class="Upload-img-box">
+       <div  id="fileToUpload">上传身份证</div>
+       <div class="Upload-img">
+       <div class="list-img loading" style="display:none;"><img src=""></div>
+       <div class="list-img jq_photo" style="display:none;"></div>
+      </div>
+    </div>
+        <script>
+            var width_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';                     
+            var height_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';  
+            var uploader = WebUploader.create({                 
+                auto: true,                             
+                swf: '/static/default/webuploader/Uploader.swf',                             
+                server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',                             
+                pick: '#fileToUpload',                             
+                resize: true,    
+                compress : {width:width_shop_audit,height:height_shop_audit,quality:60,allowMagnify: false,crop: true}//裁剪       
+            });
+            uploader.on( 'beforeFileQueued', function( file ) {
+                $(".loading").show();
+                if(file.size > 1024000){
+                    uploader.option( 'compress', {
+                        width:width_shopphoto,
+                        quality:60
+                    });
+                }
+            });
+            uploader.on( 'uploadSuccess', function( file,resporse) {
+                $(".loading").hide();
+                var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[card_photo]" value="' + resporse.url + '" />';
+                $(".jq_photo").show().html(str);
+            });
+            uploader.on( 'uploadError', function( file ) {
+                alert('上传出错');
+            });
+    
+            $(document).ready(function () {
+                $(document).on("click", ".photo img", function () {
+                    $(this).parent().remove();
+                });
+            });
+        </script>
+    
+    
+    
+    <div class="blank-10 bg"></div>
+    
+    <div class="row">
+        <div class="line">
+            <span class="x3">姓名</span>
+            <span class="x9">
+                <input type="text" class="text-input" name="data[name]" value="<if condition="$MEMBER.nickname neq null"><{$MEMBER.nickname}></if>"/>
+            </span>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="line">
+            <span class="x3">手机号</span>
+            <span class="x9">
+                <input type="text" class="text-input" name="data[mobile]" value="<if condition="$MEMBER.mobile neq null"><{$MEMBER.mobile}></if>"/>
+            </span>
+        </div>
+    </div>
+    
+     <div class="row">
+        <div class="line">
+            <span class="x3">身份证</span>
+            <span class="x9">
+                <input type="text" class="text-input" name="data[card_id]" value="<{$detail.card_id|default=''}>"/>
+            </span>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="line">
+            <span class="x3">地区</span>
+            <span class="x3">
+                <select name="data[city_id]" id="city_id" class="text-select">
+                    <option value="0" selected="selected">城市</option>
+                </select>
+            </span>
+            <span class="x3">
+                <select name="data[area_id]" id="area_id" class="text-select">
+                    <option value="0" selected="selected">← 地区</option>
+                </select>
+            </span>
+            
+            <span class="x3">
+                <select name="data[business_id]" id="business_id" class="text-select">
+                    <option value="0" selected="selected">← 商圈</option>
+                </select>
+            </span>
+        </div>
+      <script src="<{:U('app/datas/onecity',array('name'=>'cityareas'))}>"></script> 
+                       <script>
+								var city_id = <?php echo (int)$detail['city_id'];?>;
+								var area_id = <?php echo (int)$detail['area_id'];?>;
+								var business_id = <?php echo (int)$detail['business_id'];?>;
+                                $(document).ready(function () {
+                                    var city_str = ' <option value="0">请选择...</option>';
+                                    for (a in cityareas.city) {
+                                        if (city_id == cityareas.city[a].city_id) {
+                                            city_str += '<option selected="selected" value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                        } else {
+                                            city_str += '<option value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                        }
+                                    }
+                                    $("#city_id").html(city_str);
+                                    $("#city_id").change(function () {
+                                        if ($("#city_id").val() > 0) {
+                                            city_id = $("#city_id").val();
+     										   $.ajax({
+													  type: 'POST',
+													  url: "<{:U('app/datas/twoarea')}>",
+													  data:{cid:city_id},
+													  dataType: 'json',
+													  success: function(result){
+                                                         var area_str = ' <option value="0">请选择...</option>';
+                                                        for (a in result) {
+                                                          area_str += '<option value="' + result[a].area_id + '">' + result[a].area_name + '</option>';                                                        }
+                                                       $("#area_id").html(area_str);
+                                                        $("#business_id").html('<option value="0">请选择...</option>');
+													  }
+												});
+                                            $("#area_id").html(area_str);
+                                            $("#business_id").html('<option value="0">请选择...</option>');
+                                        } else {
+                                            $("#area_id").html('<option value="0">请选择...</option>');
+                                            $("#business_id").html('<option value="0">请选择...</option>');
+                                        }
+                                    });
+                                    if (city_id > 0) {
+                                        var area_str = ' <option value="0">请选择...</option>';
+										$.ajax({
+										  type: 'POST',
+										  url: "<{:U('app/datas/twoarea')}>",
+										  data:{cid:city_id},
+										  dataType: 'json',
+										  success: function(result){
+                                             for (a in result) {
+                                                if (area_id == result[a].area_id) {
+                                                    area_str += '<option selected="selected" value="' + result[a].area_id + '">' + result[a].area_name + '</option>';
+                                                } else {
+                                                    area_str += '<option value="' + result[a].area_id + '">' + result[a].area_name + '</option>';
+                                                }
+                                              }
+                                             $("#area_id").html(area_str);
+											}
+										});
+                                    }
+                                    $("#area_id").change(function () {
+                                        if ($("#area_id").val() > 0) {
+                                            area_id = $("#area_id").val();
+                             					$.ajax({
+													  type: 'POST',
+													  url: "<{:U('app/datas/tbusiness')}>",
+													  data:{bid:area_id},
+													  dataType: 'json',
+													  success: function(result) {
+                                                         var business_str = ' <option value="0">请选择...</option>';
+													     for (a in result) {
+												   				business_str += '<option value="' + result[a].business_id + '">' + result[a].business_name + '</option>';
+													     }
+												     	$("#business_id").html(business_str);
+													 }
+											       });
+                                        } else {
+                                            $("#business_id").html('<option value="0">请选择...</option>');
+                                        }
+                                    });
+                                    if (area_id > 0) {                                    
+									   $.ajax({
+										  type: 'POST',
+										  url: "<{:U('app/datas/tbusiness')}>",
+										  data:{bid:area_id},
+										  dataType: 'json',
+										  success: function(result){
+											var business_str = ' <option value="0">请选择...</option>';
+											for (a in result) {
+													if (business_id == result[a].business_id) {
+														business_str += '<option selected="selected" value="' + result[a].business_id + '">' + result[a].business_name + '</option>';
+													} else {
+													  business_str += '<option value="' + result[a].business_id + '">' + result[a].business_name + '</option>';
+													}
+											}
+											 $("#business_id").html(business_str);
+										  }
+									   });
+                                    }
+                                    $("#business_id").change(function () {
+                                        business_id = $(this).val();
+                                    });
+                                });
+                </script> 
+    </div>
+    
+    
+        <div class="row">
+        <div class="line">
+            <span class="x3">团队</span>
+            <span class="x3">
+                <select name="data[team_id]" id="team_id" class="text-select">
+                    <option value="0" selected="selected">队伍</option>
+                </select>
+            </span>
+            <span class="x3">
+                <select name="data[jury_id]" id="jury_id" class="text-select">
+                    <option value="0" selected="selected">← 团队</option>
+                </select>
+            </span>
+            
+            <span class="x3">
+                <select name="data[group_id]" id="group_id" class="text-select">
+                    <option value="0" selected="selected">← 群</option>
+                </select>
+            </span>
+        </div>
+        <script src="<{:U('app/datas/stock',array('name'=>'teamjurys'))}>"></script>
+                    <script>
+                                    var team_id = 18;
+                                    var jury_id = 0;
+                                    var group_id = 0;
+                                    $(document).ready(function () {
+                                        var team_str = ' <option value="0">请选择...</option>';
+                                        for (a in teamjurys.team) {
+											//alert(teamjurys.team[a].team_name);//在页面上弹出上联
+                                            if (team_id == teamjurys.team[a].team_id) {
+                                                team_str += '<option selected="selected" value="' + teamjurys.team[a].team_id + '">' + teamjurys.team[a].team_name + '</option>';
+                                            } else {
+                                                team_str += '<option value="' + teamjurys.team[a].team_id + '">' + teamjurys.team[a].team_name + '</option>';
+                                            }
+                                        }
+                                        $("#team_id").html(team_str);
+    
+                                        $("#team_id").change(function () {
+                                            if ($("#team_id").val() > 0) {
+                                                team_id = $("#team_id").val();
+                                                var jury_str = ' <option value="0">请选择...</option>';
+												//alert("上联：山石岩下古木枯");//在页面上弹出上
+                                                for (a in teamjurys.jury) {
+                                                    if (teamjurys.jury[a].team_id == team_id) {
+                                                        if (jury_id == teamjurys.jury[a].jury_id) {
+                                                            jury_str += '<option selected="selected" value="' + teamjurys.jury[a].jury_id + '">' + teamjurys.jury[a].jury_name + '</option>';
+                                                        } else {
+                                                            jury_str += '<option value="' + teamjurys.jury[a].jury_id + '">' + teamjurys.jury[a].jury_name + '</option>';
+                                                        }
+                                                    }
+                                                }
+                                                $("#jury_id").html(jury_str);
+                                                $("#group_id").html('<option value="0">请选择...</option>');
+                                            } else {
+                                                $("#jury_id").html('<option value="0">请选择...</option>');
+                                                $("#group_id").html('<option value="0">请选择...</option>');
+                                            }
+    
+                                        });
+    
+                                        if (team_id > 0) {
+											//alert("上联：山石岩下古木枯");//在页面上弹出上联
+                                            var jury_str = ' <option value="0">请选择...</option>';
+                                            for (a in teamjurys.jury) {
+												
+                                                if (teamjurys.jury[a].team_id == team_id) {
+                                                    if (jury_id == teamjurys.jury[a].jury_id) {
+                                                        jury_str += '<option selected="selected" value="' + teamjurys.jury[a].jury_id + '">' + teamjurys.jury[a].jury_name + '</option>';
+                                                    } else {
+                                                        jury_str += '<option value="' + teamjurys.jury[a].jury_id + '">' + teamjurys.jury[a].jury_name + '</option>';
+														
+														
+                                                    }
+                                                }
+                                            }
+                                            $("#jury_id").html(jury_str);
+                                        }
+    
+    
+                                        $("#jury_id").change(function () {
+                                            if ($("#jury_id").val() > 0) {
+                                                jury_id = $("#jury_id").val();
+                                                var group_str = ' <option value="0">请选择...</option>';
+                                                for (a in teamjurys.group) {
+                                                    if (teamjurys.group[a].jury_id == jury_id) {
+                                                        if (group_id == teamjurys.group[a].group_id) {
+                                                            group_str += '<option selected="selected" value="' + teamjurys.group[a].group_id + '">' + teamjurys.group[a].group_name + '</option>';
+                                                        } else {
+                                                            group_str += '<option value="' + teamjurys.group[a].group_id + '">' + teamjurys.group[a].group_name + '</option>';
+                                                        }
+                                                    }
+                                                }
+                                                $("#group_id").html(group_str);
+                                            } else {
+                                                $("#group_id").html('<option value="0">请选择...</option>');
+                                            }
+    
+                                        });
+    
+                                        if (jury_id > 0) {
+                                            var group_str = ' <option value="0">请选择...</option>';
+                                            for (a in teamjurys.group) {
+                                                if (teamjurys.group[a].jury_id == jury_id) {
+                                                    if (group_id == teamjurys.group[a].group_id) {
+                                                        group_str += '<option selected="selected" value="' + teamjurys.group[a].group_id + '">' + teamjurys.group[a].group_name + '</option>';
+                                                    } else {
+                                                        group_str += '<option value="' + teamjurys.group[a].group_id + '">' + teamjurys.group[a].bgroup_name + '</option>';
+                                                    }
+                                                }
+                                            }
+                                            $("#group_id").html(group_str);
+                                        }
+                                        $("#group_id").change(function () {
+                                            group_id = $(this).val();
+                                        });
+                                    });
+                    </script> 
+    </div>
+    
+    
+    <div class="row">
+        <div class="line">
+            <span class="x3">详细地址</span>
+            <span class="x9">
+                <input type="text" class="text-input" name="data[addr_info]"/>
+            </span>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="line">
+            <span class="x3">担保人姓名</span>
+            <span class="x9">
+                <input type="text" class="text-input" name="data[guarantor_name]"  />
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="line">
+            <span class="x3">担保人电话</span>
+            <span class="x9">
+                <input type="text" class="text-input" name="data[guarantor_mobile]" />
+            </span>
+        </div>
+    </div>
+    
+        <div class="container">
+            <div class="blank-30"></div>
+            <button  type="submit" class="button button-block button-big bg-dot">立即认证</button>
+            <div class="blank-30"></div>
+        </div>
+    </form>
+</if>		
+<include  file='public:footer'/>

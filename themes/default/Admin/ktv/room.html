@@ -1,0 +1,63 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">KTV</li>
+        <li class="li2">房间管理</li>
+        <li class="li2 li3">房间列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里管理单个KTV的房间列表管理，当前KTV名称： <a style="color:#F00">【<{$detail.ktv_name}>】</a></p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="room_id" /></td>
+                    <td>ID</td>
+                    <td>名称</td>
+                    <td>图片</td>
+                    <td>简介</td>
+                    <td>数量【每天】</td>
+                    <td>定金</td>
+                    <td>到店付</td>
+                    <td>最低消费</td>
+                    <td>容纳人数</td>
+                    <td>结算价格</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_room_id" type="checkbox" name="room_id[]" value="<{$var.room_id}>" /></td>
+                        <td><{$var.room_id}></td>
+                        <td><{$var.title}></td>
+                        <td><img style="width:38px" src="<{:config_img($var['photo'])}>"/></td>
+                        <td><{$var.intro}></td>
+                        <td><{$var.num}></td>
+                        <td style="color:red"><{:round($var['price']/100,2)}></td>
+                        <td><{:round($var['daofu_price']/100,2)}></td>
+                        <td><{:round($var['small_price']/100,2)}></td>
+                        <td><{$var.accommodate_number}></td>
+                        <td><{:round($var['jiesuan_price']/100,2)}></td>
+                    <td>
+                        <{:BA('ktv/editroom',array("room_id"=>$var["room_id"],"ktv_id"=>$var["ktv_id"]),'编辑房间','','remberBtn')}>
+                        <{:BA('farm/room_delete',array("room_id"=>$var["room_id"],"ktv_id"=>$var["ktv_id"]),'删除房间','act','remberBtn')}>
+                    </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

@@ -1,0 +1,118 @@
+<include file="public:header"/>
+<style type="text/css">
+.button-toolbar .button-group a {
+    color: #fff;
+}
+.top-fixed .top-title {padding:0;}
+body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;}
+#golist {display: none;}
+.lbs-tag .info-box .info-btn i.icon {margin-right: 4px;position:relative;}
+.lbs-tag .zoom-btn-container i.icon{position:relative;}
+@media (max-device-width: 800px){#golist{display: block!important;}}
+.allmap_bottom{ position:fixed; z-index:1000; left:0; bottom:0; right:0; background:#fff; border-top:0.1rem solid #ddd; box-shadow: 0 0 0.08rem #ccc; padding:0.8em 0.8rem;}
+.allmap_bottom h3{font-size:16px;line-height:1.2rem; overflow: hidden;text-overflow: ellipsis;white-space: nowrap; margin-bottom:0.2rem; font-weight:bold;}
+.allmap_bottom p{font-size:12px;color: gray;height:2.4rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;line-height:2.4rem;}
+.allmap_bottom .btn{ display:block;height:2.2rem;border-radius: 0.3rem;border: 0.1rem solid #c1c1c1;background:#fff; box-shadow: 0 0.1rem 0.1rem #fefefe;margin-top: 0.6rem; text-align:center; line-height:2.2rem;}
+.allmap_bottom .btn .ico{ display:inline-block; width:1.2rem; height:1.2rem; background:url(/static/default/wap/image/shop/addr_ico.png) no-repeat center; margin-right:0.5rem; vertical-align:middle;}
+</style>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+            <div class="button-toolbar">
+                <div class="button-group">
+                    <a href="<{:U('lists/gps',array('shop_id'=>$shop['shop_id'],'type'=>1))}>" class="block button <if condition="($type eq 1) OR (empty($type))">bg-dot</if>">腾讯导航</a>
+                    <a href="<{:U('lists/gps',array('shop_id'=>$shop['shop_id'],'type'=>2))}>" class="block button <eq name='type' value='2'>bg-dot</eq>">百度导航</a>
+                </div>
+            </div>
+		</div>
+	</header>
+    
+<!--百度导航开始-->      
+<if condition="$type eq 2">    
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8"></script>
+    <div id="allmap" style="width:100%; height:100%;"></div>
+    <div class="allmap_bottom">
+        <h3>名称：<{$shop.shop_name}></h3>
+        <P>地址：<{$shop.addr}></P>
+        <a href="javascript:;" id="dao" class="button button-big button-block bg-yellow text-center">导航到这里去</a>
+    </div>
+
+    <script type="text/javascript">
+        // 百度地图API功能
+        var map = new BMap.Map("allmap");
+        map.centerAndZoom(new BMap.Point("<{$shop.lng}>", "<{$shop.lat}>"), 16);
+        var point = new BMap.Point("<{$shop.lng}>", "<{$shop.lat}>");
+        var url = "/static/default/wap/image/shop/markers.png";
+        var myIcon = new BMap.Icon(url, new BMap.Size(60,62));
+        map.centerAndZoom(point, 16);
+        var marker = new BMap.Marker(point,{icon:myIcon}); // 创建标注
+        map.clearOverlays();
+        map.addOverlay(marker); // 将标注添加到地图中
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+        var navigationControl = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_LEFT,type: BMAP_NAVIGATION_CONTROL_LARGE,enableGeolocation: true});
+        map.addControl(navigationControl); //添加默认缩放平移控件
+    </script>
+    <script>
+        $(document).ready(function(){
+            var url = "https://map.baidu.com/mobile/webapp/place/linesearch/foo=bar/from=place&end=word=oooo";
+            var kw = "<{$shop.addr}>";
+            $("#dao").click(function(){
+                window.location.href = url.replace('oooo',kw);
+            })
+            
+        })
+    </script>
+</if>
+<!--百度导航结束-->  
+<!--腾讯导航开始-->
+<if condition="($type eq 1) OR (empty($type))"> 
+
+
+<div class="ui-container" id="container">
+		
+</div>
+
+
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"></script>
+<script type="text/javascript" charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&libraries=convertor"></script>
+<script>
+function init(){
+    qq.maps.convertor.translate(new qq.maps.LatLng("<{$shop.lat}>", "<{$shop.lng}>"), 3, function(res){
+        latlng = res[0];
+		var lat =  latlng.lat;
+		var lng =  latlng.lng;
+		var src="https://3gimg.qq.com/lightmap/v1/marker/?marker=coord:" + lat + "," + lng + ";title:<{$shop.shop_name}>;addr:<{$shop.addr}>&referer=myapp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77";
+		$("#nav-map").attr("src",src);
+    });
+}
+
+init();
+
+
+</script>
+
+
+	<section class="ui-container" >
+		<iframe id="nav-map" src="" style="width:100%;height:100%;border:none;">
+		</iframe>
+	</section>
+	<script type="text/javascript">
+		height = $(window).height() -44;
+		$("#nav-map").height(height);
+	</script>
+</if>   
+<!--腾讯导航结束-->   
+
+<if condition="$type eq 3"> 
+
+  
+    
+
+</if>
+ 
+    
+</body>
+</html>

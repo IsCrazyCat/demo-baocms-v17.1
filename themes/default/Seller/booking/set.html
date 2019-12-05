@@ -1,0 +1,133 @@
+<include  file='public:header'/>   
+<link rel="stylesheet" type="text/css" href="/static/default/webuploader/webuploader.css">
+<script src="/static/default/webuploader/webuploader.min.js"></script>
+
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		入驻订座商家
+	</div>
+</header>
+
+<style>
+.fabu-form .form-content {border: none;resize: none;width: 100%;height: 80px;padding: 10px;font-size: 12px;}
+.fabu-form .form-content1 {border: none;resize: none;width: 100%;height: 150px;padding: 10px;font-size: 12px;}
+</style>
+
+<form class="fabu-form" method="post"  target="x-frame" action="<{:U('booking/set')}>">
+
+<div class="blank-10 bg"></div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">商家名称：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[shop_name]" value="<{$booking.shop_name}>" />
+		</span>
+	</div>
+</div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">商家地址：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[addr]" value="<{$booking.addr}>" />
+		</span>
+	</div>
+</div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">平均消费：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[price]" value="<{$booking.price|default=''}>" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">订座定金：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[deposit]" value="<{$booking.deposit|default=''}>" />
+		</span>
+	</div>
+</div> 
+
+<div class="row">
+	<div class="line">
+		<span class="x3">商家手机号：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[mobile]" value="<{$booking.mobile|default=$SHOP['mobile']}>" />
+		</span>
+	</div>
+</div>  
+<div class="row">
+	<div class="line">
+		<span class="x3">商家座机：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[tel]" value="<{$booking.tel|default=$SHOP['tel']}>" />
+		</span>
+	</div>
+</div> 
+
+<div class="row">
+	<div class="line">
+		<span class="x3">就餐类型：</span>
+		<span class="x9">
+			<volist name="dingtypes" id="item">
+                  <label><span><{$item}>：</span><input style="width: 20px; height: 20px;" type="checkbox" name="type[]" value="<{$i}>" <if condition="$have_type[$i] eq $i">checked="checked"</if> /></label>
+            </volist>
+		</span>
+	</div>
+</div> 
+
+<div class="blank-10"></div>
+<div class="Upload-img-box">
+   <div  id="fileToUpload">订座图片</div>
+   <div class="Upload-img">
+   <div class="list-img loading">
+       <img src="<{:config_img($booking['photo'])}>">
+       <input type="hidden" name="data[photo]" value="<{$booking.photo}>"/>
+   </div>
+   <div class="list-img jq_photo" style="display:none;"></div>
+  </div>
+</div>
+    <script>
+    	var width = '<{:thumbSize($CONFIG[attachs][hotel][thumb],0)}>';                     
+		var height = '<{:thumbSize($CONFIG[attachs][hotel][thumb],1)}>';  
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>"hotel"))}>',                             
+			pick: '#fileToUpload',                             
+			resize: true,    
+			compress : {width:width,height:height,quality:60,allowMagnify: false,crop: true}//裁剪       
+        });
+       
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[photo]" value="' + resporse.url + '" />';
+            $(".jq_photo").show().html(str);
+        });
+       
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+
+          
+<div class="container">
+    <div class="blank-30"></div>
+     <button type="submit" class="button button-block button-big bg-dot">确认编辑</button>
+    <div class="blank-30"></div>
+</div> 
+
+
+</form>
+
+<include  file='public:footer'/>

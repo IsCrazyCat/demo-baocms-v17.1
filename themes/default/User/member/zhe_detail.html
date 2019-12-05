@@ -1,0 +1,77 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			五折卡
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+<style>
+body{background: #f1f1f1 url(/static/default/wap/image/mcenter/bk_top1_1.jpg) center 0 repeat-x;}
+.layui-layer-page .layui-layer-content{ padding:20px;}
+.layui-layer-page .layui-layer-content p{ line-height:28px; color:#999;}
+</style>
+
+<if condition="!empty($detail['order_id'])">
+    <div id="card">
+        <div class="cardcenter">
+            <div class="msk">
+                <p class="explain2">
+                    <a id="showcard" class="receive" ><{$detail.user.nickname}>(<eq name="detail.type" value="1">周卡<else/>年卡</eq>)</a>
+                    <span>购卡时间：<em class="text-gray"><{$detail.create_time|date='Y-m-d H:i',###}></em> </span>
+                </p>
+            </div>
+        <div class="card">
+            <a href="javascript:void(0)">
+                <img class="cardbg" src="<{:config_img($CONFIG['zhe']['zhe_card_background'])}>">
+            </a>
+            <img class="logo" src="<{:config_img($CONFIG['site']['logo'])}>">
+            <h1 style="color:#000000"><{$CONFIG['site']['sitename']}></h1>
+            <strong class="pdo verify">
+                <span id="cdnb" style="color:#000000">
+                <em style="position: absolute; left: 12px; top: -10px;">过期时间: </em>
+                <em style="position: absolute; left: 12px; top: 5px;"><{$detail.end_time|date='Y-m-d H:i',###}></em>
+                <em style="margin-top:5px;">NO.<{$detail.number}></em></span>
+            </strong>
+            </div>
+        </div>
+    </div>
+<else/>
+    <div id="card">
+        <div class="cardcenter">
+            <div class="msk">
+                <p class="explain2">
+                    <a id="showcard" class="receive" href="<{:U('wap/zhe/index')}>" >去逛五折卡商家</a>
+                    <span>购买五折卡后就可以享受优惠啦</em> </span>
+                </p>
+            </div>
+        <div class="card">
+            <a href="javascript:void(0)">
+                <img class="cardbg" src="<{:config_img($CONFIG['zhe']['zhe_card_background'])}>">
+            </a>
+            <img class="logo" src="<{:config_img($CONFIG['site']['logo'])}>">
+            <h1 style="color:#000000"><{$CONFIG['site']['sitename']}></h1>
+            </div>
+        </div>
+    </div>
+
+</if>
+
+
+<div class="blank-10" style="background:#fff;"></div>
+<div class="blank-20"></div>
+<div class="container text-center">
+	<if condition="!empty($detail['order_id'])">
+        <a class="button button-block button-big bg-blue margin-top" href="<{:U('member/zhe_yuyue')}>">五折卡预约记录</a>
+    </if>
+    
+	<a class="button button-block button-big bg-dot margin-top" href="<{:U('wap/zhe/index')}>">去逛逛五折卡商家</a>
+    
+</div>
+
+<div class="blank-20"></div>
+<include  file='public:footer'/>    

@@ -1,0 +1,151 @@
+<php>$mobile_title = $detail['farm_name'].'农家乐详情页';</php>
+<style>
+.farm_detail_play{ background: #fff;padding: 1rem;border-bottom: 0.1rem solid #e6e6e6;line-height:2.5rem;}
+</style>
+<include file='public:header'/>    
+<script src="/static/default/wap/other/roll.js"></script>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('farm/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$detail.farm_name}>
+		</div>
+		<div class="top-signed">
+		</div>
+	</header> 
+	 
+
+    <div class="tuan-detail">
+    <div class="line banner">	
+        <div id="focus" class="focus">
+            <div class="hd"><ul></ul></div>
+            <div class="bd">
+                <ul>
+                    <volist name="pics" id="p">
+                    	<li><a><img src="<{:config_img($p['photo'])}>" /></a></li>
+                   </volist>
+                </ul>
+            </div>
+
+        </div>
+    		<div class="title">
+				<h1><{:tu_msubstr($detail['farm_name'],0,48,false)}>  </h1>
+				<p><{:tu_msubstr($detail['addr'],0,88,false)}></p>
+			</div>
+		</div>
+</div>            
+  
+
+	<script type="text/javascript">
+		TouchSlide({ 
+			slideCell:"#focus",
+			titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+			mainCell:".bd ul", 
+			effect:"left", 
+			autoPlay:true,//自动播放
+			autoPage:true, //自动分页
+			switchLoad:"_src" //切换加载，真实图片路径为"_src" 
+		});
+	</script>
+
+
+	<!--小区广告结束-->
+
+	<div class="tuan-detail">
+        <div class="line info">
+			<div class="x12">
+                <span class="mr10">已售：<{$detail.orders}></span>
+                <span class="mr10">评价：<{$detail.comments}></span>
+                <span class="mr10"></span>
+			</div> 
+		</div>
+		<div class="blank-10 bg"></div>
+        
+        <div class="farm_detail_play mb10">
+            <p class="text-yellow">适合人群：<volist name='groupid' id='gp'><span class="bq"><php>echo $group[$gp].'、';</php></span></volist></p>
+            <p class="text-yellow">能玩什么：<volist name='playid' id='pp'><span class="bq"><php>echo $cate[$pp].'、';</php></span></volist></p>
+    	</div>
+        
+        <div class="padding border-bottom">
+            <div class="line">
+                <span class="x2 text-gray">地址：</span>
+                <span class="x10"><{$detail.addr}></span>
+            </div>
+        </div>
+       
+        <div class="padding border-bottom">
+            <div class="line">
+                <span class="x2 text-gray">电话：</span>
+                <span class="x10">
+                    <a href="tel:<{$detail.tel}>"><{$detail.tel}></a>
+                </span>
+            </div>
+        </div>
+        
+      
+		<if condition="$package">
+            <div class="blank-10 bg"></div>
+            <div class="padding border-bottom">
+                <div class="line">
+                    <span class="x4 text-gray">相关套餐</span>
+                    <span class="x8 text-right" >
+                        <a href="<{:U('farm/index')}>">更多农家乐&nbsp; </a>
+                        <i class="iconfont icon-angle-right text-gray float-right"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="line padding" id="divButtons" style="text-align: center">
+            	<ul id='www_hatudou_com_chk_pid'>
+                    <volist name="package" id="pa">
+                        <li class="button button-block button-big bg-gray margin-top" val='<{$pa.pid}>'><{$pa.title}>&yen;<{$pa.price}></li>
+                    </volist>
+               </ul>
+                <input type='hidden' name='pid' id='www_hatudou_com_chk_pid_val' value='0'>
+				<script>
+                        $(document).ready(function() {
+                            $('#www_hatudou_com_chk_pid li').click(function(){
+                                $('#www_hatudou_com_chk_pid li').removeClass('bg-dot');
+                                $(this).addClass('bg-dot');
+                                var val = $(this).attr('val');
+                                $('#www_hatudou_com_chk_pid_val').val(val);
+                            })
+                            
+                            $('#www_hatudou_com_btn').click(function(){
+                                var pid = $('#www_hatudou_com_chk_pid_val').val();
+                                var farm_id = "<{$detail.farm_id}>";
+                                if(!pid || pid == 0){
+                                   layer.msg("没有选择套餐");
+                                }else{
+                                     var link = "<{:U('farm/order',array('farm_id'=>__farm_id,'pid'=>__pid))}>";
+                                     window.location.href = link.replace('__farm_id',farm_id).replace('__pid',pid);
+                                }
+                            })
+                        });
+                </script>
+            </div>
+            </if>
+       </div> 
+       
+       <div class="item-intro">
+			<h2>预约须知</h2>
+			<div class="intro-bd"><{$detail['notice']}></div>
+		</div>
+        <div class="blank-10 bg"></div>
+        
+		<div class="item-intro">
+			<h2>农家乐介绍</h2>
+            <div id="focus" class="global_focus intro-bd">
+             <{$detail.details}>   
+            </div>
+		</div>		
+        
+        
+        <footer class="footer-cart">
+       		 <notempty name="package">
+                 <div class="btn-long" id="www_hatudou_com_btn"><a href="javascript:void(0);">立即预约</a></div>
+             <else/>
+                 <div class="btn-long"><a href="javascript:void(0);">无法预约</a></div>
+            </notempty>
+        </footer>
+<include file="public:footer_share"/>

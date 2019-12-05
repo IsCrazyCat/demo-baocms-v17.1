@@ -1,0 +1,31 @@
+<foreach name="list" item="item">
+	<a class="item" href="<{:U('hotels/detail',array('hotel_id'=>$item['hotel_id']))}>">	
+		<img class="pic" src="<{:config_img($item['photo'])}>">	
+        
+        <php>
+            $s = round($item['score']/$item['comments'],1);
+            $sc = $s*20;
+            $count = count($item['pics']);
+        </php>
+        
+		<div class="des">	
+			<h5><{:tu_msubstr($item['hotel_name'],0,9,false)}><span class="distance"><{$item.d}></span></h5>
+            <span class="addr">评分：<{$s}>分 &nbsp;&nbsp;&nbsp;<{$cates[$item['cate_id']]}></span>
+			<span class="addr">	地址：<{$item['addr']}></span>
+		</div>	
+        
+         <if condition="!empty($item['pics']) and $count gt 2">
+			<div class="pics">
+				<ul class="gallery">
+               		<volist name="item.pics" id="pic">
+                        <php>if($key<3){</php>
+                        <li class="fl img-list <if condition='$key eq 0'>imgli</if>"><img src="<{:config_img($pic['photo'])}>" height="75"/></li>
+                        <php>}</php>
+                    </volist>
+				</ul>
+			</div>
+			<div class="blank-10"></div>
+       </if>
+        
+	</a>
+</foreach>

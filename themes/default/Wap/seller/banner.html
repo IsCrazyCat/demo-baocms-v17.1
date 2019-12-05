@@ -1,0 +1,65 @@
+<include file='public:header'/>
+
+<link rel="stylesheet" type="text/css" href="/static/default/webuploader/webuploader.css">
+<script src="/static/default/webuploader/webuploader.min.js"></script>
+
+
+    <header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="<{:U('seller/set',array('user_id'=>$users['user_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+        <div class="top-title">
+        	店铺店招设置
+        </div>
+    </header>
+
+<form class="fabu-form" method="post" id="ajaxForm" action="<{:U('seller/banner',array('user_id'=>$users['user_id']))}>">
+
+ 	<input type="hidden" name="user_id" value="<{$users['user_id']}>"/>
+	<div class="blank-10"></div>
+	<div class="Upload-img-box">
+		<div id="fileToUpload">
+			店招设置
+		</div>
+		<div class="Upload-img">
+			<div class="list-img loading">
+				<img src="<{:config_img($detail['seller_photo'])}>">
+                <input type="hidden" name="photo" value="<{$detail.seller_photo}>"/>
+			</div>
+			<div class="list-img jq_photo" style="display:none;"></div>
+		</div>
+	</div>
+    
+    <script>
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>""))}>',                             
+			pick: '#fileToUpload',                             
+			resize: true,    
+			compress : {width:600,height:280,quality:60,allowMagnify: false,crop: true}//裁剪       
+        });
+        uploader.on('uploadSuccess',function(file,resporse){
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="photo" value="' + resporse.url + '" />';
+            $(".jq_photo").show().html(str);
+        });
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    
+    
+	
+	<div class="container">
+		<div class="blank-30">
+		</div>
+		<button type="submit" class="button button-block button-big bg-dot">确认设置</button>
+		<div class="blank-30">
+		</div>
+	</div>
+</form>
+
+<include file='public:footer'/>

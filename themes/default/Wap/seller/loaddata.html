@@ -1,0 +1,83 @@
+
+<foreach name="list" item="var">   
+
+
+<li class="line ">
+      <dt><a class="x3">ID：<{$var.goods_id}></a><a class="x9 text-right">添加日期：<{$var.create_time|date='Y-m-d',###}></a></dt>
+        
+        
+      <if condition="$var['type_id'] eq 1">  
+          <dd class="zhong">
+            <div class="x3"><img src="<{:config_img($var['goods']['photo'])}>"  style="width:90%;"></div>
+             <div class="x9">
+                <p class="text-small">商品名称：<{:tu_msubstr($var['goods']['title'],0,24,false)}></p>
+                <p class="text-small">销售数量：<{$var.goods.sold_num}>&nbsp; 库存：<{$var.goods.num}><{$var.goods.guige}></p>
+                <p class="text-small"><span class="text-dot1 margin-right">销售价格：<span class="text-dot">&yen;<{:round($var['goods']['mall_price']/100,2)}> 元</span></span></p>
+             </div>
+          </dd>
+      <elseif condition="$var['type_id'] eq 2" />  
+         <dd class="zhong">
+            <div class="x3"><img src="<{:config_img($var['tuan']['photo'])}>"  style="width:90%;"></div>
+             <div class="x9">
+                <p class="text-small">抢购名称：<{:tu_msubstr($var['tuan']['title'],0,24,false)}></p>
+                <p class="text-small">已售数量：<{$var.tuan.sold_num}>&nbsp; 库存：<{$var.tuan.num}></p>
+                <p class="text-small"><span class="text-dot1 margin-right">抢购价格：<span class="text-dot">&yen;<{:round($var['tuan']['tuan_price']/100,2)}> 元</span></span></p>
+             </div>
+          </dd>
+      <elseif condition="$var['type_id'] eq 3" />  
+      	<dd class="zhong">
+            <div class="x3"><img src="<{:config_img($var['shop']['photo'])}>"  style="width:90%;"></div>
+             <div class="x9">
+                <p class="text-small">商家名称：<{:tu_msubstr($var['shop']['shop_name'],0,24,false)}></p>
+                <p class="text-small">商家地址：<{:tu_msubstr($var['shop']['addr'],0,24,false)}></p>
+                <p class="text-small"><span class="margin-right">人气指数：<span class="text-dot"><{:round($var['shop']['view']/100,2)}> </span></span></p>
+             </div>
+          </dd>
+      </if>
+      
+            
+      <dl>
+         <p class="text-right padding-top x12"> 
+         
+         	 <a val="<{$var.goods_id}>" id="refresh_<{$var.goods_id}>" class="button button-small bg-dot" onmouseover="getSeparate(<{$var.goods_id}>)" >查看分成</a>
+         
+             <eq name="var.is_top" value="0">
+                <a id="www-hatudou-com-url-btn" href="<{:U('seller/is_top',array('user_id'=>$var['user_id'],'goods_id'=>$var['goods_id']))}>" class="button button-small bg-blue">设为置顶</a>
+             <else/>
+                <a id="www-hatudou-com-url-btn" href="<{:U('seller/is_top',array('user_id'=>$var['user_id'],'goods_id'=>$var['goods_id']))}>" class="button button-small bg-blue">取消置顶</a>
+             </eq>
+         	 <eq name="var.is_tuijian" value="0">
+                <a id="www-hatudou-com-url-btn" href="<{:U('seller/is_tuijian',array('user_id'=>$var['user_id'],'goods_id'=>$var['goods_id']))}>" class="button button-small bg-yellow">设为推荐</a>
+             <else/>
+                <a id="www-hatudou-com-url-btn" href="<{:U('seller/is_tuijian',array('user_id'=>$var['user_id'],'goods_id'=>$var['goods_id']))}>" class="button button-small bg-yellow">取消推荐</a>
+             </eq>
+         
+             <a id="www-hatudou-com-url-btn" href="<{:U('seller/delete',array('user_id'=>$var['user_id'],'goods_id'=>$var['goods_id']))}>" class="button button-small bg-dot">删除</a>
+          </p>
+      </dl>
+    </li>
+    <div class="blank-10 bg"></div>
+   </foreach>  
+   
+<script>
+function getSeparate(id){
+	var goods_id = id;
+	$.ajax({
+        url: "<{:U('seller/separate')}>",
+        type: 'post',
+        data: 'goods_id='+goods_id,
+        success: function(data){
+          if(data.status == 'code'){
+             layer.tips(data.msg, '#refresh_'+goods_id,{time:10000}, {
+			   tips: [4, '#78BA32']
+			 });
+          }else{
+			  layer.tips(data.msg, '#refresh_'+goods_id, {
+			   tips: [4, '#838484']
+			 });
+          }
+        }
+	});
+}
+</script> 
+    

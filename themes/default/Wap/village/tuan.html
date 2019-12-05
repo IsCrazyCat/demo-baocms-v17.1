@@ -1,0 +1,30 @@
+<include file="public:header"/>
+<style>
+.container { margin-top: 3rem;}
+.main-tuan li {list-style-type: none;}
+.main-tuan li img{ max-height:80px; max-width:100px;}
+</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('village/detail',array('village_id'=>$detail['village_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$detail.name}>
+		</div>
+		<div class="top-share">
+		</div>
+	</header>
+	    
+<style>
+.container{ margin-top:0rem;;}
+</style>          
+
+<div class="container">
+<div class="main-tuan" id="main-tuan"></div>
+	<script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#main-tuan"), true);
+		});
+	</script>
+</div>
+<include file="public:footer"/>

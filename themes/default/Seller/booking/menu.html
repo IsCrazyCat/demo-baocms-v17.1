@@ -1,0 +1,61 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			菜品管理
+		</div>
+		<div class="top-share">
+			<a href="<{:U('booking/menu_create')}>" class="top-addr icon-plus">增加菜品</a>
+		</div>
+	</header>
+
+
+<ul id="shangjia_tab">
+	<li class="x4"><a href="<{:LinkTo('booking/menu',array('closed'=>999))}>" <eq name='closed' value='999'>class="on"</eq>>全部菜品</a></li>
+    <li class="x4"><a href="<{:LinkTo('booking/menu',array('closed'=>0))}>" <eq name='closed' value=''>class="on"</eq>>出售中</a></li>
+    <li class="x4"><a href="<{:LinkTo('booking/menu',array('closed'=>1))}>" <eq name='closed' value='1'>class="on"</eq>>已下架</a></li>
+</ul>
+
+<div class="blank-40"></div> 
+<div class="xiaoqu-list">
+	<ul id="xiaoqu-list">
+        <foreach name="list" item="var">
+          <li class="line">
+            <a href="javascript:void(0);" class="item fix hightitem">	
+                <div class="x2">
+                     <img src="<{:config_img($var['photo'])}>">
+                </div>
+                </a>
+                <div class="x7">
+                	<h5><a href="javascript:void(0);" class="item fix hightitem"><{$var.menu_name}></a></h5>	
+                    <p class="addr">所属分类：<{$dingcates[$var['cate_id']]['cate_name']}></p>
+                    <p class="addr">市场价：￥<{:round($var['price']/100,2)}></p>
+                    <p class="addr">优惠价：￥<{:round($var['ding_price']/100,2)}></p>
+                    <p class="addr">
+                        <eq name="var.is_new" value="1">新品</eq>
+                        <eq name="var.is_sale" value="1">优惠</eq>
+                        <eq name="var.is_tuijian" value="1">推荐</eq>
+                    </p>
+                </div>
+                
+                <div class="x3">
+                	<eq name="var.closed" value="1">
+                    	<a target="x-frame" href="<{:U('booking/update',array('menu_id'=>$var['menu_id']))}>" class="button bg-yellow float-right margin-top">上架</a>
+                    <else/>
+                    	<a target="x-frame" href="<{:U('booking/update',array('menu_id'=>$var['menu_id']))}>" class="button bg-blue float-right margin-top">下架</a>
+                    </eq>
+                    <a href="<{:U('booking/menu_edit',array('menu_id'=>$var['menu_id']))}>" class="button bg-green float-right  margin-top">编辑</a>
+                </div>
+                </li>
+        <div class="blank-10 bg"></div>
+    </foreach>
+	</ul>  
+</div>   
+
+<div class="blank-20"></div>
+<div class="container login-open">
+	<h5 style="text-align:center"><{$page}></h5>
+</div>
+<include file="booking:footer"/>

@@ -1,0 +1,174 @@
+<include  file='public:header'/>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+.weixin{ background:#44b549!important;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员管理</li>
+        <li class="li2">会员提现</li>
+        <li class="li2 li3">提现管理</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span>新版提现管理可以查询，会员总提现【已审】：<{$user_cash}>元！会员提现佣金【已审】：<{$user_cash_commission}>元，需要微信提现，联系qq286099981</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('usercash/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                    	<div class="seleK">
+                    	 <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                         <label>
+                         <span>状态：</span>
+                         <select class="select w120" name="st">
+                             <option <eq name="st" value="999">selected="selected"</eq> value="999">请选择</option>
+                             <option <eq name="st" value="0">selected="selected"</eq>  value="0">未审核</option>
+                             <option <eq name="st" value="1">selected="selected"</eq>  value="1">已审核</option>
+                             <option <eq name="st" value="2">selected="selected"</eq>  value="2">已拒绝</option>
+                          </select>
+                          
+                          </label>
+                         <span>提现方式：</span>
+                         <select class="select w120" name="code">
+                             <option <eq name="code" value="999">selected="selected"</eq> value="999">请选择</option>
+                             <option <eq name="code" value="weixin">selected="selected"</eq>  value="weixin">微信</option>
+                             <option <eq name="code" value="bank">selected="selected"</eq>  value="bank">银行卡</option>
+                             <option <eq name="code" value="alipay">selected="selected"</eq>  value="alipay">支付宝</option>
+                          </select>
+                          </label>
+                        <label>
+                            <span>账户</span>
+                            <input type="text" name="account" placeholder=" 提现账户" value="<{$account}>" class="inptText" />
+                            <span>ID</span>
+                            <input type="text" name="cash_id" placeholder=" 提现订单ID" value="<{$cash_id}>" class="inptText" />
+                            <input type="submit" value="搜索"  class="inptButton" />
+                        </label>
+                    </div> 
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+         <div class="selectNr selectNr2">
+        <div class="clear"></div>
+    </div>
+    <form target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="cash_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>会员</td>
+                    <td>账户信息</td>
+                    <td>真实姓名</td>
+                    <td>提现金额</td>
+                    <td>提现手续费</td>
+                    <td>提现方式</td>
+                    <td>申请日期</td>
+                    <td>状态</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_cash_id" type="checkbox" name="cash_id[]" value="<{$var.cash_id}>" <?php if ($var['status'] != 0){echo 'disabled="disabled"';}?> /></td>
+                        <td><{$var.cash_id}></td>
+                        <td><{$var.account}></td>
+                        <td>
+                            <p><{$var.bank_name}> / 支行：<{$var.bank_branch}></p>
+                            <p><{$var.bank_realname}> / 卡号：<{$var.bank_num}></p>
+                        </td>
+                        
+                        <td>
+                           <if condition="$var['code'] eq weixin"><{$var.re_user_name}></if>
+                           <if condition="$var['code'] eq alipay">支付宝账户：<{$var.alipay_account}>/<{$var.alipay_real_name}></if>
+                        </td>
+                        
+                        <td>&yen;<{$var['money'] / 100}> 元</td>
+                        <td><if condition="!empty($var['commission'])">&yen; <{:round($var['commission']/100,2)}>元<else/>无</if></td>
+                        <td>
+                        	<if condition="$var['code'] eq weixin">微信</if>
+                        	<if condition="$var['code'] eq bank">银行卡</if>
+                            <if condition="$var['code'] eq alipay">支付宝</if>
+                        </td>
+                        <td><{$var.addtime|date="Y-m-d H:i:s",###}></td>
+                        <td>
+                            <if condition="$var.status eq 0">
+                                未审核
+                            <elseif condition="$var.status eq 1" />
+                                <font color="green">已通过</font>
+                            <else/>
+                                <font color="red">已拒绝</font>
+                            </if>
+                       </td>
+                    <td>
+                        <if condition="$var.status eq 0">
+                        	<if condition="$var['code'] eq weixin">
+                            	<{:BA('usercash/weixin_audit',array("cash_id"=>$var["cash_id"], "status" => 1),'微信转账','act','remberBtn weixin')}>
+                            </if>
+                            
+                            <if condition="$var['code'] eq alipay">
+                            	<{:BA('usercash/alipay_audit',array("cash_id"=>$var["cash_id"], "status" => 1),'支付宝转账','act','remberBtn weixin')}>
+                            </if>
+                            
+                            <if condition="$var['code'] eq bank">
+                            	<{:BA('usercash/bank_audit',array("cash_id"=>$var["cash_id"], "status" => 1),'通过','act','remberBtn')}>
+                            </if>
+                            <a class="remberBtn jujue"  href="javascript:void(0);" rel="<{$var.cash_id}>">拒绝</a>
+                        <else/>
+                            已完成
+                        </if>
+                    </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <script src="__PUBLIC__/js/layer/layer.js"></script>
+        <script>
+            $(document).ready(function () {
+                layer.config({
+                    extend: 'extend/layer.ext.js'
+                });
+                $(".jujue").click(function () {
+                    var cash_id = $(this).attr('rel');
+                    var url = "<{:U('usercash/jujue')}>";
+                    layer.prompt({formType: 2, value: '', title: '请输入退款理由，并确认'}, function (value) {
+                        if (value != "" && value != null) {
+                            $.post(url, {cash_id: cash_id, status: 2,value:value}, function (data) {
+                                if(data.status == 'success'){
+                                    layer.msg(data.msg, {icon: 1});
+                                    setTimeout(function(){
+                                        window.location.reload(true);
+                                    },1000)
+                                }else{
+                                    layer.msg(data.msg, {icon: 2});
+                                }
+                            }, 'json')
+                        } else {
+                            layer.msg('请填写拒绝理由', {icon: 2});
+                        }       
+                    });
+                })
+            })
+        </script>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

@@ -1,0 +1,181 @@
+<include file="public:header"/>
+<style>
+.txt-small {width: 24px;height: 24px;line-height: 24px;}
+.cart-bar {padding: 0 10px;}
+</style>
+
+<header class="top-fixed bg-yellow bg-inverse">
+   <div class="top-back">
+		<a class="top-addr" href="<{:U('mall/index')}>"><i class="iconfont icon-angle-left"></i></a>
+   </div>
+   <div class="top-title">我的购物车</div>
+   <div class="top-share"></div>
+</header>
+
+    
+    <form method="post" id="tuBuyForm"  action="<{:U('mall/order',array('t'=>$nowtime))}>" target="x-frame">
+    <php> $total_money = 0; </php>
+    <div class="cart-list">
+		<ul>
+			<foreach name="cart_goods" item="item">
+            <php> $item = reset($item);</php>
+			<li class="line">
+				<div class="x3">
+					<img class="radius-small" src="<{:config_img($item['photo'])}>" />
+				</div>
+				<div class="x9">
+					<h5><a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>"><{$item.title}></a></h5>
+					<p>
+                        <span class="margin-right">
+                            <if condition="$item['key_name']">
+                                规格：<{$item['key_name']|default='无规格'}>
+                            </if>
+                            单价：￥<{:round($item['mall_price']/100,2)}>
+                            合计：<span class="text-dot"  id="jq_total_<{$item.goods_id}>_<{$key}>">￥<{:round($item['mall_price'] *  $item['buy_num']/100,2)}>
+                        </span>
+                    </p>
+					<div class="num-input" rel="<{$item.goods_id}>_<{$key}>">
+						<div class="txt txt-small radius-small bg-gray jq_jian" data="<{$item.goods_id}>_<{$key}>">-</div>
+                        
+                        <input data-role="none" data="<{$item.goods_spec}>"  type="text" value="<{$item.buy_num}>" rel="<{:round($item['mall_price']/100,2)}>" name="num[<{$item['goods_spec']}>]"  id="jquery-num" class="txt txt-small num ordernum" readonly="true"/>
+                        
+						<div class="txt txt-small radius-small bg-yellow jq_jia"  data="<{$item.goods_id}>_<{$key}>">+</div>
+					</div>
+					<div class="cartdel float-right" rel="<{$item.goods_spec}>"><i class="iconfont icon-yiquxiao1 text-yellow"></i></div>
+				</div>
+			</li>
+			<php>
+            	$total_money+= $item['mall_price'] *  $item['buy_num'];
+            </php>
+			</foreach>
+		</ul>
+	</div>
+    
+    
+
+
+
+	<nav class="cart-bar">
+		<span class="cart" >
+			<i class="iconfont icon-yunzhi2gouwuche"></i> 
+			<em class="float-left">已点 <span class="cart-num" id="num"><{$cartnum}></span> </em>
+			<em class="margin-left float-left"><div class="price" id="jq_total">
+            ￥<{:round($total_money/100,2)}>
+            <php>$cha = round($tt/100,2);</php><span id="jq_last" class="jq_last"><gt name="cha" value="0">还差<{$cha}>元起送</gt>
+            </div></em>
+		</span>
+		<div class="result">
+        <if condition="!empty($check_user_addr['id'])">
+			<a href="javascript:void(0);" onClick="$('#tuBuyForm').submit();"  class="button bg-dot">进入结算</a>
+        <else/>    
+           <a href="<{:U('address/addrcat',array('type'=>goods,'category'=>2))}>"  class="button bg-gray">添加地址</a> 
+        </if> 
+        
+          
+		</div>
+	</nav>
+	</form>
+	<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+
+<script>
+
+
+        $(".cartdel").click(function () {
+              goods_spec = $(this).attr('rel');
+              $.post("<{:U('mall/cartdel')}>", {goods_spec: goods_spec}, function (result) {
+                  if(result.status == "success") {
+                      layer.msg(result.msg);
+                          setTimeout(function () {
+                          	location.reload();
+                          }, 1000);
+                      }else{
+                            layer.msg(result.msg);
+                      }
+                },'json');
+         });
+                            
+        	
+         function changetotal(obj){
+                var money = obj.parent().find('.ordernum').attr('rel');
+                var num = obj.parent().find('.ordernum').val();
+				
+				
+                var total =  Math.round(money*num*100)/100;
+                $("#jq_total_"+obj.attr('data')).html('￥'+total);
+				
+                changealltotal();
+        }
+            
+        function changealltotal(){
+           var total_price = 0;
+		   var num = 0;
+           $(".ordernum").each(function(){
+               total_price += $(this).val() * $(this).attr('rel');
+			   num += parseInt($(this).val());
+              });
+           $("#jq_total").html('￥'+Math.round(total_price*100)/100);
+		   $(".cart-num").html(num);
+       }
+			
+       $(document).ready(function(e){
+           $(".jq_jian").click(function(){
+            var v = $(this).parent().find(".ordernum").val() ;
+            if(v>1){
+                v--;                       
+             $(this).parent().find(".ordernum").val(v);
+            }
+            changetotal($(this));
+       });
+			
+			
+      $(".jq_jia").click(function(){
+           var v = $(this).parent().find(".ordernum").val();
+           if(v<99){
+               v++;
+               $(".jq_jian").attr("style","border:1px solid #2fbdaa;");
+               $(this).parent().find(".ordernum").val(v);
+            }
+            changetotal($(this));
+       });
+		   
+                 
+     $(".ordernum").change(function(){
+         if($(this).val()<1){
+              $(this).val('1');
+         }
+         if($(this).val()>99){
+               $(this).val('99');
+         }
+         changetotal($(this));
+          });
+     });
+			 
+			 
+    $(document).ready(function () {
+        var user_id = "<{$MEMBER.user_id}>";
+        var addrs = "<{$check_user_addr['id']}>";
+        if (user_id == '' || user_id == null){
+        }else{
+            if(addrs == '' || addrs == null){
+                addAddr();
+            }
+        }
+    })
+	
+	
+	function addAddr(url) {
+		layer.open({
+			type: 1,
+			title: '系统检测到您没收获地址',
+			skin: 'layui-layer-demo',
+			area: ['90%', '150px'],
+			content: '<div class="add-message"><div class="add-button"><a href="<{:U("address/addrcat",array("type"=>goods,"category"=>2))}>" id="go_mobile" class="button button-small bg-yellow">立即添加收货地址</a></div></div>',
+		});
+		$('.layui-layer-title').css('color', '#ffffff').css('background', '#2fbdaa');
+	
+	}
+</script> 
+
+</body>
+</html>	
+

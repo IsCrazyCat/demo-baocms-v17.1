@@ -1,0 +1,39 @@
+
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form target="x-frame" action="<{:U('cityagent/create',array('parent_id'=>$parent_id))}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+                <tr>
+                    <td class="lfTdBt">代理名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[agent_name]" value="<{$detail.agent_name|default=''}>" class="manageInput" />
+                    <code>代理名称</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">购买价格：</td>
+                    <td class="rgTdBt"><input type="text" name="data[price]" value="<{$detail.price|default=''}>" class="manageInput" />
+                    <code>当前代理的购买价格，余额支付的价格</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">简介：</td>
+                    <td class="rgTdBt">
+                    <textarea name="data[intro]" cols="60" rows="5"><{$detail.intro|default=''}></textarea>
+                    <code>一句话简介，建议不超过100字，会员购买代理的时候弹出来显示</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">排序：</td>
+                    <td class="rgTdBt"><input type="text" name="data[orderby]" value="<{$detail.orderby|default=''}>" class="manageInput" />
+                        <code>数字越小越高</code>
+                    </td>
+                </tr>
+
+            </table>
+
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+
+        </form>
+    </div>
+</div>    

@@ -1,0 +1,104 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">酒店</li>
+        <li class="li2">酒店点评</li>
+        <li class="li2 li3">编辑</li>
+    </ul>
+</div>
+<form target="x-frame" action="<{:U('hotel/comment_edit',array('comment_id'=>$detail['comment_id']))}>" method="post">
+    <div class="mainScAdd ">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+            	
+                
+                <tr>
+                    <td class="lfTdBt">用户：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="user_id" name="data[user_id]" value="<{$detail.user_id|default=''}>" class="manageInput" />
+                            <input class="scAddTextName sj" type="text" name="nickname" id="nickname"  value="<{$user.nickname}>" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                        <code>选择用户，这里作弊使用，目前没有控制一个订单N个用户评价</code>
+                    </td>
+                </tr> 
+                
+                <tr>
+                    <td  class="lfTdBt">酒店订单ID：</td>
+                    <td class="rgTdBt"><input type="text" name="data[order_id]" value="<{$detail.order_id|default=''}>" class="manageInput w200" />
+                    <code>用户预订酒店的订单号，建议不要重复！</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">评分：</td>
+                    <td class="rgTdBt"><input type="text" name="data[score]" value="<{$detail.score|default=''}>" class="manageInput w200" />
+                    <code>请填写1-5的数字，不能为小数点，最高5分</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">评价内容：</td>
+                    <td class="rgTdBt">
+                        <textarea name="data[content]" rows="5" cols="40"><{$detail.content|default=''}></textarea>
+                        <code>建议30字以内</code>
+                    </td>
+                </tr>
+                    <tr>
+                  <td class="lfTdBt">更多点评图片：</td>
+                        <td class="rgTdBt">
+                            <div>
+                                <div id="moreToUpload" >上传点评图片</div>
+                            </div>							
+							<script>                                
+									var width_shopdianping = '<{:thumbSize($CONFIG[attachs][shopdianping][thumb],0)}>';  //获取宽度                              
+									var height_shopdianping = '<{:thumbSize($CONFIG[attachs][shopdianping][thumb],1)}>'; //获取高度 
+									var uploader = WebUploader.create({                                    
+									auto: true,                                    
+									swf: '/static/default/webuploader/Uploader.swf',                                    
+									server: '<{:U("app/upload/uploadify",array("model"=>"shopdianping"))}>',                                    
+									pick: '#moreToUpload',                                    
+									fileNumberLimit:10,                                    
+									resize: true, 
+									crop: false,  
+									compress : {width:width_shopdianping,height:height_shopdianping,quality: 80,allowMagnify: false,crop: true},														
+								});                                                               
+								uploader.on( 'uploadSuccess', function( file,resporse) {                                    
+								var str = '<span style="width: 190px; height: 150px; float: left; margin-left: 5px; margin-top: 10px;">  <img width="190" height="130" src="' + resporse.url + '">  <input type="hidden" name="photos[]" value="' + resporse.url + '" />    <a href="javascript:void(0);">取消</a>  </span>';                                   
+								 $(".jq_uploads_img").append(str);                                
+									 });                                                            
+								 uploader.on( 'uploadError', function( file ) {                                    
+									alert('上传出错');                                
+								 });                                
+								 $(document).on("click", ".jq_uploads_img a", function () {                                    
+									 $(this).parent().remove();                                
+								 });                            
+                             </script>
+                            <div class="jq_uploads_img">
+                                <foreach  name="photos" item="item">
+                                    <span style="width:190px; height: 150px; float: left; margin-left: 5px; margin-top: 10px;"> 
+                                        <img width="190" height="130" src="<{:config_img($item['photo'])}>">  
+                                        <input type="hidden" name="photos[]" value="<{$item.photo}>" />  
+                                        <a href="javascript:void(0);">取消</a>  
+                                    </span>
+                                </foreach>
+                            </div>					
+                        </td>
+                    </tr>
+                <tr>
+                    <td class="lfTdBt">商家回复：</td>
+                    <td class="rgTdBt">
+                        <textarea name="data[reply]" rows="5" cols="40"><{$detail.reply|default=''}></textarea>
+                         <code>建议精简一点好，30字以内！</code>
+                    </td>
+                </tr>
+               
+            </table>
+        </div>
+        <div>
+            <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+        </div>
+</form>
+
+<include  file='public:footer'/>       

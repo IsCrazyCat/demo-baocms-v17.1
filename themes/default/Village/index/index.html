@@ -1,0 +1,44 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+	</div>
+		<div class="top-title">
+			<{:tu_msubstr($VILLAGE['name'],0,6,false)}>管理中心
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('passport/logout')}>"><i class="icon-sign-out"></i></a>
+	</div>
+</header>
+<div class="blank-10 bg"></div>
+<div class="container">
+		<div class="line detail-base">
+			<div class="x4">
+				<div class="pic">
+                <img  src="<{:config_img($VILLAGE['pic'])}>" />
+                </div>
+			</div>
+			<div class="x8">
+				<h1><{$VILLAGE.name}>（<{$VILLAGE.village_id}>）</h1>
+                <p>地址：<{$citys[$VILLAGE['city_id']]['name']}> - <{$areas[$VILLAGE['area_id']]['area_name']}> - <{$VILLAGE.addr}></p>
+                <p>电话：<{$VILLAGE.tel}></p>
+			</div>
+			
+		</div>
+       </div>
+
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+        <li><a href="<{:U('all/notice')}>"><span class="icon-bullhorn"></span>乡村通知<i class="iconfont icon-angle-right"></i></a></li>
+        <li><a href="<{:U('all/worker')}>"><span class="icon-users"></span>工作人员管理<i class="iconfont icon-angle-right"></i></a></li>
+        <li><a href="<{:U('neighbor/index')}>"><span class="icon-users"></span>村民管理<i class="iconfont icon-angle-right"></i></a></li>
+        <li><a href="<{:U('all/suggestion')}>"><span class="icon-calendar-minus-o"></span>意见反馈<i class="iconfont icon-angle-right"></i></a></li>
+        <li><a href="<{:U('all/bbs')}>"><span class="icon-commenting-o"></span>乡村贴吧<i class="iconfont icon-angle-right"></i></a></li>
+	</ul>
+</div>
+<div class="blank-10"></div>
+<div class="container text-center">
+		<a class="button button-block button-big bg-dot" href="<{:U('passport/logout')}>">注销登录</a>
+</div>
+<div class="blank-20"></div>
+<include  file='public:footer'/>

@@ -1,0 +1,35 @@
+<include  file='public:header'/>
+
+<style>
+.post-form{padding:10px 0;}
+.post-form .form-content{resize:none;width:90%;height:60px;padding:10px; border:none}
+.post-form .button {margin:5px;}
+.container{padding:10px}
+</style>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			回复点评
+		</div>
+		<div class="top-share">
+		</div>
+	</header>
+
+	<form id="ajaxForm" class="post-form" action="<{:U('delivery/reply',array('commment_id'=>$comment_id))}>" method="post">
+		<input type="hidden" name="comment_id" value="<{$comment_id}>"/>
+        
+		<div class="line border-bottom">
+			<textarea class="form-content" name="reply" placeholder=""></textarea>
+		</div>
+		<div class="blank-10 clearfix"></div>
+		<div class="container">
+          	<div class="container text-center">
+             	<button class="button button-block button-big bg-yellow" type="submit">确认回复</button>
+        	</div>
+		</div>
+	</form>
+	
+<include  file='public:footer'/> 

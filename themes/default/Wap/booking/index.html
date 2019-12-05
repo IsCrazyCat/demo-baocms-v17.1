@@ -1,0 +1,186 @@
+<include file='public:header'/>  
+<php>
+    $areas = D('Area')->where(array('city_id'=>$city_id))->select();
+    $Area = D('Area')->find($area_id);
+</php>
+  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			在线订座
+		</div>
+	</header>
+    
+     <!--广告位开始-->
+     	<div id="tudou-slide" class="tudou-slide">
+			<div class="hd"><ul></ul></div>
+			<div class="bd">
+				<ul>
+					<calldata mdl="Ad" where=" closed=0 AND site_id=78 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+						<li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+        <script>
+			TouchSlide({
+				slideCell: "#tudou-slide",
+				titCell: ".hd ul",
+				mainCell: ".bd ul",
+				effect: "left",
+				autoPlay: true,
+				autoPage: true,
+				switchLoad: "_src",
+			});
+		</script>
+    <!--广告位END-->  
+    
+    
+    
+	<script>
+		$(function () {
+			$("#search-bar li").each(function (e) {
+				$(this).click(function () {
+					if ($(this).hasClass("on")) {
+						$(this).parent().find("li").removeClass("on");
+						$(this).removeClass("on");
+						$(".serch-bar-mask").hide();
+					}
+					else {
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+						$(".serch-bar-mask").show();
+					}
+					$(".serch-bar-mask .serch-bar-mask-list").each(function (i) {
+
+						if (e == i) {
+							$(this).parent().find(".serch-bar-mask-list").hide();
+							$(this).show();
+						}
+						else {
+							$(this).hide();
+						}
+						$(this).find("li").click(function () {
+							$(this).parent().find("li").removeClass("on");
+							$(this).addClass("on");
+						});
+					});
+				});
+			});
+		});
+	</script>
+    <div id="filter2" class="filter2">
+    <ul class="tab clearfix">
+      <li class="item">
+        <a href="javascript:void(0);">
+            <if condition="!empty($type_id)">
+            	<volist name="dingtypes" id="var">
+                 	<if condition="$type_id eq $i">
+            			<span id="str_b_node" style="color:#f60"> <{$var}></span>
+                    </if>
+                </volist>
+            <else/>
+            	<span id="str_b_node">选择分类</span>
+            </if>
+            <em></em>
+        </a>
+      </li>
+      <li class="item">
+        <a href="javascript:void(0);">
+                <if condition="!empty($area_id)">
+               		<span id="str_b_node" style="color:#f60;"><{$Area['area_name']}></span>
+                <else/>
+                	<span id="str_d_node">选择地区</span>
+                </if>
+        <em></em>
+        </a>
+      </li>
+      <li class="item">
+        <a href="javascript:void(0);">
+        
+        <if condition="empty($order)">
+        	<span id="str_e_node">选择排序</span>
+        <elseif condition="$order eq m"/>
+        	<span id="str_b_node" style="color:#f60;">默认排序</span>
+        <elseif condition="$order eq d"/>
+        	<span id="str_b_node" style="color:#f60;">距离最近</span>
+        <elseif condition="$order eq s"/>
+        	<span id="str_b_node" style="color:#f60;">销量排序</span>
+        <elseif condition="$order eq p"/>
+        	<span id="str_b_node" style="color:#f60;">价格最低</span>
+        </if>
+        
+        <em></em>
+        </a>
+      </li>
+    </ul>
+    
+    <div class="inner" style=" display:none">
+        <ul>
+        <li><a <if condition='empty($type_id)'>style="color:red;"</if>  href="<{:LinkTo('booking/index',$linkArr,array('type_id'=>0))}>">全部</a></li>
+                <volist name="dingtypes" id="var">
+                    <li><a   <if condition="$type_id eq $i">style="color:red;"</if>  href="<{:LinkTo('booking/index',$linkArr,array('type_id'=>$i))}>"><{$var}></a></li>
+                </volist>
+               
+                    
+     
+            </ul>
+    
+    </div>
+    
+    
+     <div class="inner" style=" display:none">
+        <ul>
+         <li class="<if condition="empty($area_id)">style="color:red;"</if> "><a href="<{:LinkTo('booking/index',$linkArr,array('area_id'=>0))}>" >全部地区</a></li>
+				<foreach name="areas" item="var">
+                <php>if($var['city_id'] == $city_id){</php>    
+				<li><a <if condition="$area eq $var['area_id']"> style="color:red;"</if>  href="<{:LinkTo('booking/index',$linkArr,array('area_id'=>$var['area_id']))}>"><{$var.area_name}></a></li>
+                <php>}</php> 
+				</foreach>
+            </ul>
+    </div>
+    
+    
+ 
+    
+    <div class="inner" style="display:none;">
+              <ul>
+               <li><a class="nearbuy_sxkLiA"  href="<{:LinkTo('booking/index')}>">重新选择</a></li>
+               <li><a class="nearbuy_sxkLiA" <if condition="$order gt m"> style="color:red;"</if> href="<{:LinkTo('booking/index',$linkArr,array('order'=>'m'))}>">默认排序</a></li>
+                <li><a class="nearbuy_sxkLiA" <if condition="$order gt d"> style="color:red;"</if> href="<{:LinkTo('booking/index',$linkArr,array('order'=>'d'))}>">距离最近</a></li>
+                <li><a class="nearbuy_sxkLiA" <if condition="$order eq s"> style="color:red;"</if> href="<{:LinkTo('booking/index',$linkArr,array('order'=>'s'))}>">销量最高<em class="em_up"></em></a></li>
+                <li><a class="nearbuy_sxkLiA"  <if condition="$order eq p"> style="color:red;"</if>href="<{:LinkTo('booking/index',$linkArr,array('order'=>'p'))}>">价格最低<em></em></a></li>
+                
+          
+
+            </ul>
+      </div>
+      
+      <div id="parent_container" class="inner_parent" style="display:none;">
+        <div class="innercontent"></div>
+      </div>
+      <div id="inner_container" class="inner_child" style="display:none;">
+        <div class="innercontent"></div>
+      </div>
+    
+</div>
+<!--end-->    
+
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;">
+<i class="pull2"></i>
+</div>
+
+	<div class="container">
+	<ul id="shop-list" class="shop-list"></ul>
+    </div>
+
+	<script>
+		$(document).ready(function () {
+			showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+	
+<include file="public:footer"/>

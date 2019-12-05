@@ -1,0 +1,164 @@
+<include  file='public:header'/>   
+<style>
+.list-media-x{ margin-top:0rem;}
+.panel-sub {margin-top:2.2rem;}
+.list-media-x h3.list-shop-x{ margin:5px 10px;}
+.fa-spin {-webkit-animation: fa-spin 2s infinite linear;animation: fa-spin 2s infinite linear;}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('store/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			便利店订单详情
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('store/detail',array('order_id'=>$detail['order_id']))}>" class="fa-spin top-addr icon-refresh"> 刷新</a>	
+	</div>
+</header>
+
+<ul id="shangjia_tab">
+    <li class="x6"><a href="<{:LinkTo('store/detail',array('order_id'=>$detail['order_id']))}>" class="on" >订单详情</a></li>
+    <li class="x6"><a href="<{:LinkTo('store/state',array('order_id'=>$detail['order_id']))}>">配送状态</a></li>
+</ul>
+
+<div class="panel-sub">
+	<div class="blank-10 bg"></div>
+	<ul>
+		<li><div>订单编号：<em><{$detail.order_id}></em></div></li>
+        <li><div>下单时间：<em class="text-dot"> <{$detail.create_time|date='Y-m-d H:i',###}></em></div></li>
+        <if condition="!empty($detail['pay_time'])">
+			<li><div>付款时间：<em class="text-dot"> <{$detail.pay_time|date='Y-m-d H:i',###}></em></div></li>
+        </if>
+        <if condition="!empty($detail['refund_tim'])">
+        	<li><div>退款时间：<em class="text-dot"> <{$detail.refund_time|date='Y-m-d H:i',###}></em></div></li>
+        </if>
+        <if condition="!empty($detail['message'])">
+			<li><div>我的留言：<em><{$detail['message']}></em></div></li>
+		</if>
+	</ul>
+</div>
+<div class="blank-10 bg"></div>
+
+<table class="table">
+	<tr>
+		<th>商品</th>
+		<th>单价</th>
+		<th>数量</th>
+		<th>总价</th>
+        <th>餐具费</th>
+	</tr>
+	<foreach name="eleproducts" item="item">
+	<tr>
+		<td><{$products[$item['product_id']]['product_name']}></td>
+		<td>&yen;<{:round($products[$item['product_id']]['price']/100,2)}></td>
+		<td>x<{$item.num}></td>
+		<td>&yen;<{:round($item['total_price']/100,2)}></td>
+        <td>&yen;<{:round($item['tableware_price']/100,2)}></td>
+	</tr>
+	</foreach>                    
+</table>
+
+<div class="blank-10 bg"></div>
+
+
+<div class="list-media-x">
+    <h3 class="list-shop-x">
+    	<p class="text-default">
+            订单总额：&yen; <{:round($detail['total_price']/100,2)}> <if condition="!empty($detail['logistics'])">
+               (含送费：&yen; <{:round($detail['logistics']/100,2)}>)
+            </if>
+            
+            <if condition="!empty($detail['new_money'])">
+                -新单立减：&yen; <{:round($detail['new_money']/100,2)}>
+            </if>
+            <if condition="!empty($detail['logistics_full_money'])">
+                -免配送费：&yen; <{:round($detail['logistics_full_money']/100,2)}>
+            </if>
+            <if condition="!empty($detail['reduce_coupun_money'])">
+                -优惠劵抵扣：&yen; <{:round($detail['reduce_coupun_money']/100,2)}>
+            </if>
+            <if condition="!empty($detail['full_reduce_price'])">
+                -满减优惠：&yen; <{:round($detail['full_reduce_price']/100,2)}>
+            </if>
+            <if condition="!empty($detail['tableware_price'])">
+                +餐具费&yen; <{:round($detail['tableware_price']/100,2)}>
+            </if>
+           
+            =合计：&yen; <{:round($detail['need_pay']/100,2)}> 元
+    	</p>
+    </h3>
+</div>
+<div class="blank-10 bg"></div>
+
+<div class="panel-sub" style="margin-top:0rem;">
+	<ul>
+        <if condition="$detail['status'] neq 0">
+            <li><div>收货人：<em><{$addr['name']}>  (<{$addr.mobile}>)</em></div></li>
+            <li><div>地址：<em><{$areas[$addr['area_id']]['area_name']}> <{$bizs[$addr['business_id']]['business_name']}> <{$addr.addr}></em></div></li>
+        </if>
+	</ul>
+</div>
+
+
+<div class="blank-10 bg"></div>
+<div class="list-media-x">
+<h3 class="list-shop-x"><a href="<{:U('wap/store/shop',array('shop_id'=>$detail['shop_id']))}>">便利店商家信息<i class="iconfont icon-angle-right float-right"></i></a></h3>
+	<ul>
+		<li class="line padding">
+			<div class="x3">
+				<img style="width:90%;" src="<{:config_img($detail['shop']['photo'])}>" />
+			</div>
+			<div class="x9">
+				<p><{$detail['ele']['shop_name']}></p>
+				<p class="text-small">电话：<span class="text-dot"><a href="tel:<{$detail['shop']['tel']}>"><{$detail['shop']['tel']}></a></span></p>
+                <p class="text-small">地址：<span class="text-gray"><{$detail['shop']['addr']}></span></p>
+			</div>
+		</li> 
+	</ul>
+</div>
+
+
+<php>
+	$Delivery = D('Delivery')->where(array('id' =>$detail['delivery_order']['delivery_id']))->find();
+    if($detail['delivery_order']['status'] == 2){
+    	$status = '配送中';
+    }elseif($detail['delivery_order']['status'] == 8){
+    	$status = '已完成';
+    }elseif($detail['delivery_order']['status'] == 1 || $detail['delivery_order']['status'] == 0 ){
+    	$status = '未配送';
+    }
+</php>
+
+<if condition="!empty($Delivery)">	
+<div class="blank-10 bg"></div>
+<div class="list-media-x">
+<h3 class="list-shop-x"><a>配送状态信息<i class="iconfont icon-angle-right float-right"></i></a></h3>
+	<ul>
+		<li class="line padding">
+			<div class="x3">
+				<img style="width:80%;" src="<{:config_img($Delivery['photo'])}>" />
+			</div>
+			<div class="x9">
+				<p>配送员姓名：<{$Delivery['name']}></p>
+				<p class="text-small">电话：<span class="text-dot"><a href="tel:$Delivery['mobile']"><{$Delivery['mobile']}></a></span></p>
+                <p class="text-small">配送状态：<span class="text-gray"><{$status}></span></p>
+			</div>
+		</li> 
+	</ul>
+</div>
+<div class="blank-10 bg"></div>
+</if>        
+
+
+<div class="blank-20"></div>
+<div class="container login-open">
+        <eq name="detail.status" value="0">
+           <a class="button button-block button-big bg-dot text-center" href="<{:u('wap/store/pay',array('order_id'=>$detail['order_id']))}>">去付款</a>
+        <else />
+            <a class="button button-block button-big bg-dot text-center"><{$cfg[$detail['status']]}> </a>
+         </eq>
+</div>   
+<div class="blank-40"></div>
+
+<include file='market:store_footer'/>   

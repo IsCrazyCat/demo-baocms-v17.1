@@ -1,0 +1,76 @@
+<include file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="">粉丝</a>><a>粉丝列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+	<div class="radius5 tuan_top">
+        <div class="tuan_top_t tuanfabu_top">
+            <div class="left tuan_topser_l">新增了导入粉丝功能，具体怎么样使用联系qq286099981，可以点击下方推送文章对粉丝进行推广营销。</div>
+        </div>
+    </div>
+    
+    
+    <div class="tuanfabu_tab">
+       <ul>
+         <li class="tuanfabu_tabli on"><a href="<{:U('fans/index')}>">粉丝管理</a></li>
+         <li class="tuanfabu_tabli "><a href="<{:U('news/index')}>">推送文章</a></li>
+         <li class="tuanfabu_tabli "><a href="<{:U('news/create')}>">新增文章</a></li>
+      </ul>
+    </div>
+
+    
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+        	<div class="left tuan_topser_l">
+                <form  method="post" action="<{:U('fans/index')}>">
+                    粉丝UID：
+                    <input type="text" name="keyword" value="<{$keyword}>"  class="radius3 tuan_topser" />
+                    <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>   
+                </form>  
+            </div>
+            <div class="right tuan_topfb_r">
+                <form id="form-data" action="<{:U('index/import')}>" enctype="multipart/form-data" method="post" >
+                	导入粉丝：
+                    <input type="file" name="fileName" value="" />
+                    <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="导入粉丝"/> 
+                </form>  
+            </div>  
+        </div>
+    </div>
+                        
+                        
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>关注编号</td>
+            <td>会员ID</td>
+            <td>昵称</td>
+			<td>电话号码</td>
+            <td>关注时间</td>
+            <td>积分</td>
+            <td>订阅推送状态（短信/微信/站内信）</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var['favorites_id']}></td>
+                <td><{$var['user_id']}></td>
+                <td><{$users[$var['user_id']]['nickname']}></td>
+				<td><{$users[$var['user_id']]['mobile']}></td>
+                <td><{$var.create_time|date='Y年m月d日',###}></td>
+                <td><{$users[$var['user_id']]['integral']}></td>
+                <td>
+                <eq name="var.is_sms" value="0">关闭 /<else/><a class="tuisong_red">开启 /</a></eq>
+                <eq name="var.is_weixin" value="0">关闭 /<else/><a class="tuisong_red">开启 /</a></eq>
+                <eq name="var.is_msg" value="0">关闭<else/><a  class="tuisong_red">开启</a></eq>
+                </td>
+                <td><a href="<{:U('fans/add',array('user_id'=>$var['user_id']))}>">增加积分</td> 
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+<include file='public:footer'/>

@@ -1,0 +1,107 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">餐饮管理</li>
+        <li class="li2">订单统计</li>
+        <li class="li2 li3">商家统计</li>
+    </ul>
+</div>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+.main-sc .jsglNr .selectNr .left a.on{background-color:#F00;border:1px solid #FF0000;}
+</style>
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span> 这里统计店铺的信息</p>
+    <div class="jsglNr">
+    
+     	<div class="selectNr" style="margin-top:0px;border-top:none;">
+            <div class="left">
+                <a href="<{:U('eleorder/index',array('st'=>999))}>">外卖订单</a>
+                <a href="<{:U('ele/delivery')}>">配送员统计</a>
+                <a class="on"  href="<{:U('ele/shop')}>">店铺统计</a>
+               </div>
+            <div class="right">
+            	<a class="remberBtn ">今日外卖订单总销量：&yen;<{:round($counts['ele_order_need_pay']/100,2)}>元</a>
+                <a class="remberBtn ">今日外卖订单数量：<{$counts['ele_order_count']}>个</a>
+                <a class="remberBtn ">今日外卖订单总运费：&yen;<{:round($counts['ele_order_logistics']/100,2)}>元</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        
+        
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="right">
+                <form method="post" action="<{:U('ele/shop')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                         
+                         <label>
+                                <span> 商家ID：</span>   
+                                <input type="text" name="keyword" value="<{$keyword|default=''}>" class="inptText" />
+                                <input type="submit" class="inptButton" value="搜索" />
+                         </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="shop_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>商家昵称</td>
+                        <td>结算比例</td>
+                        <td>销售金额</td>
+                        <td>订单数量</td>
+                        <td>配送合计</td>
+                        <td>销售总价</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_shop_id" type="checkbox" name="shop_id[]" value="<{$var.shop_id}>" /></td>
+                            <td><{$var.shop_id}></td>
+                            <td><{$var['shop_name']}></td>
+                            <td><{$var['rate']}>‰</td>
+                            <td>&yen;<{:round($var['need_pay']/100,2)}></td>
+                            <td><{$var['num']}></td>
+                            <td>&yen;<{:round($var['order_logistics']/100,2)}></td>
+                            <td>&yen;<{:round($var['total_price']/100,2)}></td>
+                        <td>
+                            
+                            <a href="<{:U('ele/shop_detail',array("shop_id"=>$var["shop_id"],'st'=>$st))}>"  class="remberBtn">查看商家订单</a>
+                            <a href="<{:U('ele/shop_print',array("shop_id"=>$var["shop_id"],'st'=>$st))}>"  class="remberBtn">打印A4</a>
+                            
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<include  file='public:footer'/>       

@@ -1,0 +1,105 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员管理</li>
+        <li class="li2">会员绑定</li>
+        <li class="li2 li3">会员绑定列表</li>
+    </ul>
+</div>
+<style>
+.shang, .delivery, .weibo, .qq, .weixin{color:#FFF; padding:0 3px; margin:0 2px;}
+.shang{ background:#F00; }
+.delivery{ background: #00F;}
+.weibo{ background:#903;}
+.qq{ background:#09F}
+.weixin{ background:#0C0;}
+.headimgurl{ width:38px; height:38px; border-radius:100%;}
+</style>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里是取消用户绑定微信，QQ，微博的，如果点击解绑后，用户就不存在绑定了，所以谨慎操作！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('user/create','','添加会员','load','',700,600)}>
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('user/binding')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <label>
+                            <span>绑定类型：</span>
+                            <select class="select w120" name="type">
+                               <option <eq name="type" value="999">selected="selected"</eq> value="999">请选择</option>
+                               <option <eq name="type" value="1">selected="selected"</eq>  value="1">微信</option>
+                               <option <eq name="type" value="2">selected="selected"</eq>  value="2">qq</option>
+                               <option <eq name="type" value="3">selected="selected"</eq>  value="3">微博</option>
+                            </select>
+                           </label>
+                         <label>
+                            <span>账户/uid/open_id</span>
+                            <input type="text" name="keyword" value="<{$keyword}>" class="inptText" />
+                            <input type="submit" value="   搜索"  class="inptButton" />
+                        </label>
+                        
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+        <div class="clear"></div>
+    </div>
+    <form  target="dantiaow_frm" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="connect_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>USER_ID</td>
+                    <td>账户</td>
+                    <td>类型</td>
+                    <td>open_id</td>
+                    <td>rd_session</td>
+                    <td>昵称</td>
+                    <td>头像</td>
+                    <td>创建时间</td>
+                    <td class="w150">操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_connect_id" type="checkbox" name="connect_id[]" value="<{$var.connect_id}>" /></td>
+                        <td><{$var.connect_id}></td>
+                        <td>
+                            <if condition="!empty($var['uid'])">
+                                <{$var['uid']}>
+                            <else/>
+                                未绑定
+                            </if>
+                        </td>
+                        <td><{$users[$var['uid']]['account']}></td>
+                        <td>
+                        <eq name="var.type" value="weixin"><span class="weixin">微信</span></eq>
+                        <eq name="var.type" value="qq"><span class="qq">qq</span></eq>
+                        <eq name="var.type" value="weibo"><span class="weibo">微博</span></eq>
+                        </td>
+                        <td><{$var['open_id']}></td>
+                        <td><{$var['rd_session']}></td>
+                        <td><{$var['nickname']}></td>
+                        <td><img class="headimgurl" src="<{:config_img($var['headimgurl'])}>"/></td>
+						<td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                        <td>
+                        <{:BA('user/binding_edit',array("connect_id"=>$var["connect_id"]),'编辑','','remberBtn')}>
+						<{:BA('user/binding_delete',array("connect_id"=>$var["connect_id"]),'解绑','act','remberBtn')}>
+						</td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

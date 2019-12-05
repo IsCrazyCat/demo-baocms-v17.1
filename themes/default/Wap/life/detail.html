@@ -1,0 +1,531 @@
+<php>
+	$mobile_title = $detail['title'];
+</php>
+
+<include  file='public:header'/>  
+
+<style>
+.detail-lst .more-btn2 {display: block;padding: 20px; width: 100%; text-align: center;}
+.top-fixed .top-share i.icon-fabu{font-size:22px;}
+.life-packet{position:fixed;bottom: 75%;right:2%;}
+.life-packet .round{width:50px;height:50px;line-height:50px;text-align:center;background:url('/static/default/wap/image/life/packet.png');}
+.life-packet .round i{font-size:30px;color:#FFF;}
+.life-packet .badge-corner{width:50px;position:relative;}
+.life-packet .badge{right:0px;top:50px;}
+.layui-layer-page .layui-layer-content{padding:20px;}
+.layui-layer-page .layui-layer-content input[type='text']{ width:100%; height:36px; border:1px solid #ccc; background:#fff; margin-bottom:10px; text-indent:10px; font-size:14px;}
+.layui-layer-page .layui-layer-content input[type='button']{ width:100%; height:40px; border:none; background:#33b095; color:#fff; font-size:16px;}
+.layui-layer-page .layui-layer-content p{ line-height:28px; color:#999;}
+.right10{ margin-right:5px;}.button { padding: 6px 12px !important;}
+
+.tudou_scroll{position:relative;height: 220px;}
+.tudou_scroll_box {width:auto;height: 30px;position:relative;background: rgba(138, 134, 134, 0.55);background-position: 5px;background-size: 50px auto;top: 4rem;position: absolute;border-radius: 1.08rem;}
+.tudou_scroll_box .tudou_scroll {padding-left:5px; height: 30px;line-height: 30px;overflow: Hidden; margin: 0 auto;}
+.tudou_scroll_box .tudou_scroll li{height: 30px;line-height: 30px;overflow: hidden;}
+.tudou_scroll_box .tudou_scroll img{ border-radius:100%}
+.tudou_scroll_box .tudou_scroll li i{float: right;height: 30px;line-height: 30px;padding: 0 10px 0 20px;font-size: 12px;color: #999;}
+.tudou_scroll_box .tudou_scroll li a{font-size: 12px;color:#fff;}
+
+.www-hatudou-com-similar a i {width:.5rem;height:.5rem;}
+.www-hatudou-com-similar a em{float:right;margin-right: 20px;}
+
+.detail-bd .txt-col span {color: #000;}
+.life-list .flex p{ color:#000}
+
+.border-dashed{background: #f5f5f5;line-height:40px;padding-left:10px;}
+.add-message {margin-top: 30px;}
+.add-button{ text-align:center;}
+
+
+
+</style>
+
+
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('life/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		信息详情
+	</div>
+    <div class="top-search" style="display:none;">
+			<form method="post" action="<{:U('life/search')}>">
+				<input name="keyword" placeholder="输入关键字"  />
+				<button type="submit" class="iconfont  icon-search"></button> 
+			</form>
+	</div>
+	<div class="top-share">
+		<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a> 
+        <a href="<{:U('life/fabu',array('channel_id'=>$channel_id,'cate_id'=>$detail['cate_id']))}>"><i class="iconfont icon-fabu"></i></a>
+	</div>
+</header> 
+
+
+
+<php>
+    $scroll_time = isset($CONFIG['life']['scroll_time']) ? (int)$CONFIG['life']['scroll_time'] : 5000;
+    $city = D('City')->find($detail['city_id']);
+    $area = D('Area')->find($detail['area_id']);
+    $business = D('Business')->find($detail['business_id']);
+</php>
+
+   <if condition="$CONFIG['life']['scroll_open'] and !empty($detail[photo])">
+   		<if condition="!empty($scroll)">
+		   <script src="/static/default/wap/js/fontscroll.js"></script>
+                <div class="tudou_scroll_box">
+                    <div id="tudou_scroll" class="tudou_scroll">
+                        <ul>
+                        <volist name="scroll" id="item">
+                          <li><img style="width:24px; height:24px;" src="<{:config_img($item['user']['face'])}>">&nbsp;<a>会员【<{:tu_msubstr($item['user']['nickname'],0,6,false)}>】成功领取红包</a></li> 
+                       </volist>
+                       </ul>
+                    </div>
+                </div>
+           <script type="text/javascript">
+            $(function(){
+                var time = "<{$scroll_time}>";
+                $('#tudou_scroll').FontScroll({time:time,num:1});
+            });
+            </script> 
+       </if>  
+	</if>
+    
+    
+    
+
+    
+<script type="text/javascript">
+	$(function(){
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+	});
+	</script>  
+
+
+
+<if condition="!empty($detail[photo])">
+    <div class="tuan-detail">
+    <div class="line banner">	
+        <div id="focus" class="focus">
+            <div class="hd"><ul></ul></div>
+            <div class="bd">
+                <ul>
+                    <li><a><img src="<{:config_img($detail['photo'])}>" /></a></li>
+                    <foreach  name="pics" item="item">
+                    <li><a><img src="<{:config_img($item['photo'])}>" /></a></li>
+                    </foreach>
+                </ul>
+            </div>
+        </div>
+    </div>            
+	<script type="text/javascript">
+		TouchSlide({ 
+			slideCell:"#focus",
+			titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+			mainCell:".bd ul", 
+			effect:"left", 
+			autoPlay:true,//自动播放
+			autoPage:true, //自动分页
+			switchLoad:"_src" //切换加载，真实图片路径为"_src" 
+		});
+	</script>
+</if>
+
+<div class="www-hatudou-com-similar" style="display: block;">
+    <a href="<{:U('life/lists',array('cat'=>$detail['cate_id']))}>">
+       <span>更多<b id="similar_num"><{$cate.cate_name}></b>信息</span>
+       <em>查看详情<i></i></em>
+    </a>
+</div>
+
+<div class="blank-10 bg"></div>
+
+<div class="detail-hd">
+	<h1><{$detail.title}></h1>
+	<p>
+		<span><{$detail.create_time|date='Y-m-d',###}></span>
+		<span><{$detail.views}>人浏览</span>
+	</p>
+</div>
+
+
+
+<if condition="$tags">
+	<div class="blank-10 bg"></div>
+    <div class="detail-hd">
+         <php>$Lifecate= D('Lifecate')->find($detail['cate_id']);</php>
+                <php>$k = 0;</php>
+                <volist name="tags" id="var3">
+                    <php>
+                    $k++;
+                    </php>
+                    <a href="<{:U('life/channel',array('channel'=>$Lifecate['channel_id'],'cat'=>$detail['cate_id'],'tag_id'=>$var3['tag_id']))}>" class="button button-little margin-small-right <if condition="$k eq 1">border-dot</if> <if condition="$k eq 2">border-yellow</if> <if condition="$k eq 3">border-blue</if> <if condition="$k eq 4">border-dot</if>  <if condition="$k eq 5">border-dot</if>  <if condition="$k eq 5">border-yellow</if>  <if condition="$k eq 7">border-blue</if>">#<{$var3['tag_name']}></a>
+                </volist>       
+    </div>
+</if>
+
+
+<div class="blank-10 bg"></div>
+
+
+<div class="detail-bd">
+	<div class="num-col">
+		<if condition="!empty($cate['num1'])"><span><{$cate.num1}>：
+			<em>&yen;<{$detail.num1|default='面议'}></em>
+			<if condition="!empty($detail['num1'])">
+				<{$cate.unit1}>
+			</if>
+			</span> 
+		</if>
+		<if condition="!empty($cate['num2'])"><span><{$cate.num2}>：
+			<em> &yen;<{$detail.num2|default='面议'}></em>
+			<if condition="!empty($detail['num2'])">
+			   <{$cate.unit2}>
+			</if>
+			</span> 
+		</if>
+	</div>
+
+	<div class="txt-col">
+		<if condition="!empty($cate['text1'])">
+		<span><{$cate.text1}>：<em><{$detail.text1|default='暂无'}></em></span>
+		</if>
+		<if condition="!empty($cate['text2'])">
+		<span><{$cate.text2}>：<em><{$detail.text2|default='暂无'}></em></span>
+		</if>
+		<if condition="!empty($cate['text3'])">
+		<span><{$cate.text3}>：<em><{$detail.text3|default='暂无'}></em></span>
+		</if>
+        <if condition="!empty($cate['text4'])">
+		<span><{$cate.text4}>：<em><{$detail.text4|default='暂无'}></em></span>
+		</if>
+        <if condition="!empty($cate['text5'])">
+		<span><{$cate.text5}>：<em><{$detail.text5|default='暂无'}></em></span>
+		</if>
+        <if condition="!empty($cate['select1'])">
+		<span><{$cate.select1}>：<em><{$attrs['select1'][$detail['select1']]['attr_name']|default='暂无'}></em></span>
+		</if>
+        <if condition="!empty($cate['select2'])">
+		<span><{$cate.select2}>：<em><{$attrs['select2'][$detail['select2']]['attr_name']|default='暂无'}></em></span>
+		</if>
+        <if condition="!empty($cate['select3'])">
+		<span><{$cate.select3}>：<em><{$attrs['select3'][$detail['select3']]['attr_name']|default='暂无'}></em></span>
+		</if>
+        <if condition="!empty($cate['select4'])">
+		<span><{$cate.select4}>：<em><{$attrs['select4'][$detail['select4']]['attr_name']|default='暂无'}></em></span>
+		</if>
+        <if condition="!empty($cate['select5'])">
+		<span><{$cate.select5}>：<em><{$attrs['select5'][$detail['select5']]['attr_name']|default='暂无'}></em></span>
+		</if>
+        
+		<span>在区域：<em><{$city['name']}><if condition="$area['area_name']"> /<{$area['area_name']}></if><if condition="$business['business_name']"> /<{$business['business_name']}></if></em></span>
+        <span>距离：<em><{$detail.d}></em></span>
+		<span>地址：<em><a class="text-blue" href="<{:U('life/gps',array('life_id'=>$detail['life_id']))}>"><{$detail.addr}>[导航]</a></em></span>
+	</div>
+</div>
+
+
+<div class="detail-bd">
+    <div class="global">
+        <div class="line banner">	
+            <h5 class="margin-bottom border-dashed">相关描述 <if condition="!empty($buy)"> 【购买时间： <{:formatTime($buy['create_time'])}> 】 </if></h5>
+            <if condition="($detail['user_id'] neq $MEMBER['user_id']) and (!empty($detail['money']))"> 
+                   <if condition="empty($buy)"> 
+                        <div class="blank-20"></div>
+                        <button class="button button-block bg-yellow" id="life_detail_buy">
+                            立刻花<{:round($detail['money']/100,2)}>元查看更多描述信息
+                        </button>
+                        <div class="blank-10"></div>
+                  <else/>
+                      <div id="focus" class="global_focus">
+                         <{$ex.details}>       
+                      </div>
+                  </if>
+                <else/>
+                 <div id="focus" class="global_focus">
+                     <{$ex.details}>       
+                  </div>
+            </if>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="blank-10 bg border-bottom"></div>
+<div class="detail-lst">
+	<ul class="life-list">
+		<calldata mdl="Life" where="cate_id = {$detail['cate_id']} and audit =1 and life_id != {$detail['life_id']}" order="top_date desc,last_time desc" limit="0,4" cache="600">
+            <li class="mod-2">
+                <div class="des flex text-default text-black">
+                    <h4>
+                        <a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>"><{$item['title']}></a>
+                        <gt name="item.top_date" value="$today"><span>顶</span></gt>
+                        <gt name="item.urgent_date" value="$today"><span>急</span></gt>
+                    </h4>
+                    <p class="text-default text-black"><{$item.addr}> </p>
+                    <p class="text-default text-black">联系人:<{$item.contact}> / <{:formatTime($item['create_time'])}></p>
+                </div>
+                <div class="tel flex">
+                    <a href="tel:<{$item.mobile}>"><span class="iconfont icon-phone-line"></span></a>
+                </div>
+            </li>
+		</calldata>
+	</ul>
+
+	<a class="more-btn" href="<{:U('life/lists',array('cat'=>$detail['cate_id']))}>">
+		<button class="button button-block bg-dot">
+			查看更多<{$cate.cate_name}>信息
+		</button>
+	</a>
+</div>
+
+<div class="detail-lst">
+    <div class="blank-10 bg"></div> 
+       <a class="more-btn2" target="x-frame"  href="<{:U('life/subscribe',array('life_id'=>$detail['life_id']))}>">
+            <button class="button button-block bg-blue">
+                订阅<{$cate.cate_name}>频道
+            </button>
+        </a>
+    <div class="blank-10 bg"></div>     
+</div>  
+
+
+
+<div class="blank-10 bg"></div> 
+   <div class="jubao">
+       <div class="jubao-font">  
+           <p class="one-line"> 如遇无效、虚假、诈骗信息，请立即举报 </p>
+           <p class="two-line"> 为了您的资金安全，请见面交易，切勿提前支付任何费用。 </p>  
+       </div>
+       <div class="jubao-logo">
+      	 <a href="<{:U('life/report',array('life_id'=>$detail['life_id']))}>"><i class="ico"></i><p> 举报 </p></a>
+       </div>
+   </div> 
+<div class="blank-10 bg"></div>    
+  
+  
+<php>
+    $Users = D('Users')->find($detail['user_id']);
+    $Shop = D('Shop')->find($Users['user_id']);
+    if($Shop){
+        if($Shop['is_renzheng'] == 1){
+            $intros = '（商家，已实名认证）';
+        }else{
+            $intros = '（商家，未认证）';
+        }
+    }else{
+    	if($Users['is_aux'] == 1){
+            $intros = '（用户，已实名认证）';
+        }else{
+            $intros = '（用户，未认证）';
+        }
+    }
+</php>
+  
+
+	<nav class="cart-bar">
+		<a class="cart" style="font-size:12px;">
+           <span class="text-black"><{$detail.contact}> <{$intros}></span> 
+        </a>
+		<div class="result">
+         <if condition="empty($detail['money'])">  
+              <a id="add-cart" href="tel:<{$detail.mobile}>"><button class="cartadd2 button bg-dot right10">
+              	<span class="icon-phone"></span> 电话联系</button>
+              </a>
+         </if>   
+        </div>
+	</nav>
+
+<footer>
+    <div class="footer-bar">
+     <if condition="empty($MEMBER)">
+        <a href="<{:U('passport/login')}>"> 登录/注册 </a>
+     <else/>
+        <a href="<{:U('passport/login')}>"> 个人中心 </a>
+     </if>
+        <a href="<{:U('life/phonedelete')}>"> 电话冒用 </a>
+        <a href="#"> 用户反馈 </a>
+    </div>
+    <div class="footer-copyright">
+         <{$CONFIG.site.icp}> 
+    </div>
+</footer>
+
+<script>
+        $(document).on('click','#life_detail_buy',function(){
+                var url = "<{:U('life/buy')}>";
+                var life_id = "<{$detail.life_id}>";
+                layer.confirm('您确认要购买此内容嘛？', {
+                    btn: ['是的','不了']
+                  }, function(){
+                    $.post(url,{life_id:life_id},function(data){
+                        if(data.status == 'login'){
+                            ajaxLogin();
+                        }else if(data.status == 'error'){
+                            layer.msg(data.msg);
+                        }else{
+                            layer.msg(data.msg);
+                            setTimeout(function(){
+                                window.location.reload(true);
+                            },1000)
+                        }
+                    },'json')
+                  });
+            })
+</script>
+ 
+ 
+<php>
+$LifePacket = D('LifePacket')->where(array('life_id'=>$detail['life_id'],'closed'=>0,'status'=>1))->find();
+</php> 
+<if condition="!empty($LifePacket) and ($LifePacket['packet_is_command'] eq 0)"> 
+    <div class="life-packet">
+        <a id="www-hatudou-com-url-btn" href="<{:U('life/surplus',array('life_id'=>$detail['life_id'],'type_id'=>'1'))}>">
+        <div class="round radius-circle"><div class="badge-corner"><span class="badge bg-red">抢红包</span></div></div>
+        </a>
+    </div>
+</if>   
+           
+<if condition="!empty($LifePacket) and ($LifePacket['packet_is_command'] eq 1)"> 
+    <div class="life-packet">
+        <a id="www-hatudou-com-is-command">
+        <div class="round radius-circle"><div class="badge-corner"><span class="badge bg-red">抢红包</span></div></div>
+        </a>
+    </div>
+    
+<script>    
+$(document).ready(function(){
+     $("#www-hatudou-com-is-command").click(function(){
+       layer.open({
+          type: 1,
+          title:'请填写口令',
+          skin: 'layui-layer-rim',
+          area: ['360px', 'auto'], //宽高
+          content: '<input type="text" class="packet_command" name="packet_command" placeholder="请输入口令" value=""><input type="button" class="command-btn" value="领取红包"><p>口令在信息介绍中寻找哦</p>',
+        });
+     })
+     
+      $(document).on('click','.command-btn',function(){
+        var url = "<{:U('life/surplus')}>";
+        var life_id = "<{$detail.life_id}>";
+        var type_id = 2;
+        var packet_command = $(".packet_command").val();
+        $.post(url,{life_id:life_id,packet_command:packet_command,type_id:type_id},function(data){
+           if(data.code == '0'){
+                layer.msg(data.msg);
+           }else{
+               layer.msg(data.msg);
+                  setTimeout(function(){
+                  window.location.reload(true);
+               },1000)
+           }
+         },'json')
+   		});
+ 	})
+
+
+</script>
+</if> 
+
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+    wx.config({
+	debug: false,
+	appId: '<{$signPackage.appId}>',
+    timestamp: '<{$signPackage.timestamp}>',
+    nonceStr: '<{$signPackage.nonceStr}>',
+    signature: '<{$signPackage.signature}>',
+	jsApiList: [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'onMenuShareQZone'
+		]
+	});
+
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+            title: '<{$detail["title"]}>."分类信息"',
+        	link: "<{$CONFIG.site.host}><{:U('wap/life/detail',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'life_id'=>$detail['life_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($detail['photo'])}>", 
+            success: function (){
+				getShareIntegral();
+				//packet();
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+     });
+     //分享给朋友
+     wx.onMenuShareAppMessage({
+            title: '<{$detail["title"]}>."分类信息"',
+            desc: '<{$detail["title"]}>',
+            link: "<{$CONFIG.site.host}><{:U('wap/life/detail',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'life_id'=>$detail['life_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($detail['photo'])}>", 
+            type: '',
+            dataUrl: '',
+            success: function (){
+				getShareIntegral();
+				//packet();
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+      });
+		
+	//分享后获取红包回调函数
+	function packet(){
+	   var url = "<{:U('life/surplus')}>";
+	   var life_id = "<{$detail.life_id}>";
+	   var packet_command = $(".packet_command").val();
+	   var type_id = 3;
+	   $.post(url,{life_id:life_id,packet_command:packet_command,type_id:type_id},function(data){
+		   if(data.code == '1'){
+			   layer.msg(data.msg,function(){
+					location.href = data.url;
+			   });
+		   }else{
+			  layer.msg(data.msg, {icon: 5});
+		   }
+		},'json')
+	};
+	
+	
+	//分享后获取积分回调函数
+	function getShareIntegral(){
+	   var url = "<{:U('life/getShareIntegral')}>";
+	   var life_id = "<{$detail.life_id}>";
+	   var type_id = 1;
+	   $.post(url,{life_id:life_id,type_id:type_id},function(data){
+		   if(data.code == '1'){
+			   layer.msg(data.msg,function(){
+					location.href = data.url;
+			   });
+		   }else{
+			  layer.msg(data.msg, {icon: 5});
+		   }
+		},'json')
+	};
+	
+	
+});
+
+
+</script>
+<include file="public:subscribe"/>        
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>

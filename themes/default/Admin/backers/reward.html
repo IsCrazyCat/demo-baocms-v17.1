@@ -1,0 +1,94 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">推手管理</li>
+        <li class="li2">推手订单</li>
+        <li class="li2 li3">推手分成日志</li>
+    </ul>
+</div>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span>这里是推手分成订单日志，不可删除，只可查看！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="right">
+                <form method="post" action="<{:U('backers/reward')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            
+                            <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                         
+                            
+                            <label>
+                                <span>  日志ID：</span>  
+                                <input type="text" name="log_id" value="<{$log_id|default=''}>" class="inptText" />
+                                <input type="submit" class="inptButton" value="搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="log_id" /></td>
+                        <td>日志ID</td>
+                        <td>推手昵称</td>
+                        <td>分成金额</td>
+                        <td>商家名称</td>
+                        <td>购买人昵称</td>
+                        <td>原始订单ID</td>
+                        <td>商品名称</td>
+                        <td>分成说明</td>
+                        <td>分成时间</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_log_id" type="checkbox" name="log_id[]" value="<{$var.log_id}>" /></td>
+                            <td><{$var.log_id}></td>
+                            <php>$Users = D('Users')->find($var['fuid']);</php>
+                            <td><{$Users.nickname}></td>
+                            <td style="color:#F00">&yen; <{:round($var['money']/100,2)}> 元</td>
+                            <td><{$var.shop.shop_name}></td>
+                            <td><{$var.user.nickname}></td>
+                            <td><{$var.order_id}></td>
+                            <td><{$var.goods_name}></td>
+                            <td><{$var.intro}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<include  file='public:footer'/>       

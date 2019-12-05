@@ -1,0 +1,77 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">支付设置</li>
+        <li class="li2">微信H5支付</li>
+        <li class="li2 li3">微信H5支付安装</li>
+    </ul>
+</div>
+<p class="attention"><span>注意：</span>这里不是公众号支付，别搞错了哦，这里配置后只适合手机端支付</p>
+<form target="x-frame" action="<{:U('payment/install',array('payment_id'=>$detail['payment_id']))}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">支付方式:</td>
+                    <td class="rgTdBt">
+                        <img src="__PUBLIC__/images/<{$detail.logo}>" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">支付方式介绍:</td>
+                    <td class="rgTdBt" style="font-size: 14px;">
+                        <{$detail.contents}>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">AppId：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[appid]" value="<{$detail.setting.appid}>" class="scAddTextName w200" />
+                        <code>微信认证服务号后台的AppId</code>
+                    </td>
+                </tr>  
+                <tr>
+                    <td class="lfTdBt">AppSecret：</td>
+                    <td class="rgTdBt">
+                          <input type="text" name="data[appsecret]" value="<{$detail.setting.appsecret}>"  class="scAddTextName w360" />
+                          <code>微信认证服务号后台的AppSecret,跟您微信配置里面的AppSecret必须一致</code>
+                    </td>
+                </tr>  
+                 <tr>
+                    <td class="lfTdBt">商户ID：</td>
+                    <td class="rgTdBt">
+                          <input type="text" name="data[mchid]" value="<{$detail.setting.mchid}>"  class="scAddTextName w200" />
+                          <code>微信认证服务号后台左侧微信支付，支付配置里面有商户号，填写这里，不要有空格</code>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="lfTdBt">商户密钥：</td>
+                    <td class="rgTdBt">
+                          <input type="text" name="data[appkey]" value="<{$detail.setting.appkey}>"  class="scAddTextName w360" />
+                          <code>微信支付商户后台自己设置的，记得不要有空格，否则支付失败！</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">支付回调URL：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[notify_url]" value="<{$detail.setting.notify_url}>"  class="scAddTextName manageInput2" />
+                       <code>填写H5支付的回调域名，不明白联系客服</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">安全码：</td>
+                     <td class="rgTdBt">
+                          <input type="text" name="data[safety]" value="******"  class="scAddTextName w360" />
+                          <code>输入你的网站安全码，输入错误会导致修改失败哦，安全码咨询qq 286099981</code>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确定安装" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       
+
+
+

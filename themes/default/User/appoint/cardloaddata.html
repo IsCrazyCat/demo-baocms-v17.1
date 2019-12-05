@@ -1,0 +1,29 @@
+<foreach name="list" item="item">
+   <li class="line">
+        <dt>
+            <a class="x3">卡号：<{$item.card_id}></a>
+            <a class="x9 text-right"></a>
+        </dt>
+          <dd class="zhong">
+                <div class="x12">
+                    <p class="text-small">优惠卡名称：<span class="text-gray"><{$item.title}></span></p>
+                    <p class="text-small">优惠卡卡号：<span class="text-dot"><{$item.cardNumber}></span></p>
+                    <p class="text-small">优惠卡满多少使用：<span class="text-blue">&yen;<{:round($item['fullMoney']/100,2)}> 元</span></p>
+                    <p class="text-small">优惠卡面值：<span class="text-yellow">&yen;<{:round($item['cardMoney']/100,2)}> 元</span></p>
+                    <p class="text-small">过期时间：<span class="text-gray"><{$item.end_date}></span></p>
+                    
+                    <if condition="!empty($item['used_time'])">
+                    	<p class="text-small">验证时间：<span class="text-gray"><{$item.used_time|date='Y-m-d H:i',###}></span></p>
+                    </if>
+                    
+              </div>
+          </dd>
+          
+      <dl>
+          <p class="text-right padding-top x12">
+              <a class="button button-small border-dot"><{$states[$item['state']]}></a>
+          </p>
+      </dl>
+  </li>
+  <div class="blank-10 bg"></div>
+</foreach>

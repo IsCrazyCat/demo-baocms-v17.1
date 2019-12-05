@@ -1,0 +1,22 @@
+<include  file='public:header'/>
+<link rel="stylesheet" href="/static/default/wap/css/jifen.css">
+<style>
+.item-list {margin-top:5px;}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		商家积分兑换
+	</div>
+</header>
+
+<include file="shop:nav"/>
+<ul id="item-list" class="item-list"></ul>
+<script>
+	$(document).ready(function () {
+		loaddata('<{$nextpage}>', $("#item-list"), true);
+	});
+</script>	
+<include file="public:footer"/>

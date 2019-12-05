@@ -1,0 +1,14 @@
+.area{margin:20px auto 0 auto}
+.mui-input-group{margin-top:10px}
+.mui-input-group:first-child{margin-top:20px}
+.mui-input-group label{width:22%}
+.mui-input-row label~input,.mui-input-row label~select,.mui-input-row label~textarea{width:78%}
+.mui-checkbox input[type=checkbox],.mui-radio input[type=radio]{top:6px}
+.mui-content-padded{margin-top:25px}
+.mui-btn{padding:10px}
+.link-area{display:block;padding: 10px;text-align:center}
+.spliter{color:#bbb;padding:0 8px}
+.oauth-area{position:absolute;bottom:20px;left:0;text-align:center;width:100%;padding:0;margin:0}
+.oauth-area .oauth-btn{display:inline-block;width:50px;height:50px;background-size:30px 30px;background-position:center center;background-repeat:no-repeat;margin:0 20px;border:solid 1px #ddd;border-radius:25px}
+.oauth-area .oauth-btn:active{border:solid 1px #aaa}
+.oauth-area .oauth-btn.disabled{background-color:#ddd}

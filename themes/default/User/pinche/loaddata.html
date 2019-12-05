@@ -1,0 +1,100 @@
+ <foreach name="list" item="item">   
+<li class="line ">
+      <dt><a class="x4">拼车ID：<{$item.pinche_id}></a><a class="x8 text-right">发布日期：<{$item.create_time|date='Y-m-d H:i',###}></a></dt>
+        
+      <dd class="zhong">
+      
+      <if condition="$item['photo']">
+            <div class="x3">
+                <a href="<{:U('wap/pinche/detail',array('pinche_id'=>$item['pinche_id']))}>">
+                    <img src="<{:config_img($item['photo'])}>"  style="width:80%;">
+                </a>
+            </div>
+       </if>
+       
+      <div class="<if condition="$item['photo']">x9<else/>x12</if>">
+            <p class="text-small"> 类型：
+                <if condition="$item['cate_id'] eq 1">
+                <a class="text-red">车找人</a>
+                <elseif condition="$item['cate_id'] eq 2"/>
+                <a class="text-red">人找车</a>
+                <elseif condition="$item['cate_id'] eq 3"/>
+                <a class="text-red">车找货</a>
+                <elseif condition="$item['cate_id'] eq 4"/>
+                <a class="text-red">货找车</a>
+                </if>
+                <if condition="$item['cate_id'] eq 1">
+                【<{$item['num_1']}>空位】
+                <elseif condition="$item['cate_id'] eq 2"/>
+                【<{$item['num_2']}>位置】
+                <elseif condition="$item['cate_id'] eq 3"/>
+                【<{$item['num_3']}>可装吨数】
+                <elseif condition="$item['cate_id'] eq 4"/>
+                【<{$item['num_4']}>吨数】
+                </if>
+            </p>
+            <php>
+                $start_time = strtotime($item['start_time']);
+            </php>
+            <p class="text-small">出发时间：（<{:pincheTime($start_time)}>/<{$item['start_time_more']}>）</p>
+            <p class="text-small">出发地-目的地：<{$item['goplace']}> -<{$item['toplace']}> 
+                <if condition="!empty($item['middleplace'])">-途经（<{$item['middleplace']}>）</if>
+            </p>
+            <p class="text-small text-dot">电话：<{$item['mobile']}></p>
+            <if condition="$item['top_time']">
+            	<p class="text-small text-dot">置顶时间：<{$item.top_time|date='Y-m-d H:i:s',###}></p>
+            </if>
+            <if condition="!empty($item['details'])">
+            	<p class="text-small text-gray">备注：<{$item['details']}></p>
+            </if>
+      </div>
+      </dd>
+       
+      <dl>
+         <p class="padding-top x12 text-right"> 
+             <a class="button button-small bg-blue"  href="<{:u('pinche/edit',array('pinche_id'=>$item['pinche_id']))}>">编辑</a>
+             <a class="button button-small bg-dot" id="pinche-top" onclick="pincheTop(<{$item.pinche_id}>)" rel="<{$item['pinche_id']}>">置顶</a>
+             <a class="button button-small bg-gray" target="x-frame" href="<{:U('pinche/delete',array('pinche_id'=>$item['pinche_id']))}>">删除</a>
+             <a class="button button-small bg-yellow"  href="<{:U('wap/pinche/detail',array('pinche_id'=>$item['pinche_id']))}>">详细</a>
+         </eq>
+        
+       </p>
+      </dl>
+    </li>
+ 
+    <div class="blank-10 bg"></div>
+   </foreach> 
+
+  
+   
+<script>
+	function pincheTop(id){
+        layer.open({
+           type: 1,
+           title:'请选择置顶时间',
+           skin: 'layui-layer-rim', 
+           area: ['360px', 'auto'], 
+           content: '<div class="check_box"><label><input type="radio" name="type" value="1">1小时</label><label><input type="radio" name="type" value="2">2小时</label><label><input type="radio" name="type" value="3">3小时</label><label><input type="radio" name="type" value="4">4小时</label><label><input type="radio" name="type" value="5">5小时</label><label><input type="radio" name="type" value="6">6小时</label></div><input type="button" class="button-pinche-top" value="确认置顶"><p>置顶不可取消，请慎重操作</p>',
+       });
+       $(document).on('click','.button-pinche-top',function(){
+           var url = "<{:U('pinche/pinche_top')}>";
+           var pinche_id = id;
+           var type = $("input[name='type']:checked").val();
+           layer.confirm('您确认要置顶此拼车吗？', {
+               btn: ['是的','不了']
+           }, function(){
+              $.post(url,{pinche_id:pinche_id,type:type},function(data){
+                 if(data.status == 'error'){
+                     layer.msg(data.msg);
+                 }else{
+                     layer.msg(data.msg);
+                       setTimeout(function(){
+                         window.location.reload(true);
+                       },1000)
+                     }
+                 },'json')
+            });
+       })
+            
+  }    
+</script> 

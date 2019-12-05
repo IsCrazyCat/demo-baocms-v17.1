@@ -1,0 +1,118 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2">农村电商</li>
+        <li class="li2 li3">日报表列表</li>
+    </ul>
+</div>
+
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span> 这里显示每一个站点的交易信息，但是推送的时候可选择单个推送或者全部推送，当前开通农村电商的商家有【<{$count_shop_online}>】家，今日日期是：<{$data_day}></p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+        
+        	<div class="left">
+                <{:TUFZBA('online/build','','批量生成日报表','act','remberBtn')}>
+                <{:TUFZBA('online/pushAll','','推送今日全部报表','act','remberBtn')}>
+            </div>
+            
+            <div class="right">
+                <form method="post" action="<{:U('online/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                        <label>
+                            <span>日期</span>
+                            <input type="text" name="day" value="<{$day|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"  class="text" />
+                        </label>
+                        <label>
+                            <span>创建时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                            <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text " />
+                            <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="sumit">选择站点商家</a>
+                        </label>
+                        <label>
+                             <span>状态：</span>
+                             <select class="select w120" name="status">
+                                 <option <eq name="status" value="999">selected="selected"</eq> value="999">请选择</option>
+                                 <option <eq name="status" value="0">selected="selected"</eq>  value="0">未推送</option>
+                                 <option <eq name="status" value="1">selected="selected"</eq>  value="1">已推送</option>
+                             </select>
+                         </label>
+                         <label>
+                             <span> 报表ID：</span>   
+                             <input type="text" name="keyword" value="<{$keyword|default=''}>" class="inptText" />
+                             <input type="submit" class="inptButton" value="搜索" />
+                         </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="online_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>商家</td>
+                        <td>日期</td>
+                        <td>站点编码</td>
+                        <td>站点名称</td>
+                        <td>站点类型</td>
+                        <td>代买总订单数量</td>
+                        <td>代卖总订单数量</td>
+                        <td>序列化信息</td>
+                        <td>状态</td>
+                        <td>返回值</td>
+                        <td>生成时间</td>
+                        <td>推送时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_online_id" type="checkbox" name="online_id[]" value="<{$var.online_id}>" /></td>
+                            <td><{$var.online_id}></td>
+                            <td><{$shops[$var['shop_id']]['shop_name']}></td>
+                            <td><{$var['rptDate']}></td>
+                            <td><{$var['code']}></td>
+                            <td><{$var['name']}></td>
+                            <td><{$var['countyType']}></td>
+                            <td><{$var['buyOrder']}></td>
+                            <td><{$var['saleOrder']}></td>
+                            <td><{$var['data']}></td>
+                            <td><eq name="var.status" value="0">未推送<else/>已推送</eq></td>
+                            <td><{$var['return']}></td>
+                            <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                            <td><{$var.push_time|date="Y-m-d H:i:s",###}></td>
+                            <td>
+                                <if condition="$var['status'] eq 0">
+                                    <{:TUFZBA('online/push',array("online_id"=>$var["online_id"],'p'=>$p),'推送','act','remberBtn')}>
+                                </if>
+                                <{:TUFZBA('online/delete',array("online_id"=>$var["online_id"],'p'=>$p),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:TUFZBA('online/push','','批量推送报表','list','a2')}>
+                    <{:TUFZBA('online/delete','','批量删除','list','a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<include  file='public:footer'/>       

@@ -1,0 +1,187 @@
+
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:u('market/marketorder')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			菜市场分类
+		</div>
+		<div class="top-share">
+			<a class="sh_waimai_cate_add " href="javascript:void(0);" id="cate-btn"> 添加分类</a>
+		</div>
+	</header>
+    
+<style>
+ul {padding-left: 0px !important;}
+.sh_waimai_cate_list .right{padding-top:0.4rem;}
+.sh_waimai_cate_list .left{width: 45%;}
+.sh_waimai_cate_list .right{ width: 50%;}
+.sh_waimai_cate_list .right .btn{padding:.3rem 0.6rem;}
+.bg2{background-color: #f0efed !important;border-bottom:1px #ccc solid!important;}
+</style>
+ 
+	<div class="sh_mask_box sh_waimai_cate_add_mask_box" style="display:none;">
+	    <div class="sh_mask_nr">
+	        <div class="sh_mask_bt">添加菜市场分类</div>
+            <div class="sh_waimai_cate_add_mask">
+            	<div class="sh_waimai_cate_add_input mb10"><span>名称</span><input type="text" value="" name="cate_name" id="cate_name"></div>
+            </div>
+            <div class="sh_mask_btn">
+            	<input class="reco" type="button" value="确认" id="add">
+                <input class="cancel" type="button" value="取消" id="add_close">
+            </div>
+        </div>
+
+
+
+	</div>
+    <div class="sh_mask_box sh_waimai_cate_edit_mask_box" style="display:none;">
+	    <div class="sh_mask_nr">
+	        <div class="sh_mask_bt">编辑菜市场分类</div>
+            <div class="sh_waimai_cate_add_mask">
+            	<div class="sh_waimai_cate_add_input mb10"><span>名称</span><input type="text" value="" name="cate_name" id="cate_name"></div>
+            </div>
+            <div class="sh_mask_btn">
+            	<input class="reco" type="button" value="确认" id="edit">
+                <input class="cancel edit_close" type="button" value="取消">
+            </div>
+        </div>
+	</div>
+
+	<script type="text/javascript" language="javascript">
+        $(document).ready(function(){
+            $('.edit_close').click(function(){
+                $('.sh_waimai_cate_edit_mask_box').hide();
+            })
+        })
+    </script>
+	<script>
+		$(function(){
+			$(".sh_prompt_infor_closs").click(function(){
+				$(".sh_prompt_infor_box").hide();
+			});
+		});
+    </script>
+	<div class="sh_prompt_infor_box">
+        <div class="sh_prompt_infor_closs"></div>
+    </div>
+    <div class="blank-10 bg"></div>
+    <div class="sh_buy_fabu">
+        <div class="sh_list_public_box">
+            <ul>
+            	<volist name="list" id="a">
+                        <li class="list_box">
+                            <div class="sh_waimai_cate_list">
+                                <div class="fl left">
+                                    <div class="nr">
+                                        <p>ID：<span class="black3"><{$a.cate_id}></span></p>
+                                        <p>名称：<span class="black3"><{$a.cate_name}></span></p>
+                                    </div>
+                                </div>
+                                <div class="fr right">
+                                    <a href="javascript:void(0);" v="<{$a.cate_id}>" n="<{$a.cate_name}>" class="btn sh_waimai_cate_edit">编辑</a>
+                                    <a class="btn sh_waimai_cate_add sh_waimai_cate_add2" href="javascript:void(0);" cateid="<{$a.cate_id}>" id="cate-btn">添加子分类</a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </li>
+                        
+                         
+                        <php>
+                           $list2 = D('Marketcate')->where(array('parent_id'=>$a['cate_id']))->order(array('cate_id' => 'desc'))->select();
+                        </php>  
+                           
+                        <volist name="list2" id="a2">
+                             <li class="list_box bg2">
+                                <div class="sh_waimai_cate_list margin-big-left">
+                                    <div class="fl left">
+                                        <div class="nr">
+                                            <p>子ID：<span class="black3"><{$a2.cate_id}></span></p>
+                                            <p>子名称：<span class="black3"><{$a2.cate_name}></span></p>
+                                        </div>
+                                    </div>
+                                    <div class="fr right">
+                                    	<a href="javascript:void(0);" v="<{$a2.cate_id}>" n="<{$a2.cate_name}>" class="btn sh_waimai_cate_edit">编辑子分类</a>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </li>
+                         </volist>
+                         <div class="blank-10"></div>
+                 </volist>
+                
+                
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+
+	$(function(){
+		$(".sh_waimai_cate_add").click(function(){
+			$(".sh_waimai_cate_add_mask_box").show();
+		});
+		
+		
+		$(".sh_waimai_cate_edit").click(function(){
+			var v = $(this).attr('v');
+			var n = $(this).attr('n');
+			var s = $(this).attr('s');
+			$(".sh_waimai_cate_edit_mask_box").show();
+			$(".sh_waimai_cate_edit_mask_box").find('#cate_name').val(n);
+			$('#edit').attr('cate_id',v);
+		});
+
+
+		$('.sh_waimai_cate_add2').click(function(){
+			var cateid = $(this).attr('cateid');
+			$(".sh_waimai_cate_add_mask_box").show();
+			$('#add').attr('cateid',cateid);//赋值
+		})
+		
+		
+		$('#add_close').click(function(){
+			$('.sh_waimai_cate_add_mask_box').hide();
+		})
+	
+		
+		
+		$('#add').click(function(){
+			var cateid = $(this).attr('cateid');//取值
+			var cate_name = $('.sh_waimai_cate_add_mask_box #cate_name').val();
+			$.post('<{:U("market/create")}>',{cate_name:cate_name,cateid:cateid},function(result){
+				if(result.status == 'success'){
+					layer.msg(result.message,{icon:1});
+					setTimeout(function(){
+					location.reload(true);
+					},2500)
+				}else{
+					layer.msg(result.message,{icon:2});
+				}
+			},'json')
+		})
+			
+
+		$('#edit').click(function(){
+			var cate_name = $('.sh_waimai_cate_edit_mask_box #cate_name').val();
+			var v = $(this).attr('cate_id');
+			$.post('<{:U("market/edit")}>',{cate_name:cate_name,v:v},function(result){
+					if(result.status == 'success'){
+						$(".sh_waimai_cate_edit_mask_box").hide();
+						layer.msg(result.message,{icon:1});
+						setTimeout(function(){
+							location.reload(true);
+						},2500)
+					}else{
+						layer.msg(result.message,{icon:2});
+					}
+			},'json')
+		})
+	});
+</script>
+
+<include file="public:footer_market"/> 

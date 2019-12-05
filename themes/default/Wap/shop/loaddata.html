@@ -1,0 +1,53 @@
+<volist name="list" id="item" key="index">
+    <li>	
+      <a class="item line" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>">
+            <div class="x3">
+                <img src="<{:config_img($item['photo'])}>">
+            </div>
+            
+            <php>$YOUHUI = D('Shopyouhui')->where(array('shop_id'=>$item['shop_id']))->find();</php>
+            
+            
+            <div class="x9">
+                    <h5><{:msubstr($item['shop_name'],0,16,'utf-8',false)}><if condition="$item['parent_id']">【分店】</if>	
+                    	<if condition="$item['branch']"><em class="dian"><{$item.branch}>家分店</em></if>
+                        <if condition="$item['is_renzheng']"><span class="fu">认证</span></if>
+                        			
+                    </h5>
+                    
+                     <if condition="$YOUHUI">
+                        <p class="des-addr">
+                            <if condition="$YOUHUI['type_id'] EQ 0">
+                                <span class="youhui text-small">优惠买单</span> <{$YOUHUI['discount']}>折
+                            <else/>
+                                <span class="youhui text-small">优惠买单</span> 满 &yen;<{$YOUHUI['min_amount']}>元&nbsp;减 &yen;<{$YOUHUI['amount']}>元
+                            </if>
+                        </p> 
+                    </if> 
+                    
+                    <p class="des-star">
+                    	<if condition="$item['score']">
+                        	<span class="ui-starbar"><span style="width:<{:round($item['score']*2,2)}>%"></span></span>
+                        <else/>
+                        	<span class="text-small">暂无评价</span>
+                        </if>
+                        <span attr-ctrl="distance" attr-lat="<{$item.lat}>" attr-lon="<{$item.lng}>" class="float-right"><{$item.d}></span>
+                       <!-- <span class="float-right"><{$item.d}></span>-->
+                    </p>
+                    
+                   
+                   <if condition="$item['business_time']"><p class="des-addr"><i class="iconfont icon-xianshiqianggou"></i> <{$item['business_time']}></p></if>
+                   <p class="des-addr"><i class="iconfont icon-daohang"></i> <{:msubstr($item['addr'],0,26,'utf-8',false)}></p>
+                   <p class="des-addr">
+                     <if condition="$item['zan_num']"><i class="iconfont icon-dianzan"> <{$item['zan_num']}></i></if>
+                	 <if condition="$item['fans_num']">
+                     	<i class="<if condition="$item['zan_num']">margin-left</if> iconfont icon-25"> <{$item['fans_num']}></i>
+                     </if>            	 
+                     <if condition="$item['price']">
+                     	<i class="<if condition="$item['fans_num']">margin-left</if> iconfont icon-iconfontcaiwu"> 人均消费&yen;<{$item['price']}></i>
+                     </if>
+                   </p>
+            </div>
+         </a>
+    </li>
+</volist>       

@@ -1,0 +1,109 @@
+<include  file='public:header'/>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:26px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商家</li>
+        <li class="li2">商家管理</li>
+        <li class="li2 li3">推荐商家列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里是会员推荐的商家列表，只显示有推荐人是商家，您可以根据商家的营业额来给推荐人分成！这里的销售额是该商家在平台总结算金额，不是销售额</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('shop/guide')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                            <label>
+                                <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                                <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text " />
+                                <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="sumit">选择商家</a>
+                            </label>
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                                <input type="submit" class="inptButton" value="搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                        
+                    </div>
+                </div>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="guide_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>商家ID</td>
+                    <td>商家名称</td>
+                    <td>会员ID</td>
+                    <td>会员昵称</td>
+                    <td>分成费率</td>
+                    <td>备注</td>
+                    <td>是否删除</td>
+                    <td>创建时间</td>
+                    <td class="w200">操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_guide_id" type="checkbox" name="guide_id[]" value="<{$var.guide_id}>" /></td>
+                        <td><{$var['guide_id']}></td>
+                        <td><{$shops[$var['shop_id']]['shop_id']}></td>
+                        <td><{$shops[$var['shop_id']]['shop_name']}></td>
+                        <td><{$users[$var['user_id']]['user_id']}></td>
+                        <td><{$users[$var['user_id']]['nickname']}></td>
+                        <td><{$var['rate']}>‰千分比</td>
+                        <td><{$var['intro']}></td>
+                        <td><eq name="var.closed" value="1">已删除<else/><a style="color:#F00">正常</a></eq></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td class="w150">
+                        	<{:BA('shop/rate',array("guide_id"=>$var["guide_id"]),'编辑','','remberBtn_small',600,450)}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+
+
+
+

@@ -1,0 +1,70 @@
+<include  file='public:header'/>
+
+<style>
+.lfTdBt{width: 200px;}
+.profit{text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+
+
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">小程序配置</li>
+    </ul>
+</div>
+
+<p class="attention"><span>注意：</span>小程序配置</p>
+<form  target="x-frame" action="<{:U('setting/wxapp')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">小程序appid：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[appid]" value="<{$CONFIG['wxapp']['appid']}>" class="manageInput w150" />
+                        <code>小程序appid</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">小程序appsecret：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[appsecret]" value="<{$CONFIG['wxapp']['appsecret']}>" class="manageInput w150" />
+                        <code>小程序appsecret</code>
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                  <td class="rgTdBt profit" colspan="2">各种地图api</td>
+                </tr>
+                
+                <tr>
+                    <td  class="lfTdBt" >高德地图api：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[gd_key]" value="<{$CONFIG['wxapp']['gd_key']}>" class="scAddTextName w360" />
+                        <code>默认 api 7ea96f28218d6b2ba479ca6143e14f69  申请地址自己百度用来小程序调用，类型要选择小程序否则报错</a>
+                        </code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td  class="lfTdBt" >qq地图api：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[qqmap_key]" value="<{$CONFIG['wxapp']['qqmap_key']}>" class="scAddTextName w360" />
+                        <code>默认 api  IRTBZ-7KIR5-E6CIW-QEK5Z-EZIU5-JVFV7  申请地址自己百度只是用来小程序调用</a>
+                        </code>
+                    </td>
+                </tr>
+              
+                        
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>   
+
+

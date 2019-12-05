@@ -1,0 +1,231 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			提现申请
+		</div>
+	</header>
+
+<style>
+	ul{padding-left:0px;}
+</style>
+
+<ul id="shangjia_tab">
+	<li class="x3"><a href="<{:U('money/index')}>">余额充值</a></li>
+    <li class="x3"><a href="<{:U('cash/index')}>" class="on">申请提现</a></li>
+    <li class="x3"><a href="<{:U('cash/cashlog')}>" >提现日志</a></li>
+    <li class="x3"><a href="<{:U('logs/moneylogs')}>" >日志管理</a></li>
+</ul>
+<div class="blank-40 bg"></div>
+    <div class="line padding border-bottom">
+		<span class="x12 text-gray">
+            余额：<{$money}>元
+            <if condition="!empty($CONFIG[cash][user_cash_commission])">
+            ，手续费：<{$CONFIG[cash][user_cash_commission]}>%
+            </if>
+            <if condition="!empty($cash_money)">
+            ，单笔最少<{$cash_money}>元
+            </if>
+            <if condition="!empty($cash_money_big)">
+            ，单笔最多<{$cash_money_big}>元。
+            </if>
+        </span>
+	</div>
+
+    <form action="<{:U('cash/index')}>" method="post" target="x-frame">
+	<div class="line padding border-bottom">
+		<span class="x3 text-gray">提现金额：</span>
+		<span class="x9"><input type="text" name="money" id="money" placeholder="请输入金额" class="text-input" ></span>
+	</div>
+    
+    <div class="line padding border-bottom bank-cash-show">
+		<span class="x3 text-gray">开户名：</span>
+		<span class="x9">
+        	<input type="text" name="bank_realname" id="bank_realname" class="text-input"  value="<{$info.bank_realname}>"  placeholder="输入开户名" >
+        </span>
+	</div>
+    
+    
+	<div class="line padding border-bottom bank-cash-show">
+		<span class="x3 text-gray">开户银行：</span>
+		<span class="x9"><input type="text" name="bank_name" id="bank_name" class="text-input"  value="<{$info.bank_name}>"  placeholder="请输入开户银行" ></span>
+	</div>
+    
+    <div class="line padding border-bottom bank-cash-show">
+		<span class="x3 text-gray">银行账号：</span>
+		<span class="x9"><input type="text" name="bank_num" id="bank_num" class="text-input"  value="<{$info.bank_num}>"   placeholder="请输入银行账户" ></span>
+	</div>
+    
+    <div class="line padding border-bottom bank-num-show bank-cash-show" style="display:none">
+		<span class="x3 text-gray">银行名称：</span>
+		<span class="x9 bank-num-show-text text-dot"></span>
+	</div>
+    
+    
+    
+    <div class="line padding border-bottom bank-cash-show">
+		<span class="x3 text-gray">具体支行：</span>
+		<span class="x9"><input type="text" name="bank_branch" id="bank_branch" class="text-input"   value="<{$info.bank_branch}>"  placeholder="请输入具体支行名字" ></span>
+	</div>
+    
+    
+    <div class="line padding border-bottom weixin-cash-show">
+		<span class="x3 text-gray">真实姓名：</span>
+		<span class="x9"><input type="text" name="re_user_name" id="re_user_name" class="text-input"  value="<{$info.re_user_name}>"  placeholder="输入真实姓名" ></span>
+	</div>
+    
+    
+    <div class="line padding border-bottom alipay-cash-show">
+		<span class="x5 text-gray">支付宝账户：</span>
+		<span class="x7"><input type="text" name="alipay_account" id="alipay_account" class="text-input"  value="<{$info.alipay_account}>"  placeholder="输入支付宝账户" ></span>
+	</div>
+    <div class="line padding border-bottom alipay-cash-show">
+		<span class="x5 text-gray">支付宝实名姓名：</span>
+		<span class="x7"><input type="text" name="alipay_real_name" id="alipay_real_name" class="text-input"  value="<{$info.alipay_real_name}>"  placeholder="输入支付宝实名姓名" ></span>
+	</div>
+    
+   
+    <div class="blank-10 bg"></div>
+    <ul id="pay-method" class="pay-method">
+    
+    	<if condition="!empty($connect['open_id']) and  !empty($CONFIG['cash']['is_weixin_cash'])">
+              <li data-rel="weixin" id="weixin" class="media media-x payment">
+                <a class="float-left" href="javascript:;"><img src="/static/default/wap/image/pay/weixin_mobile.png"></a>
+                <div class="media-body">
+                    <div class="line">
+                        <div class="x10">
+                        微信提现<p>绑定微信的用户才可以使用</p>
+                        </div>
+                        <div class="x2">
+                            <span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </if>
+        
+        
+        <if condition="$CONFIG['cash']['is_alipay_cash']">
+            <li data-rel="alipay" id="alipay" class="media media-x payment">
+                <a class="float-left" href="javascript:;"><img src="/static/default/wap/image/pay/alipay_mobile.png"></a>
+                <div class="media-body">
+                    <div class="line">
+                        <div class="x10">
+                        支付宝提现<p>选择此方式提现到您的支付宝</p>
+                        </div>
+                        <div class="x2">
+                            <span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </if>
+        
+        
+        <li data-rel="bank" id="bank" class="media media-x payment">
+            <a class="float-left" href="javascript:;"><img src="/static/default/wap/image/pay/bank_mobile.png"></a>
+            <div class="media-body">
+                <div class="line">
+                    <div class="x10">
+                    银行卡提现<p>选择此方式提现到您的银行卡</p>
+                    </div>
+                    <div class="x2">
+                        <span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+                    </div>
+                </div>
+            </div>
+        </li>
+		</ul>
+	<input id="code" type="hidden" name="code" value="" />
+    
+	<div class="container">
+		<div class="blank-10"></div>
+		<p><span class="text-dot">小提示：</span> 请您仔细核对您的提现信息!</p>
+	</div>
+	<div class="container">
+		<div class="blank-10"></div>
+            <if condition="$money lt $cash_money">
+            <button class="button button-big button-block bg-gray">您的余额不足，单笔最少 &yen;<{$cash_money}>元</button>                                     
+            <else/>
+            <button class="button button-big button-block bg-dot">确认申请</button>
+            </if>   
+		<div class="blank-10"></div>
+	</div>
+</form>
+
+<script>
+
+	getBankInfo();//执行函数
+
+	$("#bank_num").blur(function(){
+		getBankInfo();
+	});
+	
+	//函数
+	function getBankInfo(){
+		var card = $("#bank_num").val();
+		$.post('<{:U("cash/getbankinfo")}>',{card:card},function(result){
+			if(result.code == '1'){
+				$(".bank-num-show").show();
+				$(".bank-num-show-text").html(result.msg);
+			}
+			if(result.code == '0'){
+				layer.msg(result.msg,{icon:2});
+			}
+		},'json');
+	}
+
+ 	$(document).ready(function(){
+         var name = $("#<{$CONFIG['pay']['cash']}>").attr("data-rel");//获取默认支付方式的ID
+         if(name == "<{$CONFIG['pay']['cash']}>"){//如果是真
+            $("#<{$CONFIG['pay']['cash']}>").addClass("active");//给他选中
+            $("#code").val(name);//给他添加val值
+			if(name == 'weixin'){
+				$(".weixin-cash-show").show();
+				$(".alipay-cash-show").hide();
+				$(".bank-cash-show").hide();
+			}else if(name == 'alipay'){
+				$(".weixin-cash-show").hide();
+				$(".alipay-cash-show").show();
+				$(".bank-cash-show").hide();
+			}else{
+				$(".weixin-cash-show").hide();
+				$(".alipay-cash-show").hide();
+				$(".bank-cash-show").show();
+			}
+          }
+   });
+			
+			
+
+	$("#pay-method li").click(function(){
+		var code = $(this).attr("data-rel");
+		
+			if(code == 'weixin'){
+				$(".weixin-cash-show").show();
+				$(".alipay-cash-show").hide();
+				$(".bank-cash-show").hide();
+			}else if(code == 'alipay'){
+				$(".weixin-cash-show").hide();
+				$(".alipay-cash-show").show();
+				$(".bank-cash-show").hide();
+			}else{
+				$(".weixin-cash-show").hide();
+				$(".alipay-cash-show").hide();
+				$(".bank-cash-show").show();
+			}
+		
+		
+		$("#code").val(code);
+		$("#pay-method li").each(function(){
+			$(this).removeClass("active");
+		});
+			$(this).addClass("active");
+		});
+</script>
+
+	
+<include file='public:footer'/>  
+

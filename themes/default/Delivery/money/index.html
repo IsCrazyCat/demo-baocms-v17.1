@@ -1,0 +1,100 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			配送员资金日志
+		</div>
+		<div class="top-signed">
+		</div>
+	</header>
+
+<div id="filter2" class="filter2">
+
+    <ul class="tab clearfix">
+      <li class="item">
+        <a href="javascript:void(0);"> 
+        <if condition="empty($type)">
+        	<span id="str_e_node">全部订单</span>
+        <elseif condition="$type eq ele"/>
+        	<span id="str_b_node" style="color:#f60;">外卖订单</span>
+        <elseif condition="$type eq goods"/>
+        	<span id="str_b_node" style="color:#f60;">商城订单</span>
+        <elseif condition="$type eq running"/>
+        	<span id="str_b_node" style="color:#f60;">跑腿订单</span>
+        </if>
+        <em></em>
+        </a>
+      </li>
+      
+      <li class="item">
+        <a href="javascript:void(0);">
+        <if condition="empty($order)">
+        	<span id="str_e_node">选择排序</span>
+        <elseif condition="$order eq 1"/>
+        	<span id="str_b_node" style="color:#f60;">默认排序</span>
+        <elseif condition="$order eq 2"/>
+        	<span id="str_b_node" style="color:#f60;">配送费从低到高</span>
+        <elseif condition="$order eq 3"/>
+        	<span id="str_b_node" style="color:#f60;">配送费从高到低</span>
+        <elseif condition="$order eq 4"/>
+        	<span id="str_b_node" style="color:#f60;">配送时间从低到高</span>
+        <elseif condition="$order eq 5"/>
+        	<span id="str_b_node" style="color:#f60;">配送时间从高到低</span>
+        </if>
+        <em></em>
+        </a>
+      </li>
+    </ul>
+    
+     <div class="inner" style="display:none;">
+              <ul>
+              <li><a <if condition="empty($type)">style="color:red;"</if> href="<{:LinkTo('money/index')}>">全部订单</a></li>
+                <li><a <if condition="$type eq ele">style="color:red;"</if> href="<{:LinkTo('money/index',array('type'=>ele,'order'=>$order))}>">外卖订单</a></li>
+                <li><a <if condition="$type eq goods">style="color:red;"</if> href="<{:LinkTo('money/index',array('type'=>goods,'order'=>$order))}>">商城订单</a></li>
+                <li><a <if condition="$type eq running">style="color:red;"</if> href="<{:LinkTo('money/index',array('type'=>running,'order'=>$order))}>">跑腿订单</a></li>
+            </ul>
+      </div>
+    
+    
+    
+    <div class="inner" style="display:none;">
+              <ul>
+             	<li><a <if condition="$order eq 1">style="color:red;"</if> href="<{:LinkTo('money/index',array('type'=>$type,'order'=>1))}>">默认排序</a></li>
+                <li><a <if condition="$order eq 2">style="color:red;"</if> href="<{:LinkTo('money/index',array('type'=>$type,'order'=>2))}>">配送费从低到高</a></li>
+                <li><a <if condition="$order eq 3">style="color:red;"</if> href="<{:LinkTo('money/index',array('type'=>$type,'order'=>3))}>">配送费从高到低</a></li>
+                <li><a <if condition="$order eq 4">style="color:red;"</if> href="<{:LinkTo('money/index',array('type'=>$type,'order'=>4))}>">配送时间从低到高</a></li>
+                <li><a <if condition="$order eq 5">style="color:red;"</if> href="<{:LinkTo('money/index',array('type'=>$type,'order'=>5))}>">配送时间从高到低</a></li> 
+            </ul>
+      </div>
+      
+      <div id="parent_container" class="inner_parent" style="display:none;"><div class="innercontent"></div></div>
+      <div id="inner_container" class="inner_child" style="display:none;"><div class="innercontent"></div></div>
+    
+</div>
+
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;"><i class="pull2"></i></div>
+
+<style>
+.container{margin-top:0rem;}
+p{margin-bottom:2px;line-height:inherit;}
+.container, .container-layout {
+    margin: 0 auto;
+    padding: 0 10px;
+}
+</style>
+  
+	<div class="container">
+       
+		<div id="shop-list" class="shop-list"></div>
+	</div>
+	<script>
+		$(document).ready(function () {
+			showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+
+
+<include file="public:footer"/>

@@ -1,0 +1,127 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">区域设置</li>
+        <li class="li2 li3">小区管理</li>
+    </ul>
+</div>
+<style>
+.seleK label {margin-right:0px;}
+.main-sc .jsglNr .selectNr .right span{ padding-right:0px;}
+.w150 {width:100px !important;}
+.seleK .sumit {padding-right:10px;}
+.inptText, .seleK .text {width:100px;}
+.tips{color: #fff; background: #1ca290; border-radius:2px; font-size:12px; padding:0 5px;}
+</style>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('community/create','','添加小区')}>
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('community/index')}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                     <div class="seleK">
+                      <label>
+                            <span>小区</span>
+                            <input type="hidden" id="community_id" name="community_id" value="<{$community_id|default=''}>"/>
+                            <input type="text"   id="name" name="name" value="<{$name}>" class="text w150" />
+                            <a style="margin-right: 5px;"  href="<{:U('community/select')}>" mini='select' w='800' h='600' class="sumit">选择小区</a>
+                        </label>
+                        <label>
+                            <span>管理员</span>
+                            <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                            <input class="text" type="text" name="nickname" id="nickname"  value="<{$nickname}>" />
+                            <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                        </label> 
+                        <span>名称</span>
+                        <input type="text" name="keyword" value="<{$keyword}>" class="inptText" /><input type="submit" value="   搜索"  class="inptButton" />
+                        </div>                    
+                       </div> 
+                </form>
+                <a href="javascript:void(0);" class="searchG">高级搜索</a>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form method="post" action="<{:U('community/index')}>">
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                  	  <label>
+                            <span>选择小区</span>
+                            <input type="hidden" id="community_id" name="community_id" value="<{$community_id|default=''}>"/>
+                            <input type="text"   id="name" name="name" value="<{$name}>" class="text w150" />
+                            <a style="margin-right: 5px;"  href="<{:U('logs/select')}>" mini='select' w='800' h='600' class="sumit">选择小区</a>
+                        </label>
+                        <label>
+                            <span>管理员</span>
+                            <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                            <input class="text" type="text" name="nickname" id="nickname"  value="<{$nickname}>" />
+                            <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                        </label> 
+                        <label>
+                            <span>名称:</span>
+                            <input type="text" name="keyword" value="<{$keyword}>" class="inptText" />
+                        </label>
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="submit" value="   搜索"  class="inptButton" />
+                </div>
+        </form>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td><input type="checkbox" class="checkAll" rel="community_id" /></td>
+                    <td>ID</td>
+                    <td>物业管理员</td>
+                    <td>小区名称</td>
+                    <td>所在区域</td>
+                    <td>所属村镇</td>
+                    <td>物业公司</td>
+                    <td>排序</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_community_id" type="checkbox" name="community_id[]" value="<{$var.community_id}>" /></td>
+                        <td><{$var.community_id}></td>
+                        <td><{$users[$var['user_id']]['nickname']}></td>
+                        <td><{$var.name}></td>
+                        <td><{$var.area_name}></td>
+                        <td <if condition="empty($village[$var['village_id']]['name'])">style="background-color: #F8F8F8;</if>"><{$village[$var['village_id']]['name']|default='未入驻村镇'}></td>
+                        <td><{$var.property}></td>
+                        <td><{$var.orderby}></td>
+                        <td>
+                        	<{:BA('community/owner',array("community_id"=>$var["community_id"]),'业主','','remberBtn')}>
+                            <{:BA('community/order',array("community_id"=>$var["community_id"]),'账单','','remberBtn')}>
+                            <{:BA('access/lists',array("community_id"=>$var["community_id"]),'门禁','','remberBtn')}>
+                            <{:BA('feedback/index',array("community_id"=>$var["community_id"]),'报修','','remberBtn')}>
+                            <{:BA('communityposts/index',array("community_id"=>$var["community_id"]),'贴吧','','remberBtn')}>
+                            <{:BA('communitynews/index',array("community_id"=>$var["community_id"]),'通知','','remberBtn')}>
+                            <{:BA('community/edit',array("community_id"=>$var["community_id"]),'编辑','','remberBtn')}>
+                            <{:BA('community/delete',array("community_id"=>$var["community_id"]),'删除','act','remberBtn')}>
+                            <a target="_blank" href="<{:U('community/manage',array('user_id'=>$var['user_id']))}>" class="remberBtn">管理小区</a>
+                        </td>
+
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <{:BA('community/delete','','批量删除','list',' a2')}>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+

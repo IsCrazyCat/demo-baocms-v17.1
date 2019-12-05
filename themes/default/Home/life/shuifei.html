@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//liD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/liD/xhtml1-transitional.lid">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>贷款计算器- <{$CONFIG['site']['sitename']}></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+	<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/house/js/ll.js"></script>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/house/css/global.css">
+</head>
+<body class="calc">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/house/css/calculator.css">
+
+<div class="wrap main">
+  <div class="bread clearfix">
+        <div class="l mt5">
+        <a href="<{:U('Home/index')}>"><i class="fcr mr5"></i>首页</a>
+        <i class="pipe">/</i>购房工具
+        </div>
+    </div>
+  <div class="calc_nav clearfix" id="calc_nav">
+    <ul class="cf fr">
+    <!-- 选中效果是给当前样式加"_h",例如：当前样式c_gf;选中样式c_gf_h -->
+    <li id="info-5" class="c_gf_h"><a href="<{:U('life/pinggu')}>">购房能力评估</a></li>
+    <li id="info-3" class="c_dc"><a href="<{:U('life/daikuan')}>">贷款计算器</a></li>
+    <li id="info-6" class="c_gj"><a href="<{:U('life/gongjijin')}>">公积金贷款</a></li>
+    <li id="info-4" class="c_tq"><a href="<{:U('life/huandai')}>">提前还贷</a></li>
+    <li id="info-108" class="c_sf act"><a href="<{:U('life/shuifei')}>">税费计算器</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="main" class="main wrap">
+<!--内容区-->		
+		<div class="calc_main_wrap">
+			<div class="calc_main cf">
+				<div class="left fl">
+					<form action="" method="" name="formt3">
+						<div class="top cf goufang  shuifei">
+							<div class="sr fl">
+								<h2>税费计算器</h2>
+								<ul class="cf">
+									<li class="cf fl"><span class="fl">单价：</span><input class="fl txt" type="text" value="" name="dj3"><b class="fl">元/平米</b></li>
+									<li class="cf fl"><span class="fl">面积：</span><input class="fl txt" type="text" value="" name="mj3"><b class="fl">平方米</b></li>
+								</ul>
+								<p class="btn_p"><input type="button" value="计算" class="btn1" onclick="runjs3(this.form)"><a id="reset" href="http://house.cfywgg.com/info.php?fid=108#" title="" target="_blank">请除数据，重新计算</a></p>
+							</div>
+							<div class="re fl">
+								<h2>计算结果<span>(&nbsp;&nbsp;计算结果仅供参考&nbsp;&nbsp;)</span></h2>
+								<div class="re_in re_sf">
+									<span class="sj"></span>
+									<p><b>房屋总价：</b><span id="fkz3">0</span>元</p>
+									<p><b>契税：</b><span id="q">0</span>元</p>
+									<p><b>印花税：</b><span id="yh">0</span>元</p>
+									<p><b>公证费：</b><span id="gzh">0</span>元</p>
+									<p><b>房屋买卖手续费：</b><span id="fw">0</span>元</p>
+									<p><b>委托办理产权：</b><span id="wt">0</span>元</p>
+									<div class="shouxuf">
+										手续费：<br>
+										购房税费用 银行贷款需要支付的费用
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="bottom">
+						<h4>税费计算器</h4>
+						<p>1.公积金贷款最高额度为80万元;</p>
+						<p>2.对已贷款购买一套住房但人均面积低于当地平均水平，再申请购买第二套普通自住房的居民，比照执行首次贷款购买普通自住房的优惠政策。</p>
+					</div>
+				</div>
+				
+				<div class="right fr">
+          <h3>公积金贷款利率(单位%)</h3>
+          <dl class="cf calc_dl">
+            <dt class="cf"><span class="fl">年限</span><strong class="fl">1-5年</strong><b class="fl">5-30年</b></dt>
+        
+            <dd class="cf"><span class="fl">2015.10.24后</span><strong class="fl">2.75</strong><b class="fl">3.25</b></dd>
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2015.08.26后</span><strong class="fl">2.75</strong><b class="fl">3.25</b></dd>
+            <dd class="cf"><span class="fl">2015.06.28后</span><strong class="fl">3.00</strong><b class="fl">3.50</b></dd>
+
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2015.05.11后</span><strong class="fl">3.25</strong><b class="fl">3.75</b></dd>
+            <dd class="cf"><span class="fl">2015.03.01后</span><strong class="fl">3.50</strong><b class="fl">4.00</b></dd>
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2014.11.22后</span><strong class="fl">3.75</strong><b class="fl">4.25</b></dd>
+            
+            <dd class="cf"><span class="fl">2012.07.06后</span><strong class="fl">4.00</strong><b class="fl">4.50</b></dd>
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2012.06.08后</span><strong class="fl">4.20</strong><b class="fl">4.70</b></dd>
+            <dd class="cf"><span class="fl">2011.07.06后</span><strong class="fl">4.45</strong><b class="fl">4.90</b></dd>
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2011.04.05后</span><strong class="fl">4.20</strong><b class="fl">4.70</b></dd>
+          </dl>
+          <h3>商业贷款利率(单位%)</h3>
+          <dl class="cf calc_dl">
+            <dt class="cf"><span class="fl">年限</span><strong class="fl">3-5年</strong><b class="fl">5-30年</b></dt>
+            <dd class="cf"><span class="fl">2015.10.24后</span><strong class="fl">4.75</strong><b class="fl">4.90</b></dd>
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2015.08.26后</span><strong class="fl">5.00</strong><b class="fl">5.15</b></dd>
+            <dd class="cf"><span class="fl">2015.06.28后</span><strong class="fl">5.25</strong><b class="fl">5.40</b></dd>
+
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2015.05.11后</span><strong class="fl">5.50</strong><b class="fl">5.65</b></dd>
+            <dd class="cf"><span class="fl">2015.03.01后</span><strong class="fl">5.75</strong><b class="fl">5.90</b></dd>
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2014.11.22后</span><strong class="fl">6.00</strong><b class="fl">6.15</b></dd>
+
+
+            <dd class="cf"><span class="fl">2012.07.06后</span><strong class="fl">6.40</strong><b class="fl">6.55</b></dd>
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2012.06.08后</span><strong class="fl">6.65</strong><b class="fl">6.80</b></dd>
+            <dd class="cf"><span class="fl">2011.07.06后</span><strong class="fl">6.90</strong><b class="fl">7.05</b></dd>
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2011.04.05后</span><strong class="fl">6.65</strong><b class="fl">6.80</b></dd>
+            <dd class="cf"><span class="fl">2011.02.09后</span><strong class="fl">6.45</strong><b class="fl">6.60</b></dd>
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2010.12.26后</span><strong class="fl">6.22</strong><b class="fl">6.40</b></dd>
+            <dd class="cf"><span class="fl">2010.10.20后</span><strong class="fl">5.95</strong><b class="fl">6.14</b></dd>
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2008.12.23后</span><strong class="fl">5.76</strong><b class="fl">5.94</b></dd>
+            <dd class="cf"><span class="fl">2008.11.27后</span><strong class="fl">5.94</strong><b class="fl">6.12</b></dd>
+            <dd class="cf" style="background: rgb(238, 238, 238);"><span class="fl">2008.10.30后</span><strong class="fl">7.02</strong><b class="fl">7.20</b></dd>
+            <dd class="cf"><span class="fl">2008.10.09后</span><strong class="fl">7.29</strong><b class="fl">7.47</b>
+            </dd>
+          </dl>
+        </div>
+			</div>
+		</div>
+	<script>
+		var _fkz3 = document.getElementById("fkz3");
+		var _q = document.getElementById("q");
+		var _yh = document.getElementById("yh");
+		var _gzh = document.getElementById("gzh");
+		var _fw = document.getElementById("fw");
+		var _wt = document.getElementById("wt");
+
+		function runjs3(obj) {
+			if (!obj.dj3.value) {
+				alert('单价不能为空');
+				return false;
+			} else if (!obj.mj3.value) {
+				alert('面积不能为空');
+				return false;
+			}
+			var dj3 = parseFloat(obj.dj3.value);
+			var mj3 = parseFloat(obj.mj3.value);
+			var fir=1;
+			var fkz3 = dj3 * mj3;
+			var yh = fkz3 * 0.0005;
+			if (dj3 <= 9432) {
+				var q = fkz3 * 0.015;
+			} else if (dj3 > 9432) {
+				var q = fkz3 * 0.03;
+			}
+			if (mj3 <= 120) {
+				var fw = 500;
+			} else if (120 < mj3 && mj3 <= 5000) {
+			  var fw = 1500;
+			}
+			if (mj3 > 5000) {
+				var	fw = 5000;
+			}
+
+			if (fir == 1 && mj3 <= 90) {
+				q = fkz3 * 0.01
+			} else if (fir == 1 && mj3 > 90) {
+				q = fkz3 * 0.015
+			}
+			if (fir == 2 && mj3 <= 90) {
+				q = fkz3 * 0.01
+			} else if (fir == 2 && mj3 > 90) {
+				q = fkz3 * 0.02
+			}
+
+			var gzh = fkz3 * 0.003;
+			_yh.innerHTML = Math.round(yh * 100, 5) / 100;
+			_q.innerHTML = Math.round(q*100,5)/100;
+			_fkz3.innerHTML = Math.round(fkz3 * 100, 5) / 100;
+			_gzh.innerHTML = Math.round(gzh * 100, 5) / 100;
+			_wt.innerHTML = Math.round(gzh * 100, 5) / 100;
+			_fw.innerHTML = Math.round(fw * 100, 5) / 100;
+		}
+		document.getElementById("reset").onclick = function() {
+			document.getElementsByName('formt3')[0].reset();
+			return false;
+		}
+	</script>
+	<script type="text/javascript">
+			//计算器导航
+			(function() {
+				var str='';
+				$('#calc_nav').find('li').on({
+					'mouseenter':function() {
+						str=$(this).attr('class');
+						$(this).addClass(str+'_h');
+					},
+					'mouseleave':function() {
+						$(this).removeClass(str+'_h');
+					}
+				});
+			})();
+			$(".calc_dl dd:odd").css("background","#eee");
+	</script>	
+</div>
+<div class="blank1"></div>
+
+
+</body></html>

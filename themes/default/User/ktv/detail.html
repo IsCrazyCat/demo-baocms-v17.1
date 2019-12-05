@@ -1,0 +1,91 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('ktv/index',array('st'=>0))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			KTV订单详情
+		</div>
+		<div class="top-share">
+			<a href="#" id="cate-btn"></a>
+		</div>
+	</header>
+<body>   
+<style>
+.panel-list li.padding10 { padding:0 10px;}
+.panel-list li a.button-small { margin:10px 0; padding:0 10px; text-align:center; font-size:14px;}
+.container a{ text-align:center}
+.list-media-x { margin-top: 0rem;}
+p, .p {line-height: inherit;}
+</style>
+
+<div class="blank-10 bg"></div>
+<div class="list-media-x">
+	<ul>
+		<li class="line padding">
+			<div class="x3">
+				<img style="width:90%;" src="<{:config_img($detail['room']['photo'])}>" />
+			</div>
+			<div class="x9">
+				<p><{$detail['room']['title']}></p>
+                <p class="text-gray"><{$detail['room']['intro']}></p>
+				<p>
+               		 最低消费：<span class="text-dot">&yen;<{:round($detail['room']['small_price']/100,2)}>元</span> &nbsp;&nbsp;
+                     容纳人数：<span><{$detail.room.accommodate_number}></span>&nbsp;&nbsp;
+                     
+                </p>
+                	<if condition="!empty($detail['room']['daofu_price'])">
+                       到付： <span class="text-yellow">&yen;<{:round($detail['daofu_price']/100,2)}>元</span>
+                    </if>
+                <p>
+                	
+                </p>
+			</div>
+		</li> 
+	</ul>
+</div>
+
+
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+		<li><a href="javascript:;">订单ID：<em><{$detail.order_id}></em></a></li>
+        <li><a href="javascript:;">订单编号：<em><{$detail.order_number}></em></a></li>
+        <li><a href="javascript:;">实际支付：<em  class="text-dot">&yen;<{:round($detail['price']/100,2)}>元</em></a></li>
+        <if condition="$detail['status'] neq 0">
+        	<li><a href="javascript:;">验证码：<em><{$detail.code}></em></a></li>
+        </if>
+		<li><a href="javascript:;">到店时间：<em><{$detail.gotime|date='Y-m-d',###}></em></a></li>
+		<li><a href="javascript:;">姓名：<em><{$detail.name}></em></a></li>
+        <li><a href="javascript:;">手机号：<em> <{$detail.mobile}></em></a></li>
+        <if condition="!empty($detail['note'])">
+        	<li><a href="javascript:;">备注：<{$detail.note}></a></li>
+        </if>
+	</ul>
+</div>
+
+
+
+
+
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul><li class="padding10"><a class="button button-small bg-yellow"><{$getTypes[$detail['status']]}></a> </li></ul>
+</div>
+<div class="blank-10 bg"></div>
+<if condition="!$detail['status']">
+    <div class="blank-30"></div>
+        <div class="container login-open">
+            <a class="button button-block button-big bg-dot" id="pay_btn">在线支付:&yen; <{:round($detail['price']/100,2)}></a>
+            <script>
+                $(document).ready(function(){
+                    $("#pay_btn").click(function(){
+                        var url = "<{:U('wap/ktv/pay',array('order_id'=>$detail['order_id']))}>";
+                        window.location.href = url;
+                    })
+                })
+            </script>
+        </div>
+</if>
+<div class="blank-20"></div>
+<include file="public:footer"/>

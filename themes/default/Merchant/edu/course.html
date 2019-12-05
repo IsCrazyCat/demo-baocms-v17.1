@@ -1,0 +1,58 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">教育</a> > <a>教育房间</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('edu/course')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+           课程名称：<input type="text" class="radius3 tuan_topser"  name="keyword" value="<{$keyword}>" />
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            </div>
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('edu/course_create')}>">添加课程+</a></div>
+        </div>
+    </div>
+    </form>
+    <include  file='edu:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+        	 <td>课程编号</td>
+             <td>名称</td>
+             <td>类别</td>
+             <td>封面</td>
+             <td>类型</td>
+             <td>原价</td>
+             <td>课程价格</td>	
+             <td>试课价格</td>						
+             <td>创建时间</td>
+             <td>审核状态</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr <eq name="var.type" value="1">style="background:#FFECF6;"</eq>>
+                <td><{$var.course_id}></td>
+                <td><{$var.title}></td>
+                <td><{$cates[$var['cate_id']]['cate_name']}></td>
+                <td><img style="width:60px;" src="<{:config_img($var['photo'])}>"/></td>
+                <td><eq name="var.type" value="0">课程<else/><a style="color:#F00">试课</a></eq> </td>
+                <td>&yen;<{:round($var['price']/100,2)}>元</td>
+                <td>&yen;<{:round($var['course_price']/100,2)}>元</td>
+                <td><eq name="var.type" value="1"><a style="color:#F00">&yen;<{:round($var['test_price']/100,2)}>元</a><else/>不支持试课</eq> </td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td><eq name="var.audit" value="1">已审核<else/>未审核</eq> </td>
+                <td>
+                <eq name="var.type" value="0">
+                    <a class="radius3 sy_c1an" href="<{:U('edu/course_edit',array('edu_id'=>$var['edu_id'],'course_id'=>$var['course_id']))}>">编辑</a>
+                    <a class="radius3 sy_c1an" mini="confirm" href="<{:U('bcourse_delete',array('edu_id'=>$var['edu_id'],'course_id'=>$var['course_id']))}>">删除课程</a>
+                </eq>
+            </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<include  file='public:footer'/>

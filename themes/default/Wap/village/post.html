@@ -1,0 +1,31 @@
+<include file='public:header'/>   
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/wap/other/webuploader.js"></script>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('village/tieba',array('village_id'=>$detail[village_id]))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			发表帖子
+		</div>
+	</header>
+
+	<form class="post-form" action="<{:U('village/post',array('village_id'=>$detail[village_id]))}>" method="post" target="x-frame" >
+		
+		<div class="line border-bottom">
+			<div class="x9 form-title">
+				<input type="text" name="data[title]" value="" placeholder="请输入标题"  />
+			</div>
+			<div class="x3 text-right">
+				<button class="button bg-green margin-small-right" type="submit">发表</button>
+			</div>
+		</div>
+		<div class="line border-bottom">
+			<textarea class="form-content" name="data[details]" placeholder="文明上网，登陆发言"></textarea>
+		</div>
+	</form>
+	
+	
+	
+<include file='public:footer'/>  

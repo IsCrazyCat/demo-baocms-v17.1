@@ -1,0 +1,87 @@
+<include  file='public:header'/> 
+
+<style>
+	body{padding:10px 0;}
+</style> 
+
+ 
+	<div class="tuan-order">
+		<form action="<{:U('tuan/pay2',array('order_id'=>$order['order_id']))}>" method="post" target="x-frame">
+		
+		
+		<div class="line border-top border-bottom">
+			<div class="container">
+            
+                <if condition="$tuan['use_integral']"> 
+                    <div class="x12 row border-bottom">
+                        <span class="float-left">
+                            可使用积分
+                        </span>
+                        <span class="float-right">
+                            <{$order['num']*$tuan['use_integral']}>积分
+                        </span>
+                    </div>
+                </if>    
+                
+				<div class="x12 row">
+					<span class="float-left">
+						总金额
+					</span>
+					<span class="float-right">
+						单价：￥<{:round($tuan['tuan_price']/100,2)}>元 * <{$order['num']}> = <em>￥<span id="text-red"><{:round($order['total_price']/100,2)}></span>元</em>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="blank-10 bg"></div>
+        
+        
+			<ul id="pay-method" class="pay-method">
+			<foreach name="payment" item="var">
+				<li data-rel="<{$var.code}>"  id="<{$var.code}>" class="media media-x payment">
+					<a class="float-left"  href="javascript:;">
+						<img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+					</a>
+					<div class="media-body">
+						<div class="line">
+							<div class="x10">
+							<{$var.name}><p>推荐已安装<{$var.name}>客户端的用户使用</p>
+							</div>
+							<div class="x2">
+								<span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+							</div>
+						</div>
+					</div>
+				</li>
+			</foreach>
+			</ul>
+		<input id="code" type="hidden" name="code" value="" />
+		<div class="blank-10"></div>
+		<div class="container">
+			<button class="button button-block button-big bg-yellow submit" type="submit">确认支付  &yen;<{:round($order['total_price']/100,2)}>元</button>
+		</div>
+        </form>
+	</div>
+
+	
+<script>
+	
+	$(document).ready(function(){
+		var name = $("#<{$CONFIG['pay']['auto']}>").attr("data-rel");
+		if(name == "<{$CONFIG['pay']['auto']}>"){
+			$("#<{$CONFIG['pay']['auto']}>").addClass("active");
+			$("#code").val(name);
+		}
+	});
+		
+    $(document).ready(function(){
+		$("#pay-method li").click(function(){
+			var code = $(this).attr("data-rel");
+			$("#code").val(code);
+			$("#pay-method li").each(function(){
+				$(this).removeClass("active");
+			});
+			$(this).addClass("active");
+		});
+	});
+</script>

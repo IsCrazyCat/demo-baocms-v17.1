@@ -1,0 +1,92 @@
+.tuan-detail .banner img{max-height:200px}
+.p,p{margin-bottom:0;line-height:inherit}
+.main-cate ul{width:100%;height:auto;overflow:hidden;list-style:none;padding:0}
+.main-cate ul li{float:left;width:33.33333%;background:#fff;color:#333;font-size:16px;height:60px;text-align:center;line-height:40px;border-right:thin solid #eee;border-bottom:thin solid #eee}
+.main-cate ul li.diff{border-right:none!important}
+.main-cate ul li a{display:block;color:#333;padding:5px 0}
+.main-cate .icon01,.main-cate .icon02,.main-cate .icon03,.main-cate .icon04,.main-cate .icon05,.main-cate .icon06,.main-cate .icon07,.main-cate .icon08,.main-cate .icon09{background:url(../image/tuan/icons.png) no-repeat;display:block;float:left;height:50px;margin-top:4px;width:50px}
+.main-cate .icon02{background-position:0 -50px}
+.main-cate .icon03{background-position:0 -100px}
+.main-cate .icon04{background-position:0 -150px}
+.main-cate .icon05{background-position:0 -200px}
+.main-cate .icon06{background-position:0 -250px}
+.main-cate .icon07{background-position:0 -300px}
+.main-cate .icon08{background-position:0 -350px}
+.main-cate .icon09{background-position:0 -400px}
+.main-cate span.wenzi{display:block;margin-right:14%;float:right;width:36%}
+.main-tuan{overflow:hidden}
+.main-tuan ul{list-style:none;padding:0}
+.main-tuan li{padding:10px 0;border-bottom:thin solid #eee}
+.main-tuan li img{float:left;border-radius:3px;overflow:hidden}
+.main-tuan li .des{padding-left:5px}
+.main-tuan li .des h5{height:20px;line-height:20px;overflow:hidden}
+.main-tuan li .des .intro{height:20px;line-height:20px;color:#999;overflow:hidden;margin:0;font-size:12px}
+.main-tuan li .des .info{color:#F60;font-size:11px;margin:0;overflow:hidden}
+.main-tuan li .des .info del{color:#999;margin-left:20px}
+.main-tuan li .des .info em{font-size:14px}
+.tuan-shop{overflow:hidden}
+.tuan-shop .shop-con{overflow:hidden;border-bottom:thin solid #eee;padding:10px;background:#FAFAFA}
+.tuan-shop .shop-name{width:50%;float:left}
+.tuan-shop .shop-tags{width:50%;float:right}
+.tuan-shop .shop-local{float:right}
+.tuan-shop .shop-local span{float:left!important;font-size:14px;margin:0 5px;color:#333!important}
+.tuan-shop .shop-tags span{float:right;display:inline-block;width:20px;height:20px;color:#FFF;text-align:center;line-height:20px;margin-left:3px;border-radius:2px}
+.tuan-shop .shop-tags span.z{background:#f2c700}
+.tuan-shop .shop-tags span.d{background:#f16600}
+.tuan-shop .shop-tags span.w{background:#02cb65}
+.tuan-shop .shop-tags span.k{background:#00a1ec}
+.tuan-detail .banner{width:100%;position:relative}
+.tuan-detail .banner img{width:100%}
+.tuan-detail .title{position:absolute;bottom:0;color:#FFF;background:rgba(0,0,0,.5);width:100%;padding:10px}
+.tuan-detail .title h1{height:28px}
+.tuan-detail .title h1 a{font-size:12px;text-align:center;color:#fff}
+.tuan-detail .title p{height:20px;line-height:20px;font-size:12px;overflow:hidden;margin:5px 0 0 0}
+.tuan-detail .price{padding:20px 10px 10px 10px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+.tuan-detail .price h3{font-size:18px;line-height:22px;font-weight:700;color:#22222d}
+.tuan-detail .price h4{margin-top:11px;line-height:16px;font-size:13px;color:#88888d}
+.tuan-detail .price em{font-size:30px;font-weight:700;margin-right:5px}
+.tuan-detail .price del{color:#999;margin-left:20px}
+.tuan-detail .button{text-align:center}
+.tuan-detail .info{padding:10px}
+.tuan-detail .info h4{font-size:14px;color:#999}
+.tuan-detail .status{padding:10px;color:#999}
+.tuan-detail .status2{border-top:#eee 1px solid;padding:10px}
+.tuan-detail .status2 a{color:#06c1ae;font-size:16px;font-weight:700}
+.tuan-detail .ui-starbar{margin-top:5px}
+.tuan-detail .shop{padding:10px}
+.tuan-detail .shop .tel{font-size:40px;width:100%;display:block;text-align:center}
+.tuan-detail .shop h2{font-size:16px}
+.tuan-detail .shop p{font-size:12px;color:#999;margin:5px 0 0 0;width:90%;overflow:hidden;height:20px}
+.tuan-detail hr{margin:0}
+.tuan-detail .intro h2{height:40px;line-height:40px;font-size:16px;padding:0 10px;border-bottom:thin solid #f5f4f4}
+.tuan-detail .intro .container{padding:10px}
+.tuan-detail .intro .container *{max-width:100%}
+.tuan-detail .introxuzhi{padding:10px}
+.focus{width:100%;margin:0 auto;position:relative;overflow:hidden}
+.focus .hd{width:100%;height:11px;position:absolute;z-index:1;top:5px;text-align:center}
+.focus .hd ul{display:inline-block;height:10px;padding:3px 5px;background-color:rgba(171,171,171,.7);-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;font-size:0;vertical-align:top}
+.focus .hd ul li{display:inline-block;width:5px;height:5px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;background:#8C8C8C;margin:0 5px;vertical-align:top;overflow:hidden}
+.focus .hd ul .on{background:#06c1ae}
+.focus .bd{position:relative;z-index:0}
+.focus .bd li img{width:100%;max-height:220px;background:url(images/loading.gif) center center no-repeat}
+.focus .bd li a{-webkit-tap-highlight-color:transparent}
+.line li{list-style-type:none}
+.tuan-detail .title1{position:absolute;bottom:0;padding:5px;color:#FFF;background:rgba(0,0,0,.5);width:100%}
+.tuan-detail .title1 h1{font-size:14px;height:16px;line-height:16px}
+.tuan-detail .title1 p{height:12px;line-height:12px;font-size:12px;overflow:hidden;margin:3px 0 0 0}
+.dian-list{list-style:none;padding:0}
+.dian-list .item{position:relative;padding:10px;background:#FFF;border-bottom:1px solid #EEE}
+.dian-list .item-title{font-size:13px;width:100%;overflow:hidden}
+.dian-list .item-title span{line-height:30px}
+.dian-list .item-con{line-height:15px;font-size:13px;color:#787878}
+.dian-list .item-pic{overflow:hidden;width:100%}
+.dian-list .item-pic img{width:80px;height:60px;float:left;margin:5px 5px 0 0}
+.txt-border.txt-little{margin-bottom:0}
+
+/*浮动底栏*/
+.cart-bar{bottom:0px;display:table;width:100%;height:50px;padding:0px;table-layout:fixed;position:fixed;z-index:10;right:0px;left:0px;background: #FAFAFA;box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.55);backface-visibility: hidden;}
+.cart-bar{overflow:hidden;padding:0 10px;}
+.cart-bar .cart{float:left;height:50px;line-height:50px;color:#999;}
+.cart-bar .num{float:left;height:50px;line-height:50px;font-size:18px;color:#E33;padding:0 5px;}
+.cart-bar i{float:left;color:#999;font-size:18px;}
+.cart-bar .result{float:right;margin-top:8px;}

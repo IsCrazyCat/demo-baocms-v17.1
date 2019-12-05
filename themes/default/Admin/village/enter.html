@@ -1,0 +1,74 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">管理</li>
+        <li class="li2">智慧乡村</li>
+        <li class="li2 li3">商品入驻</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('village/enter',array('village_id'=>$village_id))}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                        <span>商品ID:</span>
+                        <input type="text" name="keyword" value="<{$keyword}>" class="inptText" /><input type="submit" value="搜索"  class="inptButton" />
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            <div class="selectNr selectNr2">
+                <div class="left"></div>
+                <div class="right"></div>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td><input type="checkbox" class="checkAll" rel="enter_id" /></td>
+                    <td>ID</td>
+                    <td>类型</td>
+                    <td>商品ID</td>
+                    <td>商品名称</td>
+                    <td>商家名称</td>
+                    <td>乡村名称</td>
+                    <td>申请理由</td>
+                    <td>状态</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_enter_id" type="checkbox" name="enter_id[]" value="<{$var.enter_id}>" /></td>
+                        <td><{$var.enter_id}></td>
+                        <td><eq name="var.type" value="1">商品<else/>抢购</eq></td>
+                        <td><{$var.id}></td>
+                        <td><{$var.goods_name}></td>
+                        <td><{$shops[$var['shop_id']]['shop_name']}></td>
+                        <td><{$var.village_name}></td>
+                        <td><{$var.intro}></td>
+                        <td><eq name="var.audit" value="0">未审核<else/>已审核</eq></td>
+                        <td>
+                        	<eq name="var.audit" value="0"><{:BA('village/enter_audit',array("enter_id"=>$var["enter_id"],"village_id"=>$var["village_id"]),'审核','act','remberBtn')}></eq>
+                            <{:BA('village/enter_delete',array("enter_id"=>$var["enter_id"],"village_id"=>$var["village_id"]),'删除','act','remberBtn')}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <!--<{:BA('village/enter_delete','','批量删除','list',' a2')}>-->
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+

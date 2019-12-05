@@ -1,0 +1,92 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">智慧小区</li>
+        <li class="li2">小区门禁</li>
+        <li class="li2 li3">门禁列表</li>
+    </ul>
+</div>
+<style>
+.seleK label {margin-right:0px;}
+.main-sc .jsglNr .selectNr .right span{ padding-right:0px;}
+.w150 {width:120px !important;}
+.seleK .sumit {padding-right:10px;}
+.inptText, .seleK .text {width:120px;}
+.tips{color: #fff; background: #1ca290; border-radius:2px; font-size:12px; padding:0 5px;}
+</style>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里可删除门禁，注意，请不要轻易删除门禁，删除后再添加很麻烦的</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('access/create','','添加门禁')}>  
+            </div>
+            <div class="right">
+                <form method="post" action="<{:U('access/lists')}>">
+                    <div class="seleHidden" id="seleHidden">
+                      <div class="seleK"> 
+                      <label>
+                            <span>选择小区</span>
+                            <input type="hidden" id="community_id" name="community_id" value="<{$community_id|default=''}>"/>
+                            <input type="text"   id="name" name="name" value="<{$name}>" class="text w150" />
+                            <a style="margin-right: 5px;"  href="<{:U('community/select')}>" mini='select' w='800' h='600' class="sumit">选择小区</a>
+                        </label>
+                        
+                        <span>  序列号：</span>  
+                        <input type="text" name="keyword" value="<{$keyword|default=''}>" class="inptText" />
+                        <input type="submit" class="inptButton" value="  搜索" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="list_id" /></td>
+                      	<td>ID</td>
+                        <td>所属小区</td>
+                        <td>小区地址</td>
+                        <td>小区电话</td>
+                        <td>物业公司</td>
+                        <td>备注</td>
+                        <td>序列号</td>
+                        <td>SIM号码</td>
+                        <td>设备状态</td>
+                        <td>状态查询时间</td>
+                        <td>创建时间</td>
+                        <td>操作</td>
+                    </tr>
+					
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_list_id" type="checkbox" name="list_id[]" value="<{$var.list_id}>" /></td>
+                            <td><{$var.list_id}></td>
+                            <td><{$var.community.name}></td>
+                            <td><{$var.community.addr}></td>
+                            <td><{$var.community.tel}></td>
+                            <td><{$var.community.property}></td>
+                            <td><{$var.intro}></td>
+                            <td><{$var.lock_sn}></td>
+                            <td><{$var.sim_no|default='暂无'}></td>
+                            <td><eq name="var.online" value="1">在线<else/>不在线</eq></td>
+                            <td style="color:#F00"><{$var.query_time|date='Y-m-d H:i:s',###}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td>
+                              <{:BA('access/state',array("list_id"=>$var["list_id"]),'查询状态','act','remberBtn')}>
+                              <{:BA('access/delete',array("list_id"=>$var["list_id"]),'删除门禁','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+    <include  file='public:footer'/>       

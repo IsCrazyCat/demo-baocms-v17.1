@@ -1,0 +1,115 @@
+
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">抢购</li>
+        <li class="li2"> 优惠卡</li>
+        <li class="li2 li3">优惠卡列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里可以批量添加优惠卡，编辑优惠卡</p>
+    <div class="jsglNr">
+
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('appoint/card_create','','添加内容')}>
+            </div>
+            <div class="right">
+                <form action="<{:U('appoint/card')}>" method="post" style="float:left;">  
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                
+                       <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                         <label>
+                        <span>状态：</span>
+                        
+                     
+                           <select class="select w120" name="state">
+                                 <option <eq name="state" value="999">selected="selected"</eq> value="999">请选择状态</option>
+                                	<foreach name="states" key="key" item="item">
+                                        <option <eq name="state" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                                    </foreach>
+                                </select>
+                          </label>
+                         
+                        <span>关键字</span>
+                        <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  />
+                        <input type="submit" value=" 搜索"  class="inptButton" />
+                    </div> 
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="card_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>会员ID</td>
+                    <td>会员昵称</td>
+                    <td>标题</td>
+                    <td>卡号</td>
+                    <td>面值</td>
+                    <td>满多少使用</td>
+                    <td>开始时间</td>
+                    <td>过期日期</td>
+                    <td>状态</td>
+                    <td>创建时间</td>
+                    <td>验证时间</td>
+                    <td>操作</td>
+
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_card_id" type="checkbox" name="card_id[]" value="<{$var.card_id}>" /> </td>
+                        <td><{$var.card_id}></td>
+                        <td><{$var.user_id}></td>
+                        <td><{$var.user.nickname}></td>
+                        <td><{$var.title}></td>
+                        <td><{$var.cardNumber}></td>
+                        <td style="color:#F00"> &yen; <{:round($var['cardMoney']/100,2)}> 元</td>
+                        <td> &yen; <{:round($var['fullMoney']/100,2)}> 元</td>
+                        <td><{$var.bg_date}></td>
+                        <td><{$var.end_date}></td>
+                        <td><{$states[$var['state']]}></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        
+                        <td>
+                            <if condition="!empty($var['used_time'])">
+                                <{$var.used_time|date='Y-m-d H:i:s',###}>
+                            </if>
+                        
+                        </td>
+                        
+                        
+                        
+                        <td>
+                         	<if condition="$var['state'] eq 0">
+                            	<{:BA('appoint/card_edit',array("card_id"=>$var["card_id"]),'编辑','','remberBtn')}>
+                                <{:BA('appoint/card_delete',array("card_id"=>$var["card_id"]),'删除','act','remberBtn')}>
+                            </if>
+                            
+                        </td>
+                    </tr>
+                </foreach>    
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <{:BA('appoint/card_delete','','批量删除','list','a2')}>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  

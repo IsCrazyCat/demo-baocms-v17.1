@@ -1,0 +1,50 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">拼车</li>
+        <li class="li2 li3">拼车设置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>配置拼车的基本设置</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/pinche')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+            
+            	<tr>
+                    <td class="lfTdBt">发布价格：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[fabu_money]" value="<{$CONFIG.pinche.fabu_money}>" class="scAddTextName w80" />
+                        <code>小程序中发布拼车需要支付多少钱才才能发布成功</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">拼车申明：</td>
+                    <td class="rgTdBt">
+                        <textarea name="data[explain]" cols="60" rows="5"><{$CONFIG.pinche.explain}></textarea>
+                        <code>小程序中发布拼车时候点击申明弹窗出现的内容</code>
+                    </td>
+                </tr>
+              
+                <tr>
+                    <td class="lfTdBt">置顶价格：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[top]" value="<{$CONFIG.pinche.top}>" class="scAddTextName w80" />
+                        <code>拼车会员中心置顶扣费，置顶拼车优先显示，必须填写置顶价格，支持小数点，不能为空</code>
+                    </td>
+                </tr>
+                
+                
+               
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

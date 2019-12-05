@@ -1,0 +1,105 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">云购管理</li>
+        <li class="li2">云购订单</li>
+        <li class="li2 li3">云购订单列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span>这里可以删除没有参与云购的订单，已付款的订单无法删除，可以根据下面的成交记录筛选订单！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="right">
+                <form method="post" action="<{:U('cloudgoods/order')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                                <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text " />
+                                <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="sumit">选择商家</a>
+                            </label>
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>付款状态：</span>
+                                <select class="select w120" name="st">
+                                    <option <eq name="st" value="999">selected="selected"</eq> value="999">请选择</option>
+                                    <option <eq name="st" value="0">selected="selected"</eq>  value="0">未付款</option>
+                                    <option <eq name="st" value="1">selected="selected"</eq>  value="1">已付款</option>
+                                </select>
+                            </label>
+                            
+                            <label>
+                                <span>  订单ID：</span>   <input type="text" name="log_id" value="<{$log_id|default=''}>" class="inptText" /><input type="submit" class="inptButton" value="搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="log_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>云购类型</td>
+                        <td>购买账户</td>
+                        <td>云购名称</td>
+                        <td>购买数量</td>
+                        <td>云购金额</td>
+                        <td>付款状态</td>
+                        <td>创建时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_log_id" type="checkbox" name="log_id[]" value="<{$var.log_id}>" /></td>
+                            <td><{$var.log_id}></td>
+                            <td>
+                                <eq name="var.type" value="1">1元区</eq>
+                                <eq name="var.type" value="2">5元区</eq>
+                                <eq name="var.type" value="3">10元区</eq>
+                            </td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td><{$cloudgoods[$var['goods_id']]['title']}></td>
+                            <td><{$var.num}></td>
+                            <td>&yen;<{:round($var['money']/100,2)}>元</td>
+                            <td>
+                                <eq name="var.status" value="0">未付款</eq>
+                                <eq name="var.status" value="1">已付款</eq>
+                            </td>
+                        <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                        <td>
+                        <eq name="var.status" value="0">
+                        	<{:BA('cloudgoods/order_delete',array("log_id"=>$var["log_id"]),'删除订单','act','remberBtn_small_quxiao')}>
+                        </eq>
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+       $(document).ready(function (e) {
+			$(".tips").click(function () {
+				var tipnr = $(this).attr('rel');
+				layer.tips(tipnr, $(this), {
+					tips: [4, '#1ca290'],
+					time: 4000
+				});
+			})
+		});
+    </script>
+<include  file='public:footer'/>       

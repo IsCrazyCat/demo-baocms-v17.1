@@ -1,0 +1,39 @@
+<include file="public:header"/>
+<div class="content_right">
+<style>
+.password_input .left {width:140px;}
+.password_input .lef code{ margin-left:10px; color:#F00;}
+</style>
+<div class="tgdd">
+	<include file="money:nav"/>
+		<form method="post"  action="<{:U('money/integral')}>" target="x-frame">
+			<div class="password_nr">
+            
+                <div class="password_input">
+					<div class="left">输入对方手机号:</div>
+					<div class="lef">
+						<input type="text" name="mobile" class="cjinput"  /><code>输入对方正确的手机号</code>
+					</div>
+				</div>
+                
+				<div class="password_input">
+					<div class="left">输入积分:</div>
+					<div class="lef">
+						<input type="text" name="integral" class="cjinput"  /><code>您当前有积分： <{$MEMBER['integral']}></code>
+					</div>
+				</div>
+                <div class="password_input">
+					<div class="left">输入理由:</div>
+					<div class="lef">
+						<input type="text" name="intro" class="cjinput"  /><code>必填</code>
+					</div>
+				</div>
+				<div class="password_subm">
+					<input class="submit" type="submit" value="立刻积分转账" />
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+<include file="public:footer"/> 

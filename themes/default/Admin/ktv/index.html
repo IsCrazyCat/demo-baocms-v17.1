@@ -1,0 +1,144 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">KTV</li>
+        <li class="li2">KTV管理</li>
+        <li class="li2 li3">KTV列表</li>
+    </ul>
+</div>
+
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+
+
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>商家后台申请KTV，这里可审核</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('ktv/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                     <div class="seleK">
+                        <label>
+                            <span>区域：</span>
+                             <select name="city_id" id="city_id"  class="select w100"></select>
+                            <select name="area_id" id="area_id"  class="select w100"></select>
+                     
+                        </label>
+                <script src="<{:U('app/datas/cityarea')}>"></script>
+                <script>
+                    var city_id = <?php echo (int)$city_id;?>;
+                    var area_id = <?php echo (int)$area_id;?>;
+                    function changeCity(cid){
+                        var area_str = '<option value="0">请选择.....</option>';
+                        for(a in cityareas.area){
+                           if(cityareas.area[a].city_id ==cid){
+                                if(area_id == cityareas.area[a].area_id){
+                                    area_str += '<option selected="selected" value="'+cityareas.area[a].area_id+'">'+cityareas.area[a].area_name+'</option>';
+                                }else{
+                                     area_str += '<option value="'+cityareas.area[a].area_id+'">'+cityareas.area[a].area_name+'</option>';
+                                }  
+                            }
+                        }
+                        $("#area_id").html(area_str);
+                    }
+                    $(document).ready(function(){
+                        var city_str = '<option value="0">请选择.....</option>';
+                        for(a in cityareas.city){
+                           if(city_id == cityareas.city[a].city_id){
+                               city_str += '<option selected="selected" value="'+cityareas.city[a].city_id+'">'+cityareas.city[a].name+'</option>';
+                           }else{
+                                city_str += '<option value="'+cityareas.city[a].city_id+'">'+cityareas.city[a].name+'</option>';
+                           }  
+                        }
+                        $("#city_id").html(city_str);
+                        if(city_id){
+                            changeCity(city_id);
+                        }
+                        $("#city_id").change(function(){
+                            city_id = $(this).val();
+                            changeCity($(this).val());
+                        });
+                    });
+                </script>
+                        <label>
+                            <span>关键字:</span>
+                            <input type="text" name="keyword" value="<{$keyword}>" class="inptText" />
+                        </label>
+                        <input type="submit" value="   搜索"  class="inptButton" />
+                        </div> 
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                    </div>
+                </div>
+                <div class="right">
+                </div>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="ktv_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>KTV名称</td>
+                    <td>KTV简介</td>
+                    <td>KTV电话</td>
+                    <td>KTV地址</td>
+                    <td>KTV图片</td>	
+                    <td>预约次数</td>	
+                    <td>浏览量</td>	
+                    <td>排序</td>					
+                    <td>入住时间</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_ktv_id" type="checkbox" name="ktv_id[]" value="<{$var.ktv_id}>" /></td>
+                        <td><{$var.ktv_id}></td>
+                        <td><{$var.ktv_name}></td>
+                        <td><{$var.intro}></td>
+                        <td><{$var.tel}></td>
+                        <td><{$var.addr}></td>
+                        <td><img src="<{:config_img($var['photo'])}>" class="w80" /></td>
+                        <td><{$var.orders_num}></td>
+                        <td><{$var.views}></td>
+                        <td><{$var.orderby}></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                    <td>
+                        <{:BA('ktv/edit',array("ktv_id"=>$var["ktv_id"]),'编辑','','remberBtn')}>
+                        <{:BA('ktv/room',array("ktv_id"=>$var["ktv_id"]),'房间管理','','remberBtn')}>
+                        <{:BA('ktv/delete',array("ktv_id"=>$var["ktv_id"]),'删除','act','remberBtn')}>
+                        <eq name="var.audit" value="0"> <{:BA('ktv/audit',array("ktv_id"=>$var["ktv_id"]),'审核','act','remberBtn')}> </eq>
+                    </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <{:BA('ktv/delete','','批量删除','list',' a2')}>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

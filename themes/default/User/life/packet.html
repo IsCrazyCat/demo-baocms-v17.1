@@ -1,0 +1,143 @@
+<include file='public:header'/> 
+
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">信息发红包</div>
+		<div class="top-signed">
+		    <a href="<{:U('wap/life/release')}>" class="top-addr iconfont icon-fabu"></a>   
+    	</div>
+</header>
+<style>
+.button-small{padding:7px 10px;}
+.www_hatudou_com_packet_command{width:20px;height:20px;}
+.www_hatudou_com_show_packet_command{display:none}
+</style>
+
+
+<if condition="!empty($detail)">  
+    <div class="container">
+        <div class="blank-10"></div>
+        <p class="text-small">
+            当前信息：<{$life['title']}> &nbsp; 浏览次数<{$life['views']}>
+        </p>
+        <if condition="$detail['packet_is_command'] eq 1">
+            <p class="text-small text-dot">
+                口令红包：<{$detail['packet_command']}>
+            </p>
+        </if>
+        <table class="table">
+            <tr>
+                <th>红包数量</th>
+                <th>红包金额</th>
+                <th>剩余金额</th>
+                <th>已领次数</th>
+            </tr>
+            <tr>
+                <td><{$detail.packet_num}></td>
+                <td>&yen;<{:round($detail['packet_money']/100,2)}></td>
+                <td>&yen;<{:round($detail['packet_surplus_money']/100,2)}></td>
+                <td><{$detail.packet_sold_num}></td>
+            </tr>
+        </table>
+        
+        
+        
+        <a class="button button-block button-big bg-yellow text-center"><{$statuss[$detail['status']]}></a>
+        <if condition="$detail['status'] eq 1"> 
+        	<div class="blank-10"></div>
+        	<a id="www-hatudou-com-url-btn" href="<{:U('life/refund',array('life_id'=>$life['life_id']))}>" class="button button-block button-big bg-dot text-center">申请退出</a>
+        </if>
+        <div class="blank-10"></div> 
+        <a href="<{:U('wap/life/detail',array('life_id'=>$life['life_id']))}>" class="button button-block button-big bg-blue text-center">浏览信息</a>
+    </div>
+</if> 
+
+   
+    
+<if condition="empty($detail)">    
+    <div class="container">
+        <div class="blank-10"></div>
+        
+        <p class="text-small">
+            当前信息：<{$life['title']}>
+        </p>
+        
+        <p class="text-small text-dot">
+            您当前有余额：<{:round($MEMBER['money']/100,2)}>元
+        </p>
+            <form id="ajaxForm" method="post" action="<{:U('life/create_packet',array('life_id'=>$life['life_id']))}>">
+            <input type="hidden" name="data[life_id]" value="<{$life['life_id']}>" />
+            <div class="form-group">
+                <div class="field">
+                    <div class="input-group">
+                        <span class="x12"><input type="text" id="packet_num" class="input" name="data[packet_num]" size="50" value="" placeholder="红包总个数" /></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="field">
+                    <div class="input-group">
+                        <span class="x12"><input type="text" id="packet_money" class="input" name="data[packet_money]" size="50" value="" placeholder="每个红包金额" /></span>
+                    </div>
+                </div>
+            </div>
+            
+             <div class="form-group">
+                <div class="field">
+                    <div class="input-group x12">
+                    
+                       <span class="x6">
+                       		是否口令红包
+                       </span>
+                       <span class="x3">
+                           <label><span>否</span>
+                           <input class="www_hatudou_com_packet_command" type="radio" data="0" name="data[packet_is_command]" value="0" checked="checked">
+                           </label>
+                       </span>
+                       
+                       <span class="x3">
+                           <label><span>是</span>
+                           <input class="www_hatudou_com_packet_command" type="radio" data="1"  name="data[packet_is_command]" value="1" >
+                           </label>
+                       </span>
+           
+                    </div>
+                </div>
+            </div>
+            
+            
+             <div class="form-group www_hatudou_com_show_packet_command">
+                <div class="field">
+                    <div class="input-group">
+                        <span class="x12"><input type="text" id="packet_command" class="input" name="data[packet_command]" size="50" value="" placeholder="输入10字以内口令" /></span>
+                        <span>文字中不能出现特殊字符，禁用词汇，禁止广告，建议10字以内</span>
+                    </div>
+                </div>
+            </div>
+
+ 
+           
+            <div class="blank-30"></div>
+            <button id="check-form" type="submit" class="button button-block button-big bg-dot text-center">立即发红包</button>
+            </form>
+    	</div>
+    </div>
+</if>
+
+<script>
+	$(".www_hatudou_com_packet_command").click(function(){
+		 if($(this).attr("data") == 1){
+            $(".www_hatudou_com_show_packet_command").show();
+         }else{
+            $(".www_hatudou_com_show_packet_command").hide();
+        }
+	});
+</script>
+
+
+<include file="public:footer"/>
+

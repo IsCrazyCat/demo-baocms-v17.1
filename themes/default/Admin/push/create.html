@@ -1,0 +1,105 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">营销</li>
+        <li class="li2">推送</li>
+        <li class="li2 li3">新增推送</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+
+    <div class="tableBox">
+
+        <form  target="x-frame" action="<{:U('push/create')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            	
+                <tr>
+                    <td class="lfTdBt">推送主体：</td>
+                    <td class="rgTdBt">
+                        <select name="data[category]" class="seleFl w200">
+                            <option value="0">请选择主体</option>
+                             <foreach name="categorys" key="key" item="item">
+                                 <option <eq name="category" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                              </foreach>
+                        </select>
+                        <code>首选选择给谁发送短信，如果您是给会员发送则不要选择商家等级，这里没做隐藏判断</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">推送类型：</td>
+                    <td class="rgTdBt">
+                        <select name="data[type]" class="seleFl w200">
+                            <option value="0">请选择类型</option>
+                             <foreach name="types" key="key" item="item">
+                                 <option <eq name="type" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                              </foreach>
+                        </select>
+                        <code>这里选择是短信推送还是微信推送还是其他推送，需要APP推送的联系286099981二次开发</code>
+                    </td>
+                </tr>
+                
+            
+                <tr>
+                    <td class="lfTdBt">标题：</td>
+                    <td class="rgTdBt"><input style="width:600px;" type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput"  />
+					 <code>字数不要太多，标题我们建议10字以内，多余的字系统推送的时候自动截取</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">内容：</td>
+                    <td class="rgTdBt"><input style="width:600px;" type="text" name="data[intro]" value="<{$detail.intro|default=''}>" class="manageInput"  />
+					<code>字数不要太多，内容我们建议60字以内，多余的字系统推送的时候自动截取</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">URL：</td>
+                    <td class="rgTdBt"><input style="width:600px;" type="text" name="data[url]" value="<{$detail.url|default=''}>" class="manageInput"  />
+					 <code>微信通知的时候设置有效，否则无效</code>
+                    </td>
+                </tr>
+               
+                
+                
+               <tr>
+                    <td class="lfTdBt">会员等级：</td>
+                    <td class="rgTdBt">
+                        <select name="data[rank_id]" class="seleFl w200">
+                            <option value="0">不选择会员等级</option>
+                            <foreach name="ranks" item="item">
+                                <option <eq name="item.rank_id" value="$detail.rank_id">selected="selected"</eq> value="<{$item.rank_id}>"><{$item.rank_name}></option>
+                            </foreach>
+                        </select>
+                        <code>如果不选择则全部会员等级发送，如果您选择用户组我们针对不同的用户组发送，针对发送主体为会员时候有效</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">商家等级：</td>
+                    <td class="rgTdBt">
+                        <select name="data[grade_id]" class="seleFl w200">
+                            <option value="0">不选择商家等级</option>
+                            <foreach name="grades" item="item">
+                                <option <eq name="item.grade_id" value="$detail.grade_id">selected="selected"</eq> value="<{$item.grade_id}>"><{$item.grade_name}></option>
+                            </foreach>
+                        </select>
+                        <code>如果不选择则全部商家等级发送，如果您选择商家等级我们针对不同的等级发送，针对发送主体为商家时候有效</code>
+                    </td>
+                </tr>
+                
+        
+        
+        
+            
+
+    </table>
+      <div style="margin-left:140px;margin-top:20px">
+          <input type="submit" value="确认添加" class="smtQrIpt" />
+      <div>
+</form>
+</div>
+</div>
+<include  file='public:footer'/>   

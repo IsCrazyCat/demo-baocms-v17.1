@@ -1,0 +1,37 @@
+<include file="public:header"/>
+
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('member/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">我推荐的商家</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+<ul id="shangjia_tab">
+	<li class="x3"><a href="<{:LinkTo('guide/index')}>" <if condition="$act eq 'index'">class="on"</if>>推荐首页</a></li>
+    <li class="x3"><a href="<{:LinkTo('guide/shop')}>" <if condition="$act eq 'shop'">class="on"</if>>推荐商家</a></li>
+    <li class="x3"><a href="<{:LinkTo('guide/logs')}>" <if condition="$act eq 'logs'">class="on"</if>>分成日志</a></li>
+    <li class="x3"><a href="<{:U('wap/api/guideqrcode', array('user_id'=>$MEMBER['user_id']))}>" <if condition="$act eq 'guideqrcode'">class="on"</if>>推荐二维码</a></li>
+</ul>
+
+
+<div class="blank-40 bg"></div>
+<div class="blank-10 bg"></div>
+
+<div class="panel-list">
+	<ul>
+    	<li><a href="<{:U('guide/logs', array('status'=>1))}>"><span class="iconfont icon-diyongquan001"></span>已分成金额 <b class="text-red">&yen;<{:round($money/100,2)}> 元</b><i class="iconfont icon-angle-right"></i></a></li>
+        <li><a href="<{:U('guide/shop', array('status'=>1))}>"><span class="iconfont icon-zhongchou1"></span>我推荐的商家<i class="iconfont icon-angle-right"></i></a></li>
+        <li><a href="<{:U('guide/logs', array('status'=>1))}>"><span class="iconfont icon-xianjinfencheng"></span>推荐分成日志<i class="iconfont icon-angle-right"></i></a></li>
+        <li><a href="<{:U('wap/api/guideqrcode', array('user_id'=>$MEMBER['user_id']))}>"><span class="iconfont icon-erweima2"></span>推荐二维码<i class="iconfont icon-angle-right"></i></a></li>
+	</ul>
+</div>
+
+
+
+<div class="blank-20"></div>
+<include file='public:footer'/>

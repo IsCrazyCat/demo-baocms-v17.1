@@ -1,0 +1,181 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">频道频道</li>
+        <li class="li2">股权商品</li>
+        <li class="li2 li3">新增商品</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('stock/create')}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">股权名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput" />
+					<code>股权的标题</code>
+                    </td>
+                </tr>  
+                <tr>
+                    <td class="lfTdBt">股权简介：</td>
+                    <td class="rgTdBt"><input type="text" name="data[intro]" value="<{$detail.intro|default=''}>" class="manageInput manageInput2" />
+					<code>简介，已称为副标题，建议30字以内的汉子</code>
+                    </td>
+                </tr>  
+                <tr>
+                    <td class="lfTdBt">商家：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="shop_id" name="data[shop_id]" value="<{$detail.shop_id|default=''}>"/>
+                            <input type="text" id="shop_name" name="shop_name" value="" class="manageInput" />
+                        </div>
+                        <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="remberBtn">选择商家</a>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">缩略图：</td>
+                 <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
+                        <div id="fileToUpload" >上传缩略图</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_img" width="120" height="80"  src="<{:config_img($detail['photo'])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.cloud.thumb}>
+                    </div>
+                    <script>                                            
+						var width_cloud = '<{:thumbSize($CONFIG[attachs][cloud][thumb],0)}>';                         
+						var height_cloud = '<{:thumbSize($CONFIG[attachs][cloud][thumb],1)}>';                         
+						var uploader = WebUploader.create({                             
+						auto: true,                             
+						swf: '/static/default/webuploader/Uploader.swf',                             
+						server: '<{:U("app/upload/uploadify",array("model"=>"cloud"))}>',                             
+						pick: '#fileToUpload',                             
+						resize: true,  
+						compress : {width: width_cloud,height: height_cloud,quality: 80,allowMagnify: false,crop: true}                       
+					});                                                 
+					uploader.on( 'uploadSuccess', function( file,resporse) {                             
+						$("#data_photo").val(resporse.url);                             
+						$("#photo_img").attr('src',resporse.url).show();                         
+					});                                                
+					uploader.on( 'uploadError', function( file ) {                             
+						alert('上传出错');                         
+					});                     
+                    </script>
+                </td>
+            </tr>
+            
+                 
+              <tr>
+                  <td class="lfTdBt">股权组图：</td>
+                        <td class="rgTdBt">
+                            <div>
+                                <div id="moreToUpload" >上传组图</div>
+                            </div>							
+							<script>                                
+									var width_cloud_pic = '<{:thumbSize($CONFIG[attachs][cloud][thumb],0)}>';  //获取宽度                              
+									var height_cloud_pic = '<{:thumbSize($CONFIG[attachs][cloud][thumb],1)}>'; //获取高度 
+                       
+									var uploader = WebUploader.create({                                    
+									auto: true,                                    
+									swf: '/static/default/webuploader/Uploader.swf',                                    
+									server: '<{:U("app/upload/uploadify",array("model"=>"cloud"))}>',                                    
+									pick: '#moreToUpload',                                    
+									fileNumberLimit:10,                                    
+									resize: true, 
+									crop: false,  
+									compress : {width:width_cloud_pic,height:height_cloud_pic,quality: 80,allowMagnify: false,crop: true},														
+								});                                                               
+								uploader.on( 'uploadSuccess', function( file,resporse) {                                    
+								var str = '<span style="width: 240px; height: 135px; float: left; margin-left: 5px; margin-top: 10px;">  <img width="240" height="135" src="' + resporse.url + '">  <input type="hidden" name="thumb[]" value="' + resporse.url + '" />    <a href="javascript:void(0);">取消</a>  </span>';                                   
+								 $(".jq_uploads_img").append(str);                                
+									 });                                                            
+								 uploader.on( 'uploadError', function( file ) {                                    
+									alert('上传出错');                                
+								 });                                
+								 $(document).on("click", ".jq_uploads_img a", function () {                                    
+									 $(this).parent().remove();                                
+								 });                            
+                             </script>
+                            <div class="jq_uploads_img">
+                                <foreach  name="thumb" item="item">
+                                    <span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;"> 
+                                        <img width="240" height="135" src="<{:config_img($item)}>">  
+                                        <input type="hidden" name="thumb[]" value="<{$item}>" />  
+                                        <a href="javascript:void(0);">取消</a>  
+                                    </span>
+                                </foreach>
+                            </div>					
+                        </td>
+                    </tr>
+             <tr>
+                <tr>
+                    <td class="lfTdBt">单价：</td>
+                    <td class="rgTdBt"><input type="text" name="data[price]" value="<{$detail.price|default=''}>" class="manageInput" />
+                    <code>填写数字，最多支持2位数的小数点</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">股权库存：</td>
+                    <td class="rgTdBt"><input type="text" name="data[num]" value="<{$detail.num|default=''}>" class="manageInput" />
+ 					<code>填写100的整数，超过购买数量后不能下单</code>
+                    </td>
+                </tr>
+                
+                   <tr>
+                    <td class="lfTdBt">可使用<{$CONFIG.prestige.name|default='威望'}>：</td>
+                    <td class="rgTdBt"><input type="text" name="data[prestige]" value="<{$detail.prestige|default=''}>" class="manageInput" />
+                        <code>
+                        <if condition="$CONFIG['stock']['deduction']">
+                           <a style="color:#F00">当前抵扣比例<{$CONFIG.stock.deduction|default='当前抵扣比例'}>% </a>
+                        </if>
+                        比如填写100，那么会员就只能使用100的分红积分来抵扣现金，不要高于股权购买单价，如果因为修改配置导致抵扣价格高于股权单价，则抵扣失效，会员只能全部现金购买</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">会员可见：</td>
+                    <td  class="rgTdBt">
+                        <label> <input type="radio" name="data[is_local]" value="0" <eq name="detail.is_local" value="0">checked="checked"</eq> />平台会员 </label>
+                        <label> <input type="radio" name="data[is_local]" value="1" <eq name="detail.is_local" value="1">checked="checked"</eq> /> 团队会员</label>
+                        <label> <input type="radio" name="data[is_local]" value="2" <eq name="detail.is_local" value="2">checked="checked"</eq> /> 加盟会员</label>
+                        <code>如果您没有二开过，请选择平台会员</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">排序：</td>
+                    <td class="rgTdBt"><input type="text" name="data[orderby]" value="<{$detail.orderby|default=''}>" class="manageInput" />
+                        <code>虚拟排序功能。</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">浏览次数：</td>
+                    <td class="rgTdBt"><input type="text" name="data[views]" value="<{$detail.views|default=''}>" class="manageInput" />
+                        <code>这里是前台显示的。</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">股权介绍：</td>
+                    <td class="rgTdBt">
+                        <script type="text/plain" id="data_details" name="data[details]" style="width:800px;height:360px;"><{$detail.details}></script>
+                    </td>
+                </tr><link rel="stylesheet" href="__PUBLIC__/qiniu_ueditor/themes/default/css/ueditor.min.css" type="text/css">
+                    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/qiniu_ueditor/ueditor.config.js"></script>
+                    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/qiniu_ueditor/ueditor.all.min.js"></script>
+                    <script type="text/javascript" src="__PUBLIC__/qiniu_ueditor/lang/zh-cn/zh-cn.js"></script>
+                <script>
+                    um = UE.getEditor('data_details', {
+                        lang: 'zh-cn',
+						toolbars:[['fullscreen', 'source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'backcolor', 'fontsize', 'fontfamily', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', 'link', 'unlink', 'map', 'template', 'background','inserttable','print','attachment',  'emotion',  'snapscreen','insertimage', 'music', 'insertvideo']],  
+                        });
+                </script>
+            </table>
+            <div style="margin-left:140px;margin-top:20px">
+                <input type="submit" value="确认添加" class="smtQrIpt" />
+                <div>
+                    </form>
+                </div>
+            </div>
+            <include  file='public:footer'/>       

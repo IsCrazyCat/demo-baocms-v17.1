@@ -1,0 +1,33 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			<{$access.intro}>临时开门二维码
+		</div>
+</header>
+<style>
+.padding-large{padding:5px 20px;}
+</style>
+<div class="container">
+	<div class="padding-large">
+            <img width="100%" src="__ROOT__<{$file}>"/>
+            
+            
+             
+            <p>二维码生成日期：<{$time|date='Y-m-d H:i',###}></p>
+            <php>
+            $time2 = $time+600;
+            </php>
+            <p class="text-dot">二维码失效日期：<{$time2|date='Y-m-d H:i',###}></p>
+            <p>
+                1：长按二维码分享发送图片给微信好友。<br/>
+                2：用户微信里面自动登录后即可开门。<br/>
+                3：二维码有效期为10分钟，过期作废。<br/>
+            </p>
+	</div>
+</div>
+
+
+<include  file='public:footer'/>

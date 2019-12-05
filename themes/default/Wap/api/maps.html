@@ -1,0 +1,137 @@
+
+
+<script type="text/javascript" src="<{$CONFIG['config']['baidu_map_api']}>"></script>
+
+
+<div class="top">
+    <div id="r-result"><input type="text" id="suggestId" placeholder=" 输入关键字搜索" size="20" value=""/></div>
+    <div class="right">  
+    	<input type="hidden" name="lng" id="lng" value="<{$lng}>"/>
+        <input type="hidden" id="lat" name="lat" value="<{$lat}>"/>  
+        <input type="hidden" id="address" name="address" value="<{$address}>"/> 
+        <div class="showInfo" id="showInfo" onclick="showInfo();">确认</div>
+    </div>       
+</div>
+<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+<div id="allmap" style=" width:100%; height:90%"></div>
+<style>
+    .top {height:30px; margin-bottom:5px;}
+    .top input{ height:30px; line-height:30px;border-radius:4px; border:1px #ccc solid; width:160px;}
+    .top #r-result{float:left;} 
+    .top .right{float: right;}
+    .top .right .showInfo{width: 80px;height:30px;line-height:30px;text-align: center;background: red;color: #fff;float: right;margin-left: 10px;cursor: pointer;border-radius: 4px;}
+</style>
+<script type="text/javascript">
+    var map = new BMap.Map("allmap");
+    map.centerAndZoom(new BMap.Point( "<{$lng}>" , "<{$lat}>" ), 18);
+    var point = new BMap.Point( "<{$lng}>" , "<{$lat}>" );
+    map.centerAndZoom(point, 18);
+    var marker = new BMap.Marker(point); 
+    map.clearOverlays();
+    map.addOverlay(marker);   
+    marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+    
+    function showPoint(e) {
+		
+        document.getElementById('lat').value = e.point.lat;
+        document.getElementById('lng').value = e.point.lng;
+        var p = new BMap.Point(e.point.lng,e.point.lat);
+        var mk = new BMap.Marker(p); 
+        map.clearOverlays();
+        map.addOverlay(mk); 
+        mk.setAnimation(BMAP_ANIMATION_BOUNCE);
+   		
+		 //获取地址的数据地址
+	 
+		 var gc = new BMap.Geocoder();
+		 var pt = e.point;
+		 gc.getLocation(pt, function(rs){
+		 var addComp = rs.addressComponents;
+			address = addComp.province +  addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+			document.getElementById('address').value = address;
+		 });
+	 
+	 
+    }
+    map.enableScrollWheelZoom(true);
+    map.addControl(new BMap.NavigationControl()); 
+    map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL})); 
+    map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_LEFT, type: BMAP_NAVIGATION_CONTROL_PAN}));  
+    map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT, type: BMAP_NAVIGATION_CONTROL_ZOOM})); 
+	
+					
+							
+    map.addEventListener("touchstart", showPoint);
+    function G(id) {
+        return document.getElementById(id);
+    }
+
+    var ac = new BMap.Autocomplete(
+            {"input": "suggestId"
+                , "location": map
+            });
+
+    ac.addEventListener("onhighlight", function (e) {
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province + _value.city + _value.district + _value.street + _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province + _value.city + _value.district + _value.street + _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel").innerHTML = str;
+    });
+
+    var myValue;
+    ac.addEventListener("onconfirm", function (e) {
+        var _value = e.item.value;
+        myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+        G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+        setPlace();
+    });
+
+
+    function setPlace() {
+        map.clearOverlays();  
+        function myFun() {
+            var pp = local.getResults().getPoi(0).point; 
+            map.centerAndZoom(pp, 18);
+            map.addOverlay(new BMap.Marker(pp));   
+        }
+        var local = new BMap.LocalSearch(map, {
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    }
+	
+	
+	function showInfo(e){
+		var lng = document.getElementById('lng').value;
+		var lat = document.getElementById('lat').value;
+		var address = document.getElementById('address').value;
+		if(lng === ''){
+			parent.layer.msg('请选择坐标');
+			return;
+		}
+		if(address === ''){
+			parent.layer.msg('没获取到详细地址再再试试');
+			return;
+		}
+		parent.$('#data_lng').val(lng);
+		parent.$('#data_lat').val(lat);
+		parent.$('#data_addr').val(address);
+		parent.$('#data_address').html(address);
+		parent.layer.close(parent.layer.getFrameIndex(window.name));
+    }
+   
+
+
+
+</script>

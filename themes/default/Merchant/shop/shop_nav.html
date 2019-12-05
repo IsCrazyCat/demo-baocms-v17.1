@@ -1,0 +1,121 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">商家导航</a> > <a>wap商家详情页导航</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">商家开通后首先来勾选自己在WAP商家详情页需要显示的模块，最多勾选4个，这里给商家自主性选择，请根据自己的实际业务来勾选，切勿乱勾选！这里的排序功能暂时勿用，可以不去修改默认的就行！</div>
+        </div>
+    </div> 
+    <include  file='shop:nav'/>
+    <div class="tabnr_change show">
+    <table  cellpadding="0"  cellspacing="0" width="100%" class="tuan_table" >
+
+    	
+    	<table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr style="background-color:#eee;">
+                <td>导航默认名称</td>
+                <td>自定义名称</td>
+                <td>排序</td>
+                <td>显示状态</td>
+            </tr>
+	<form  method="post" action="<{:U('shop/nav')}>" target="x-frame">
+           <tr>
+              <td style="height:50px;">抢购</td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="data[nav1_name]" value="<{$detail.nav1_name|default='抢购'}>" /></td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="nav1_is_orderby" value="<{$detail.nav1_is_orderby|default='100'}>" /></td>
+              <td>
+                  <input type="radio" name="nav1_is_open" value="0" <if condition="$detail[nav1_is_open] eq 0">checked="checked"</if> />隐藏
+                  <input type="radio" name="nav1_is_open" value="1" <if condition="$detail[nav1_is_open] eq 1">checked="checked"</if> />
+                  <a style="color:#F00">显示</a>
+             </td>
+          </tr>
+          
+          <tr>
+              <td style="height:50px;">商品</td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="data[nav2_name]" value="<{$detail.nav2_name|default='商品'}>" /></td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="nav2_is_orderby" value="<{$detail.nav2_is_orderby|default='100'}>" /></td>
+              <td>
+                  <input type="radio" name="nav2_is_open" value="0" <if condition="$detail[nav2_is_open] eq 0">checked="checked"</if> />隐藏
+                  <input type="radio" name="nav2_is_open" value="1" <if condition="$detail[nav2_is_open] eq 1">checked="checked"</if> />
+                  <a style="color:#F00">显示</a>
+             </td>
+          </tr>
+          
+          <tr>
+              <td style="height:50px;">分类信息</td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="data[nav3_name]" value="<{$detail.nav3_name|default='分类信息'}>" /></td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="nav3_is_orderby" value="<{$detail.nav3_is_orderby|default='100'}>" /></td>
+              <td>
+                  <input type="radio" name="nav3_is_open" value="0" <if condition="$detail[nav3_is_open] eq 0">checked="checked"</if> />隐藏
+                  <input type="radio" name="nav3_is_open" value="1" <if condition="$detail[nav3_is_open] eq 1">checked="checked"</if> />
+                  <a style="color:#F00">显示</a>
+             </td>
+          </tr>
+          
+          <tr>
+              <td style="height:50px;">优惠劵</td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="data[nav4_name]" value="<{$detail.nav4_name|default='优惠劵'}>" /></td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="nav4_is_orderby" value="<{$detail.nav4_is_orderby|default='100'}>" /></td>
+              <td>
+                  <input type="radio" name="nav4_is_open" value="0" <if condition="$detail[nav4_is_open] eq 0">checked="checked"</if> />隐藏
+                  <input type="radio" name="nav4_is_open" value="1" <if condition="$detail[nav4_is_open] eq 1">checked="checked"</if> />
+                  <a style="color:#F00">显示</a>
+             </td>
+          </tr>
+          
+          <tr>
+              <td style="height:50px;">点餐</td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="data[nav5_name]" value="<{$detail.nav5_name|default='点餐'}>" /></td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="nav5_is_orderby" value="<{$detail.nav5_is_orderby|default='100'}>" /></td>
+              <td>
+                  <input type="radio" name="nav5_is_open" value="0" <if condition="$detail[nav5_is_open] eq 0">checked="checked"</if> />隐藏
+                  <input type="radio" name="nav5_is_open" value="1" <if condition="$detail[nav5_is_open] eq 1">checked="checked"</if> />
+                  <a style="color:#F00">显示</a>
+             </td>
+          </tr>
+          
+           <tr>
+              <td style="height:50px;">商家新闻</td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="data[nav6_name]" value="<{$detail.nav6_name|default='商家新闻'}>" /></td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="nav6_is_orderby" value="<{$detail.nav6_is_orderby|default='100'}>" /></td>
+              <td>
+                  <input type="radio" name="nav6_is_open" value="0" <if condition="$detail[nav6_is_open] eq 0">checked="checked"</if> />隐藏
+                  <input type="radio" name="nav6_is_open" value="1" <if condition="$detail[nav6_is_open] eq 1">checked="checked"</if> />
+                  <a style="color:#F00">显示</a>
+             </td>
+          </tr>
+          
+          <tr>
+              <td style="height:50px;">点评</td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="data[nav7_name]" value="<{$detail.nav7_name|default='点评'}>" /></td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="nav7_is_orderby" value="<{$detail.nav7_is_orderby|default='100'}>" /></td>
+              <td>
+                  <input type="radio" name="nav7_is_open" value="0" <if condition="$detail[nav7_is_open] eq 0">checked="checked"</if> />隐藏
+                  <input type="radio" name="nav7_is_open" value="1" <if condition="$detail[nav7_is_open] eq 1">checked="checked"</if> />
+                  <a style="color:#F00">显示</a>
+             </td>
+          </tr>
+          
+            <tr>
+              <td style="height:50px;">订座</td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="data[nav8_name]" value="<{$detail.nav8_name|default='订座'}>" /></td>
+              <td><input type="text" class="tuanfabu_int tuanfabu_intw2" name="nav8_is_orderby" value="<{$detail.nav8_is_orderby|default='100'}>" /></td>
+              <td>
+                  <input type="radio" name="nav8_is_open" value="0" <if condition="$detail[nav8_is_open] eq 0">checked="checked"</if> />隐藏
+                  <input type="radio" name="nav8_is_open" value="1" <if condition="$detail[nav8_is_open] eq 1">checked="checked"</if> />
+                  <a style="color:#F00">显示</a>
+             </td>
+          </tr>
+          
+          
+          
+        </table>
+        <div class="tuanfabu_an"><input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认保存" /></div>
+	</form>
+
+    </div> 
+<include  file='public:footer'/>

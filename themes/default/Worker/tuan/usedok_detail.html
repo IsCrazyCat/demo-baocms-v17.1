@@ -1,0 +1,86 @@
+<include  file='public:header'/>   
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('tuan/usedok')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			抢购验证详情
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+<style>
+.list-media-x {margin-top: 0rem;}
+.list-media-x h3.list-shop-x{ margin:5px 10px;}
+</style>
+<php>
+$Users = D('Users') -> where('user_id ='.$detail['user_id']) -> find();
+</php>
+
+
+<div class="panel-list">
+	<ul>
+		<li>
+			<a href="javascript:;">
+				验证编号
+				<em><{$detail.code_id}></em>
+			</a>
+		</li>
+        <li>
+			<a href="javascript:;">
+				验证码
+				<em><{$detail.code}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				下单时间
+				<em><{$detail.create_time|date='Y-m-d H:i',###}></em>
+			</a>
+		</li>
+        <li>
+			<a href="javascript:;">
+				验证时间
+				<em><{$detail.used_time|date='Y-m-d H:i',###}></em>
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+		<li><a href="javascript:;">用户昵称：<em><{$Users.nickname}></em></a></li>
+		<li><a href="javascript:;">用户手机<em><{$Users.mobile}></em></a></li>
+	</ul>
+</div>
+
+
+
+<div class="blank-10 bg"></div>
+<div class="list-media-x">
+<h3 class="list-shop-x"><a href="<{:U('wap/tuan/detail',array('tuan_id'=>$detail['tuan_id']))}>">抢购商品信息<i class="iconfont icon-angle-right float-right"></i></a></h3>
+	<ul>
+		<li class="line padding">
+			<div class="x3">
+				<img style="width:90%;" src="<{:config_img($detail['tuan']['photo'])}>" />
+			</div>
+			<div class="x9">
+				<p><{$detail['tuan']['title']}></p>
+				<p class="text-small">抢购价：<span class="text-dot"><{:round($detail['tuan']['tuan_price']/100,2)}></span></p>
+                <p class="text-small">已售：<span class="text-gray"><{$detail['tuan']['sold_num']}> 库存：<{$detail['tuan']['num']}> </span></p>
+			</div>
+		</li> 
+	</ul>
+</div>
+<div class="blank-10 bg"></div>
+
+
+
+
+<div class="blank-30"></div>
+	<div class="container text-center">
+		<a class="button button-block button-big bg-blue" href="<{:U('tuan/usedok')}>">返回</a> 
+	</div>
+<div class="blank-20"></div>
+<include  file='public:footer'/>   

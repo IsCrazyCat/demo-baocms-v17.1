@@ -1,0 +1,75 @@
+<include  file='public:header'/>
+<style>
+.lfTdBt { width: 200px;}
+.backers{ text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">推手</li>
+        <li class="li2 li3">推手设置</li>
+    </ul>
+</div>
+
+<p class="attention"><span>注意：</span>这里是推手设置，不要搞错了，设置不一样的，右边有具体说明</p>
+<form  target="x-frame" action="<{:U('setting/backers')}>" method="post">
+
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+               
+
+                
+
+                <!--推手开始-->
+                
+                
+<tr>
+    <td class="lfTdBt">开启推手功能：</td>
+    <td class="rgTdBt">
+    <label><input type="radio" name="data[open]" <eq name="CONFIG.backers.open" value="1">checked="checked"</eq> value="1"  />开启推手</label>
+    <label><input type="radio" name="data[open]"  <eq name="CONFIG.backers.open" value="0">checked="checked"</eq>  value="0"  />关闭推手</label>
+    <code>不运营推手的可以关闭，关闭后，以下功能都不能用。</code>
+    </td>
+</tr>
+
+
+                <tr>
+                    <td class="lfTdBt">小提示：</td>
+                    <td class="rgTdBt"><input type="text" name="data[intro]" value='<{$CONFIG.backers.intro}>' class="scAddTextName w360" />
+                    <code>wap申请推手页面的小提示</code></td>
+                </tr>
+                <tr>
+                
+              
+ <tr>
+    <td class="lfTdBt">开启推手推荐分成：</td>
+    <td class="rgTdBt">
+    <label><input type="radio" name="data[is_reward]" <eq name="CONFIG.backers.is_reward" value="1">checked="checked"</eq> value="1"  />开启</label>
+    <label><input type="radio" name="data[is_reward]"  <eq name="CONFIG.backers.is_reward" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+    <code>用户确认收货后，会给上级一定比例分成，分成设置在会员等级管理那边设置，开启有效。</code>
+    </td>
+</tr>
+
+ <tr>
+    <td class="lfTdBt">开启推手等级返利：</td>
+    <td class="rgTdBt">
+    <label><input type="radio" name="data[is_discount]" <eq name="CONFIG.backers.is_discount" value="1">checked="checked"</eq> value="1"  />开启</label>
+    <label><input type="radio" name="data[is_discount]"  <eq name="CONFIG.backers.is_discount" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+    <code>不同推手等级，所享受的购物折扣不一样，这里已需要用户确认收货后，享受的折扣返还给会员余额账户里面，所享受的折扣比例在会员等级管理那边设置，开启后有效。</code>
+    </td>
+</tr>
+
+                
+
+            </table>
+
+        </div>
+
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+
+    </div>
+
+</form>
+
+<include  file='public:footer'/>       

@@ -1,0 +1,278 @@
+.bigData{
+    width: 100%;
+    overflow: hidden;
+    background-image: url('../images/databg.png');
+    background-size: 100% 100%;
+}
+.bigData .inner{
+    padding: 0 40px;
+    overflow: hidden;
+    height:100%;
+}
+.bigData .inner .caption{
+    width: 100%;
+    height: 70px;
+    overflow: hidden;
+    margin-top: 10px;
+    position: relative;
+}
+.bigData .inner .caption .gradientImg{
+    display: block;
+    position: absolute;
+    width: 100%;
+    height:auto;
+    top: 60px;
+    left: 0;
+}
+.bigData .inner .caption .titlePic{
+    display: block;
+    width: 670px;
+    height: 30px;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    margin-left: -335px;
+}
+.bigData .inner .caption .time{
+    float: left;
+    height:30px;
+    width: 200px;
+    overflow: hidden;
+    margin-top: 20px;
+    line-height: 30px;
+    color: #01FFFA;
+}
+.bigData .inner .caption .linkHome{
+    float: right;
+    width: 150px;
+    height:30px;
+    line-height: 30px;
+    overflow: hidden;
+    text-align: right;
+    margin-top: 20px;
+}
+.bigData .inner .caption .linkHome i{
+    color: #FF2F51;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.bigData .inner .caption .linkHome span{
+    color: #01FFFA;
+    vertical-align: middle;
+}
+.bigData .inner .fourBox{
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    margin-top: 30px;
+}
+.bigData .inner .fourBox > ul{
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+}
+.bigData .inner .fourBox > ul > li{
+    float: left;
+    height: 160px;
+    width: 23.5%;
+    margin-left: 2%;
+    border-radius: 5px;
+}
+.bigData .inner .fourBox > ul > li.blue{background: #0693DD}
+.bigData .inner .fourBox > ul > li.red{background: #E65C60}
+.bigData .inner .fourBox > ul > li.green{background: #009241}
+.bigData .inner .fourBox > ul > li.purple{background: #0693DD}
+.bigData .inner .fourBox > ul > li:first-child{
+    margin-left: 0;
+}
+.bigData .inner .fourBox > ul > li .caption_{
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    overflow: hidden;
+    color: #FFF;
+    margin-top: 35px;
+    font-size: 18px;
+}
+.bigData .inner .fourBox > ul > li .detail{
+    font-family: Arial;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    overflow: hidden;
+    color: #FFF;
+    font-size: 44px;
+}
+.bigData .inner .fourBox > ul > li .detail label{
+    color: #FFF;
+    font-size: 44px;
+}
+.bigData .inner .fourBox > ul > li .detail span{
+    color: #FFF;
+    font-size: 30px;
+}
+.bigData .inner .threeBox{
+    width: 100%;
+    height: 340px;
+    margin-top: 30px;
+}
+.bigData .inner .threeBox > ul{
+    width: 100%;
+    height: 340px;
+}
+.bigData .inner .threeBox > ul > li{
+    float: left;
+    /*height: 340px;*/
+    width: 31.8%;
+    border: 1px #02558E solid;
+    margin-left: 2%;
+    -webkit-box-shadow: 0 0 10px #02558E;
+    -moz-box-shadow: 0 0 10px #02558E;
+    box-shadow: 0 0 10px #02558E;
+    background-image: url('../images/inBg.png');
+    background-size: 100% 100%;
+}
+.bigData .inner .threeBox > ul > li:first-child{
+    margin-left: 0;
+}
+.bigData .inner .threeBox > ul > li .out{
+    padding: 0 20px 20px;
+    height: 320px;
+    overflow: hidden;
+    position: relative;
+}
+.bigData .inner .threeBox > ul > li .out .in{
+    width: 100%;
+    height: auto;
+    margin-top: 40px;
+    overflow: hidden;
+    *padding-top: 40px;
+}
+.bigData .inner .threeBox > ul > li .out .cpt{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 40px;
+    overflow: hidden;
+    background-image: url('../images/jianbian.png');
+    background-size: 100% 100%;
+}
+.bigData .inner .threeBox > ul > li .out .cpt span{
+    height:40px;
+    display: block;
+    margin-left: 20px;
+    line-height: 40px;
+    color: #37C2FF;
+    font-size: 18px;
+    font-weight: bold;
+}
+.bigData .inner .threeBox > ul > li .out .in .title{
+    width: 100%;
+    height: 40px;
+    overflow: hidden;
+}
+.bigData .inner .threeBox > ul > li .out .in .title .nam{
+    padding-left: 30px;
+    color: #12A2D7;
+    float: left;
+    height:40px;
+    line-height: 40px;
+}
+.bigData .inner .threeBox > ul > li .out .in .title .area{
+    padding-right: 30px;
+    color: #12A2D7;
+    float: right;
+    height:40px;
+    line-height: 40px;
+}
+.bigData .inner .threeBox > ul > li .out .in .title .nam_{
+    width: 100%;
+    height: 40px;
+}
+.bigData .inner .threeBox > ul > li .out .in .title .nam_ li{
+    float: left;
+    width: 31.2%;
+    margin: 0 1%;
+    overflow: hidden;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #12A2D7;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond{
+    height: 240px;
+    width: 100%;
+    overflow: hidden;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond .item{
+    height: 240px;
+    width: 100%;
+    overflow: hidden;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond .item a{
+    width: 100%;
+    height: 30px;
+    overflow: hidden;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond .item a span{
+    float: left;
+    width: 75%;
+    height: 30px;
+    line-height: 30px;
+    color: #FFF;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond .item a label{
+    float: left;
+    width: 22%;
+    height: 30px;
+    line-height: 30px;
+    color: #FFF;
+    text-align: right;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond .item a:hover span{
+    color: #FE2945;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond .item a:hover label{
+    color: #FE2945;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond ul.list{
+    width: 100%;
+    height: auto;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond ul.list li{
+    width: 100%;
+    height: 30px;
+    overflow: hidden;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond ul.list li a{
+    display: block;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond ul.list li a span{
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin: 0 1%;
+    color: #FFF;
+    width: 31.2%;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond ul.list li a:hover span{
+    color: #E22545;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond ul.list li a span label{
+    color: #FFF;
+    display: block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 20px;
+    margin: 5px auto;
+    background: #0169A9;
+}
+.bigData .inner .threeBox > ul > li .out .in .switchPond ul.list li.top a span label{
+    background: #FE2945;
+}

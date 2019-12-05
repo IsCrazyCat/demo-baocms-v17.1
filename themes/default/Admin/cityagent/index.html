@@ -1,0 +1,77 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">功能</li>
+        <li class="li2"> 代理内容</li>
+        <li class="li2 li3"> 代理分类</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>最高2级代理，一级为升级道理，二级市级代理，三级代理即为城市管理员！</p>
+    <div class="jsglNr">
+   
+        <form id="cate_action" action="" target="x-frame" method="post">
+            <div class="selectNr" style="border-top: 1px solid #e1e6eb;">
+                <div class="left">
+                    <{:BA('cityagent/create','','添加一级代理','load','',600,450)}>
+                </div>
+                <div class="right">
+                    <{:BA('cityagent/update','','更新','list','remberBtn')}>
+                </div>
+            </div>
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF; text-align:center;">
+                    <tr bgcolor="#F5F6FA" height="35px;" style="color:#333; font-size:16px; line-height:35px;">
+                        <td>分类</td>
+                        <td>管理员账户</td>
+                        <td>购买价格</td>
+                        <td>排序</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <if condition="($var.parent_id eq 0)">  
+                            <tr bgcolor="#f1f1f1" height="48px" style="font-size:14px; color:#545454; text-align:left; line-height:48px;">
+                                <td style="padding-left:20px;"><{$var.agent_name}></td>
+                                <td><{$users[$var['user_id']]['nickname']}></td>
+                                <td>&yen;<{$var.price}>元</td>
+                                <td style="padding-left:20px;">
+                                	<input name="orderby[<{$var.agent_id}>]" value="<{$var.orderby}>" type="text" class="remberinput w50" />
+                                </td>
+                                <td style="text-align: center;">
+                                    <{:BA('cityagent/create',array("parent_id"=>$var["agent_id"]),'添加二级代理','load','remberBtn',600,450)}>
+                                    <{:BA('cityagent/edit',array("agent_id"=>$var["agent_id"]),'编辑','load','remberBtn',600,450)}>
+                                    <{:BA('cityagent/delete',array("agent_id"=>$var["agent_id"]),'删除','act','remberBtn')}>
+                                </td>
+                            </tr>
+                            <foreach name="list" item="var2">
+                                <eq name="var2.parent_id" value="$var.agent_id">
+                                <tr height="48px" style="font-size:14px; color:#545454; text-align:center; line-height:48px;">
+                                    <td style="padding-left:20px;">→<{$var2.agent_name}></td>
+                                    <td><{$users[$var2['user_id']]['nickname']}></td>
+                                    <td>&yen;<{$var2.price}>元</td>
+                                    <td style="padding-left:20px;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    	<input name="orderby[<{$var2.agent_id}>]" value="<{$var2.orderby}>" type="text" class="remberinput w50" />
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <{:BA('cityagent/edit',array("agent_id"=>$var2["agent_id"]),'编辑','load','remberBtn',600,450)}>
+                                        <{:BA('cityagent/delete',array("agent_id"=>$var2["agent_id"]),'删除','act','remberBtn')}>
+                                    </td>
+                                </tr>
+                                </eq>
+                            </foreach>
+                        </if>
+                    </foreach>        
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+
+
+
+
+
+

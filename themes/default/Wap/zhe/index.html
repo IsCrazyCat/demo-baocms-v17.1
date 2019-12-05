@@ -1,0 +1,175 @@
+<include file='public:header'/> 
+<style>
+.top-fixed .top-title {width: 70%;}
+.cate-wrap{font-size:0;background-color:#fff;border-bottom:1px solid #f3f3f3;width:100%;overflow:hidden;}
+.cate-wrap li{box-sizing:border-box;width:25%;float:left}
+.icon2{color:#555;font-size:16px;text-align:center;display:block;padding:.6rem 0}
+.cate-img{background-size:6rem auto;display:inline-block}
+.cate-img img{width:2.6rem;height:2.6rem}
+.cate-desc{display:block}
+.cate-desc{padding-top:.4rem}
+.filter2 .tab li a em {margin-left:0px;}
+</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<if condition="empty($keyword)">
+        	<div class="top-title">五折卡频道</div>
+        </if>
+		<div class="top-search" style="<if condition="empty($keyword)">display:none;</if>">
+			<form method="post" action="<{:U('farm/index')}>">
+				<input name="keyword" placeholder="<{$keyword|default='输入五折卡的关键字'}>"  />
+				<button type="submit" class="iconfont icon-search"></button> 
+			</form>
+		</div>
+        <if condition="empty($keyword)">
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+		</div>
+        </if>
+        <div id="allmap" style="display:none;"></div>
+	</header>
+  	<script type="text/javascript">
+	$(function(){
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+	});
+	</script>	
+<style>
+.www_hatudou_conm_zhe_date{background-color:#fff;border-bottom:1px solid #f3f3f3;width:100%;overflow:hidden; margin:5px;}
+.www_hatudou_conm_zhe_date li{box-sizing:border-box;width:10.8%;float:left;border: thin solid #c8c8c8; margin:5px;}
+.www_hatudou_conm_zhe_date li.dates{border: thin solid #c8c8c8;}
+.www_hatudou_conm_zhe_date li.on{ border-color: #E34F63;background: #E34F63;}
+.www_hatudou_conm_zhe_date li.on p{color: #fff;}
+.www_hatudou_conm_zhe_date li.on p, .www_hatudou_conm_zhe_date li.dates p{text-align:center; font-size:12px;}
+</style>	           
+
+ <div class="www_hatudou_conm_zhe_date">
+	<ul>
+    	<li class="dates <if condition="$date_id eq 999">on</if>"><a href="<{:LinkTo('zhe/index',$linkArr,array('date_id'=>999))}>"><p>全部</p></a></li>
+      	<volist name='dates' id='item'> 
+		<li class="dates <if condition="$date_id eq $i">on</if>">
+			<a href="<{:LinkTo('zhe/index',$linkArr,array('date_id'=>$i))}>"><p><{$item}></p></a>
+		</li>
+        </volist>
+	</ul>
+  </div>
+ 
+    <div id="filter2" class="filter2">
+    <ul class="tab clearfix">
+      <li class="item">
+        <a href="javascript:void(0);"> 
+            <if condition="!empty($cate_id)">
+            	<span id="str_b_node" style="color:#f60"> <{$shopcates[$cate_id]['cate_name']}></span>
+            <else/>
+            	<span id="str_b_node">选择分类</span>
+            </if>
+        <em></em>
+        </a>
+      </li>
+       <li class="item">
+        <a href="javascript:void(0);"> 
+            <if condition="!empty($week_id)">
+            	<volist name='weeks' id='item'> 
+                	<if condition="$week_id eq $i">
+                		<span id="str_b_node" style="color:#f60"> <{$item}></span>
+                    </if>
+                </volist>
+            <else/>
+                <span id="str_b_node">选择星期几</span>
+            </if>
+            <em></em>
+        </a>
+      </li>
+       
+      
+      <li class="item">
+        <a href="javascript:void(0);">
+            <if condition="empty($order)">
+            	<span id="str_e_node">选择排序</span>
+            <elseif condition="$order eq d"/>
+            	<span id="str_b_node" style="color:#f60;">默认排序</span>
+            <elseif condition="$order eq s"/>
+            	<span id="str_b_node" style="color:#f60;">预约排序</span>
+            <elseif condition="$order eq p"/>
+            	<span id="str_b_node" style="color:#f60;">价格排序</span>
+            <elseif condition="$order eq t"/>
+            	<span id="str_b_node" style="color:#f60;">时间排序</span>
+            </if>
+        <em></em>
+        </a>
+      </li>
+      
+    </ul>
+    
+
+                
+                
+    <div class="inner" style=" display:none">
+      <ul>
+        <li class="item">
+        <a class="rights" href="<{:U('zhe/index',array('cate_id'=>0,'date_id'=>$date_id,'week_id'=>$week_id,'order'=>$order))}>">全部分类</a>
+        </li>
+       <foreach name="shopcates" item="var">
+         <if condition="$var.parent_id eq 0">  
+            <li id="cat_<{$var['cate_id']}>"><a class="rights hasUlLink" title="<{$var.cate_name}>" href="javascript:void(0);>"><{$var.cate_name}><span class="num"></span></a>
+               <ul id="items0">  
+                <foreach name="shopcates" item="product">
+                   <if condition="$product.parent_id eq $var['cate_id']"> 
+                       <li><a title="<{$product.cate_name}>" href="<{:LinkTo('zhe/index',$linkArr,array('cate_id'=>$product['cate_id']))}>"> <{$product.cate_name}><span class="num"></span></a>
+                   </if>
+                </foreach>
+               </ul>
+                       
+             </li>
+         </if>
+        </foreach>
+      </ul>
+     </div>
+    
+    
+    <div class="inner" style=" display:none">
+      <ul>
+       <li><a <if condition='empty($week_id)'>style="color:red;"</if> href="<{:LinkTo('zhe/index',$linkArr,array('week_id'=>0))}>">全部</a></li>
+       <volist name='weeks' id='item'> 
+       		<li><a <if condition="$week_id eq $i">cstyle="color:red;"</if> href="<{:LinkTo('zhe/index',$linkArr,array('week_id'=>$i))}>"><{$item}></a></li>
+       </volist>
+       </ul>
+    </div>
+    
+    
+   <div class="inner" style="display:none;">
+              <ul>
+                <li><a <if condition="$order eq 0"> style="color:red;"</if> href="<{:LinkTo('zhe/index',$linkArr,array('order'=>0))}>">默认排序</a></li>
+                <li><a <if condition="$order eq d"> style="color:red;"</if> href="<{:LinkTo('zhe/index',$linkArr,array('order'=>d))}>">固定排序</a></li>
+                <li><a <if condition="$order eq s"> style="color:red;"</if> href="<{:LinkTo('zhe/index',$linkArr,array('order'=>s))}>">预约量排序</a></li>
+                <li><a <if condition="$order eq p"> style="color:red;"</if> href="<{:LinkTo('zhe/index',$linkArr,array('order'=>p))}>">价格排序</a></li>
+                <li><a <if condition="$order eq t"> style="color:red;"</if> href="<{:LinkTo('zhe/index',$linkArr,array('order'=>t))}>">发布时间</a></li>
+            </ul>
+      </div>
+    
+      
+      <div id="parent_container" class="inner_parent" style="display:none;"><div class="innercontent"></div></div>
+      <div id="inner_container" class="inner_child" style="display:none;"><div class="innercontent"></div> </div>
+ </div>
+<!--end-->    
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;"><i class="pull2"></i></div>
+
+	<ul id="shop-list" class="shop-list"></ul>
+	<script>
+		showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+
+<include file="public:footer"/>

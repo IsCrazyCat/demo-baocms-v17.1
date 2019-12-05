@@ -1,0 +1,74 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">餐饮管理</li>
+        <li class="li2">订单管理</li>
+        <li class="li2 li3">商家统计打印</li>
+    </ul>
+</div>
+<script src="__PUBLIC__/js/jquery-1.4.4.min.js"></script>
+<script src="__PUBLIC__/js/jquery.jqprint-0.3.js"></script>
+
+
+<style>
+.main-sc .jsglNr .selectNr .left a.on{background-color:#F00;border:1px solid #FF0000;}
+</style>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+     	<div class="selectNr" style="margin-top:0px;border-top:none;">
+            <div class="left">
+            	<a href="<{:U('ele/shop')}>">商家统计</a>
+                <a href="<{:U('ele/shop_detail',array('shop_id'=>$shop_id))}>">查看商家订单统计列表</a>
+                <a class="on" href="<{:U('ele/shop_print',array('shop_id'=>$shop_id))}>">刷新当前页面</a>
+               </div>
+            <div class="right">
+            </div>
+            <div class="clear"></div>
+        </div>
+        
+        
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="right">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+            <div class="tableBox" id="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                    	<td>商家ID</td>
+                        <td>商家昵称</td>
+                        <td>结算比例</td>
+                        <td>销售金额</td>
+                        <td>订单数量</td>
+                        <td>配送合计</td>
+                        <td>销售总价</td>
+                    </tr>
+                        <tr>
+                            <td><{$detail.shop_id}></td>
+                            <td><{$detail['shop_name']}></td>
+                            <td><{$detail['rate']}>‰</td>
+                            <td>&yen;<{:round($detail['need_pay']/100,2)}></td>
+                            <td><{$detail['num']}></td>
+                            <td>&yen;<{:round($detail['order_logistics']/100,2)}></td>
+                            <td>&yen;<{:round($detail['total_price']/100,2)}></td>
+                        </tr>
+                </table>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                	<a onclick="tableBoxprint()">打印当前页面</a>
+                </div>
+            </div>
+    </div>
+</div>
+<script>
+	function tableBoxprint(){
+		$("#tableBox").jqprint();
+	}
+</script>
+
+<include  file='public:footer'/>       

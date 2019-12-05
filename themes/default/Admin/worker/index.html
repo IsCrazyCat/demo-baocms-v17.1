@@ -1,0 +1,118 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商家管理</li>
+        <li class="li2">店员管理</li>
+        <li class="li2 li3">店员列表</li>
+    </ul>
+</div>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span> 这里管理所有的店员哦！已接受状态的账户才可以登录哦，后台可以审核已接受状态！二开 286099981</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="right">
+                <form method="post" action="<{:U('worker/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                                <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text " />
+                                <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="sumit">选择商家</a>
+                            </label>
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>状态：</span>
+                                <select class="select w120" name="status">
+                                     <option value="999">请选择</option>
+                                     <option <eq name="status" value="0">selected="selected"</eq>  value="0">未接受</option>
+                                     <option <eq name="status" value="1">selected="selected"</eq>  value="1">已接受</option>
+                                </select>
+                            </label>
+                            <label>
+                                <span>  关键字：</span>   
+                                <input type="text" name="keyword" value="<{$keyword|default=''}>" class="inptText" />
+                                <input type="submit" class="inptButton" value="搜索" />
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="worker_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>商家</td>
+                        <td>用户ID</td>
+                        <td>店员姓名</td>
+                        <td>店员电话</td>
+                        <td>店员手机</td>
+                        <td>店员qq</td>
+                        <td>店员微信</td>
+                        <td>店员职务</td>
+                        <td>店员地址</td>
+                        <td>状态</td>
+                        <td>权限</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_worker_id" type="checkbox" name="worker_id[]" value="<{$var.worker_id}>" /></td>
+                            <td><{$var.worker_id}></td>
+                            <td><{$shops[$var['shop_id']]['shop_name']}></td>
+                            <td><{$var.user_id}></td>
+                            <td><{$var.name}></td>
+                            <td><{$var.tel}></td>
+                            <td><{$var.mobile}></td>
+                            <td><{$var.qq}></td>
+                            <td><{$var.weixin}></td>
+                            <td><{$var.work}></td>
+                            <td><{$var.addr}></td>
+                            <td><if condition="$var['status'] eq 1">已接受 <else/>等待接受</if></td>
+                            <td>
+                                <if condition="$var['tuan'] eq 1">抢购/</if>
+                                <if condition="$var['coupon'] eq 1">优惠劵/</if>
+                                <if condition="$var['is_yuyue'] eq 1">预约/</if>
+                                <if condition="$var['is_mall'] eq 1">商城/</if>
+                                <if condition="$var['is_job'] eq 1">招聘/</if>
+                                <if condition="$var['is_dianping'] eq 1">点评/</if>
+                                <if condition="$var['is_life'] eq 1">信息/</if>
+                                <if condition="$var['is_news'] eq 1">新闻/</if>
+                                <if condition="$var['is_appoint'] eq 1">家政/</if>
+                                <if condition="$var['is_booking'] eq 1">预订</if>
+                            </td>
+                            <td>
+                                <{:BA('worker/delete',array("worker_id"=>$var["worker_id"]),'删除','act','remberBtn')}>
+                                <if condition="$var['status'] eq 0">
+                                    <{:BA('worker/audit',array("worker_id"=>$var["worker_id"]),'审核','act','remberBtn')}>
+                                </if>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            </div>
+        </form>
+    </div>
+</div>
+
+<include  file='public:footer'/>       

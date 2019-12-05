@@ -1,0 +1,108 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">五折卡</li>
+        <li class="li2">订单管理</li>
+        <li class="li2 li3">添加五折卡订单</li>
+    </ul>
+</div>
+<p class="attention"><span>注意：</span> 这里添加五折卡订单，会员编码不能重复，添加订单不能重复，时间可以修改到秒为单位</p>
+<form target="x-frame" action="<{:U('zhe/order_create')}>" method="post">
+    <div class="mainScAdd ">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+            <tr>
+                    <td class="lfTdBt">所在区域：</td>
+                    <td class="rgTdBt jq_tu_city_area ">
+                       <select name="data[city_id]" id="city_id" class="seleFl w210"></select>
+                       <code>选择城市，后期方便归类到多城市操作</code>
+                    </td>
+                </tr>
+                <script src="<{:U('app/datas/cityarea')}>"></script>
+                <script>
+                    var city_id = <?php echo (int)$detail['city_id'];?>;
+                    var area_id = <?php echo (int)$detail['area_id'];?>;
+                    function changeCity(cid){
+                        var area_str = '<option value="0">请选择.....</option>';
+                        for(a in cityareas.area){
+                           if(cityareas.area[a].city_id ==cid){
+                                if(area_id == cityareas.area[a].area_id){
+                                    area_str += '<option selected="selected" value="'+cityareas.area[a].area_id+'">'+cityareas.area[a].area_name+'</option>';
+                                }else{
+                                     area_str += '<option value="'+cityareas.area[a].area_id+'">'+cityareas.area[a].area_name+'</option>';
+                                }  
+                            }
+                        }
+                        $("#area_id").html(area_str);
+                    }
+                    $(document).ready(function(){
+                        var city_str = '<option value="0">请选择.....</option>';
+                        for(a in cityareas.city){
+                           if(city_id == cityareas.city[a].city_id){
+                               city_str += '<option selected="selected" value="'+cityareas.city[a].city_id+'">'+cityareas.city[a].name+'</option>';
+                           }else{
+                                city_str += '<option value="'+cityareas.city[a].city_id+'">'+cityareas.city[a].name+'</option>';
+                           }  
+                        }
+                        $("#city_id").html(city_str);
+                        if(city_id){
+                            changeCity(city_id);
+                        }
+                    });
+                </script>
+                
+                 
+               <tr>
+                    <td class="lfTdBt">选择会员：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="user_id" name="data[user_id]" value="<{$detail.user_id|default=''}>" class="scAddTextName" />
+                            <input class="scAddTextName" type="text" name="nickname" id="nickname"  value="<{$users.nickname}>" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                    </td>
+                </tr>
+                
+              <tr>
+                    <td class="lfTdBt">五折卡类型：</td>
+                    <td class="rgTdBt">
+                       <input type="radio" name="data[type]" value="1" checked="checked" />周卡
+				       <input type="radio" name="data[type]" value="2" />年卡
+                    </td>
+                </tr>
+            <tr>
+                <td class="lfTdBt">用户实付金额：</td>
+                <td class="rgTdBt"><input type="text" name="data[need_pay]" value="<{$detail.need_pay|default=''}>" class="manageInput w80" />
+                <code>线下发卡的实付金额，建议写上，方便后期订单统计</code>
+                </td>
+            </tr>
+            
+             <tr>
+                <td class="lfTdBt">五折卡编码：</td>
+                <td class="rgTdBt"><input type="text" name="data[number]" value="<{$detail.number|default=''}>" class="manageInput" />
+                <code>记住这个编码是唯一8位数+编码，用户前台购买后是生成随机编码，这里可以任意填写，系统自动判是否重复，当前五折卡前缀：<{$CONFIG.zhe.number}></code>
+                </td>
+            </tr>
+
+              <tr>
+                    <td class="lfTdBt">五折卡结束时间：</td>
+                    <td class="rgTdBt"><input type="text" name="data[start_time]" placeholder="点击选择时间"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="inputData" />
+                    <code>选择五折卡订单开始时间，支持到秒为单位</code>
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td class="lfTdBt">五折卡结束时间：</td>
+                    <td class="rgTdBt"><input type="text" name="data[end_time]" placeholder="点击选择时间"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="inputData" />
+                    <code>选择五折卡订单的结束时间，支持到秒为单位</code>
+                    </td>
+                </tr>
+              
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>      
+    </div>
+</form>
+<include  file='public:footer'/>       

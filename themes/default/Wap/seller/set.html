@@ -1,0 +1,51 @@
+<include file="public:header"/>
+
+<style>
+.panel-list ul{padding:0;list-style:none}
+.panel-list li{overflow:hidden;border-bottom:thin solid #eee}
+.panel-list li i{float:right;color:#999;font-size:18px;}
+.panel-list li span{float:left;width:30px;text-align:center;color:#999;font-size: 20px;margin-right: 10px;}
+.panel-list li a{display:block;padding:0 10px;height:50px;line-height:50px;width:100%}
+.panel-list li em{float:right}
+.panel-sub ul{padding:0;list-style:none}
+.panel-sub li{overflow:hidden;border-bottom:thin solid #eee}
+.panel-sub li i{float:right;color:#999}
+.panel-sub li span{float:left;width:30px;text-align:center;color:#999;font-size:16px}
+.panel-sub li div{display:block;padding:0 10px;height:50px;line-height:50px;width:100%}
+.panel-sub li em{float:right}
+</style>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('user/distribution/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			分销店铺设置
+		</div>
+       
+		<div class="top-share">
+		</div>
+	</header>
+
+
+<div class="panel-list">
+	<ul>
+    	<li><a href="<{:U('wap/seller/shop', array('user_id'=>$users['user_id']))}>"><span class="iconfont icon-shangjia2"></span>查看我的店铺<i class="iconfont icon-angle-right"></i></a></li>
+    	<li><a href="<{:U('wap/seller/setting', array('user_id'=>$users['user_id']))}>"><span class="iconfont icon-guanli"></span>店铺基本设置 
+        
+        <if condition="empty($detail)"><b class="text-dot">点击开通小店</b></if>
+        
+        <i class="iconfont icon-angle-right"></i></a></li>
+    	<li><a href="<{:U('wap/seller/sign', array('user_id'=>$users['user_id']))}>"><span class="iconfont icon-tubiao1tieba1"></span>店铺签名设置<i class="iconfont icon-angle-right"></i></a></li>
+        <li><a href="<{:U('wap/seller/banner', array('user_id'=>$users['user_id']))}>"><span class="iconfont icon-iconfontshuben"></span>店铺店招设置<i class="iconfont icon-angle-right"></i></a></li>
+        <li><a href="<{:U('wap/seller/goods', array('user_id'=>$users['user_id']))}>"><span class="iconfont icon-shangcheng-copy-copy"></span>我的产品库<i class="iconfont icon-angle-right"></i></a></li>
+        <li><a href="<{:U('user/distribution/profit', array('status'=>1))}>"><span class="iconfont icon-maidan"></span>我的收益统计<i class="iconfont icon-angle-right"></i></a></li>
+        <li><a href="<{:U('wap/api/qrcode', array('fuid'=>$users['user_id']))}>"><span class="iconfont icon-erweima1"></span>我的二维码<i class="iconfont icon-angle-right"></i></a></li>
+        <li><a href="<{:U('wap/api/poster', array('fuid'=>$users['user_id']))}>"><span class="iconfont icon-shouji2"></span>我的海报<i class="iconfont icon-angle-right"></i></a></li>
+	</ul>
+</div>
+
+<div class="blank-10 bg"></div>
+
+
+<include file="public:footer"/>

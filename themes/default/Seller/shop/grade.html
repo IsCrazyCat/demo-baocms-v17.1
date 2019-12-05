@@ -1,0 +1,53 @@
+<include file='public:header'/>
+<header class="top-fixed bg-yellow bg-inverse">
+    <div class="top-back">
+        <a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+    </div>
+    <div class="top-title">
+        商家等级购买
+    </div>
+</header>
+<style>
+ul { padding-left: 0px;}
+.list-media-x {margin-top: 2rem;}
+.xiaoqu-search { margin-top:2rem;}
+</style>
+<include  file='shop:nav'/> 
+<div class="list-media-x" id="list-media">
+	<ul>
+		<div class="blank-10 bg">
+		</div>
+		<foreach name="list" item="var">
+		<li class="line"  <if condition="$var['grade_id'] eq $SHOPGRADE['grade_id']">style="background-color:#F9F9F9;" </if>>
+            <dt><a class="x2">ID：<{$var.grade_id}></a><a class="x10 text-right text-gray">等级名称：<{$var.grade_name}></a></dt>
+            <dd class="zhong">
+            <div class="x2">
+                <img src="<{:config_img($var['photo'])}>" style="width:90%;">
+            </div>
+            <div class="10">
+                <if condition="$var['content']">
+                	<p class="text-small">等级介绍：<{$var.content}></p>
+                </if>
+                <p class="text-dot"> 单独购买需要费用：&yen; <{:round($var['money']/100,2)}>元</p>
+                <p class="text-gray"> 自动升级需要销售额：&yen; <{:round($var['gold']/100,2)}>元</p>
+            </div>
+            </dd>
+		
+        
+         <dl>
+         <p class="text-right padding-top x12"> 
+           <php>
+            $new_shop_grade= D('Shopgrade')->find($var['grade_id']);
+            $old_shop_grade= D('Shopgrade')->find($SHOPGRADE['grade_id']);
+          </php>
+              <!--<a href="<{:U('shop/permission',array('grade_id'=>$var['grade_id']))}>" class="button button-small bg-dot">查看权限</a> -->     
+              <a id="www-hatudou-com-url-btn" href="<{:U('shop/pay_permission',array('grade_id'=>$var['grade_id'],'shop_id'=>$SHOP['shop_id']))}>" class="button button-small bg-dot">购买权限</a>      
+          </p>
+      </dl>
+      </li>
+      
+		<div class="blank-10 bg"></div>
+		</foreach>
+	</ul>
+</div>
+<include file='public:footer'/>

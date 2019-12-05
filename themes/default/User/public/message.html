@@ -1,0 +1,12 @@
+<if condition="$msg_day gt 0">
+<a href="<{:u('user/message/index')}>">
+<i class="iconfont icon-tubiao1tieba1"></i>
+<span class="badge bg-red jiaofei"><{$msg_day}></span>
+</a>
+<else/>
+    <if condition="empty($sign_day)">
+    <a href="<{:u('wap/sign/signed')}>" class="top-addr iconfont icon-qiandao"></a>    
+    <else/>
+    <a href="<{:u('wap/passport/logout')}>" class="top-addr iconfont icon-tuichu2"></a>      
+    </if>
+</if>

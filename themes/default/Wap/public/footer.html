@@ -1,0 +1,69 @@
+
+
+   
+<div class="footer">
+    
+    当前城市：<a class="button button-small text-yellow" href="<{:U('city/index',array('type'=>$ctl))}>" title="<{:tu_msubstr($city_name,0,4,false)}>"><{:tu_msubstr($city_name,0,4,false)}></a>   
+    
+    <php>
+    	$SHOP  = D('Shop')->where(array('user_id'=>$MEMBER['user_id']))->find();
+        $footer_menu = $CONFIG['other']['footer_menu'] ? $CONFIG['other']['footer_menu'] : '5';
+    </php>
+    
+	<style>
+       .footer-search{padding:15px;background:#fff;border-bottom:thin solid #eee;padding-bottom:5px}
+	   <if condition="$footer_menu eq 3">
+	   		.foot-fixed .foot-item {width:33.3333333336% !important;}
+	   <elseif condition="$footer_menu eq 4" />
+	   		.foot-fixed .foot-item {width:25% !important;}
+	   <elseif condition="$footer_menu eq 5" />
+	   		.foot-fixed .foot-item {width:20% !important;}
+	   <elseif condition="$footer_menu eq 6" />
+	   		.foot-fixed .foot-item {width:16.666666667% !important;}
+	   </if>
+    </style>   
+        
+    <if condition="empty($SHOP)">
+    	<if condition="$ctl eq index"><a href="<{:U('user/apply/index')}>"> 入驻商家</a></if>
+    	<if condition="$ctl eq shop"><a href="<{:U('user/apply/index')}>"> 入驻商家</a></if>
+        <if condition="$ctl eq ele"><a href="<{:U('user/apply/index')}>"> 入驻外卖频道</a></if>
+        <if condition="$ctl eq coupon"><a href="<{:U('user/apply/index')}>"> 我要发布优惠券</a></if>
+        <if condition="$ctl eq farm"><a href="<{:U('user/apply/index')}>"> 入驻农家乐</a></if>
+        <if condition="$ctl eq market"><a href="<{:U('user/apply/index')}>"> 入驻菜市场乐</a></if>
+        <if condition="$ctl eq store"><a href="<{:U('user/apply/index')}>"> 入驻便利店</a></if>
+        <if condition="$ctl eq mall"><a href="<{:U('user/apply/index')}>"> 我要发布商品</a></if>
+        
+    </if>
+    
+    <if condition="$MEMBER['user_id']">
+    	<a href="<{:U('user/member/index')}>" title="个人中心">个人中心</a>
+    <else/>
+    	<a href="<{:U('wap/passport/login')}>" title="登录">登录</a>
+        <a href="<{:U('wap/passport/register')}>" title="注册">注册</a>
+    </if>
+</div>
+
+
+
+
+<div class="blank-20"></div>
+<if condition="$CONFIG[other][footer] eq 1">
+    <footer class="foot-fixed">
+    	<php>$kkkk=0;</php>
+        <volist name='nav_footer' id='item'>
+        	<php>$kkkk++;if($kkkk <= $footer_menu){</php>
+                <a class="foot-item <if condition="$ctl eq $item['title']">active</if>" href="<{:config_navigation_url($item['url'],2)}>?nav_id=<{$item['nav_id']}>">		
+                    <span class="<{$item.ioc}> iconfont"></span>
+                    <span class="foot-label"><{:tu_msubstr($item['nav_name'],0,2,false)}></span>
+                </a>
+            <php>}</php>
+        </volist>
+    </footer>
+</if>
+
+
+
+
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<include file='public:header'/> 
+       <script>
+        $(function(){
+            $("#search-btn").click(function(){
+                if($(".top-search").css("display")=='block'){
+                    $(".top-search").hide();
+                    $(".top-title").show(200);
+                }
+                else{
+                    $(".top-search").show();
+                    $(".top-title").hide(200);
+                }
+            });
+        });
+    </script>
+
+
+    <header class="top-fixed bg-yellow bg-inverse">
+        <div class="top-back">
+            <a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+        </div>
+        <div class="top-title">
+            试课
+        </div>
+        <div class="top-search" style="display:none;">
+            <form method="post" action="<{:U('edu/course')}>">
+                <input name="keyword" placeholder="输入课程的关键字">
+                <button type="submit" class="iconfont icon-search"></button> 
+            </form>
+        </div>
+        <div class="top-signed">
+            <a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+        </div>
+    </header>
+
+                
+
+
+<!--广告位开始-->
+     	<div id="tudou-slide" class="tudou-slide">
+			<div class="hd"><ul></ul></div>
+			<div class="bd">
+				<ul>
+					<calldata mdl="Ad" where=" closed=0 AND site_id=89 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+						<li><a href="<{:U('app/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+        <script>
+			TouchSlide({
+				slideCell: "#tudou-slide",
+				titCell: ".hd ul",
+				mainCell: ".bd ul",
+				effect: "left",
+				autoPlay: true,
+				autoPage: true,
+				switchLoad: "_src",
+			});
+		</script>
+<!--广告位END-->  
+    
+    
+    
+    
+    
+      
+<div class="blank-10 bg" style="border-bottom: thin solid #eee;"></div>
+
+ <!--分类开始-->
+<div class="shike-nav">
+<ul>
+<php>$k = 0;</php> 
+<foreach name="cates" item="var">  
+        <php>$k++;</php>
+        <if condition="$i lt 9">
+            <if condition="$var.parent_id eq 0">            
+                <li>
+                	<a href="<{:LinkTo('edu/course',array('cat'=>$var['cate_id']))}>"><img src="<{:config_img($var['photo'])}>"><br><{$var.cate_name}></a>
+                </li>
+            </if>  
+        </if> 
+</foreach>
+</ul>
+</div>
+     <!--首页分类结束-->
+    <div class="blank-10  bg" style="border-bottom: thin solid #eee;"></div>
+    <div class="shike-h3 icon">热门推荐</div>
+    <div class="index-shike">
+        
+        <ul class="school_list">
+        
+        <volist name="list" id="var">
+        <li onclick="location='<{:U('edu/course_detail',array('course_id'=>$var['course_id']))}>'"> 
+            <div class="course"> 
+                <div class="course-left">
+                    <a class="course-link" href="<{:U('edu/course_detail',array('course_id'=>$var['course_id']))}>">
+                   		<img src="<{:config_img($var['photo'])}>">
+                    </a>
+                    <i class="verify"></i>
+                    <div class="course-po">   
+                        <if condition="$var['type'] eq 1">     
+                            <a>试课:<{:round($var['test_price']/100,2)}></a> 
+                        <else/>
+                            <a>售价:<{:round($var['course_price']/100,2)}></a> 
+                        </if>           
+                        <a>报名:<{$var['sale']}></a>
+                    </div>
+                </div> 
+                <div class="course-right"> 
+                <php>
+                $edu = D('Edu')->where(array('edu_id'=>$var['edu_id']))->find();
+                $score = D('EduComment')->where(array('course_id'=>$var['course_id']))->avg('score');
+                </php>
+                    <a class="course-title"><{$var['title']}>
+                    <if condition="!empty($var['is_refund'])"> 
+                    	<em>随时退</em>
+                    </if>
+                    </a> 
+                    <p class="course-addr"><{$edu['edu_name']}></p>
+                    <p class="shike-star">
+                      <if condition="!empty($score)"> 
+                        <span class="ui-starbar"><span style="width:<{$score*20}>%"></span></span><em><{:round($score/1,2)}>分</em>
+                      <else/>
+                       <p class="course-addr">暂无评价</p>
+                      </if> 
+                    </p>
+                </div>
+            </div>
+        </li>
+       </volist> 
+     
+
+
+</ul>
+
+    </div>
+<include file="public:footer"/>

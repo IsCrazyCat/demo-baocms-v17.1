@@ -1,0 +1,43 @@
+<include file="public:header"/>
+
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('seller/set',array('user_id'=>$users['user_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+        <div class="top-title  get-map-marker">我的产品</div>
+        
+        <div class="top-share">
+            <a  href="javascript:void(0);" id="cate-btn" class="top-addr icon-chevron-down"> 添加</a>
+        </div>
+        
+	</header>
+    
+     <div class="serch-bar-mask" id="cate_menu" style="display:none;top:50px;">
+		<div class="serch-bar-mask-list">
+			<ul>
+                <li><a href="<{:U('mall/index')}>">添加商品</a></li>
+                <li><a href="<{:U('tuan/index')}>">添加抢购</a></li>
+                <li><a href="<{:U('shop/index')}>">添加商家</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="list-media-x" id="list-media-x">
+    	<div class="blank-10 bg"></div>
+		<ul></ul>
+	</div>
+
+    <script>
+       $(document).ready(function (){
+			$("#cate-btn").click(function (){
+				$("#cate_menu").toggle();
+			});
+			$("#cate_menu ul li a").click(function (){
+				$("#cate_menu").toggle();
+			});
+            loaddata('<{$nextpage}>', $("#list-media-x ul"), true);
+        });
+    </script>
+	
+<include  file='public:footer'/>    

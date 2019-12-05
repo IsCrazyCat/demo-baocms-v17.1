@@ -1,0 +1,91 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">商家管理</li>
+        <li class="li2">商家分类</li>
+        <li class="li2 li3">配置属性</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+	<p class="attention"><span>注意：</span>您当前配置的分类是<{$detail.cate_name}>，需要二开联系qq：120+585+022</p>
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('shopcate/setting',array('cate_id'=>$detail['cate_id']))}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                
+                    <tr>
+                        <td width="140" class="lfTdBt"><{$detail.cate_name}></td>
+                        <td>
+                            <table width="90%" style="margin-left: 10px;" class="jq_table1">
+                                <tr>
+                                    <td colspan="5" style="text-align: right;">
+                                        <a class="jq_add" rel="1" href="javascript:void(0);">新增一个</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>属性名称</th>
+                                    <th>属性简介</th>
+                                    <th>属性价格</th>
+                                    <th>属性排序</th>
+                                    <th>属性操作</th>
+                                </tr>
+                              <if condition="!empty($attrs)">
+                                <foreach name="attrs" item="item">
+                                <tr>
+                                   <td align="center">
+                                     <input class="manageInput w150" type="text" value="<{$item.attr_name}>" name="old[<{$item.attr_id}>][attr_name]"/>
+                                   </td>
+                                   <td align="center">
+                                     <input class="manageInput w150" type="text" value="<{$item.attr_intro}>" name="old[<{$item.attr_id}>][attr_intro]"/>
+                                   </td>
+                                   <td align="center">
+                                     <input class="manageInput w150" type="text" value="<{:round($item['attr_price']/100,2)}>" name="old[<{$item.attr_id}>][attr_price]"/>
+                                   </td>
+                                   <td align="center">
+                                   	<input class="manageInput w150" type="text" value="<{$item.orderby}>" name="old[<{$item.attr_id}>][orderby]"/>
+                                   </td>
+                                  <td align="center"><a class="jd" mini="act" href="<{:U('shopcate/delattr',array('attr_id'=>$item['attr_id']))}>">删除</a></td>
+                             </tr> 
+                             </foreach> 
+                            <else/>
+                                <tr>
+                                       <td align="center">
+                                         <input class="manageInput w150" type="text" value="<{$item.attr_name}>" name="data[select1][0][attr_name]"/>
+                                       </td>
+                                       <td align="center">
+                                         <input class="manageInput w150" type="text" value="<{$item.attr_intro}>" name="data[select1][0][attr_intro]"/>
+                                       </td>
+                                       <td align="center">
+                                         <input class="manageInput w150" type="text" value="<{$item.attr_price}>" name="data[select1][0][attr_price]"/>
+                                       </td>
+                                       <td align="center">
+                                        <input class="manageInput w150" type="text" value="<{$item.orderby}>" name="data[select1][0][orderby]"/>
+                                       </td>
+                                 </tr> 
+                            </if>
+                            </table>
+                        </td>
+                    </tr>
+             
+                <script>
+                    var num_1 = 1;
+                    $(document).ready(function () {
+                        $(document).on('click', '.jq_delete', function () {
+                            $(this).parent().parent().remove();
+                        });
+
+                        $(".jq_add").click(function () {
+                            var rel = $(this).attr('rel');
+                            num_1++;
+                            var str = '<tr><td align="center"><input class="manageInput w150" type="text" name="data[select' + rel + '][' + num_1 + '][attr_name]"/></td><td align="center"><input class="manageInput w150" type="text" name="data[select' + rel + '][' + num_1 + '][attr_intro]"/></td><td align="center"><input class="manageInput w150" type="text" name="data[select' + rel + '][' + num_1 + '][attr_price]"/></td><td align="center"><input class="manageInput w150" type="text" value="100" name="data[select' + rel + '][' + num_1 + '][orderby]"/></td><td align="center"><a class="jq_delete" href="javascript:void(0);">删除</a></td></tr> ';
+                            $(".jq_table" + rel).append(str);
+                        });
+                    });
+                </script>   
+               
+            </table>
+            <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

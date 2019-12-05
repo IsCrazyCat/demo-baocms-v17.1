@@ -1,0 +1,31 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			领取红包
+		</div>
+		<div class="top-share">
+			<a href="#" id="cate-btn"></a>
+		</div>
+	</header>
+<body>   
+
+
+
+<div class="blank-30"></div>
+
+
+    <div class="container login-open">
+    <php>
+    	$intro = $envelope['type'] == 1 ? '平台' : '商家';
+    </php>
+        <if condition="$show eq 1">
+           <a href="<{:U('index/envelope',array('envelope_id'=>$envelope['envelope_id'],'orderType'=>'6'))}>" id="www-hatudou-com-url-btn" class="button button-block button-big bg-dot text-center">领取<{$intro}>红包</a>
+        </if>
+    </div>
+
+
+<div class="blank-20"></div>
+<include file="public:footer"/>

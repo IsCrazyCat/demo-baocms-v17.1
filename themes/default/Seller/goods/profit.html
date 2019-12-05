@@ -1,0 +1,65 @@
+<include file='public:header'/>
+
+
+<header class="top-fixed bg-yellow bg-inverse">
+<div class="top-back">
+	<a class="top-addr" href="<{:U('mart/index')}>"><i class="iconfont icon-angle-left"></i></a>
+</div>
+<div class="top-title">编辑分销</div>
+
+</header>
+
+
+
+
+<form class="fabu-form" method="post" target="x-frame" action="<{:U('goods/profit',array('goods_id'=>$detail['goods_id']))}>">
+
+	<div class="row">
+		<div class="line">
+			<span class="x6">开启商城独立分成模式：</span>
+			<span class="x6">
+			<label><span>关闭</span>
+			<input style="width:20px; height:20px;" type="radio" name="data[profit_enable]" value="0" <eq name="profit.profit_enable" value="0">checked="checked"</eq> >
+			</label>
+			<label><span style="margin-left:20px;">开启</span>
+			<input style="width:20px; height:20px;" type="radio" name="data[profit_enable]" value="1" <eq name="profit.profit_enable" value="1">checked="checked"</eq>>
+			</label>
+			</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="line">
+			<span class="x5">一级分成百分比：</span>
+			<span class="x7">
+			<input type="text" class="text-input" name="data[profit_rate1]" value="<{$profit.profit_rate1|default=''}>" />
+			</span>
+		</div>
+	</div>
+    <div class="row">
+		<div class="line">
+			<span class="x5">二级分成百分比：</span>
+			<span class="x7">
+			<input type="text" class="text-input" name="data[profit_rate2]" value="<{$profit.profit_rate2|default=''}>" />
+			</span>
+		</div>
+	</div>
+    <div class="row">
+		<div class="line">
+			<span class="x5">三级分成百分比：</span>
+			<span class="x7">
+			<input type="text" class="text-input" name="data[profit_rate3]" value="<{$profit.profit_rate3|default=''}>" />
+			</span>
+		</div>
+	</div>
+    
+    
+	<div class="container">
+		<div class="blank-30">
+		</div>
+		<button type="submit" class="button button-block button-big bg-dot">修改商品</button>
+		<div class="blank-30">
+		</div>
+	</div>
+</form>
+
+<include file='public:footer'/>

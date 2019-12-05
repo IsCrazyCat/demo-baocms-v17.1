@@ -1,0 +1,100 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			买单详情
+		</div>
+		<div class="top-share">
+			<a href="#" id="cate-btn"></a>
+		</div>
+	</header>
+<body>   
+
+<style>
+.panel-list li.padding10 {padding:0 10px;}
+.panel-list li a.button-small{margin:10px 0; padding:0 10px; text-align:center; font-size:14px;}
+</style>
+<div class="panel-list">
+	<ul>
+    	<li><a href="javascript:;">买单订单号：<em><{$detail.order_id}></em></a></li>
+        <li><a href="javascript:;">订单状态：<em class="text-dot"><if condition="$detail.status eq 0">未支付<else/>已支付</if></em></a></li>
+		<li><a href="javascript:;">总金额：<em>&yen;<{$detail.amount}></em></a></li>
+		<li><a href="javascript:;">不参与优惠金额：<em>&yen;<{$detail.exception}></em></a></li>
+		<li><a href="javascript:;">总支付金额：<em>&yen;<{$detail.need_pay}>元</em></a></li>
+        <li><a href="javascript:;">下单时间：<em><{$detail.create_time|date='Y-m-d',###}></em></a></li>
+        <if condition="$detail['pay_time']"><li><a href="javascript:;">付款时间：<em><{$detail.pay_time|date='Y-m-d',###}></em></a></li></if>
+	</ul>
+</div>
+
+
+<style>
+#cover{display:none;position:absolute;left:0;top:0;z-index:18888;background-color:#000000;opacity:0.7;}
+#guide{display:none;position:absolute;right:18px;top:5px;z-index:19999;}
+#guide img{width:260px;height:180px;}
+</style>
+<div class="container login-open">
+  <php> $arr = D('Envelope')->getArray($orderType ='5',$detail['shop_id'],$detail['pay_time']); </php>
+   <if condition="$arr['envelope_id'] and ($arr['show'] eq 1) and ($detail['status'] gt 0)">
+      <a onClick="_system._guide(true)" class="button button-block button-big bg-yellow text-center">分享到朋友圈领取 <{$arr['intro']}> 红包</a>
+   </if>
+   
+   <if condition="$detail['status'] eq 0">
+        <a href="<{:U('wap/shop/breakspay',array('order_id'=>$detail['order_id']))}>" class="button button-block button-big bg-yellow text-center">去付款</a>
+   </if>
+         
+</div>
+<div id="cover"></div>
+<div id="guide"><img src="/static/default/wap/img/guide1.png"></div>
+<script src="/static/default/wap/js/cover.js"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    wx.config({
+		debug: false,
+		appId: '<{$signPackage.appId}>',
+		timestamp: '<{$signPackage.timestamp}>',
+		nonceStr: '<{$signPackage.nonceStr}>',
+		signature: '<{$signPackage.signature}>',
+		jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo','onMenuShareQZone']
+	});
+
+	wx.ready(function () {
+    wx.onMenuShareTimeline({
+            title: '"我在商家【".<{$arr["shop_name"]}>."】买单后领取红包了"',
+        	link: "<{$CONFIG.site.host}><{:U('wap/shop/detail',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'shop_id'=>$detail['shop_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($arr['photo'])}>", 
+            success: function (){
+				getEnvelope();
+			},
+     });
+     wx.onMenuShareAppMessage({
+            title: '"我在商家【".<{$arr["shop_name"]}>."】买单后领取红包了"',
+            desc: '<{:cleanhtml($arr["shopdetails"])}>',
+            link: "<{$CONFIG.site.host}><{:U('wap/shop/detail',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'shop_id'=>$detail['shop_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($arr['photo'])}>", 
+            success: function (){
+				getEnvelope();
+			},
+    });
+	function getEnvelope(){
+	   var url = "<{:U('app/api/envelope')}>";
+	   var envelope_id = "<{$arr['envelope_id']}>";
+	   var order_id = "<{$detail['order_id']}>";
+	   var orderType = 5;
+	   var user_id = "<{$detail['user_id']}>";
+	   $.post(url,{envelope_id:envelope_id,order_id:order_id,orderType:orderType,user_id:user_id},function(data){
+		   if(data.code == '1'){
+			   layer.msg(data.msg,function(){
+					location.href = data.url;
+			   });
+		   }else{
+			  layer.msg(data.msg,{icon: 5});
+		   }
+		},'json')
+	};
+});
+</script>
+
+
+<include file="public:footer"/>

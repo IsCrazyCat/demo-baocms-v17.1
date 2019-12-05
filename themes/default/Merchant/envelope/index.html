@@ -1,0 +1,67 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商家红包</a> > <a>红包列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('envelope/index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+                开始时间：
+                <input type="text" class="radius3 tuan_topser"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"/>
+                结束时间：
+                <input type="text" class="radius3 tuan_topser"  name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"/>
+                关键字：
+                <input type="text" name="keyword" value="<{$keyword}>" class="radius3 tuan_topser" />
+                <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            </div>
+        </div>
+    </div>
+    </form>
+    
+    <div class="tuanfabu_tab">
+      <ul>
+        <li class="tuanfabu_tabli"><a href="<{:U('envelope/create')}>">添加红包</a></li>
+        <li class="tuanfabu_tabli on"><a href="<{:U('envelope/index')}>">红包列表</a></li>
+        <li class="tuanfabu_tabli"><a href="<{:U('envelope/logs')}>">红包领取记录</a></li>
+      </ul>
+    </div>
+
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>红包ID</td>
+            <td>红包标题</td>
+            <td>红包备注</td>
+            <td>红包总额</td>
+            <td>红包领取比例</td>
+            <td>开始时间</td>
+            <td>红包状态</td>
+            <td>创建时间</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.envelope_id}></td>
+                <td><{$var.title}></td>
+                <td><{$var.intro}></td>
+                <td>￥<{:round($var['prestore']/100,2)}></td>
+                <td><{$var.ratio}>%</td>
+                <td><{$var.bg_date}></td>
+                <td><if condition="$var['closed'] eq 0">进行中<else/>已结束</if></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td>
+                    <a class="radius3 sy_c1an" href="<{:U('envelope/logs',array('envelope_id'=>$var['envelope_id']))}>">查看领取记录</a>
+                    <if condition="$var['closed'] eq 0">
+                    	<a class="radius3 sy_c1an" mini="confirm" href="<{:U('envelope/closed',array('envelope_id'=>$var['envelope_id']))}>">结束红包</a>
+                    </if>
+            	</td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<include  file='public:footer'/>

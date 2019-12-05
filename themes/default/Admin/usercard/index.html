@@ -1,0 +1,105 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">会员卡</li>
+        <li class="li2 li3">会员卡列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span>会员卡等级就是会员等级，会员卡的余额就是会员的余额，会员卡的有效期这里单独设置，会员卡的绑定手机跟会员手机一致。</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('usercard/create','','激活会员卡')}>
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('usercard/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                         <div class="seleK">
+                            <label>
+                                <span>开始时间</span>
+                                <input type="text"    name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text" />
+                            </label>
+                            <label>
+                                <span>结束时间</span>
+                                <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text" />
+                            </label>
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>"/>
+                                <input class="text" type="text"   name="nickname" id="nickname"  value="<{$nickname}>" />
+                                <a mini="select"  w="1000" h="800" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>卡号/会员ID:</span>
+                                <input type="text" name="keyword" value="<{$keyword}>" class="inptText" />
+                               <input type="submit" value="   搜索"  class="inptButton" />
+
+                            </label>
+                        </div>
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK"></div>
+                </div>
+                <div class="right"></div>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="card_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>卡号</td>
+                    <td>用户昵称</td>
+                    <td>用户ID</td>
+                    <td>用户手机</td>
+                    <td>等级</td>
+                    <td>余额</td>
+                    <td>积分</td>
+                    <td>有效期</td>
+                    <td>录入时间</td>
+                    <td>录入IP</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_card_id" type="checkbox" name="card_id[]" value="<{$var.card_id}>" /></td>
+                        <td><{$var.card_id}></td>
+                        <td><{$var.card_num}></td>
+                        <td><{$var.user.nickname}></td>
+                        <td><{$var.user.user_id}></td>
+                        <td><{$var.user.mobile|default='暂无手机号'}></td>
+                        <td><{$var.rank.rank_name|default='暂无等级'}></td>
+                        <td>&yen; <{:round($var['user']['money']/100,2)}></td>
+                        <td><{$var.user.integral}></td>
+                        <td><{$var.end_date}></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td><{$var.create_ip}></td>
+                        <td>
+                        	<{:BA('user/money',array("user_id"=>$var["user_id"]),'余额','load','remberBtn',600,350)}>
+                            <{:BA('usercard/edit',array("card_id"=>$var["card_id"]),'编辑','','remberBtn')}>
+                            <{:BA('usercard/delete',array("card_id"=>$var["card_id"]),'删除','act','remberBtn')}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <{:BA('usercard/delete','','批量删除','list',' a2')}>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

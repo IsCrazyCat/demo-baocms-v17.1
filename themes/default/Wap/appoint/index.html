@@ -1,0 +1,129 @@
+<include file="public:header"/>
+<php>
+    $areas = D('Area')->where(array('city_id'=>$city_id))->select();
+    $Area = D('Area')->find($area);
+</php>
+
+
+
+<style>
+.item-list h5 { height: inherit;}
+.is_renzheng{background: #33b095;padding: 0 3px;color: #fff !important;font-size: 12px;margin-right: 5px; height: 16px;line-height: 16px;margin-top: 3px;}
+.cate-wrap{font-size:0;background-color:#fff;border-bottom:1px solid #f3f3f3;width:100%;overflow:hidden;}
+.cate-wrap li{box-sizing:border-box;width:20%;float:left}
+.icon2{color:#555;font-size:16px;text-align:center;display:block;padding:.6rem 0}
+.cate-img{background-size:6rem auto;display:inline-block}
+.cate-img img{width:2.6rem;height:2.6rem}
+.cate-desc{display:block}
+.cate-desc{padding-top:.4rem}
+.container {margin-top: 0rem;}
+.focus .hd {top: 40px;}
+.focus .bd li img {max-height:120px;}
+.item-list img{position:relative;padding:0px; }
+.item-list li span.album{ font-size:12px; color:#FFF;margin-right: 1px;position:absolute;bottom:0;width:100%;height:20px;line-height:20px;text-align:center;background: rgba(0,0,0,0.3);}
+.panel-list ul{padding:0;list-style:none}
+.panel-list li{overflow:hidden;border-bottom:thin solid #eee}
+.panel-list li i{float:right;color:#999;font-size:18px;}
+.panel-list li span{float:left;width:30px;text-align:center;color:#999;font-size: 20px;margin-right: 10px;}
+.panel-list li a{display:block;padding:0 10px;height:50px;line-height:50px;width:100%}
+.panel-list li em{float:right}
+</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+        <if condition="empty($keyword)">
+			<div class="top-title">家政首页</div>
+        </if>
+		<div class="top-search" style="<if condition="empty($keyword)">display:none;</if>">
+			<form method="post" action="<{:U('appoint/lists')}>">
+				<input name="keyword" placeholder="<{$keyword|default='输入商品的关键字'}>"  />
+				<button type="submit" class="iconfont icon-search"></button> 
+			</form>
+		</div>
+        <if condition="empty($keyword)">
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+		</div>
+        </if>
+	</header>
+    <script>
+		$(function(){
+			$("#search-btn").click(function(){
+				if($(".top-search").css("display")=='block'){
+					$(".top-search").hide();
+					$(".top-title").show(200);
+				}
+				else{
+					$(".top-search").show();
+					$(".top-title").hide(200);
+				}
+			});
+			
+		});
+	</script>
+    
+    
+      <!--广告位开始-->
+     	<div id="tudou-slide" class="tudou-slide">
+			<div class="hd"><ul></ul></div>
+			<div class="bd">
+				<ul>
+					<calldata mdl="Ad" where=" closed=0 AND site_id=31 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+						<li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+        <script>
+			TouchSlide({
+				slideCell: "#tudou-slide",
+				titCell: ".hd ul",
+				mainCell: ".bd ul",
+				effect: "left",
+				autoPlay: true,
+				autoPage: true,
+				switchLoad: "_src",
+			});
+		</script>
+    <!--广告位END-->  
+    
+     
+     
+        <ul class="cate-wrap bbOnepx">
+            <php>$a = 0;</php>
+            <volist name="appointcates" id="item">
+                <eq name="item.parent_id" value="0">
+                    <php>$a++;</php>    
+                    <if condition="$a lt 10"> 
+                        <li>
+                            <a class="icon2" href="<{:U('appoint/lists',array('cat'=>$item['cate_id']))}>" tongji_tag="m_home_job_new">
+                                <span class="cate-img" id="job"><img src="<{:config_img($item['photo'])}>" /></span>
+                                <span class="cate-desc"><{:tu_msubstr($item['cate_name'],0,2,false)}></span>
+                            </a>
+                        </li>
+                    </if>
+                </eq>
+            </volist>
+        </ul>
+    
+    
+
+<div class="panel-list">
+	<ul>
+    	<li><a href="<{:U('appoint/worker_list')}>"><span class="iconfont "></span>技师列表<i class="iconfont icon-fangxiangyou"></i></a></li>
+		<li><a href="<{:U('appoint/lists')}>"><span class="iconfont "></span>猜你喜欢<i class="iconfont icon-fangxiangyou"></i></a></li>
+	</ul>
+</div>
+
+	<div class="xiaoqu-list">
+		<ul id="xiaoqu-list"></ul>  
+	</div>
+
+    <script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#xiaoqu-list"), true);
+		});
+    </script>
+	
+<include  file='public:footer'/>    

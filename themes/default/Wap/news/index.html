@@ -1,0 +1,130 @@
+<php>$seo_title = $detail['title'];</php>
+<include file='public:header'/>   
+
+<style>
+.www_hatudou_com_ad { padding: 10px 10px !important;width:100%;}
+.www_hatudou_com_ad a {display: block;overflow: hidden;width:100%;margin: 0;padding: 0;height: auto;line-height: 0.8;}
+.www_hatudou_com_ad img {width: 100%;overflow:hidden;}
+.top-fixed .top-signed a img{border-radius:100%}
+.sec-title .order{display: inline-block;overflow: hidden; float:right}
+.sec-title .order ul li{float:left; padding-right:5px;}
+.list-media-x li .pic{overflow:hidden;width:100%;padding:0 10px;margin-bottom:10px}
+.list-media-x li .pic span{float:left;width:33.33333% border: none;list-style:none}
+.list-media-x li .pic span img{max-width:90px;height:67px;overflow:hidden;float:left;display:inline;margin-right:10px;position:relative;z-index:1;width:auto}
+.select_wrapper .select_01 .active a{color:#ff9933;border-bottom: 2px solid #ff9933; padding: 5px 0;}
+</style>   
+
+ 
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+        <div class="top-search">
+			<form method="post" action="<{:U('news/index')}>">
+				<input name="keyword" placeholder="输入新闻的关键字"  />
+				<button type="submit" class="iconfont icon-search"></button> 
+			</form>
+		</div>
+		<div class="top-signed">
+			<a href="javascript:void(0);"><img width="30px" id="img" src="<{:config_img($MEMBER['face'])}>"/></a>
+		</div>
+	</header>
+    
+    <!--广告位开始-->
+    <php>
+    $ad34 = D('Ad')->where(array('closed'=>0,'site_id'=>34,'city_id'=>array('IN', $city_ids,'bg_date' => array('ELT', TODAY),'end_date' => array('EGT', TODAY))))->select();
+    </php>
+    <if condition="$ad34">  
+        <div id="tudou-slide" class="tudou-slide">
+            <div class="hd"><ul></ul></div>
+            <div class="bd">
+                <ul>
+                <calldata mdl="Ad" where="closed=0 AND site_id=34 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+                    <li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+                </calldata>
+                </ul>
+            </div>
+         </div>
+         <script>
+         	TouchSlide({slideCell: "#tudou-slide",titCell: ".hd ul",mainCell: ".bd ul",effect: "left",autoPlay: true,autoPage: true,switchLoad: "_src",});
+         </script>
+     </if>
+     <!--广告位END-->  
+     
+    
+   <div class="select_wrapper">
+       <div class="select_01" id="wrapper2">
+         <ul class="tab-hd" id="scroller2">
+             <li id="all_nwes" class=" <if condition="$cat eq ''">active</if> item"><a href="<{:LinkTo('news/index',$linkArr,array('cat'=>0))}>">全部</a></li>
+             <foreach name="articlecates" item="var">
+                  <if condition="$var.parent_id eq 0">  
+                        <li class="item <eq name="cat" value="$var['cate_id']">current</eq>"><a class="active" href="<{:LinkTo('news/index',$linkArr,array('cat'=>$var['cate_id']))}>"><{$var.cate_name}></a></li>
+                  </if>
+             </foreach>
+          </ul>
+         <div class="more" id="iscrollto"><span></span></div>
+         </div>
+    </div>	
+
+
+
+  
+	<div class="blank-10 bg"></div>
+	<div class="sec-title">	
+		<div class="divider"></div>	
+		<span>资讯列表</span>
+         <div class="order">
+           <ul>
+             <li><a <if condition="$order eq 0"> style="color:red;"</if> href="<{:LinkTo('news/index',$linkArr,array('order'=>0))}>">默认</a></li>
+             <li><a <if condition="$order eq 1"> style="color:red;"</if> href="<{:LinkTo('news/index',$linkArr,array('order'=>1))}>">浏览</a></li>
+             <li><a <if condition="$order eq 2"> style="color:red;"</if> href="<{:LinkTo('news/index',$linkArr,array('order'=>2))}>">点赞</a></li>
+             <li><a <if condition="$order eq 3"> style="color:red;"</if> href="<{:LinkTo('news/index',$linkArr,array('order'=>3))}>">打赏</a></li>
+             <li><a <if condition="$order eq 4"> style="color:red;"</if> href="<{:LinkTo('news/index',$linkArr,array('order'=>4))}>">时间</a></li>
+            </ul>
+         </div>
+	</div>
+	<div class="list-media-x" id="list-media"><ul></ul></div>
+</div>
+    
+     <script>
+
+		//幻灯
+		
+        $('#scroller2').css('width',(90*$('#scroller2').find('li').length)+40+'px'); 
+            window['myScroll2'] = new IScroll('#wrapper2', {
+                scrollX: true,
+                scrollY: false,
+                click:true,
+                keyBindings: true
+            });
+            $('#iscrollto').click(function(){
+                window['myScroll2'].scrollBy(-100,0,500)
+            });
+		
+		
+		
+		$("#search-bar li").each(function(e){
+			$(this).click(function(){
+				if($(this).hasClass("on")){
+					$(this).parent().find("li").removeClass("on");
+					$(this).removeClass("on");
+					$(".serch-bar-mask").hide();
+				}
+				else{
+					$(this).parent().find("li").removeClass("on");
+					$(this).addClass("on");
+					$(".serch-bar-mask").show();
+				}
+				
+			});
+		});
+		
+		$(document).ready(function () {
+			showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+			loaddata('<{$nextpage}>', $("#list-media ul"), true);
+		});
+		
+	</script>   
+    
+    
+<include file="public:footer"/>

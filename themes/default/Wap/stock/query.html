@@ -1,0 +1,61 @@
+<include file="public:header"/>
+<style>
+.demo{width:100%}
+.stamp *{padding:0;margin:0;list-style:none;font-family:"Microsoft YaHei",'Source Code Pro',Menlo,Consolas,Monaco,monospace}
+.stamp{width:387px;height:180px;padding:0 10px;margin-bottom:50px;position:relative;overflow:hidden}
+.stamp:before{content:'';position:absolute;top:0;bottom:0;left:10px;right:10px;z-index:-1}
+.stamp:after{content:'';position:absolute;left:10px;top:10px;right:10px;bottom:10px;box-shadow:0 0 20px 1px rgba(0,0,0,.5);z-index:-2}
+.stamp .par{float:left;padding:16px 15px;width:50%;border-right:2px dashed rgba(255,255,255,.3);text-align:left}
+.stamp .par p{color:#fff;font-size:12px;line-height:21px}
+.stamp .par span{font-size:50px;color:#fff;margin-right:5px;line-height:65px}
+.stamp .par .sign{font-size:34px}
+.stamp .par sub{position:relative;top:-5px;color:rgba(255,255,255,.8)}
+.stamp .copy{display:inline-block;padding:21px 14px;width:50%;vertical-align:text-bottom;font-size:30px;color:#fff;text-align:center;line-height:initial}
+.stamp .copy p{font-size:12px;margin-top:15px}
+.stamp01{background:#F39B00;background:radial-gradient(rgba(0,0,0,0) 0,rgba(0,0,0,0) 5px,#F39B00 5px);background-size:15px 15px;background-position:9px 3px}
+.stamp04{width:100%;background:#FD0404;background:radial-gradient(rgba(0,0,0,0) 0,rgba(0,0,0,0) 4px,#FD0404 4px);background-size:12px 8px;background-position:-5px 10px; margin-top:20px;}
+.stamp04:before{background-color:#FD0404;left:5px;right:5px}
+.stamp04 .copy{padding:10px 6px 10px 12px;font-size:24px}
+.stamp04 .copy p{font-size:12px;margin-top:5px;margin-bottom:8px}
+.stamp04 .copy a{background-color:#fff;color:#333;font-size:12px;text-decoration:none;padding:5px 10px;border-radius:3px;display:block}
+</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('user/stock/index',array('st'=>1))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			电子股单查询
+		</div>
+	</header>
+    
+	<div class="container">
+            <div class="demo">
+                <div class="stamp stamp04">
+                  <div class="par">
+                    <p>NO.<{$detail['stock_number']}></p>
+                    <sub class="sign"></sub><span><{$detail['num']}></span><sub>股</sub>
+                  <p>姓名：<{$detail['name']}></p>
+                  <p>电话：<{$detail['mobile']}></p>
+                  <p><{$detail.create_time|date="Y-m-d H:i:s",###}></p>
+                  </div>
+                    <div class="copy">股权证
+                      <p>
+                      股价：<{:round($detail['price']/100,2)}>元/股<br>
+                      
+                      <if condition="$detail['prestige']">
+        				使用<{$CONFIG.prestige.name|default='威望'}>：<{$detail.prestige}><br>
+        			  </if>
+                      <if condition="$detail['prestige_deduction_ratio']">
+                         <{$CONFIG.prestige.name|default='威望'}>抵扣比例：<{$detail.prestige_deduction_ratio}>%<br>
+                      </if>
+                      <if condition="$detail['prestige_deduction_price']">
+                         <{$CONFIG.prestige.name|default='威望'}>抵扣金额：<{:round($detail['prestige_deduction_price']/100,2)}><br>
+                      </if>
+                      
+                      实际支付：&yen;<{:round($detail['need_pay_price']/100,2)}>元</div>
+                </div>
+           </div>
+		<p class="text-center">这里是您的股单，请妥善保存，如有疑问，咨询客服！</p>
+	</div>
+	
+<include file="public/footer" />

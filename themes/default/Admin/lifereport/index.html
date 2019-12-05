@@ -1,0 +1,102 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">频道</li>
+        <li class="li2">分类信息</li>
+        <li class="li2 li3">信息举报</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span> 这里是分类信息举报管理，需要二开联系q268.099.981</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form  method="post"  action="<{:U('lifereport/index')}>"> 
+
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                           <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>举报类型：</span>
+                                <select class="select w120" name="type">
+                                     <option value="999">请选择</option>
+                                     <option <eq name="type" value="1">selected="selected"</eq>  value="1">电话被冒用</option>
+                                     <option <eq name="type" value="2">selected="selected"</eq>  value="2">虚假违法信息</option>
+                                     <option <eq name="type" value="3">selected="selected"</eq>  value="3">信息已过期</option>
+                                </select>
+                            </label>
+                            
+                            <span>关键字</span>
+                            <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  />
+                            <input type="submit" value=" 搜索"  class="inptButton" />
+                        </div>
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+
+                       <td class="w50"><input type="checkbox" class="checkAll" rel="id" /></td>
+                        <td class="w50">ID</td>
+                        <td>标题</td>
+                        <td>城市ID</td>
+                        <td>信息ID</td>
+                        <td>举报类型</td>
+                        <td>举报图片</td>
+                        <td>举报人</td>
+                        <td>举报理由</td>
+                        <td>时间</td>
+                        <td>IP</td>
+                        <td>操作</td>
+                    <foreach name="list" item="var">
+                        <tr>
+                           <td><input class="child_id" type="checkbox" name="id[]" value="<{$var.id}>" /></td>
+                           	<td><{$var.id}></td>
+                           	<td><{$lifes[$var['life_id']]['title']}></td>
+                            <td><{$var.city_id}></td>
+                            <td><{$var.life_id}></td>
+                            <td>
+                                <if condition="$var['type'] eq 1">
+                                电话被冒用
+                                <elseif condition="$var['type'] eq 2" />
+                                虚假违法信息
+                                <elseif condition="$var['type'] eq 3" />
+                                信息已过期
+                                <else/>
+                                未填写
+                                </if>
+							</td>
+                            <td><img src="<{:config_img($var['photo'])}>" class="w80"/></td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td><if condition="!empty($var['content'])"><{$var.content}><else/>未填写</if></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><{$var.create_ip}></td>
+                        <td>
+                            <{:BA('lifereport/delete',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('lifereport/delete','','批量删除','list',' a2')}>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+
+

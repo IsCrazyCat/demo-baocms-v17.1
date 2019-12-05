@@ -1,0 +1,138 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">后台</li>
+        <li class="li2">推送</li>
+        <li class="li2 li3">推送列表</li>
+    </ul>
+</div>
+
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+.main-sc .jsglNr .selectNr .left a.on{background-color:#F00;border:1px solid #FF0000;}
+</style>
+
+
+
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span> 新版推送超级牛逼，短信宝用户联系：Q.28.6.099.9.21 新增推送模板。 </p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:TUFZBA('push/create','','新建推送','','',800,400)}>
+            </div>
+            <div class="clear"></div>
+        </div>
+        
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="right">
+                <form method="post" action="<{:U('push/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                       
+                         <label>
+                            <span>推送主体：</span>
+                            <select class="select w120" name="category">
+                            <option <eq name="category" value="999">selected="selected"</eq> value="999">请选择主体</option>
+                              <foreach name="categorys" key="key" item="item">
+                                 <option <eq name="category" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                              </foreach>
+                            </select>
+                         </label>
+                         
+                          <label>
+                            <span>推送类型：</span>
+                            <select class="select w120" name="type">
+                            <option <eq name="type" value="999">selected="selected"</eq> value="999">请选择推送类型</option>
+                              <foreach name="types" key="key" item="item">
+                                 <option <eq name="type" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                              </foreach>
+                            </select>
+                         </label>
+                         
+                         
+                         <label>
+                          	<span>  搜内容/标题/URL：</span>   
+                            <input type="text" name="keyword" value="<{$keyword|default=''}>" class="inptText" />
+                            <input type="submit" class="inptButton" value="搜索" />
+                         </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="push_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>主体</td>
+                        <td>类型</td>
+                        <td>用户组</td>
+                        <td>商家等级</td>
+                        <td>标题</td>
+                        <td>内容</td>
+                        <td>URL</td>
+                        <td>创建时间</td>
+                        <td>状态</td>
+                        <td>推送时间</td>
+                        <td>操作</td>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_push_id" type="checkbox" name="push_id[]" value="<{$var.push_id}>" /></td>
+                            <td><{$var.push_id}></td>
+                            <td><{$categorys[$var['category']]}></td>
+                            <td><{$types[$var['type']]}></td>
+                            <td><{$ranks[$var['rank_id']]['rank_name']|default='未选择等级'}></td>
+                            <td><{$grades[$var['grade_id']]['grade_name']|default='未选择商家等级'}></td>
+                            <td><{$var.title}></td>
+                            <td><{$var.intro}></td>
+                            <td><{$var.url}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><if condition="$var['is_push'] eq 1">已推送<else/>未推送</if></td>
+                            <td><{$var.push_time|date='Y-m-d H:i:s',###}></td>
+                            <td>
+                                <eq name="var.is_push" value="0">
+                                    <if condition="$var['type'] eq 1">
+                                    	<{:TUFZBA('push/sms',array("push_id"=>$var["push_id"]),'短信推送','act','remberBtn')}>
+                                    </if>
+                                	<if condition="$var['type'] eq 2">
+                                    	<{:TUFZBA('push/weixin',array("push_id"=>$var["push_id"]),'微信推送','act','remberBtn')}>
+                                    </if><if condition="$var['type'] eq 3">
+                                    	<{:TUFZBA('push/msg',array("push_id"=>$var["push_id"]),'站内信推送','act','remberBtn')}>
+                                    </if>
+                                </eq>
+                                <{:TUFZBA('push/delete',array("push_id"=>$var["push_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

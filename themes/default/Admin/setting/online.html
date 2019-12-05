@@ -1,0 +1,67 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">农村电商</li>
+        <li class="li2 li3">农村电商配置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里是配置农村电商企业编号等基本东西，商务部登录连接：https://ecomp.mofcom.gov.cn/loginCorp.html <a target="_blank" href="https://ecomp.mofcom.gov.cn/loginCorp.html">点击登录商务部</a> </p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/online')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;">
+            
+            
+            	<tr>
+                    <td class="lfTdBt" >提交数据连接：</td>
+                    <td class="rgTdBt">
+                        <code>点击这里提交今日日报表，备用</code>
+                    </td>
+                </tr>
+              
+                <tr>
+                    <td class="lfTdBt" >企业编号：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[userId]" value="<{$CONFIG.online.userId}>" class="scAddTextName " />
+                        <code>您提交给商务部的企业编号，商务部提供的，一般是商务部的登录账户</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">站点类型：</td>
+                    <td class="rgTdBt">
+                        <select name="data[countyType]"  class="scAddTextName sogn">
+                        	<option value="0" <if condition="$CONFIG['online']['countyType'] eq 0">selected='selected'</if>>请选择站点类型</option>
+                        	<option value="1" <if condition="$CONFIG['online']['countyType'] eq 1">selected='selected'</if>>县级服务中心</option>
+                            <option value="2" <if condition="$CONFIG['online']['countyType'] eq 2">selected='selected'</if>>乡镇级服务站</option>
+                            <option value="3" <if condition="$CONFIG['online']['countyType'] eq 3">selected='selected'</if>>村级级服务站</option>
+                        </select>
+                        <code>提交商务部数据的时候的服务站类型，必须选择</code></td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >站点编码：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[code]" value="<{$CONFIG.online.code}>" class="scAddTextName " />
+                        <code>就是商务部后台的登录账户</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt" >站点名称：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[name]" value="<{$CONFIG.online.name}>" class="scAddTextName " />
+                        <code>您提交给商务部的站点名称</code>
+                    </td>
+                </tr>
+               
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

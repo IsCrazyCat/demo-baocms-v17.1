@@ -1,0 +1,150 @@
+<include file='public:header'/>
+<style>
+.lfTdBt{ width: 250px;}
+.profit{text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">其他设置</li>
+    </ul>
+</div>
+<p class="attention"><span>注意：</span>其他设置在这里，需要二开qq 286099981</p>
+<form  target="x-frame" action="<{:U('setting/other')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+               <tr>
+                    <td class="lfTdBt">PC全局搜索显示文字：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[pc_search_title]" value="<{$CONFIG.other.pc_search_title}>" class="scAddTextName w260" />
+						<code>PC全局搜索显示的文字，比如：海报、节日、等</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">WAP全局搜索显示文字：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[wap_search_title]" value="<{$CONFIG.other.wap_search_title}>" class="scAddTextName w260" />
+						<code>手机端全局搜索显示的文字</code>
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    <td class="lfTdBt">PC+WAP模板主色调：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[color]" value="<{$CONFIG.other.color}>" class="scAddTextName w150" />
+						<code>请填写比如：#ccc 之类的颜色代码</code>
+                    </td>
+                </tr>
+      
+                
+                <tr>
+                    <td class="lfTdBt">手机访问PC页面自动跳转到手机版：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[url_jump]" <eq name="CONFIG.other.url_jump" value="1">checked="checked"</eq> value="1"  />开启</label>
+                        <label><input type="radio" name="data[url_jump]"  <eq name="CONFIG.other.url_jump" value="0">checked="checked"</eq>  value="0"  />不开启</label>
+                        <code>开启之后手机访问PC页面自动跳转到手机版！</code>
+                    </td>
+                </tr>
+                
+                 
+                
+                <tr><td class="rgTdBt profit" colspan ="2"> 下面是wap设置</td></tr>
+                
+                <tr>
+                    <td class="lfTdBt">是否开启手机底部导航：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[footer]" <eq name="CONFIG.other.footer" value="1">checked="checked"</eq> value="1"  />开启</label>
+                        <label><input type="radio" name="data[footer]"  <eq name="CONFIG.other.footer" value="0">checked="checked"</eq>  value="0"  />不开启</label>
+                        <code>这个是针对niucms的底部导航模板的</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">手机WAP导航开启图片模式：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[wap_navigation]" <eq name="CONFIG.other.wap_navigation" value="1">checked="checked"</eq> value="1"  />开启</label>
+                        <label><input type="radio" name="data[wap_navigation]"  <eq name="CONFIG.other.wap_navigation" value="0">checked="checked"</eq>  value="0"  />不开启</label>
+                        <code>就是WAP导航是显示你传的图片还是您写的fontawesome图标，开启显示图片模式，不开启显示ioc图标模式</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">wap底部导航显示菜单几个：</td>
+                    <td class="rgTdBt">
+                        <select name="data[footer_menu]"  class="scAddTextName sogn">
+                        	<option value="0" <if condition="$CONFIG['other']['footer_menu'] eq 0">selected='selected'</if>>请选择</option>
+                            <option value="3" <if condition="$CONFIG['other']['footer_menu'] eq 3">selected='selected'</if>>3个</option>
+                            <option value="4" <if condition="$CONFIG['other']['footer_menu'] eq 4">selected='selected'</if>>4个</option>
+                            <option value="5" <if condition="$CONFIG['other']['footer_menu'] eq 5">selected='selected'</if>>5个</option>
+                            <option value="6" <if condition="$CONFIG['other']['footer_menu'] eq 6">selected='selected'</if>>6个</option>
+                        </select>
+                        <code>这里可以控制选择几个，超出的不显示</code></td>
+                </tr>
+    
+                <tr>
+                    <td class="lfTdBt">开启自动弹出绑定微信：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[check_connect_uid]" <eq name="CONFIG.other.check_connect_uid" value="1">checked="checked"</eq> value="1"  />开启</label>
+                        <label><input type="radio" name="data[check_connect_uid]"  <eq name="CONFIG.other.check_connect_uid" value="0">checked="checked"</eq>  value="0"  />不开启</label>
+                        <code>用户登录wap会员中心后，必须强制绑定微信【非微信登录用户】才能浏览，不开启不默认绑定，如果开启就是强制性的</code>
+                    </td>
+                </tr>
+                
+                
+                <tr><td class="rgTdBt profit" colspan ="2"> 下面是新版wap首页弹窗广告设置</td></tr>
+                <tr>
+                    <td class="lfTdBt">WAP首页弹窗广告开启：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[index_mask_show]" <eq name="CONFIG.other.index_mask_show" value="1">checked="checked"</eq> value="1" />开启</label>
+                        <label><input type="radio" name="data[index_mask_show]" <eq name="CONFIG.other.index_mask_show" value="0">checked="checked"</eq> value="0" />不开启</label>
+                        <code>选择开启才显示</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">WAP首页弹窗广告COOKIE时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[index_mask_cookie]" value="<{$CONFIG.other.index_mask_cookie}>" class="scAddTextName w80" />
+                        <code>COOKIE时间就是代表一个设备多久弹窗显示一次</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">WAP首页弹窗广告标题：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[index_mask_title]" value="<{$CONFIG.other.index_mask_title}>" class="scAddTextName w360" />
+                        <code>WAP首页弹窗广告最大字的标题</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">WAP首页弹窗广告副标题：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[index_mask_intro]" value="<{$CONFIG.other.index_mask_intro}>" class="scAddTextName w360" />
+                        <code>WAP首页弹窗广告最大字的副标题</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">WAP首页弹窗广告文字介绍：</td>
+                    <td class="rgTdBt">
+                    	<textarea name="data[index_mask_textarea]" cols="50" rows="8"><{$CONFIG.other.index_mask_textarea}></textarea>
+                        <code>WAP首页弹窗广告文字介绍</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">WAP首页弹窗广告链接：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[index_mask_url]" value="<{$CONFIG.other.index_mask_url}>" class="scAddTextName w360" />
+                        <code>去看看的点击链接</code>
+                    </td>
+                </tr>
+                
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       
+

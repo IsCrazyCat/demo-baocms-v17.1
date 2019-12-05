@@ -1,0 +1,116 @@
+<include  file='public:header'/> 
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/wap/other/webuploader.js"></script> 
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('life/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		举报信息ID<{$detail.life_id}>
+	</div>
+</header>
+
+<style>
+#login-input input.mapinputs{ width:48%; float:left; margin-right:5px;}
+#login-input input.mapinputs2{ width:100%; float:left; margin:10px 0px;}
+</style>
+
+<form class="fabu-form" method="post" id="ajaxForm" action="<{:U('life/report',array('life_id'=>$detail['life_id']))}>">
+
+<div class="padding">
+	<div class="line">
+		<span class="x12">当前信息：<{$detail.title}></span>
+	</div>
+</div>
+
+
+<div class="blank-10"></div>
+<div class="Upload-img-box">
+   <div  id="fileToUpload">举报图片</div>
+   <div class="Upload-img">
+   <div class="list-img loading" style="display:none;"><img src=""></div>
+   <div class="list-img jq_photo" style="display:none;"></div>
+  </div>
+</div>
+    <script>
+    	var width_life = '<{:thumbSize($CONFIG[attachs][life][thumb],0)}>';                     
+		var height_life = '<{:thumbSize($CONFIG[attachs][life][thumb],1)}>'; 
+		var pic_wap_quality = '<{$CONFIG[attachs][pic_wap_quality][thumb]}>';  
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>"life"))}>',                             
+			pick: '#fileToUpload',   
+			resize: true,
+			accept: {
+				title: 'Images',
+				extensions: 'gif,jpg,jpeg,png',
+				mimeTypes: 'image/*'//只永许上传JPG格式文件
+			}, 
+			compress : {width: width_life,height: height_life,quality: pic_wap_quality,allowMagnify: false,crop: true}   
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loading").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_life,//这里裁剪长度
+                    quality:70
+                });
+            }
+        });
+		
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[photo]" value="' + resporse.url + '" />';
+            $(".jq_photo").show().html(str);
+        });
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+<div class="blank-10"></div>
+
+
+<div class="blank-10 bg border-top"></div>
+
+
+<div class="row">
+	<div class="line">
+		<span class="x3">举报类型</span>
+		<span class="x9">
+			<select name="data[type]" class="text-select">
+				<option value="1">电话被冒用</option>
+                <option value="2">虚假违法信息</option>
+                <option value="3">信息已过期</option>
+			</select>
+		</span>
+	</div>
+</div>
+
+
+<div class="padding">
+	<div class="line">
+		<span class="x3">详细说明</span>
+	</div>
+</div>
+<div class="line">
+	<div class="container">
+		<textarea rows="5" name="data[content]" class="text-area" placeholder="请输入举报内容"></textarea>
+	</div>
+</div>
+
+<div class="container">
+	<div class="blank-30"></div>
+	<button  type="submit" class="button button-block button-big bg-dot">确认举报</button>
+	<div class="blank-30"></div>
+</div>
+
+</form>
+<include  file='public:footer'/>

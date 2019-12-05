@@ -1,0 +1,165 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">实名认证</li>
+        <li class="li2 li3">认证列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里是会员申请的实名认证列表，认证后对应的模板处打标签</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('user/index','','会员列表')}>
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('usersaux/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                        <!--<label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>-->
+                            
+                            <label>
+                            <span>队伍：</span>
+                             <select name="team_id" id="team_id"  class="select w100"></select>
+                            <select name="jury_id" id="jury_id"  class="select w100"></select>
+                        </label>
+                <script src="<{:U('app/datas/teamjury')}>"></script>
+                <script>
+                    var team_id = <?php echo (int)$team_id;?>;
+                    var jury_id = <?php echo (int)$jury_id;?>;
+                    function changeteam(cid){
+                        var jury_str = '<option value="0">请选择.....</option>';
+                        for(a in teamjurys.jury){
+                           if(teamjurys.jury[a].team_id ==cid){
+                                if(jury_id == teamjurys.jury[a].jury_id){
+                                    jury_str += '<option selected="selected" value="'+teamjurys.jury[a].jury_id+'">'+teamjurys.jury[a].jury_name+'</option>';
+                                }else{
+                                     jury_str += '<option value="'+teamjurys.jury[a].jury_id+'">'+teamjurys.jury[a].jury_name+'</option>';
+                                }  
+                            }
+                        }
+                        $("#jury_id").html(jury_str);
+                    }
+
+                    $(document).ready(function(){
+                        var team_str = '<option value="0">请选择.....</option>';
+                        for(a in teamjurys.team){
+                           if(team_id == teamjurys.team[a].team_id){
+                               team_str += '<option selected="selected" value="'+teamjurys.team[a].team_id+'">'+teamjurys.team[a].team_name+'</option>';
+                           }else{
+                                team_str += '<option value="'+teamjurys.team[a].team_id+'">'+teamjurys.team[a].team_name+'</option>';
+                           }  
+                        }
+                        $("#team_id").html(team_str);
+                        if(team_id){
+                            changeteam(team_id);
+                        }
+                        $("#team_id").change(function(){
+                            team_id = $(this).val();
+                            changeteam($(this).val());
+                        });
+                    });
+                </script>
+                
+                             <label>
+                                <span>状态：</span>
+                                <select class="select w120" name="audit">
+                                    <option value="999">请选择</option>
+                                    <option <eq name="audit" value="0">selected="selected"</eq>  value="0">未审核</option>
+                                    <option <eq name="audit" value="1">selected="selected"</eq>  value="1">已审核</option>
+                                    <option <eq name="audit" value="-1">selected="selected"</eq>  value="-1">未通过</option>
+                                </select>
+                            </label>
+                        <span>关键字</span>
+                        <input type="text" name="keyword" value="<{$keyword}>" class="inptText" /><input type="submit" value="   搜索"  class="inptButton" />
+                        </div> 
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form method="post" action="<{:U('usersaux/index')}>">
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="submit" value="   搜索"  class="inptButton" />
+                </div>
+        </form>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="user_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>会员昵称</td>
+                    <td>姓名</td>
+                    <td>电话</td>
+                    <td>详细地址</td>
+                    <td>身份证</td>
+                    <td>身份证号码</td>
+                    <td>担保人姓名</td>
+                    <td>担保人电话</td>
+                    <td>团队详情</td>
+                    <td>创建时间</td>
+                    <td>创建IP</td>
+                    <td>状态</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_user_id" type="checkbox" name="user_id[]" value="<{$var.user_id}>" /></td>
+                        <td><{$var.user_id}></td>
+                        <td><{$users[$var['user_id']]['nickname']}></td>
+                        <td><{$var.name}></td>
+                        <td><{$var.mobile}></td>
+                        <td><{$var.addr_str}><{$var.addr_info}></td>
+                        <td><img src="<{:config_img($var['card_photo'])}>" class="w80" /></td>
+                        <td><{$var.card_id}></td>
+                        <td><{$var.guarantor_name}></td>
+                        <td><{$var.guarantor_mobile}></td>
+                        <td><{$teams[$var['team_id']]['team_name']}>-<{$jurys[$var['jury_id']]['jury_name']}>-<{$groups[$var['group_id']]['group_name']}></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td><{$var.create_ip_area}><{$var.create_ip}></td>
+                        <td>
+                        	<switch name="var.audit">
+                                <case value="0">待审核</case>
+                                <case value="-1">已拒绝</case>
+                                <case value="1">已审核</case>
+                            </switch>
+                        </td>
+                    <td>
+                        <{:BA('usersaux/edit',array("user_id"=>$var["user_id"]),'编辑','','remberBtn')}>
+                        <{:BA('usersaux/delete',array("user_id"=>$var["user_id"]),'删除','act','remberBtn')}>
+                        <eq name="var.audit" value="0"> 
+                            <{:BA('usersaux/audit',array("user_id"=>$var["user_id"]),'审核','act','remberBtn')}> 
+                            <{:BA('usersaux/refuse',array("user_id"=>$var["user_id"]),'拒绝','load','remberBtn',400,250)}>
+                        </eq>
+
+                    </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+               
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

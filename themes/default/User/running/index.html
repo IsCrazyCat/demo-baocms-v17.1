@@ -1,0 +1,44 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:u('member/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			我的跑腿订单
+		</div>
+	<div class="top-share">
+		<a href="<{:U('running/create')}>"><i class="top-addr iconfont icon-fabu"></i>发布跑腿</a>
+	</div>
+</header>
+<style>
+
+ul{padding-left: 0px !important;}
+.top-fixed .top-share a{width:100px;}
+.top-fixed .top-share i{font-size: 14px;}
+.top-fixed .top-share i{opacity:0.99;}
+</style>
+
+<ul id="shangjia_tab">
+	<li style="width:16.6666667%;"><a href="<{:LinkTo('running/index',array('status'=>999))}>" <eq name="status" value="999">class="on"</eq>>全部</a></li>
+    <li style="width:16.6666667%;"><a href="<{:LinkTo('running/index',array('status'=>0))}>" <eq name="status" value="0">class="on"</eq>>未付款</a></li>
+    <li style="width:16.6666667%;"><a href="<{:LinkTo('running/index',array('status'=>1))}>" <eq name="status" value="1">class="on"</eq>>已付款</a></li>
+    <li style="width:16.6666667%;"><a href="<{:LinkTo('running/index',array('status'=>2))}>"<eq name="status" value="2">class="on"</eq>>跑腿中</a></li>
+    <li style="width:16.6666667%;"><a href="<{:LinkTo('running/index',array('status'=>3))}>"<eq name="status" value="3">class="on"</eq>>跑完退</a></li>
+    <li style="width:16.6666667%;"><a href="<{:LinkTo('running/index',array('status'=>8))}>"<eq name="status" value="8">class="on"</eq>>已完成</a></li>
+</ul>
+
+
+<div class="list-media-x" id="list-media">
+	<ul></ul>
+</div>	
+
+<script>
+	$(document).ready(function () {	 
+		loaddata('<{:U("running/load",array("t"=>$nowtime,"p"=>"0000","status"=>$status))}>', $("#list-media ul"), true);
+	});
+</script>
+<include  file='public:footer'/>
+
+
+    
+   

@@ -1,0 +1,108 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">代理</li>
+        <li class="li2">代理申请</li>
+        <li class="li2 li3">申请列表</li>
+    </ul>
+</div>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:24px;background:rgb(0, 153, 204); width:70px;text-align: center;border-radius: 3px;}
+.main-jsgl .jsglNr .selectNr .left a, .piliangcaozuo {height: 30px;line-height: 30px;}
+</style>
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span>线下付款的请先确认收到款项后审核，审核后会员就可以登录代理商管理系统查看财务报表了！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('agent/index')}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                             <label>
+                                <span>用户</span>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text" />
+                                <a  href="<{:U('user/select')}>" w="800" h="600" mini="select" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>支付方式</span>
+                                <select name="type" class="select w120">
+                                    <option value="999"  >选择支付方式</option>
+                                    <option value="1" <eq name="type" value="1">selected="selected"</eq> >余额支付</option>
+                                    <option value="2" <eq name="type" value="2">selected="selected"</eq>>线下支付</option>
+                                </select>
+                            </label>
+                            <label>
+                                <span>关键字：</span>
+                                <input type="text" name="keyword" id="keyword"  value="<{$keyword}>"   class="inptText" />
+                                <input type="submit" value="  搜索"  class="inptButton" />
+                            </label>
+                        </div>
+                    </div> 
+                </form>
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="apply_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>申请用户</td>
+                        <td>代理ID</td>
+                        <td>代理名称</td>
+                        <td>售价</td>
+                        <td>支付方式</td>
+                        <td>身份证正面</td>
+                        <td>身份证背面</td>
+                        <td>申请时间</td>
+                        <td>是否审核</td>
+                        <td>操作</td>
+
+                    </tr>
+                    <volist name="list" id="var" key="index"> 
+                        <tr>
+                            <td><input class="child_apply_id" type="checkbox" name="apply_id[]" value="<{$var.apply_id}>" /> </td>
+                            <td><{$var.apply_id}></td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td><{$var.agent_id}></td>
+                            <td><{$agents[$var['agent_id']]['agent_name']}></td>
+                            <td>&yen;<{:round($var['price']/100,2)}>元</td>
+                            <td><eq name="var.type" value="1">余额支付<else/>线下付款</eq></td>
+                            <td><a target="_blank" href="<{:config_img($var['photo_positive'])}>"><img src="<{:config_img($var['photo_positive'])}>" class="w80" /></a></td>
+                            <td><a target="_blank" href="<{:config_img($var['photo_back'])}>"><img src="<{:config_img($var['photo_back'])}>" class="w80" /></a></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><eq name="var.audit" value="0">等待审核<else/>正常</eq></td>
+                        <td>
+                          <eq name="var.audit" value="0"> 
+                                <{:BA('agent/audit',array("apply_id"=>$var["apply_id"]),'审核','act','remberBtn')}> 
+                                <{:BA('agent/delete',array("apply_id"=>$var["apply_id"]),'删除','act','remberBtn')}>
+                            <else/>
+                                暂无操作
+                          </eq>
+                        </td>
+                        </tr>
+                    </volist>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

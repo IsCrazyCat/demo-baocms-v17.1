@@ -1,0 +1,171 @@
+<include  file='public:header'/>
+<style>.lfTdBt{ width:170px;}</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">订餐管理</li>
+        <li class="li2">便利店商家</li>
+        <li class="li2 li3">新增商家</li>
+    </ul>
+</div>
+<p class="attention"><span>注意：</span>很多功能需要在商家后台设置，如果您是管理员您可以点击管理商家》》》然后到商家后台设置，比如外卖留言标签，外卖时间段等功能！</p>
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('store/create')}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td  width="150" class="lfTdBt">商家：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="shop_id" name="data[shop_id]" value="<{$detail.shop_id|default=''}>"/>
+                            <input type="text" id="shop_name" name="shop_name" value="" class="manageInput w200" />
+                        </div>
+                        <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="seleSj">选择商家</a>
+                    </td>
+                </tr>
+                
+               <tr>
+                    <td class="lfTdBt">是否打烊：</td>
+                    <td  class="rgTdBt">
+                        <label> <input type="radio" name="data[is_open]" value="1" <eq name="detail.is_open" value="1">checked="checked"</eq>  />营业中 </label>
+                        <label> <input type="radio" name="data[is_open]" value="0"  <eq name="detail.is_open" value="0">checked="checked"</eq> /> 打烊</label>
+                        <code>具体营业时间见下面</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">状态审核：</td>
+                    <td  class="rgTdBt">
+                        <label> <input type="radio" name="data[audit]" value="0" <eq name="detail.audit" value="0">checked="checked"</eq>  />审核中 </label>
+                        <label> <input type="radio" name="data[audit]" value="1"  <eq name="detail.audit" value="1">checked="checked"</eq> /> 通过</label>
+                        <label> <input type="radio" name="data[audit]" value="2"  <eq name="detail.audit" value="2">checked="checked"</eq> /> 拒绝</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">是否支持在线付款：</td>
+                    <td  class="rgTdBt">
+                        <label> <input type="radio" name="data[is_pay]" value="1" <eq name="detail.is_pay" value="1">checked="checked"</eq>  /> 支持</label>
+                        <label> <input type="radio" name="data[is_pay]" value="0"  <eq name="detail.is_pay" value="0">checked="checked"</eq> /> 不支持</label>
+                         <code>关闭在线付款功能，只能使用货到付款</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">是否关闭到付功能：</td>
+                    <td  class="rgTdBt">
+                        <label><input type="radio" name="data[is_daofu]" value="1" <eq name="detail.is_daofu" value="1">checked="checked"</eq>  /> 支持</label>
+                        <label><input type="radio" name="data[is_daofu]" value="0" <eq name="detail.is_daofu" value="0">checked="checked"</eq> /> 不支持</label>
+                         <code>关闭这个功能后，付款界面不会出现到付功能，只能在线付款</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">所属分类：</td>
+                    <td class="rgTdBt"> 
+                        <foreach name="getStoreCate" item="var" key="index">
+                            <label style="margin-right: 10px;"><span><{$var}>：</span><input type="checkbox" name="cate[]" value="<{$index}>"<?php if(in_array($index,$cate)){?> checked="checked" <?php }?> /></label>
+                        </foreach>   
+                </td> 
+                </tr>
+                <tr>
+                    <td class="lfTdBt">是否支持使用商家优惠劵：</td>
+                    <td class="rgTdBt">
+                    <label> <input type="radio" name="data[is_coupon]" value="1" <eq name="detail.is_coupon" value="1">checked="checked"</eq>  /> 支持</label>
+                    <label> <input type="radio" name="data[is_coupon]" value="0"  <eq name="detail.is_coupon" value="0">checked="checked"</eq> /> 不支持</label>
+                        <code>会员需要先领取该商家的优惠劵后才可以做以下使用优惠劵满减，后期开发，暂时不可用</code>
+                    </td>
+                </tr>
+                 <tr><td class="rgTdBt profit" colspan="2"> 新客户下单立减<a style="color:#F00"> 谨慎开启</a></td></tr>
+                <tr>
+                    <td class="lfTdBt">新客户下单立减：</td>
+                    <td  class="rgTdBt">
+                        <label> <input type="radio" name="data[is_new]" value="1" <eq name="detail.is_new" value="1">checked="checked"</eq>  /> 支持</label>
+                        <label> <input type="radio" name="data[is_new]" value="0"  <eq name="detail.is_new" value="0">checked="checked"</eq> /> 不支持</label>
+                        <code>←用户在当前商家第一次下单是否开启下单立减，就是优惠的功能</code>
+                        <input type="text" name="data[full_money]" value="<{:round($detail['full_money']/100,2)}>" class="manageInput w80" />
+                        <code>←新客户第一次下单满多少钱</code>
+                        <input type="text" name="data[new_money]" value="<{:round($detail['new_money']/100,2)}>" class="manageInput w80" />
+                        <code>←新客户第一次下单满多少钱减去多少钱</code>
+                    </td>
+                </tr>
+                
+                <tr><td class="rgTdBt profit" colspan="2"> 外卖满减设置<a style="color:#F00"> 谨慎开启</a></td></tr>
+               <tr>
+                    <td class="lfTdBt">是否开启满减：</td>
+                    <td  class="rgTdBt">
+                        <label> <input type="radio" name="data[is_full]" value="1" <eq name="detail.is_full" value="1">checked="checked"</eq>  /> 开启</label>
+                        <label> <input type="radio" name="data[is_full]" value="0"  <eq name="detail.is_full" value="0">checked="checked"</eq> /> 不开启</label>
+                        <code>←开启后下面的设置才有效</code>
+                        <input type="text" name="data[order_price_full_1]" value="<{:round($detail['order_price_full_1']/100,2)}>" class="manageInput w80" />
+                        <code>←满多少钱1</code>
+                        <input type="text" name="data[order_price_reduce_1]" value="<{:round($detail['order_price_reduce_1']/100,2)}>" class="manageInput w80" />
+                        <code>←减去多少钱1</code>
+                        <input type="text" name="data[order_price_full_2]" value="<{:round($detail['order_price_full_2']/100,2)}>" class="manageInput w80" />
+                        <code>←满多少钱2</code>
+                        <input type="text" name="data[order_price_reduce_2]" value="<{:round($detail['order_price_reduce_2']/100,2)}>" class="manageInput w80" />
+                        <code>←减去多少钱2</code>
+                    </td>
+                </tr>
+                
+                <tr><td class="rgTdBt profit" colspan="2"> 下面是其他设置项目</td></tr>
+                <tr>
+                    <td class="lfTdBt">配送费：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[logistics]" value="<{:round($detail['logistics']/100,2)}>" class="manageInput" />
+					<code>商家固定外卖配送费，如果开启满多少减去这个配送费，那么如果是配送员抢单，那么这个配送费需要在结算价格里面扣除</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">满多钱免配送费：</td>
+                    <td  class="rgTdBt">
+                    <input type="text" name="data[logistics_full]" value="<{:round($detail['logistics_full']/100,2)}>" class="manageInput" />
+					<code>客户在当前商家单笔订单超过多少钱后免配送费</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">起送价：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[since_money]" value="<{:round($detail['since_money']/100,2)}>" class="manageInput" />
+                    <code>满多少钱才能下单，低于起送价不能下单！</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">卖出数：</td>
+                    <td><input type="text" name="data[sold_num]" value="<{$detail.sold_num|default=''}>" class="manageInput" />
+					<code>已售虚拟数量！</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">月卖出数：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[month_num]" value="<{$detail.month_num|default=''}>" class="manageInput" />
+					<code>当月销售数量！</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">说明：</td>
+                    <td  class="rgTdBt"><textarea  name="data[intro]" cols="60" rows="4" ><{$detail.intro|default=''}></textarea>
+					<code>当前商家的简短介绍！</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">排序：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[orderby]" value="<{$detail.orderby|default='100'}>" class="manageInput" />
+					<code>商家的固定排序，默认100，数字越小，排名越靠前！</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">配送时间：</td>
+                    <td  class="rgTdBt">
+                    <input type="text" name="data[distribution]" value="<{$detail.distribution|default='100'}>" class="manageInput" /> 分钟送达
+					<code>当前商家的大概配送时间！</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">结算费率：</td>
+                    <td class="rgTdBt"><input type="text" name="data[rate]" value="<{$detail.rate|default=''}>" class="manageInput" />
+                        <code>千分之，比如是千分之60 就填60，不能写小数点，建议100-150，意思是就是10%-15%，结算价格跟满减没关系</code>
+                    </td>
+                </tr>
+                
+                
+            </table>
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

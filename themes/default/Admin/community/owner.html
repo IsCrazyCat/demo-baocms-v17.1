@@ -1,0 +1,115 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">智慧小区</li>
+        <li class="li2">业主管理</li>
+        <li class="li2 li3">业主列表</li>
+    </ul>
+</div>
+
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('community/owner',array('community_id'=>$community_id))}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                     <div class="seleK">
+                      
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>选择小区</span>
+                            <input type="hidden" id="community_id" name="community_id" value="<{$community_id|default=''}>"/>
+                            <input type="text"   id="name" name="name" value="<{$name}>" class="text w150" />
+                            <a style="margin-right: 5px;"  href="<{:U('community/select')}>" mini='select' w='800' h='600' class="sumit">选择小区</a>
+                        </label>
+                        <label>
+                            <span>选择用户</span>
+                            <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                            <input class="text" type="text" name="nickname" id="nickname"  value="<{$nickname}>" />
+                            <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                        </label> 
+                        <label>
+                            <span>审核状态：</span>
+                            <select class="select w120" name="audit">
+                                 <option <eq name="audit" value="999">selected="selected"</eq> value="999">请选择</option>
+                                 <option <eq name="audit" value="0">selected="selected"</eq>  value="0">未审核</option>
+                                  <option <eq name="audit" value="1">selected="selected"</eq>  value="1">已审核</option>
+                             </select>
+                         </label>
+                        <span>关键字</span>
+                        <input type="text" name="keyword" value="<{$keyword}>" class="inptText" />
+                        <input type="submit" value="   搜索"  class="inptButton" />
+                        </div>                    
+                       </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK"></div>
+                </div>
+                <div class="right"></div>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td><input type="checkbox" class="checkAll" rel="owner_id" /></td>
+                    <td>ID</td>
+                    <td>业主姓名</td>
+                    <td>业主户号</td>
+                    <td>业主地址</td>
+                    <td>用户昵称</td>
+                    <td>小区名称</td>
+                    <td>小区地址</td>
+                    <td>小区物业</td>
+                    <td>小区电话</td>
+                    <td>业主状态</td>
+                    <td>申请时间</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_owner_id" type="checkbox" name="owner_id[]" value="<{$var.owner_id}>" /></td>
+                        <td><{$var.owner_id}></td>
+                        <td><{$var.name}></td>
+                        <td><{$var.number}></td>
+                        <td><{$var.location}></td>
+                        <td><{$var.user.nickname}></td>
+                        <td><{$var.community.name}></td>
+                        <td><{$var.community.addr}></td>
+                        <td><{$var.community.property}></td>
+                        <td><{$var.community.tel}></td>
+                        <td><eq name="var.audit" value="0">未审核<else/>已审核</eq></td>
+                        <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                        <td>
+                            <{:BA('community/owner_delete',array("owner_id"=>$var["owner_id"],'community_id'=>$community_id),'删除','act','remberBtn')}>
+                            <eq name="var.audit" value="0"> <{:BA('community/owner_audit',array("owner_id"=>$var["owner_id"],'community_id'=>$community_id),'审核','act','remberBtn')}> </eq>
+                        </td>
+
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+

@@ -1,0 +1,73 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">智慧小区</li>
+        <li class="li2">智能门禁</li>
+        <li class="li2 li3">新增门禁</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('access/create')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">序列号：</td>
+                    <td class="rgTdBt">
+                    <input type="text" name="data[lock_sn]" value="<{$detail.lock_sn|default=''}>" class="manageInput" />
+					<code>锁的序列号，这个序列号贴在每个模块的标签上</code>
+                    </td>
+                </tr>
+               
+                 <tr>
+                    <td class="lfTdBt">SIM号码：</td>
+                    <td class="rgTdBt">
+                    <input type="text" name="data[sim_no]" value="<{$detail.sim_no|default=''}>" class="manageInput" />
+					<code>锁的SIM号码，和设备序列号一样，贴在设备上的</code>
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    <td class="lfTdBt">选择小区：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="community_id" name="data[community_id]" value="<{$detail.community_id|default=''}>" class="manageInput" />
+                            <input type="text" name="community" id="community" class="scAddTextName w210"  value="" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('community/select')}>" class="remberBtn">选择小区</a>
+                        <code>必须选择小区，同一个设备不能添加到2个小区，添加后由小区物业管理员管理</code>
+                    </td>
+                </tr> 
+                
+                 <tr>
+                    <td class="lfTdBt">SIM号码：</td>
+                    <td class="rgTdBt">
+                    <input type="text" name="data[sim_no]" value="<{$detail.sim_no|default=''}>" class="manageInput" />
+					<code>锁的SIM号码，和设备序列号一样，贴在设备上的</code>
+                    </td>
+                </tr>
+                
+                
+                
+                 <tr>
+                    <td  class="lfTdBt">备注：</td>
+                    <td class="rgTdBt">
+                        <textarea name="data[intro]" rows="5" cols="40"><{$detail.intro|default=''}></textarea>
+                        <code>填写设备序备注，30字以内</code>
+                    </td>
+                </tr>
+                
+             
+               
+                <tr>
+                    <td colspan="2">
+                        <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

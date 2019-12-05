@@ -1,0 +1,138 @@
+<include file='public:header'/>
+<script src="__PUBLIC__/js/echarts-all-3.js"></script>
+<style>
+.sy_c1Li {width: 1000px;}
+.sy_content { padding: 20px 0 40px 20px;}
+.tuan_topser_2016 span.red, .tuan_topser_l {font-size: 18px;}
+.tuan_topser_l strong.green, .tuan_topser_l a{ font-size:16px;}
+.tuan_table td { font-size:14px;}
+.tuan_topser_2016 span.red{ color:#F00}
+.tuan_topser_2016{color: #000;line-height: 30px;text-indent: 15px; font-size:18px;}
+.tuan_table td span.red{ color:#F00; font-size:14px;}
+.hatudou-btn{border: 1px solid #1881A4;display: inline-block;line-height: 30px;cursor: pointer;background-color: #09c;color: #fff !important; padding: 0 15px; text-indent:0px !important;}
+.tuan_topser_l strong.green {margin: 0 10px;}
+</style>
+<div class="sjgl_lead">
+	<ul>
+		<li><a href="#">商家中心首页</a>
+		</li>
+	</ul>
+</div>
+    <php>
+        $day = date("Y-m-d");
+        $dat_1 = date("Y-m-d",strtotime("-1 day"));
+        $dat_2 = date("Y-m-d",strtotime("-2 day"));
+        $dat_3 = date("Y-m-d",strtotime("-3 day"));
+        $dat_4 = date("Y-m-d",strtotime("-4 day"));
+        $dat_5 = date("Y-m-d",strtotime("-5 day"));
+        $dat_6 = date("Y-m-d",strtotime("-6 day"));
+        $Smsshop = D('Smsshop')->where(array('shop_id'=>$SHOP['shop_id'],'type'=>shop,'status'=>0))->find();
+    </php>   
+    
+<div class="sy_content">
+	<div class="radius5 tuan_top">
+		<div class="tuan_top_t">
+			<div class="left tuan_topser_l">
+				当前商户名称：<strong class="green"><{$SHOP.shop_name}> </strong>
+                商户类别：<strong class="green"><{$shopcates[$SHOP['cate_id']]['cate_name']}></strong>
+                城市区域：<strong class="green">区域：<{$citys[$SHOP['city_id']]['name']}> - <{$areas[$SHOP['area_id']]['area_name']}> - <{$business[$SHOP['business_id']]['business_name']}></strong>
+                <if condition="$SHOP['parent_id']">
+                    <php>$branch = D('Shop')->find($SHOP['parent_id']);</php>
+                    您的总店名称：【<{$branch.shop_name}>】
+                </if>	
+			</div>
+		</div>
+        
+         <div class="tuan_top_t">
+            <if condition="!empty($SHOP['end_date']) and ($SHOP['end_date'] neq '0000-00-00')">
+                <div class="left tuan_topser_l">
+                    商家有效期至：<strong class="green"><{$SHOP.end_date}></strong> 	
+                </div>
+            </if>
+           <if condition="!empty($SHOPGRADE['grade_name'])">
+                <div class="left tuan_topser_l" <if condition="empty($SHOP['end_date']) and ($SHOP['end_date'] eq '0000-00-00')">style="margin-left:80px;"></if>>
+                    商家等级：<strong class="green"><{$SHOPGRADE.grade_name}></strong> 
+                    <a target="main_frm" href="<{:U('shop/permission',array('grade_id'=>$SHOPGRADE['grade_id']))}>" class="hatudou-btn">查看权限</a>	
+                </div>
+           </if> 
+                
+        </div>
+        
+         <div class="tuan_top_t">
+                <div class="left tuan_topser_l">
+                    您有粉丝：<strong class="green"><{$SHOP.fans_num}> 人 </strong> 
+                    <a target="main_frm" href="<{:U('fans/index')}>" class="hatudou-btn"> 粉丝管理</a>	
+                </div>
+                <div class="left tuan_topser_l" style="margin-left:80px;">
+                    剩余短信：<strong class="green"><{$Smsshop['num']}> 条 </strong> 
+                    <a target="main_frm" href="<{:U('shop/sms')}>" class="hatudou-btn"> 购买短信</a>	
+                </div>
+        </div>
+        
+   
+        <div class="tuan_top_t">
+			<div class="left tuan_topser_l">
+				财务信息：
+                    <if condition="$counts['money'] gt 0">
+                    您总收入：<{:round($counts['money']/100,2)}>元
+                    </if>
+                当前商户资金：
+                <span class="red"><{:round($MEMBER['gold']/100,2)}></span>元
+                <if condition="$MEMBER['gold']">
+                	<a target="main_frm" href="<{:U('money/tixian')}>" class="hatudou-btn">申请提现</a>	
+                </if>
+                <if condition="$MEMBER['frozen_gold']">
+                	商户资金冻结金：<{:round($MEMBER['frozen_gold']/100,2)}>元
+                </if>
+			</div>
+            <if condition="$MEMBER['money']">
+            	<div class="left tuan_topser_l" style="margin-left:80px;">
+                    当前会员余额：<strong class="green"><{:round($MEMBER['money']/100,2)}></strong>元	
+                    <a target="_blank" href="<{:U('members/money/money')}>" class="hatudou-btn">充值</a>
+                </div>
+            </if>    
+                
+		</div>
+        
+
+        
+        <div id="www_hatudou_com_1" style="width:750px;height:350px;"></div>
+ 
+        
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('www_hatudou_com_1'));
+        var option = {
+            title: {
+                text: '<{$SHOP.shop_name}>最近6日销售额走势图'
+            },
+            tooltip: {},
+            legend: {
+                data:['销售额']
+            },
+            xAxis: {
+                data: ["<{$day}>","<{$dat_1}>","<{$dat_2}>","<{$dat_3}>","<{$dat_4}>","<{$dat_5}>"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销售额（元）',
+                type: 'bar',
+                data: ["<{:round($m/100,2)}>", "<{:round($m_1/100,2)}>", "<{:round($m_2/100,2)}>",  "<{:round($m_3/100,2)}>", "<{:round($m_4/100,2)}>", "<{:round($m_5/100,2)}>"]
+            }]
+        };
+        myChart.setOption(option);
+    </script>
+    
+    
+        
+        
+        
+        
+         
+    
+	</div>	
+</div>
+
+
+    
+    
+<include file='public:footer'/>

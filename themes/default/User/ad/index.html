@@ -1,0 +1,67 @@
+<include file="public:header"/>
+<style>
+.icon-sign-out, .top-fixed .top-back i { font-size: 18px;}
+.top-fixed {border-bottom: none;}
+.top-fixed .top-search input {border-radius:2px;}
+.top-fixed .top-share, .top-fixed .top-back {padding-right: 0px;}
+.top-fixed .top-title {font-size: 14px;}
+.top-fixed .top-share a {width: 50px !important;}
+p, .p {margin-bottom: 0px;}
+.member-top { margin-top: 0px;}
+</style>
+
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:u('member/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			我的广告中心
+		</div>
+       
+		<div class="top-share">
+			<include file="public:message"/>
+		</div>
+	</header>
+	
+
+    
+    
+<div class="member-top">
+<div class="member-info">
+<div class="user-avatar"> 
+<img src="<{:config_img($MEMBER['face'])}>"> 
+</div>
+<div class="user-name"> 
+<span>
+				<if condition="!empty($MEMBER['nickname'])">
+                <{$MEMBER.nickname}> 
+                <else/>
+                <{$MEMBER.account}> 
+                </if>
+                 <if condition="$MEMBER['rank_id'] eq 1">
+                <span class="pt">普通会员</span>
+                <else />
+                <sup>VIP会员</sup>
+                </if></span> 
+</div>
+</div>
+<div class="member-collect">
+<span><a href="<{:u('money/index')}>"><em><{:round($MEMBER['money']/100,2)}></em><p>我的余额</p></a> </span>
+<span><a href="<{:u('money/index')}>"><em><{$MEMBER.integral}></em><p>我的积分</p></a> </span>
+</div>
+</div>   
+
+</div>
+
+<div class="panel-list">
+	<ul>
+        <li><a href="<{:U('apply')}>"><span class="icon-plus"></span>申请广告<i class="iconfont icon-fabu"></i></a></li>
+        <li><a href="<{:U('adlist')}>"><span class="icon-object-ungroup"></span>广告管理<i class="iconfont icon-guanli"></i></a></li>
+	</ul>
+</div>
+
+<div class="blank-10 bg"></div>
+<div class="blank-10"></div>
+
+<include file='public:footer'/>

@@ -1,0 +1,51 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">小程序配置</li>
+    </ul>
+</div>
+<p class="attention"><span>注意：</span>首先再这里配置家政评分项以及其他的项目</p>
+<form  target="x-frame" action="<{:U('setting/appoint')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">家政评分项1：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[d1]" value="<{$CONFIG['appoint']['d1']|default='描述相符'}>" class="manageInput w150" />
+                        <code>家政评分项1</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">家政评分项2：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[d2]" value="<{$CONFIG['appoint']['d2']|default='服务态度'}>" class="manageInput w150" />
+                        <code>家政评分项2</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">家政评分项2：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[d3]" value="<{$CONFIG['appoint']['d3']|default='快速守时'}>" class="manageInput w150" />
+                        <code>家政评分项2</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                   <td class="lfTdBt">家政服务合同：</td>
+                   <td class="rgTdBt">
+                        <textarea name="data[contract]" cols="80" rows="20"><{$CONFIG.appoint.contract}></textarea>
+                    </td>
+               </tr>
+                        
+                        
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>   

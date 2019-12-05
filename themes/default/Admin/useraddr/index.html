@@ -1,0 +1,168 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">收货地址</li>
+        <li class="li2 li3">地址列表</li>
+    </ul>
+</div>
+
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span> 新版会员地址是软删除，避免了用户删除地址后所有的订单信息查询不到用户地址的BUG，新增按照用户昵称，城市，地区，等搜索功能！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('useraddr/create','','添加地址')}>
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('useraddr/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                    <div class="seleK">
+                    
+                      <label>
+                            <span>选择城市：</span>
+                             <select name="city_id" id="city_id"  class="select w100"></select>
+                            <select name="area_id" id="area_id"  class="select w100"></select>
+                        </label>
+                       <script src="<{:U('app/datas/onecity',array('name'=>'cityareas'))}>"></script> 
+                       <script>
+								var city_id = <?php echo (int)$city_id;?>;
+                    			var area_id = <?php echo (int)$area_id;?>;
+                                $(document).ready(function () {
+                                    var city_str = ' <option value="0">请选择...</option>';
+                                    for (a in cityareas.city) {
+                                        if (city_id == cityareas.city[a].city_id) {
+                                            city_str += '<option selected="selected" value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                        } else {
+                                            city_str += '<option value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                        }
+                                    }
+                                    $("#city_id").html(city_str);
+                                    $("#city_id").change(function () {
+                                        if ($("#city_id").val() > 0) {
+                                            city_id = $("#city_id").val();
+     										   $.ajax({
+													  type: 'POST',
+													  url: "<{:U('app/datas/twoarea')}>",
+													  data:{cid:city_id},
+													  dataType: 'json',
+													  success: function(result){
+                                                         var area_str = ' <option value="0">请选择...</option>';
+                                                        for (a in result) {
+                                                          area_str += '<option value="' + result[a].area_id + '">' + result[a].area_name + '</option>';                                                        }
+                                                       $("#area_id").html(area_str);
+													  }
+												});
+                                            $("#area_id").html(area_str);
+                                        } else {
+                                            $("#area_id").html('<option value="0">请选择...</option>');
+                                        }
+                                    });
+									
+                              		if (city_id > 0) {
+                                        var area_str = ' <option value="0">请选择...</option>';
+										$.ajax({
+										  type: 'POST',
+										  url: "<{:U('app/datas/twoarea')}>",
+										  data:{cid:city_id},
+										  dataType: 'json',
+										  success: function(result){
+                                             for (a in result) {
+                                                if (area_id == result[a].area_id) {
+                                                    area_str += '<option selected="selected" value="' + result[a].area_id + '">' + result[a].area_name + '</option>';
+                                                } else {
+                                                    area_str += '<option value="' + result[a].area_id + '">' + result[a].area_name + '</option>';
+                                                }
+                                              }
+                                             $("#area_id").html(area_str);
+											}
+										});
+                                    }
+                                   
+                                });
+                        </script> 
+                    
+                    
+                    <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                        <span>关键字</span>
+                        <input type="text" name="keyword" value="<{$keyword}>" class="inptText" /><input type="submit" value="   搜索"  class="inptButton" />
+                    </div> 
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                    </div>
+                </div>
+                <div class="right">
+                </div>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="addr_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>用户昵称</td>
+                    <td>地区</td>
+                    <td>收货人</td>
+                    <td>手机号码</td>
+                    <td>具体地址</td>
+                    <td>经度</td>
+                    <td>纬度</td>
+                    <td>默认</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_addr_id" type="checkbox" name="addr_id[]" value="<{$var.addr_id}>" /></td>
+                        <td><{$var.addr_id}></td>
+                        <td><{$users[$var['user_id']]['account']}>(<{$var.user_id}>)</td>
+                        <td><{$citys[$var['city_id']]['name']}>-<{$areas[$var['area_id']]['area_name']}>-<{$business[$var['business_id']]['business_name']}></td>
+                        <td><{$var.name}></td>
+                        <td><{$var.mobile}></td>
+                        <td><{$var.addr}></td>
+                        <td><{$var.lat}></td>
+                        <td><{$var.lng}></td>
+                        <td><eq name="var.is_default" value="1">是<else/>否</eq></td>
+                        <td>
+                            <a style="margin-left: 10px;" mini="select"  w="600" h="600" href="<{:U('public/maps',array('lat'=>$var['lat'],'lng'=>$var['lng']))}>" class="seleSj">会员地图</a>
+                            <{:BA('useraddr/edit',array("addr_id"=>$var["addr_id"]),'编辑','','remberBtn')}>
+                            <{:BA('useraddr/delete',array("addr_id"=>$var["addr_id"]),'删除','act','remberBtn')}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <{:BA('useraddr/delete','','批量删除','list',' a2')}>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

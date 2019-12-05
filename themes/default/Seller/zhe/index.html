@@ -1,0 +1,34 @@
+<include file="public:header"/>
+<style>
+ul{ padding-left:0px;}
+.list-media-x {margin-top:2.2rem;}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			五折卡预约列表
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+    <li class="x3"><a href="<{:LinkTo('zhe/index')}>" <eq name='aready' value=''>class="on"</eq>>未消费</a></li>
+    <li class="x3"><a href="<{:LinkTo('zhe/index',array('aready'=>1))}>" <eq name='aready' value='1'>class="on"</eq>>已验证</a></li>
+    <li class="x3"><a href="<{:LinkTo('zhe/index',array('aready'=>-1))}>" <eq name='aready' value='-1'>class="on"</eq>>已过期</a></li>
+    <li class="x3"><a href="<{:LinkTo('zhe/check')}>">去验证</a></li>
+</ul>
+
+<div class="list-media-x" id="list-media">
+<div class="blank-10 bg"></div>
+	<ul></ul>
+</div>	
+<script>
+    $(document).ready(function () {
+        loaddata('<{:U("zhe/loaddata",array("aready"=>$aready,"p"=>"0000"))}>', $("#list-media ul"), true);
+    });
+</script>
+<include  file='public:footer'/>

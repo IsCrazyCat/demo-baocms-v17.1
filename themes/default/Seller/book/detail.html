@@ -1,0 +1,55 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('book/index',array('st'=>0))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			预约服务订单详情
+		</div>
+		<div class="top-share">
+			<a href="#" id="cate-btn"></a>
+		</div>
+	</header>
+<body>   
+<style>
+.panel-list li.padding10 { padding:0 10px;}
+.panel-list li a.button-small { margin:10px 0; padding:0 10px; text-align:center; font-size:14px;}
+.container a{ text-align:center}
+.list-media-x { margin-top: 0rem;}
+p, .p {line-height: inherit;}
+</style>
+
+<div class="blank-10 bg"></div>
+<div class="list-media-x">
+	<ul>
+		<li class="line padding">
+            <foreach name="thumb" item="item">
+               <div class="x4">
+                    <img style="width:90%;" src="<{:config_img($item['photo'])}>">
+                </div>
+            </foreach>
+		</li>  
+	</ul>
+</div>
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+		<li><a href="javascript:;">订单ID：<em><{$detail.order_id}></em></a></li>
+        <li><a href="javascript:;">服务类目：<em><{$detail.cate.cate_name}></em></a></li>
+        <li><a href="javascript:;">服务项目：<em><{$detail.attr.attr_name}></em></a></li>
+        <li><a href="javascript:;">实际支付：<em  class="text-dot">&yen;<{:round($detail['price']/100,2)}>元</em></a></li>
+		<li><a href="javascript:;">预约时间：<em><{$detail.gotime|date='Y-m-d',###}></em></a></li>
+		<li><a href="javascript:;">姓名：<em><{$detail.name}></em></a></li>
+        <li><a href="javascript:;">手机号：<em> <{$detail.mobile}></em></a></li>
+        <li><a href="javascript:;">地址：<{$detail.addr}></a></li>
+        <li><a href="javascript:;">详细说明：<{$detail.introduce}></a></li>
+	</ul>
+</div>
+
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul><li class="padding10"><a class="button button-small bg-yellow"><{$getTypes[$detail['status']]}></a> </li></ul>
+</div>
+
+<div class="blank-20"></div>
+<include file="public:footer"/>

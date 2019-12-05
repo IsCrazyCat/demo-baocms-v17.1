@@ -1,0 +1,70 @@
+<include  file='public:header'/>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">    
+                <form class="search_form" method="post" action="<{:U('community/select',array('community_id'=>$community_id,'show'=>$show))}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <span>小区名字、小区电话、小区地址、物业名字：</span>
+                        <input type="text" name="name" value="<{$name}>" class="inptText" /><input type="submit" value="   搜索"  class="inptButton" />
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="submit" value="   搜索"  class="inptButton" />
+                </div>
+        <div class="clear"></div>
+    </div>
+       <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50">ID</td>
+                    <td>小区名称</td>
+                    <td>物业管理员</td>
+                    <td>小区名字</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input type="radio" name="community_id"   rel="<{$var.name}>" value="<{$var.community_id}>" /><{$var.community_id}></td>
+                        <td><{$var.name}></td>
+                        <td><{$var.user_id}></td>
+                        <td><{$var.property}></td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <input style="border:1px solid #dbdbdb; width: 100px; height: 38px; line-height: 38px; text-align: center;" type="button" id="select_btn_community" class="remberBtn" value="确定选择" />
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<script>
+    $(document).ready(function (e) {
+        $("#select_btn_community").click(function () {
+            $("input[name='community_id']").each(function (a) {
+                if ($(this).prop("checked") == true) {
+                    parent.selectCallBack('community_id', 'community', $(this).val(), $(this).attr('rel'));
+                }
+            });
+        });
+    });
+</script>
+<include  file='public:footer'/>  
+
+
+
+
+

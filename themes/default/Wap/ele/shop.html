@@ -1,0 +1,542 @@
+<php>$mobile_title = $detail['shop_name'];</php>
+<include file="public:header"/>
+<script src="/static/default/wap/other/cookie.js?v=<{$today}>"></script>
+<script src="/static/default/wap/js/elecart.js?v=<{$today}>"></script>
+<script src="/static/default/wap/js/dialog.js"></script>
+<script src="/static/default/wap/js/jquery.fly.min.js"></script>
+<link href="/static/default/wap/css/main.css" rel="stylesheet">
+
+
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('ele/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+        <if condition="empty($keyword)">
+            <div class="top-title">
+                <{$detail.shop_name}>
+            </div>
+        </if>
+        <div class="top-search" style="<if condition="empty($keyword)">display:none;</if>">
+           <form method="post" action="<{:U('ele/shop',array('shop_id'=>$detail['shop_id']))}>">
+              <input name="keyword" value="<{$keyword|default=''}>" <if condition="empty($keyword)">placeholder="<{$keyword|default='请输入菜品关键字'}>"</if>  />
+              <input id="keyword" type="hidden" name="shop_id" value="<{$detail['shop_id']}>" />
+              <button type="submit" class="iconfont icon-search"></button> 
+           </form>
+        </div>
+        
+        <div class="top-share">
+        	<if condition="empty($keyword)">
+            	<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a> 
+            </if>
+            <a href="<{:U('ele/dianping',array('shop_id'=>$detail['shop_id']))}>"><i class="iconfont icon-dianping2"></i></a>
+        </div>
+	</header>
+
+    
+<script>
+    $(function () {
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+        $(".frame-set-left ul li").click(function () {
+            $(".frame-set-left ul li").removeClass('active');
+            $(this).addClass('active');
+            var cate = $(this).attr('rel');
+            if (cate == 'all') {
+                $('.list-box').show();
+				$('.cate-name').show();
+            } else {
+                $('.list-box').hide();
+				$('.cate-name').hide();
+                $('.' + cate).show();
+				$('#' + cate).show();
+                $("html, body").animate({
+					"scroll-top":0
+				},"fast");
+            }
+        });
+    });
+</script>
+
+<style>
+body{background: #f8f8f8;}
+.menu_detail img {max-height: 230px;}
+.tag1 {font-size: 75%;padding: 0.1em 0.5em 0.2em;color: #fff;}
+.tag1 em {padding: 0.1em 0.5em 0.2em;color: #fff;}
+.list-have-pic .list-content em {padding: 0 .22rem;}
+.list-have-pic .list-content p.fontcl2 span.tuijian{background:#F00;color:#fff; padding:0px 5px; font-size:12px;}
+.frame-set-right .list-have-pic .num-input .tuijian{background:#F00!important;border-color:#F00!important;}
+.detail-info{border-bottom:1px solid #dddddd;background-color:#fff;width:100%;display:-webkit-box;display:-ms-flexbox;display:-moz-box}
+.detail-info-cell{text-align:center;margin-top:6px;width:100%}
+.detail-info-desc{font-size:12px;padding-bottom: 5px;}
+.detail-info-data{font-size:23px;line-height:25px}
+.detail-info-units{font-size:12px;color:#959595}
+.detail-info-receive{color:#53a1dd}
+.detail-separate{width:1px;height:32px;background-color:#eeeeee;margin:14px 0;-webkit-box-flex:0;-ms-flex:0 0 auto;-moz-box-flex:0;box-flex:0}
+.menuwrap{width:100%;display:-webkit-box;display:-ms-flexbox;display:-moz-box;display:box;height:100%;-ms-touch-action:none}
+.asidewrap{width:28%;min-width:90px;height:100%;background-color:#f8f8f8;overflow:hidden}
+.u-flyer{display: block;width: 50px;height: 50px;border-radius: 50px;position: fixed;z-index: 9999;}
+.footer-cart .cart .iconfont{ color:#FFF; font-size:20px;}
+
+#ele {top:5.8rem;}
+#ele_tab{display:block;width:100%;background-color:#fff;border-bottom:.11rem #dedede solid;z-index:999; display:inline-block;}
+#ele_tab li{display:block;float:left}
+#ele_tab li a{display:block;text-align:center;line-height:2.2rem;height:2.2rem;color:#999}
+#ele_tab li a.on{border-bottom:.22rem solid #2fbdaa;margin-top:-.01rem}
+#ele_tab li em{display:inline-block;margin-left:.05rem;margin-bottom:.02rem;content:'';width:.07rem;height:.07rem;border-bottom:.02rem solid #666;border-left:.02rem solid #666;transform:rotate(-45deg);-webkit-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-webkit-transform:rotate(-45deg);-o-transform:rotate(-45deg)}
+.list-have-pic .cate-name{ padding:5px;}
+</style>
+
+<!--店铺滚动介绍开始-->
+<div id="top-wrap" class="top-wrap">
+    <div class="detail-info">
+        <div class="detail-info-cell">
+        	<div class="detail-info-desc">
+            <marquee  scrolldelay=100 direction=left>
+            <span class="text-gray">店铺介绍：<{$detail.intro}>
+        <span class="margin-left text-small text-yellow">配送费：<{:round($detail['logistics']/100,2)}>元
+        <if condition="!empty($detail['logistics_full'])">
+        	，单笔订单免<{:round($detail['logistics_full']/100,2)}> 元免配送费
+        </if>
+        <eq name="detail.is_full" value="1">
+           <if condition="!empty($detail['order_price_full_1'])">
+              单笔满&yen;<{:round($detail['order_price_full_1']/100,2)}>元减 &yen;<{:round($detail['order_price_reduce_1']/100,2)}>元
+           </if>
+           <if condition="!empty($detail['order_price_full_2'])">
+              ，单笔满&yen;<{:round($detail['order_price_full_2']/100,2)}>元减 &yen;<{:round($detail['order_price_reduce_2']/100,2)}>元
+           </if>
+         </eq>
+        ，(满<{:round($detail['since_money']/100,2)}>元起送)</span>
+            
+            </marquee>
+            </div>
+        </div>
+    </div>
+</div>
+<!--店铺滚动介绍结束-->
+
+
+<!--头部切换结束-->
+<div id="ele" class="page-center-box mt10">
+    <div class="frame-set-left">
+        <ul id="r-ggbox">
+            <li class="active" rel="all" style="border-top:0.1rem solid #dedede;"><a href="javascript:void(0);">全部分类</a></li>
+            <foreach name="cates" item="item">
+                <li rel="cate_<{$item.cate_id}>"><a href="javascript:void(0);" ><{:tu_msubstr($item['cate_name'],0,12,false)}></a></li>
+            </foreach>
+        </ul>
+    </div>
+    <div class="frame-set-right">
+        <div id="scroll">
+            <div class="list-have-pic">
+                <div class="eleList_box">
+                
+                <!--推荐菜品开始固定-->
+                <foreach name="tuijian" item="var">
+                   <div class="list-box">
+                       <div class="list-img ac" onclick="liclick(this);" href="javascript:;"><!--增加触发事件-->
+                          <img  url="<{:config_img($var['photo'])}>" src="<{:config_img($var['photo'])}>">
+                       </div>
+                   		<div class="list-content">
+                       		<p class="overflow_clear"><h5><{:tu_msubstr($var['product_name'],0,10,false)}></h5></p>
+                               <h1 style="display:none" class="salenum"><{:tu_msubstr($var['desc'],0,56,false)}>...</h1>
+                            <p class="price fontcl2">
+                                  <span class="unit_price">&yen;<{:round($var['price']/100,2)}></span><em>元</em>
+                                  <span class="fontc3">月售：<{$var.sold_num}>份</span>
+                                  <span class="tuijian">推荐</span>
+                            </p>
+                            <div class="num-input">
+                                <img style="display: none;" src="<{:config_img($var['photo'])}>">
+                                <eq name="detail.bsti" value="0">
+                                    <div class="btn jq_jian" val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="dec(this);">-</div>
+                                </eq>
+                                <div class="input"><input type="text"  did="<{$var.product_id}>" class="ordernum-<{$var.product_id}>" readonly="readonly" value="<{:getEleCartNum($var['product_id'],$detail['shop_id'])}>" /></div>
+                                <eq name="detail.bsti" value="0">
+                                     <div class="btn tuijian active jq_addcart" val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="addcart(this);" >+</div>
+                                </eq>
+                             </div>
+                         </div>
+                     </div>
+                </foreach>
+                <!--推荐菜品开始结束-->    
+                
+                
+                <!--菜品循环开始-->
+                <foreach name="cate" item="item">
+                	<div class="cate-name" id="cate_<{$item.cate_id}>"><a href="#"><{$item.cate_name}></a></div>
+                    <foreach name="list" item="var">
+                    	<eq name="var.cate_id" value="$item['cate_id']">
+                            <div class="list-box cate_<{$var.cate_id}>">
+                                <div class="list-img ac" onclick="liclick(this);" href="javascript:;"><!--增加触发事件-->
+                                    <img  url="<{:config_img($var['photo'])}>" src="<{:config_img($var['photo'])}>">
+                                </div>
+                                <div class="list-content">
+                                    <p class="overflow_clear"><h5><{:tu_msubstr($var['product_name'],0,10,false)}></h5></p>
+                                    <h1 style="display:none" class="salenum"><{:tu_msubstr($var['desc'],0,56,false)}>...</h1>
+                                    <p class="price fontcl2">
+                                        <span class="unit_price">&yen;<{:round($var['price']/100,2)}></span><em>元</em>
+                                        <span class="fontc3">月售：<{$var.sold_num}>份</span>
+                                    </p>
+                                    <div class="num-input">
+                                        <img style="display: none;" src="<{:config_img($var['photo'])}>">
+                                        <eq name="detail.bsti" value="0">
+                                            <div class="btn jq_jian" val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="dec(this);">-</div>
+                                        </eq>
+                                        <div class="input"><input type="text"  did="<{$var.product_id}>" class="ordernum-<{$var.product_id}>" readonly="readonly" value="<{:getEleCartNum($var['product_id'],$detail['shop_id'])}>" /></div>
+                                        <eq name="detail.bsti" value="0">
+                                            <div class="btn active jq_addcart" val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="addcart(this);" >+</div>
+                                        </eq>
+                                    </div>
+                                </div>
+                            </div>
+                         </eq>
+                    </foreach>
+                </foreach>  
+                <!--菜品循环结束-->
+                  
+                    
+                </div>
+            </div>                
+        </div>
+    </div>
+</div>
+
+
+
+
+
+        <div class="tudou-cart-num-mask">
+            <div class="cont">
+                <div class="title1">外卖购物车<a href="javascript:void(0);" class="closs float-right">×</a></div>
+                <div class="nr">
+                    <div class="tudou-cart-num-int">
+                        <ul>
+                        
+                        
+        
+        
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+<style>
+.hide{ display:none}
+.tudou-cart-num-mask{ position:fixed;  display:none; z-index:80; top:0; left:0; width:100%; height:100%; background: rgba(0, 0, 0, 0.6); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF000000,endColorstr=#BF000000);}
+.tudou-cart-num-mask .cont{ position:absolute; bottom:48px; left:0; width:100%; background:#fff;}
+.tudou-cart-num-mask .title1{ overflow:hidden; font-size:14px; color:#333; line-height:2.34rem; padding:0 0.6rem; background:#f7f7f7;}
+.tudou-cart-num-mask .title1 .closs{ font-size:16px;}
+.tudou-cart-num-mask .nr{padding:0.6rem;}
+.tudou-cart-num-int{margin:0.2rem 0;}
+.tudou-cart-num-int .table th {}
+.tudou-cart-num-int ul li{display:block; float:left;}
+.tudou-cart-num-int span{cursor: pointer; display:inline-block; height:1.6rem; width:1.6rem; border: 0.1rem solid #dedede; background: #f0f0f0 none; font-size: 14px; line-height:1.4rem; text-align: center; outline: none;}
+.tudou-cart-num-int input[type="text"] { width:2.4rem; border: none 0; border-top: 0.1rem solid #dedede; border-bottom: 0.1rem solid #dedede; background: #fff none; font-size: 14px; line-height:1.5rem; text-align: center;  vertical-align: middle; padding: 0; border-radius: 0;}
+.tudou-cart-num-mask .btn_box{ border-top: 0.1rem solid #dedede; padding:0.6rem 0 0; text-align:center;}
+.tudou-cart-num-mask .btn{ display:inline-block; width: 80%; height: 2.1rem; line-height: 2.1rem; background: #2FBDAA; border-radius: 0.34rem; text-align: center; color: #FFF; font-size: 14px;}
+</style>
+
+
+<footer class="footer-cart eleFooter-cart">
+    <div class="cart">
+        <a id="cart_1" target="x-frame" class="tudou-cart-num-btn"  href="javascript:void(0);"><i class="iconfont icon-yunzhi2gouwuche"></i><div class="cart-num" id="num"></div></a>
+    </div>
+    <div class="price">￥<span id="total_price"></span><p>(<{:round($detail['since_money']/100,2)}>元起送,<if condition="empty($detail['logistics'])">免费配送<else/>配送费:￥<{:round($detail['logistics']/100,2)}></if>)</p></div>
+    <eq name="detail.bsti" value="0">
+    	<div id="cart_2" class="disable"><a href="javascript:void(0);" style="color:#FFFFFF;" target="x-frame">确认下单</a></div>
+    <else/>
+    	<div class="disable"><a href="javascript:void(0);" style="color:#FFFFFF;">已打样</a></div>
+    </eq>
+</footer>
+
+</body>
+
+
+   <!--弹出 start-->
+   <div id="menuDetail" class="menu_detail">
+    <img style="display: none;">
+    <div class="nopic"></div>
+    <a id="detailBtn" class="comm_btn jq_addcart" onclick="addcart(this);"  did="<{$var.product_id}>" href="javascript:void(0);">来一份</a>
+        <dl><dt>价格：</dt><dd class="highlight"><span class="price"></span></dd></dl>
+        <dl style=" margin-top:15px;"><dt>介绍：</dt><dd class="info"></dd></dl>
+    </div>
+   <!--end-->
+   
+   
+<script type="text/javascript">
+
+
+        $(".tudou-cart-num-btn").click(function () {
+			var link = "<{:U('ele/loadcart')}>";
+			$(".tudou-cart-num-int ul").load(link);
+            $(".tudou-cart-num-mask").show();
+				
+        });
+        $(".tudou-cart-num-mask").find(".closs").click(function () {
+            $(".tudou-cart-num-mask").hide();
+        });
+		$("#ele").find(".frame-set-right").click(function () {
+            $(".tudou-cart-num-mask").hide();
+        });
+		
+		
+		
+		
+		
+//添加弹出
+	var _wraper = $('#menuDetail');
+	var dialogTarget;
+	function liclick(l){
+		var _this = $(l),
+			F = function(str){return _this.parent().find(str);},
+			title = F('h5').text(),
+			imgUrl = F('img').attr('url'),
+			val = _this.parent().find('.jq_jian').attr('val'),
+			did = _this.parent().find('.jq_jian').attr('did'),
+			price = F('.unit_price').text(),
+			sales = F('.sales strong').attr('class'),
+			saleNum = F('.sale_num').text(),
+			info = F('h1').text(),
+			saleDesc = F('.salenum').html(),
+			unit=F('.theunit').text(),
+			_detailImg = _wraper.find('img');
+			_wraper.find('.price').text(price).end()
+			.find('.sales strong').attr('class', sales).end()
+			//.find('.sale_desc').html(saleNum).end()
+			.find('.info').text(info);
+		_wraper.parents('.dialog').find('.dialog_tt').text(title);
+			$('#detailBtn').removeClass('disabled').text('来一份');
+			$('#detailBtn').attr('val',val);
+			$('#detailBtn').attr('did',did);
+		if(imgUrl){
+			_detailImg.attr('src', imgUrl).show().next().hide();
+		}else{
+			_detailImg.hide().next().show();
+		}
+
+		dialogTarget = _this;
+		_wraper.dialog({title: title, closeBtn: true});
+		}
+
+		//添加弹出的商品到购物车
+		function addcart(o){
+			var data = {},did = $(o).attr('did'), shop_id = "<{$_GET['shop_id']}>";
+			data['product_id'] = $(o).attr('did');
+			data['price']      = $(o).attr('val');
+			
+			var v = $(".ordernum-" + did).val();
+			if(v < 99){
+				v++;
+				$(".ordernum-"+did).val(v);
+			}
+			window.ele.addcart(shop_id,data);
+			$("#num").text(window.ele.count());
+		}
+		
+		//加入购物车特效
+    $(function() {
+        var offset = $("#num").offset();
+        $(".jq_addcart").click(function(event) {
+            var addcar = $(this);
+            var img = addcar.parent().find('img').attr('src');
+            var flyer = $('<img class="u-flyer" src="' + img + '">');
+            flyer.fly({
+                start: {
+                    left: event.pageX,
+                    top: event.pageY
+                },
+                end: {
+                    left: offset.left + 10,
+                    top: offset.top + 10,
+                    width: 0,
+                    height: 0
+                }
+            });
+        });
+    })
+</script>
+
+<!--JS 购物车-->
+<script type="text/javascript">
+	
+    $(document).ready(function () {
+        var price = parseInt(window.ele.totalprice("<{$detail['shop_id']}>"));
+        var since_money = "<{:round($detail['since_money']/100,2)}>";
+        if(price > since_money){
+            $('#cart_2').find('a').attr('href', "<{:U('ele/order',array('t'=>$nowtime))}>");
+            $('#cart_2').removeClass('disable');
+            $('#cart_2').addClass('btn');
+        }else{
+            $('#cart_2').find('a').attr('href', "javascript:void(0);");
+            $('#cart_2').addClass('disable');
+            $('#cart_2').removeClass('btn');
+        }
+        
+    })
+
+
+
+    function addcart(o) {
+        var data = {}, did = $(o).attr('did'),shop_id = "<{$detail['shop_id']}>";
+        data['product_id'] = $(o).attr('did');
+        data['price'] = $(o).attr('val');
+		
+        var v = $(".ordernum-" + did).val();
+        if(v < 99){
+            v++;
+            $(".ordernum-"+did).val(v);
+        }
+        window.ele.addcart(shop_id, data);
+        $("#num").text(window.ele.count("<{$detail['shop_id']}>"));
+        $("#total_price").html(window.ele.totalprice("<{$detail['shop_id']}>"));
+        var since_money = "<{:round($detail['since_money']/100,2)}>";
+        if (parseInt(window.ele.totalprice("<{$detail['shop_id']}>")) < parseInt(since_money)) {
+            $('#cart_2').find('a').attr('href', "javascript:void(0);");
+			$('#cart_2').removeClass('btn');
+            $('#cart_2').addClass('disable');
+        } else {
+            $('#cart_2').find('a').attr('href', "<{:U('ele/order',array('t'=>$nowtime))}>");
+            $('#cart_2').removeClass('disable');
+            $('#cart_2').addClass('btn');
+        }
+    }
+    function dec(e) {
+        var product_id = $(e).attr('did'), did = $(e).attr('did'),shop_id = "<{$detail['shop_id']}>";
+        window.ele.dec(shop_id, product_id);
+       var v = $(".ordernum-" + did).val();
+        if(v > 0){
+            v--;
+            $(".ordernum-"+did).val(v);
+        }
+		
+		
+        $("#num").text(window.ele.count("<{$detail['shop_id']}>"));
+        $("#total_price").html(window.ele.totalprice("<{$detail['shop_id']}>"));
+        var since_money = "<{:round($detail['since_money']/100,2)}>";
+        if (parseInt(window.ele.totalprice("<{$detail['shop_id']}>")) < parseInt(since_money)) {
+            $('#cart_2').find('a').attr('href', "javascript:void(0);");
+            $('#cart_2').addClass('disable');
+            $('#cart_2').removeClass('btn');
+        } else {
+            $('#cart_2').find('a').attr('href', "<{:U('ele/order',array('t'=>$nowtime))}>");
+            $('#cart_2').removeClass('disable');
+            $('#cart_2').addClass('btn');
+        }
+	}
+	
+	
+	
+	
+	function del(a) {
+        var product_id = $(a).attr('did'), did = $(a).attr('did');
+        window.ele.removeby(product_id);
+        $(".ordernum-"+did).val('0');
+		$(".hide-"+did).addClass('hide');
+        $("#num").text(window.ele.count("<{$detail['shop_id']}>"));
+        $("#total_price").html(window.ele.totalprice("<{$detail['shop_id']}>"));
+        var since_money = "<{:round($detail['since_money']/100,2)}>";
+        if (parseInt(window.ele.totalprice("<{$detail['shop_id']}>")) < parseInt(since_money)) {
+            $('#cart_2').find('a').attr('href', "javascript:void(0);");
+            $('#cart_2').addClass('disable');
+            $('#cart_2').removeClass('btn');
+        } else {
+            $('#cart_2').find('a').attr('href', "<{:U('ele/order',array('t'=>$nowtime))}>");
+            $('#cart_2').removeClass('disable');
+            $('#cart_2').addClass('btn');
+        }
+    
+	
+	
+    }
+
+//初始化购物城数据
+    ~function () {
+        var count = window.ele.count("<{$detail['shop_id']}>");
+        var totalprice = window.ele.totalprice("<{$detail['shop_id']}>");
+        $("#num").text(count);
+        $("#total_price").html(totalprice);
+    }();
+
+</script>
+
+<!--左侧可滑动特效-->
+<script src="/static/default/wap/js/diyScroll.js"></script>
+<script src="/static/default/wap/js/jquery.easing.min.js"></script>
+<script src="/static/default/wap/js/function.js"></script>
+
+<script>	
+	//左侧可滑动特效
+	$(".frame-set-left:eq(0)").Frame({type:[0,0],background:"#f8f8f8",color:"#999999",topfunc:"history.go(0)",botfunc:"",id:"left_Scroll",ScrollWidth:1});
+	$(function(){
+		if(PhoneType()=='Android'){
+			setTimeout(function(){$(".frame-set-left:eq(0) .left_Scroll_to_top").css({marginTop:-55});},100);
+		}
+	});
+</script>
+
+<php>
+$Shop = D('Shop')->find($detail['shop_id']);
+</php>
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+    wx.config({
+	debug: false,
+	appId: '<{$signPackage.appId}>',
+    timestamp: '<{$signPackage.timestamp}>',
+    nonceStr: '<{$signPackage.nonceStr}>',
+    signature: '<{$signPackage.signature}>',
+	jsApiList: [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'onMenuShareQZone'
+		]
+	});
+
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+            title: '<{$detail["shop_name"]}>."外卖店铺"',
+        	link: "<{$CONFIG.site.host}><{:U('wap/ele/shop',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'shop_id'=>$detail['shop_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($Shop['photo'])}>", 
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+     });
+     //分享给朋友
+     wx.onMenuShareAppMessage({
+            title: '<{$detail["shop_name"]}>."外卖店铺"',
+            desc: '<{$detail["shop_name"]}>."速度来点餐了"',
+            link: "<{$CONFIG.site.host}><{:U('wap/ele/shop',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'shop_id'=>$detail['shop_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($Shop['photo'])}>", 
+            type: '',
+            dataUrl: '',
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+      });
+});
+
+
+</script>
+
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+</html>

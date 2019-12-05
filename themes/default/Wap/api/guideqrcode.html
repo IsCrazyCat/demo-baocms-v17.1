@@ -1,0 +1,64 @@
+
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			我的推荐二维码
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+<div class="list-media-x" id="list-media">
+	<ul>
+		<div class="container">
+
+			<div class="padding-large">
+				<img src="__ROOT__<{$file}>" width="100%" />
+			</div>
+			<p class="text-center">扫码后商家可以获取分成</p>
+
+		</div>
+
+	</ul>
+</div>
+
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+    wx.config({
+	debug: false,
+	appId: '<{$signPackage.appId}>',
+    timestamp: '<{$signPackage.timestamp}>',
+    nonceStr: '<{$signPackage.nonceStr}>',
+    signature: '<{$signPackage.signature}>',
+	jsApiList: [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'onMenuShareQZone'
+		]
+	});
+
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+            title: '<{$detail["nickname"]}>."推荐您加入"',
+        	link: "<{$CONFIG.site.host}><{:U('user/apply/index',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'guige_id'=>$MEMBER['user_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($MEMBER['face'])}>",  
+     });
+     wx.onMenuShareAppMessage({
+            title: '<{$detail["nickname"]}>."推荐您加入"',
+            desc: '<{$detail["nickname"]}>."给您分享二维码了，快去入驻吧"',
+            link: "<{$CONFIG.site.host}><{:U('user/apply/index',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'guige_id'=>$MEMBER['user_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($MEMBER['face'])}>", 
+      });
+});
+</script>
+
+<include  file='public:footer'/>
+

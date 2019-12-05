@@ -1,0 +1,75 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商城</a> > <a>编辑商品</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">商家发布的商品要在后台审核之后才能显示在前台</div>
+        </div>
+    </div> 
+    
+    <div class="tuanfabu_tab">
+      <ul>
+      	<li class="tuanfabu_tabli"><a href="<{:U('goods/index')}>">商品列表</a></li>
+      	<li class="tuanfabu_tabli"><a href="<{:U('goods/edit',array('goods_id'=>$detail['goods_id']))}>">编辑商品</a></li>
+        <if condition="$SHOP['is_profit'] eq '1'">
+        <li class="tuanfabu_tabli on"><a href="<{:U('goods/profit',array('goods_id'=>$detail['goods_id']))}>">设置分销</a></li>
+        </if>
+      </ul>
+    </div>
+
+    
+    <div class="tabnr_change  show">
+    	<form method="post"  action="<{:U('goods/profit',array('goods_id'=>$detail['goods_id']))}>"  target="x-frame">
+        
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                     
+                   <tr>
+                   <td><p class="tuanfabu_t">开启商城独立分成模式</td>
+                     <td>
+                     <div class="tuanfabu_nr">
+                     <label><input type="radio" <eq name="profit.profit_enable" value="0"> checked="checked" </eq> name="data[profit_enable]"  value="0"/>关闭</label>
+                     <label><input type="radio" <eq name="profit.profit_enable" value="1"> checked="checked" </eq> name="data[profit_enable]"  value="1"/>开启</label>
+                     <code>开启后下面的设置才有效</code></div>
+                    </td>
+                  </tr>
+        
+       			  <tr>
+                   <td><p class="tuanfabu_t">一级分成百分比</td>
+                     <td>
+                     <div class="tuanfabu_nr">
+                     <input type="text" name="data[profit_rate1]" value="<{$profit.profit_rate1|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+                     <code>一级分成百分比，请不要乱填写</code>
+                     </div></td>
+                  </tr>
+                  
+                   <tr>
+                   <td><p class="tuanfabu_t">二级分成百分比</td>
+                     <td>
+                     <div class="tuanfabu_nr">
+                     <input type="text" name="data[profit_rate2]" value="<{$profit.profit_rate2|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+                     <code>二级分成百分比，请不要乱填写</code>
+                     </div></td>
+                  </tr>
+                  
+                   <tr>
+                   <td><p class="tuanfabu_t">三级分成百分比</td>
+                     <td>
+                     <div class="tuanfabu_nr">
+                     <input type="text" name="data[profit_rate3]" value="<{$profit.profit_rate3|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+                     <code>三级分成百分比，请不要乱填写</code>
+                     </div></td>
+                  </tr>
+                  
+           
+        </table>
+        <div class="tuanfabu_an">
+        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认编辑" />
+        </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>

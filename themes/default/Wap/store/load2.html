@@ -1,0 +1,58 @@
+ <!--推荐商品开始固定-->
+                <foreach name="tuijian" item="var">
+                   <div class="list-box">
+                       <div class="list-img ac" onclick="liclick(this);" href="javascript:;"><!--增加触发事件-->
+                          <img  url="<{:config_img($var['photo'])}>" src="<{:config_img($var['photo'])}>">
+                       </div>
+                   		<div class="list-content">
+                       		<p class="overflow_clear"><h5><{:tu_msubstr($var['product_name'],0,10,false)}></h5></p>
+                               <h1 style="display:none" class="salenum"><{:tu_msubstr($var['desc'],0,56,false)}>...</h1>
+                            <p class="price fontcl2">
+                                  <span class="unit_price">&yen;<{:round($var['price']/100,2)}></span><em>元</em>
+                                  <span class="fontc3">月售：<{$var.sold_num}>份</span>
+                                  <span class="tuijian">推荐</span>
+                            </p>
+                            <div class="num-input">
+                                <img style="display: none;" src="<{:config_img($var['photo'])}>">
+                                <eq name="detail.bsti" value="0">
+                                    <div class="btn jq_jian" val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="dec(this);">-</div>
+                                </eq>
+                                <div class="input"><input type="text"  did="<{$var.product_id}>" class="ordernum-<{$var.product_id}>" readonly="readonly" value="<{:getEleCartNum($var['product_id'],$detail['shop_id'])}>" /></div>
+                                <eq name="detail.bsti" value="0">
+                                     <div class="btn tuijian active jq_addcart" val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="addcart(this);" >+</div>
+                                </eq>
+                             </div>
+                         </div>
+                     </div>
+                </foreach>
+                <!--推荐商品开始结束-->    
+                
+                
+                <!--商品循环开始-->
+               
+                    <foreach name="list" item="var">
+                            <div class="list-box">
+                                <div class="list-img ac" onclick="liclick(this);" href="javascript:;"><!--增加触发事件-->
+                                    <img  url="<{:config_img($var['photo'])}>" src="<{:config_img($var['photo'])}>">
+                                </div>
+                                <div class="list-content">
+                                    <p class="overflow_clear"><h5><{:tu_msubstr($var['product_name'],0,10,false)}></h5></p>
+                                    <h1 style="display:none" class="salenum"><{:tu_msubstr($var['desc'],0,56,false)}>...</h1>
+                                    <p class="price fontcl2">
+                                        <span class="unit_price">&yen;<{:round($var['price']/100,2)}></span><em>元</em>
+                                        <span class="fontc3">月售：<{$var.sold_num}>份</span>
+                                    </p>
+                                    <div class="num-input">
+                                        <img style="display: none;" src="<{:config_img($var['photo'])}>">
+                                        <eq name="detail.bsti" value="0">
+                                            <div class="btn jq_jian" val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="dec(this);">-</div>
+                                        </eq>
+                                        <div class="input"><input type="text"  did="<{$var.product_id}>" class="ordernum-<{$var.product_id}>" readonly="readonly" value="<{:getStoreCartNum($var['product_id'],$detail['shop_id'])}>" /></div>
+                                        <eq name="detail.bsti" value="0">
+                                            <div class="btn active jq_addcart" val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="addcart(this);" >+</div>
+                                        </eq>
+                                    </div>
+                                </div>
+                            </div>
+                    </foreach>
+                <!--商品循环结束-->

@@ -1,0 +1,27 @@
+<include file='public:header'/>   
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('mart/order')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			订单改价
+		</div>
+	</header>
+<style>
+.send-form .row{overflow:hidden;border-bottom:thin solid #EEE;padding:0;}
+.send-form .icon{float:left;width:10%;text-align:center;color:#999;height:50px;line-height:60px;overflow:hidden;font-size:16px;}
+.send-form .line-input{border:none;float:left;background:#FFF;height:50px;width:90%;padding-top:12px;overflow:hidden;}
+.send-form .text-select {border: none;float: left;background: #FFF;height: 50px;width: 90%;padding-top: 12px;overflow: hidden;}
+</style>   
+	<div class="send-form">
+        <form method="post" action="<{:U('mart/changePrice',array('order_id'=>$detail['order_id']))}>"  target="x-frame">
+            <div class="row">
+				<span class="icon icon-hand-o-right"></span>
+				<input type="text"  class="line-input" id="change_price" name="data[change_price]" placeholder="填写价格" value="" />
+			</div>
+			<div class="blank-40"></div>
+            <div class="container text-center"><button class="button button-block button-big bg-dot" type="submit">确定改价</button></div>
+		</form>
+	</div>
+	
+<include file='public:footer'/>  

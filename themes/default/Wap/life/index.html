@@ -1,0 +1,378 @@
+<include file="public:header"/>
+
+
+
+<style>
+	.icon2{position:relative;padding:0px;}
+	.cate-num{right:5px;top:0px;position:absolute;}
+	.badge{padding:5px;border-radius:100%;}
+	.mall-cart{z-index: 999;}
+</style>
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		生活信息
+	</div>
+	<div class="top-search" style="display:none;">
+		<form method="post" action="<{:U('life/search')}>">
+			<input name="keyword" placeholder="输入信息的关键字"  />
+			<button type="submit" class="iconfont icon-phone-line"></button> 
+		</form>
+	</div>
+	<div class="top-signed">
+		<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+	</div>
+</header>
+
+
+<div id="index-cate" class="index-cate">
+	
+    
+       <!--广告位开始-->
+     	<div id="tudou-slide" class="tudou-slide">
+			<div class="hd"><ul></ul></div>
+			<div class="bd">
+				<ul>
+					<calldata mdl="Ad" where=" closed=0 AND site_id=70 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+						<li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+        <script>
+			TouchSlide({
+				slideCell: "#tudou-slide",
+				titCell: ".hd ul",
+				mainCell: ".bd ul",
+				effect: "left",
+				autoPlay: true,
+				autoPage: true,
+				switchLoad: "_src",
+			});
+		</script>
+    <!--广告位END-->  
+    
+    <div class="blank-10"></div> 
+    <ul class="cate-wrap bbOnepx">
+        <?php $ii = 0; ?>
+        <volist name="list" id="arr">
+       
+        <?php $ii++; ?>
+            <li>
+                <a class="icon2" href="<{:U('life/channel',array('channel'=>$key))}>" tongji_tag="m_home_job_new">
+                    <php>
+                    	$cateCount = getLifeChannelCount($key,$city_id);
+                    </php>
+                	
+                    <if condition="$cateCount gt 0">
+                        <span class="badge bg-red cate-num"><{$cateCount}></span>
+                    </if>    
+                    
+                    <span class="cate-img" id="job"><img src="/static/default/wap/image/life/life_cate_<{$ii}>.png" /></span>
+                    <span class="cate-desc"><{$arr}></span>
+                </a>
+            </li>
+         </volist> 
+    </ul>
+    <div class="blank-10"></div>  
+    <div class="blank-10 bg"></div>
+    
+   
+	
+	<div class="tie-ding">
+		<ul>
+		<calldata mdl="Life" where="closed=0 AND audit=1 AND  city_id=$city_id"  order="create_time desc" limit="0,5" cache="600">
+            <php>
+            $Lifecate = D('Lifecate')->find($item['cate_id']);
+            </php>
+			<li><em class="tag bg-dot"><{$Lifecate['cate_name']}></em>
+            <a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>"><{:tu_msubstr($item['title'],0,20,false)}></a><span class="iconfont icon-angle-right"></span></li>
+		</calldata>	
+		</ul>
+	</div>
+    
+    <div class="blank-10 bg"></div>
+   
+   
+   
+   <php>
+    $areas = D('Area')->where(array('city_id'=>$city_id))->select();
+	</php>
+
+ 
+    <div id="filter2" class="filter2">
+    <ul class="tab clearfix">
+      
+      
+      <if condition="!empty($channel)">
+          <li class="item">
+            <a href="javascript:void(0);">
+            <if condition="!empty($cat)">
+                <foreach name="cates" item="item">
+                    <eq name="item.channel_id" value="$channel_id">
+                        <if condition="$cat eq $item['cate_id']">
+                            <span id="str_b_node" style="color:#f60;"><{:tu_msubstr($item['cate_name'],0,3,false)}></span>
+                        </if>
+                    </eq>
+                </foreach>
+            <else/>
+            <span id="str_b_node">选择分类</span>
+            </if>
+            <em></em>
+            </a>
+          </li>
+      </if>
+      
+      
+      <li class="item">
+        <a href="javascript:void(0);">
+        <if condition="!empty($area)">
+        	<span id="str_b_node" style="color:#f60;"><{$areas[$area]['area_name']}></span>
+        <else/>
+            <if condition="!empty($cat)">
+        		<span id="str_b_node">地区</span>
+            <else/>
+            	<span id="str_b_node">选择地区</span>
+            </if>
+        </if>
+        <em></em>
+        </a>
+      </li>
+      
+      
+      
+      
+      <if condition="empty($cat)">
+        <li class="item">
+        <a href="javascript:void(0);">
+            <if condition="empty($order)">
+            	<span id="str_e_node">选择排序</span>
+            <elseif condition="$order eq 1"/>
+            	<span id="str_b_node" style="color:#f60;">距离排序</span>
+            <elseif condition="$order eq 2"/>
+            	<span id="str_b_node" style="color:#f60;">热度排序</span>
+            <elseif condition="$order eq 3"/>
+            	<span id="str_b_node" style="color:#f60;">时间排序</span>
+            </if>
+        <em></em>
+        </a>
+      </li>
+      </if>
+      
+      
+      <if condition="!empty($cate['select1'])">
+          <li class="item">
+            <a href="javascript:void(0);"> 
+                <if condition="!empty($s1)">
+                	<span id="str_b_node" style="color:#f60;"><{:tu_msubstr($attrs['select1'][$s1]['attr_name'],0,3,false)}></span>
+                <else/>
+                	<span id="str_b_node"><{$cate['select1']}></span>
+                </if><em></em>
+            </a>
+          </li>
+      </if>
+      
+      <if condition="!empty($cate['select2'])">
+          <li class="item">
+                <a href="javascript:void(0);"> 
+                <if condition="!empty($s2)">
+                	<span id="str_b_node" style="color:#f60;"><{:tu_msubstr($attrs['select2'][$s2]['attr_name'],0,3,false)}></span>
+                <else/>
+                	<span id="str_b_node"><{$cate['select2']}></span>
+                </if><em></em>
+                </a>
+          </li>
+      </if>
+      
+      <if condition="!empty($cate['select3'])"> 
+          <li class="item">
+            <a href="javascript:void(0);"> 
+                <if condition="!empty($s3)">
+                	<span id="str_b_node" style="color:#f60;"><{:tu_msubstr($attrs['select3'][$s3]['attr_name'],0,3,false)}></span>
+                <else/>
+                	<span id="str_b_node"><{$cate['select3']}></span>
+                </if><em></em>
+            </a>
+          </li>
+      </if>
+      
+      <if condition="!empty($cate['select4'])"> 
+          <li class="item">
+            <a href="javascript:void(0);">
+                <if condition="!empty($s4)">
+                	<span id="str_b_node" style="color:#f60;"><{:tu_msubstr($attrs['select4'][$s4]['attr_name'],0,3,false)}></span>
+                <else/>
+                	<span id="str_b_node"><{$cate['select4']}></span>
+                </if><em></em>
+            </a>
+          </li>
+      </if>
+      
+     <if condition="!empty($cate['select5'])"> 
+          <li class="item">
+            <a href="javascript:void(0);"> 
+                <if condition="!empty($s5)">
+                    <span id="str_b_node" style="color:#f60;"><{:tu_msubstr($attrs['select5'][$s5]['attr_name'],0,3,false)}></span>
+                <else/>
+                 <span id="str_b_node"><{$cate['select5']}></span>
+                </if><em></em>
+            </a>
+          </li>
+      </if>
+    </ul>
+   
+
+    <if condition="!empty($channel)">
+     <div class="inner" style=" display:none">
+        <ul>
+       <li class="on"><a <if condition="empty($cat)">style="color:red;"</if>  href="<{:LinkTo('life/channel',$linkArr,array('cat'=>0))}>">全部分类</a></li>
+       
+       		<if condition="$cat">
+                <foreach name="cates" item="item">
+                   <eq name="item.channel_id" value="$channel_id">
+                      <li><a <eq name="cat" value="$item.cate_id"> style="color:red;"</eq> href="<{:LinkTo('life/channel',$linkArr,array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a></li>
+                   </eq>
+                </foreach>
+            <else/>
+                 <foreach name="channel" item="item">
+                    <li><a <eq name="cat" value="$key"> style="color:red;"</eq> href="<{:LinkTo('life/channel',$linkArr,array('channel'=>$key))}>"><{$item}></a></li>
+                </foreach>
+            </if>
+        </ul>
+    </div>
+    </if>
+    
+    
+      <div class="inner" style=" display:none">
+        <ul>
+       <li><a href="<{:LinkTo('life/channel',$linkArr,array('area'=>0))}>">全部地区</a></li>
+			<volist name="areas" id="ae">
+            <php>if($ae['city_id'] == $city_id){</php>
+				<li><a <if condition="$area eq $ae['area_id']"> style="color:red;"</if> href="<{:LinkTo('life/channel',$linkArr,array('area'=>$ae['area_id']))}>"><{$ae.area_name}></a></li>
+                 <php>}</php>
+			</volist>
+        </ul>
+    </div>
+    
+    
+    <if condition="empty($cat)">
+        <div class="inner" style="display:none;">
+           <ul>
+          	 <li><a <if condition="$order eq 0"> style="color:red;"</if> href="<{:LinkTo('life/channel',$linkArr,array('order'=>0))}>">默认排序</a></li>
+             <li><a <if condition="$order eq 1"> style="color:red;"</if> href="<{:LinkTo('life/channel',$linkArr,array('order'=>1))}>">距离优先</a></li>
+             <li><a <if condition="$order eq 2">style="color:red;"</if> href="<{:LinkTo('life/channel',$linkArr,array('order'=>2))}>">热度排序</a></li>
+             <li><a <if condition="$order eq 3">style="color:red;"</if> href="<{:LinkTo('life/channel',$linkArr,array('order'=>3))}>">时间排序</a></li>
+           </ul>
+        </div>
+    </if>
+    
+    
+    <if condition="!empty($cate) && !empty($cate['select1'])">
+        <div class="inner" style=" display:none">
+          <ul>
+          <li class="on"><a href="<{:LinkTo('life/channel',$linkArr,array('s1'=>0))}>">全部</a></li>
+            <foreach name="attrs.select1" item="item">
+              <li><a <eq name="s1" value="$item.attr_id">style="color:red;"</eq>href="<{:LinkTo('life/channel',$linkArr,array('s1'=>$item['attr_id']))}>"><{$item.attr_name}></a>
+          </li>
+            </foreach>
+         </ul>
+        </div>
+    </if>
+    
+    <if condition="!empty($cate) && !empty($cate['select2'])">
+        <div class="inner" style=" display:none">
+          <ul>
+          <li class="on"><a href="<{:LinkTo('life/channel',$linkArr,array('s2'=>0))}>">全部</a></li>
+            <foreach name="attrs.select2" item="item">
+              <li><a <eq name="s2" value="$item.attr_id">style="color:red;"</eq>href="<{:LinkTo('life/channel',$linkArr,array('s2'=>$item['attr_id']))}>"><{$item.attr_name}></a>
+          </li>
+            </foreach>
+         </ul>
+        </div>
+    </if>
+    
+     <if condition="!empty($cate) && !empty($cate['select3'])">
+        <div class="inner" style=" display:none">
+          <ul>
+          <li class="on"><a href="<{:LinkTo('life/channel',$linkArr,array('s3'=>0))}>">全部</a></li>
+            <foreach name="attrs.select3" item="item">
+              <li><a <eq name="s3" value="$item.attr_id">style="color:red;"</eq>href="<{:LinkTo('life/channel',$linkArr,array('s3'=>$item['attr_id']))}>"><{$item.attr_name}></a>
+          </li>
+            </foreach>
+         </ul>
+        </div>
+    </if>
+    
+     <if condition="!empty($cate) && !empty($cate['select4'])">
+        <div class="inner" style=" display:none">
+          <ul>
+          <li class="on"><a href="<{:LinkTo('life/channel',$linkArr,array('s4'=>0))}>">全部</a></li>
+            <foreach name="attrs.select4" item="item">
+              <li><a <eq name="s4" value="$item.attr_id">style="color:red;"</eq>href="<{:LinkTo('life/channel',$linkArr,array('s4'=>$item['attr_id']))}>"><{$item.attr_name}></a>
+          </li>
+            </foreach>
+         </ul>
+        </div>
+    </if>
+    
+     <if condition="!empty($cate) && !empty($cate['select5'])">
+        <div class="inner" style=" display:none">
+          <ul>
+          <li class="on"><a href="<{:LinkTo('life/channel',$linkArr,array('s5'=>0))}>">全部</a></li>
+            <foreach name="attrs.select5" item="item">
+              <li><a <eq name="s5" value="$item.attr_id">style="color:red;"</eq> href="<{:LinkTo('life/channel',$linkArr,array('s5'=>$item['attr_id']))}>"><{$item.attr_name}></a>
+          </li>
+            </foreach>
+         </ul>
+        </div>
+    </if>
+   <div id="parent_container" class="inner_parent" style="display:none;"> <div class="innercontent"></div></div>
+</div>
+<!--end-->    
+
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;"><i class="pull2"></i></div><!--固定-->  
+
+
+
+
+    
+   
+   
+<div class="tie-list" id="tie-list"></div>
+<script>
+	$(document).ready(function () {
+		showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+		loaddata('<{$nextpage}>', $("#tie-list"), true);
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+	});
+	
+	function popUpPic(id){
+		layer.photos({
+			photos: '#layer-photos-demo-'+id,
+			shift: 5 //0-6的选择，指定弹出图片动画类型，默认随机
+		}); 
+	}
+		
+</script>
+
+
+
+	<div class="mall-cart">
+		<a href="<{:u('wap/life/release')}>">
+		<div class="round radius-circle"><div class="badge-corner"><i class="iconfont icon-fabu"></i></div></div>
+		</a>
+	</div>
+
+<include file="public:footer"/>

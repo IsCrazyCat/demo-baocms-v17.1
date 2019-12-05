@@ -1,0 +1,28 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('shop/detail',array('shop_id'=>$shop['shop_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$shop.shop_name}>
+		</div>
+		<div class="top-share"></div>
+	</header>
+	  
+
+
+               
+	<div class="container">
+
+		<div class="padding-large">
+            <if condition="!empty($shop['qrcode'])">
+				<img src="<{:config_img($shop['qrcode'])}>" width="100%" />
+            <else/>
+            	<img src="<{:config_img($CONFIG['site']['wxcode'])}>" width="100%" />
+            </if>
+		</div>
+		<p class="text-center">扫码访问商家首页</p>
+
+	</div>
+	
+<include file="public/footer"/>

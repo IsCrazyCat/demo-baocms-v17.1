@@ -1,0 +1,51 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商家</li>
+        <li class="li2">商家推荐</li>
+        <li class="li2 li3">编辑商家推荐</li>
+    </ul>
+</div>
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form  target="x-frame" action="<{:U('shop/rate',array('guide_id'=>$guide_id))}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="lfTdBt">分成会员：</td>
+                        <td class="rgTdBt">
+                            <div class="lt">
+                                <input type="hidden" id="user_id" name="user_id" value="<{$detail.user_id|default=''}>" />
+                                <input class="scAddTextName w210 sj" type="text" name="nickname" id="nickname"  value="<{$user.nickname}>" />
+                            </div>
+                            <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                            <code>一般不建议修改哈</code>
+                        </td>
+                    </tr>   
+                        <tr>
+                            <td class="lfTdBt">分成比例：</td>
+                            <td class="rgTdBt">
+                                <input name="rate" value="<{$detail['rate']}>" type="text" class="scAddTextName w150" />
+                                <code>这里是千分比，最多100‰，一个商家最多2个推荐人，建议填写千分之1-千分之10</code>
+                            </td>
+                        </tr>
+                        <tr >
+                            <td class="lfTdBt">备注：</td>
+                            <td class="rgTdBt">
+                                <textarea name="intro" cols="50" rows="6"><{$detail['intro']}></textarea>
+                                <code>为什么要编辑这里可备注下，方便后期查阅</code>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确定保存" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/> 
+
+
+

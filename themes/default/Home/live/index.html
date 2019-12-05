@@ -1,0 +1,117 @@
+<include file="public:header" /> 
+<include file="public:top"/>
+<include file="live:nav"/>
+
+<style>
+.shangjiaC_l { width: 932px;}
+.shangjiaC_r { width: 250px; margin-left:5px;}
+.verify {position: absolute;background: url(/themes/default/Pchome/statics/images/verify.png) no-repeat;}
+.shangjiaC_l .goods_flList_r {width: 843px;}
+.mask_box{z-index: 10;}
+.qrcode_mask {position: fixed;display: none;z-index: 2000;left: 0;top: 0;width: 100%;height: 100%;background: rgba(0,0,0,.3);}
+.qrcode_dhPop {border: 8px solid #666;border-radius: 5px;width:300px;height:320px;background: #fff;margin: 0 auto;margin-top: 10%;z-index: 99;}
+.qrcode_dhPop h2{height:40px;padding-left:15px;font:700 18px/40px 'Microsoft Yahei';color:#666;border-bottom:1px solid #ccc;margin-bottom:15px;background-color:#f8f8f8}
+.qrcode_dhPop h2 span{float:right;background:url(/themes/default/Pchome/statics/images/tp_54.png) no-repeat center center;width:15px;height:15px;cursor:pointer;display:inline-block;margin:12px 15px 0 0}
+.qrcode_dhPop h2 span:hover{transform:rotate(-180deg);-o-transform:rotate(-180deg);-webkit-transform:rotate(-180deg);-moz-transform:rotate(-180deg);transition:all .4s ease-out;-o-transition:all .4s ease-out;-moz-transition:all .4s ease-out;-webkit-transition:all .4s ease-out}
+#qrcode_img img{margin-left: 20px;}
+.sy_sjcpwx canvas{width: 102px; height: 102px;margin: 0px auto;padding: 10px; background: #fff; }
+.sy_sjcpwx1 {text-align: center;}
+.sy_sjcpwx1 canvas{ width: 102px;height: 102px;margin: 0px auto;padding: 10px;background: #fff;}
+.sy_mall_tab a{display:inline-block;padding:0 10px;margin-right:5px;color:#333;line-height:24px}
+.sy_mall_tab a.on{color:#fff;background-color:#ff611b}
+.sy_mall_tab a:hover{color:#fff;background-color:#ff611b}
+.zhibo {display: block;position: absolute;height: 100px;width: 78px;margin-top: -80px;top: 50%;cursor: pointer;background: url(/static/default/wap/image/live/white-icon.png) no-repeat;left: 78px;background-position: -75px -41px;}
+
+</style>
+
+<div class="content content-wrap"> 
+    <div class="shangjiaC">
+        <div class="goods_flBox">
+            <ul>
+                <li class="goods_flList">
+                    <div class="left goods_flList_l">分类：</div>
+                    <div class="left goods_flList_r">
+                        <a  class="<if condition='empty($cat)'>on</if> goods_flListA"  title="所有商家" href="<{:LinkTo('live/index',$linkArr,array('cat'=>0,'cate_id'=>0))}>">全部</a>
+                        <php>$i = 1;</php>
+                        <foreach name="shopcates" item="item">
+                            <eq name="item.parent_id" value="0"> 
+                            <php>$i++;if($i < 12){</php>
+                            <a title="<{$item.cate_name}>"  href="<{:LinkTo('live/index',$linkArr,array('cat'=>$item['cate_id']))}>"  <eq name="item.cate_id" value="$cat">class="goods_flListA on"<else/>class="goods_flListA"</eq> ><{$item.cate_name}></a>
+
+                            <php>}</php>
+                            </eq>
+                        </foreach>
+                    </div>
+
+                <if condition="!empty($cat)">
+                    <div class="left goods_flList_r stycate">
+                        <foreach name="shopcates" item="item">
+                            <eq name="item.parent_id" value="$cat">
+                            <a title="<{$item.cate_name}>"  class="<eq name='item.cate_id' value='$cate_id'> on</eq> goods_flListA"  href="<{:LinkTo('live/index',$linkArr,array('cat'=>$cat,'cate_id'=>$item['cate_id']))}>"  ><{$item.cate_name}></a>
+                            </eq>
+                        </foreach>
+                    </div>    
+                </if>
+
+                </li>
+
+                <li class="goods_flList">
+                    <div class="left goods_flList_l">地区：</div>
+                    <div class="left goods_flList_r">
+                        <a  class="<if condition='empty($area_id)'>on</if> goods_flListA"  title="全部地区" href="<{:LinkTo('live/index',$linkArr,array('area'=>0,'business_id'=>0))}>">全部</a>  
+                        <foreach name="areas" item="item">
+                            <eq name="item.city_id" value="$city_id">
+                            <a title="<{$item.area_name}>"  href="<{:LinkTo('live/index',$linkArr,array('area'=>$item['area_id']))}>"  <eq name="item.area_id" value="$area_id">class="goods_flListA on"<else/>class="goods_flListA"</eq> ><{$item.area_name}></a> 
+                            </eq>
+                        </foreach>
+                    </div>
+
+                <if condition="!empty($area_id)">
+                    <div class="left goods_flList_r stycate">
+                        <foreach name="bizs" item="item">
+                            <eq name="item.area_id" value="$area_id">
+                            <a title="<{$item.business_name}>"  class="<eq name='item.business_id' value='$business_id'> on</eq> goods_flListA"  href="<{:LinkTo('live/index',$linkArr,array('area'=>$area_id,'business'=>$item['business_id']))}>"  ><{$item.business_name}></a>
+                            </eq>
+                        </foreach>
+                    </div>    
+                </if>
+                </li>
+            </ul>
+        </div>
+        <div class="nearbuy_sxk">
+            <ul>
+                <li class="nearbuy_sxkLi <eq name='order' value='d'>on</eq> "><a class="nearbuy_sxkLiA" href="<{:LinkTo('live/index',$linkArr,array('order'=>'d'))}>">默认</a></li>
+                <li class="nearbuy_sxkLi <eq name='order' value='x'>on</eq> "><a class="nearbuy_sxkLiA" href="<{:LinkTo('live/index',$linkArr,array('order'=>'x'))}>">信誉排序<em class="em_up"></em></a></li>
+                <li class="nearbuy_sxkLi <eq name='order' value='t'>on</eq> "><a class="nearbuy_sxkLiA" href="<{:LinkTo('live/index',$linkArr,array('order'=>'t'))}>">时间排序<em class="em_up"></em></a></li>
+                <li class="nearbuy_sxkLi <eq name='order' value='h'>on</eq> "><a class="nearbuy_sxkLiA" href="<{:LinkTo('live/index',$linkArr,array('order'=>'h'))}>">人气排序<em class="em_up"></em></a></li>
+            </ul>
+        </div>
+        <script type="text/javascript" src="__TMPL__statics/js/jquery.qrcode.min.js"></script><!--二维码-->
+        <div class="nearbuy_cpList1">
+            <ul style="width:110%">
+                <foreach name="list" item="item">
+                    <li class="nearbuy_cpLi2">
+                        <div class="sy_sjcpLi nearbuy_cpLik">
+                            <a href="<{:U('live/view',array('live_id'=>$item['live_id']))}>"><img src="<{:config_img($item['photo'])}>" width="274" height="274" /></a>
+                            <a href="<{:U('live/view',array('live_id'=>$item['live_id']))}>" class="zhibo" title="点击播放"></a>
+                            <p class="sy_hottjbt"><{$item.name}></p>
+                            <p class="sy_hottjp" style="float:left">人数：<{$item.view}></p>
+                            <p class="sy_hottjp" style="float:right">评份：<{$item.score}></p>
+                        </div>
+                    </li>
+              </foreach>
+
+            </ul>
+        </div>
+        <div class="x">
+            <{$page}>
+        </div>
+    </div>
+</div>
+
+<include file="public:footer"/>
+
+
+
+
+

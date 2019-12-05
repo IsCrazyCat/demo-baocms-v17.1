@@ -1,0 +1,35 @@
+<volist name="list" id="item" key="index">
+	<a class="item query_order"  href="javascript:;"  rel="<{:U('hotels/order',array('room_id'=>$item['room_id']))}>">	
+		<img class="pic" src="<{:config_img($item['photo'])}>" />	
+		<div class="des">	
+			<h5><{:msubstr($item['title'],0,16,'utf-8',false)}> <span class="fu">立即预订</span></h5>	
+			<p class="addr"> 房间价格：&yen; <{$item.price}>元</p>
+            <p class="addr"> <if condition="$item.is_zc eq 1">提供早餐<else/>无早餐</if></p>
+            <p class="addr"> 还剩<{$item.sku}>间</p>
+		</div>	
+	</a>
+</volist>
+
+
+    <script>
+        $(document).ready(function(){
+            $(".query_order").click(function(){
+                var ft = $("#ft").val();
+                var tt = $("#tt").val();
+                var url = $(this).attr('rel');
+                SetCookie('into_time',ft);
+                SetCookie('out_time',tt);
+                setTimeout(function () {
+                      window.location.href = url;
+                }, 1000);
+            })
+            
+        })
+        function SetCookie(name, value){
+           var Days = 30; 
+           var exp = new Date();
+           exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+           document.cookie = name + "=" + value + ";expires=" + exp.toGMTString() +";path=/";
+       }
+    </script>
+    

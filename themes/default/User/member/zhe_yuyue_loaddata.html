@@ -1,0 +1,43 @@
+<foreach name="list" item="item">
+<li class="line ">
+        <dt>
+            <a class="x4">订单编号：<{$item.yuyue_id}></a>
+            <a class="x8 text-right" href="<{:U('wap/zhe/detail',array('zhe_id'=>$item['zhe_id']))}>">  
+               <{$item.zhe.zhe_name}> <span class=" iconfont icon-angle-right"></span> 
+            </a>
+        </dt>
+  <dd class="zhong">
+        <div class="x3">
+            <a href="<{:U('wap/zhe/detail',array('zhe_id'=>$item['zhe_id']))}>">
+            	<img src="<{:config_img($item['zhe']['photo'])}>" width="70" height="70" style="width:90%;">
+            </a>
+        </div>
+        <div class="x9">
+            <p><{$item.zhe.zhe_name}></p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">预约时间：<{$item.create_time|date='Y-m-d H:i:s',###}></span>
+			</p>
+            <p class="text-small">
+                <span class="text-gray margin-right">限制人数：<{$item.zhe.person}></span>
+                <span class="text-dot margin-right">限制金额：&yen;<{$item.zhe.limit}>元</span>
+            </p>
+            <p class="text-small"></p>
+      </div>
+    </dd>
+      <dl>
+      <p class="text-right padding-top">
+          <a class="button button-little bg-dot"  href="<{:U('member/zhe_yuyue_detail',array('yuyue_id'=>$item['yuyue_id']))}>">查看详情</a>
+          <if condition="$item['is_used'] eq 0">
+             <a class="button button-little bg-gray" >未消费</a>
+             <a class="button button-little bg-yellow"  href="<{:U('member/zhe_yuyue_qrcode',array('yuyue_id'=>$item['yuyue_id']))}>">二维码</a>
+          <elseif condition="$item['is_used'] eq 1" />
+             <a class="button button-little bg-blue" >已消费</a>
+          <elseif condition="$item['is_used'] eq -1" />
+          	 <a class="button button-little bg-blue" >已过期</a>
+          </if>
+       </p>     
+      </dl>
+    </li>
+	<div class="blank-10 bg"></div>
+</foreach>
+

@@ -1,0 +1,19 @@
+    <foreach name="goods" item="item">
+	<li class="x12">
+		<a class="line" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>" >
+			<div class="container">
+				<img class="x3" src="<{:config_img($item['photo'])}>" />	
+				<div class="des x9">
+					<h5><{$item.title}></h5>
+					<p class="intro">
+						<{:tu_msubstr($item['intro'],0,32)}>
+					</p>
+					<p class="info">
+						<span>售价：￥<em><{:round($item['mall_price']/100,2)}></em></span> <del>原价：￥<{:round($item['price']/100,2)}></del>
+						<span class="text-little float-right badge bg-gray margin-small-top">已售：<{$item.sold_num}></span>
+					</p>
+				</div>
+			</div>
+		</a>
+	</li>
+	</foreach>

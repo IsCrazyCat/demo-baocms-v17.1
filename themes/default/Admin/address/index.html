@@ -1,0 +1,92 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">收货地址</li>
+        <li class="li2 li3">商城收货地址</li>
+    </ul>
+</div>
+
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span> 这里是能删除会员收货地址，不能编辑！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('address/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                    <div class="seleK">
+                           <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                        <span>关键字</span>
+                        <input type="text" placeholder=" 姓名、电话、地址" name="keyword" value="<{$keyword}>" class="inptText" />
+                        <input type="submit" value="   搜索"  class="inptButton" />
+                    </div> 
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                    </div>
+                </div>
+                <div class="right">
+                </div>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="id" /></td>
+                    <td class="w50">ID</td>
+                    <td>用户昵称</td>
+                    <td>姓名</td>
+                    <td>电话</td>
+                    <td>详细地址</td>
+                    <td>是否默认</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_id" type="checkbox" name="id[]" value="<{$var.id}>" /></td>
+                        <td><{$var.id}></td>
+                        <td><{$var.user.nickname}>(<{$var.user_id}>)</td>
+                        <td><{$var.xm}></td>
+                        <td><{$var.tel}></td>
+                        <td><{$var.area_str}><{$var.info}></td>
+                       <td><eq name="var.default" value="1">是<else/>否</eq></td>
+                        <td>
+                            <{:BA('address/delete',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

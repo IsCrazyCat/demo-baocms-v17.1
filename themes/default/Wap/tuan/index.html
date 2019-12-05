@@ -1,0 +1,283 @@
+<include file="public:header"/>
+<php>
+    $areas = D('Area')->where(array('city_id'=>$city_id))->select();
+    $Area = D('Area')->find($area);
+</php>
+<style>
+.line li {padding: 0px !important;}
+.cate-wrap{font-size:0;background-color:#fff;border-bottom:1px solid #f3f3f3;width:100%;overflow:hidden;}
+.cate-wrap li{box-sizing:border-box;width:20%;float:left}
+.icon2{color:#555;font-size:16px;text-align:center;display:block;padding:.6rem 0}
+.cate-img{background-size:6rem auto;display:inline-block}
+.cate-img img{width:2.6rem;height:2.6rem}
+.cate-desc{display:block}
+.cate-desc{padding-top:.4rem}
+.main-tuan li img { max-height:60px;max-width:80px;}
+</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		
+        <if condition="empty($keyword)">
+			<div class="top-title">
+            <if condition="empty($shop_id)">
+            	<{:tu_msubstr($city_name,0,4,false)}>在线抢购</div>
+            <else/>
+            <php>
+            	$shop = D('Shop')->find($shop_id);
+            </php>
+            	<{:tu_msubstr($shop['shop_name'],0,12,false)}>抢购商品</div>
+            </if>
+					
+        </if>
+		<div class="top-search" style="<if condition="empty($keyword)">display:none;</if>">
+			<form method="post" action="<{:U('tuan/index')}>">
+				<input name="keyword" placeholder="<{$keyword|default='输入团购的关键字'}>"  />
+				<button type="submit" class="iconfont icon-search"></button> 
+			</form>
+		</div>
+        <if condition="empty($keyword)">
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+		</div>
+        </if>
+	</header>
+    
+ 
+    
+    
+    
+    <if condition="empty($cat) && empty($area) && empty($order) && empty($keyword) && empty($shop_id)">
+    	<div id="tudou-slide" class="tudou-slide">
+			<div class="hd"><ul></ul></div>
+			<!--下面的limit="0,2"是幻灯的个数，2代表2张图，以此类推，site_id=57是你广告位的ID-->
+			<div class="bd">
+				<ul>
+					<calldata mdl="Ad" where=" closed=0 AND site_id=68 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+						<li>
+							<a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a>
+						</li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+	
+        <script>
+		TouchSlide({
+			slideCell: "#tudou-slide",
+			titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+			mainCell: ".bd ul",
+			effect: "left",
+			autoPlay: true, //自动播放
+			autoPage: true, //自动分页
+			switchLoad: "_src", //切换加载，真实图片路径为"_src", 
+		});
+		</script>
+     </if> 
+       
+    
+    <if condition="empty($cat) && empty($area) && empty($order) && empty($keyword) && empty($shop_id)">
+    	<ul class="cate-wrap bbOnepx">
+            <php>$a = 0;</php>
+            <volist name="tuancates" id="item">
+                <eq name="item.parent_id" value="0">
+                    <php>$a++;</php>    
+                    <if condition="$a lt 11"> 
+                        <li>
+                            <a class="icon2" href="<{:U('tuan/index',array('cat'=>$item['cate_id']))}>" tongji_tag="m_home_job_new">
+                                <span class="cate-img" id="job"><img src="<{:config_img($item['photo'])}>" /></span>
+                                <span class="cate-desc"><{:tu_msubstr($item['cate_name'],0,4,false)}></span>
+                            </a>
+                        </li>
+                    </if>
+                </eq>
+            </volist>
+        </ul>
+    </if>
+    
+    <if condition="!empty($cat)">
+    	<ul class="cate-wrap bbOnepx">
+            <php>$a = 0;</php>
+            <volist name="tuancates" id="item">
+                <eq name="item.parent_id" value="$cat">
+                    <php>$a++;</php>    
+                    <if condition="$a lt 11"> 
+                        <li>
+                            <a class="icon2" href="<{:U('tuan/index',array('cat'=>$item['cate_id']))}>" tongji_tag="m_home_job_new">
+                                <span class="cate-img" id="job"><img src="<{:config_img($item['photo'])}>" /></span>
+                                <span class="cate-desc"><{:tu_msubstr($item['cate_name'],0,4,false)}></span>
+                            </a>
+                        </li>
+                    </if>
+                </eq>
+            </volist>
+        </ul>
+    </if>
+     
+    
+  <div id="filter2" class="filter2">
+    <ul class="tab clearfix">
+      <li class="item">
+        <a href="javascript:void(0);">
+        <if condition="!empty($cat)">
+        <span id="str_b_node" style="color:#f60"> <{$tuancates[$cat]['cate_name']}></span>
+        <else/>
+        <span id="str_b_node">选择分类</span>
+        </if>
+        
+        <em></em>
+        </a>
+      </li>
+       <li class="item">
+        <a href="javascript:void(0);">
+        
+                <if condition="!empty($area)">
+               		<span id="str_b_node" style="color:#f60;"><{$Area['area_name']}></span>
+                <else/>
+                	<span id="str_d_node">选择地区</span>
+                </if>
+        <em></em>
+        </a>
+      </li>
+      <li class="item">
+        <a href="javascript:void(0);">
+        <if condition="empty($order)">
+        <span id="str_e_node">选择排序</span>
+        <elseif condition="$order eq 1"/>
+        <span id="str_b_node" style="color:#f60;">销量排序</span>
+        <elseif condition="$order eq 2"/>
+        <span id="str_b_node" style="color:#f60;">推荐排序</span>
+        <elseif condition="$order eq 3"/>
+        <span id="str_b_node" style="color:#f60;">距离排序</span>
+        </if>
+        <em></em>
+        </a>
+      </li>
+    </ul>
+    
+    <div class="inner" style=" display:none">
+      <ul>
+        <li class="item">
+        <a class="rights" href="<{:U('tuan/index')}>">全部分类</a>
+        </li>
+       <foreach name="tuancates" item="var">
+       
+           
+          <if condition="$var.parent_id eq 0">         
+            <li id="cat_<{$var['cate_id']}>"><a class="rights hasUlLink" title="<{$var.cate_name}>" href="javascript:void(0);>"><{$var.cate_name}></a>
+             
+               <ul id="items0">  
+                <foreach name="tuancates" item="product">
+                   <if condition="$product.parent_id eq $var['cate_id']"> 
+                       <li><a title="<{$product.cate_name}>" href="<{:LinkTo('tuan/index',array('cat'=>$product['cate_id']))}>"> <{$product.cate_name}></a>
+                            
+                   </if>
+                </foreach>
+               </ul>
+                       
+             </li>
+          
+          </if>     
+        </foreach>
+       
+      </ul><!--1级end-->
+    
+    </div>
+    
+      
+     <div class="inner" style=" display:none">
+        <ul>
+         <li class="<if condition="empty($area_id)">style="color:red;"</if> "><a href="<{:U('tuan/index',array('cat'=>$cat,'area'=>0,'order'=>$order))}>" >全部地区</a></li>
+				<foreach name="areas" item="var">
+                <php>if($var['city_id'] == $city_id){</php>    
+				<li><a <if condition="$area eq $var['area_id']"> style="color:red;"</if>  href="<{:U('tuan/index',array('cat'=>$cat,'area'=>$var['area_id'],'order'=>$order))}>"><{$var.area_name}></a></li>
+                <php>}</php> 
+				</foreach>
+            </ul>
+    </div>
+    
+    
+    
+    
+    <div class="inner" style="display:none;">
+              <ul>
+              <li><a <if condition="empty($order)"> style="color:red;"</if> href="<{:LinkTo('tuan/index',array('cat'=>$cat,'area'=>$area_id,'business'=>$business_id,'order'=>0))}>">默认排序</a></li>
+                <li><a <if condition="$order eq 1"> style="color:red;"</if> href="<{:LinkTo('tuan/index',array('cat'=>$cat,'area'=>$area_id,'business'=>$business_id,'order'=>1))}>">销量优先</a></li>
+                <li><a <if condition="$order eq 2">style="color:red;"</if> href="<{:LinkTo('tuan/index',array('cat'=>$cat,'area'=>$area_id,'business'=>$business_id,'order'=>2))}>">推荐排序</a></li>
+                 <li <if condition="$order eq 3">style="color:red;"</if>><a href="<{:LinkTo('tuan/index',array('cat'=>$cat,'area'=>$area_id,'business'=>$business_id,'order'=>3))}>">距离优先</a></li>
+            </ul>
+      </div>
+      
+      <div id="parent_container" class="inner_parent" style="display:none;">
+        <div class="innercontent"></div>
+      </div>
+      <div id="inner_container" class="inner_child" style="display:none;">
+        <div class="innercontent"></div>
+      </div>
+    
+</div>
+<!--end-->    
+
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;">
+<i class="pull2"></i>
+</div>
+<style>.container {margin-top: 0rem;}</style>
+
+
+
+		
+	<script type="text/javascript">
+	$(function(){
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+		$("#search-bar li").each(function(e){
+			$(this).click(function(){
+				if($(this).hasClass("on")){
+					$(this).parent().find("li").removeClass("on");
+					$(this).removeClass("on");
+					$(".serch-bar-mask").hide();
+				}
+				else{
+					$(this).parent().find("li").removeClass("on");
+					$(this).addClass("on");
+					$(".serch-bar-mask").show();
+				}
+				$(".serch-bar-mask .serch-bar-mask-list").each(function(i){
+					
+					if(e==i){
+						$(this).parent().find(".serch-bar-mask-list").hide();
+						$(this).show();
+					}
+					else{
+						$(this).hide();
+					}
+					$(this).find("li").click(function(){
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+					});
+				});
+			});
+		});
+	});
+	</script>	
+    
+     
+        
+        
+    <div class="tuan-list" id="tuan-list"></div>
+	<script>
+		$(document).ready(function () {
+			showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+			loaddata('<{$nextpage}>', $("#tuan-list"), true);
+		});
+	</script>
+<include  file='public:footer'/>    

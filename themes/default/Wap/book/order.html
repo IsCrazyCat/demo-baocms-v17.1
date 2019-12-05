@@ -1,0 +1,236 @@
+<include file='public:headnear'/> 
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/wap/other/webuploader.js"></script>  
+<link href="/static/default/wap/DateTime/DateTimePicker.css" rel="stylesheet" />
+<script src="/static/default/wap/DateTime/DateTimePicker.js"></script> 
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('book/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$cates.cate_name}>预约订单
+		</div>
+	</header>
+
+
+
+<style>
+input[readonly]{background: #FFF;}
+.Upload-img .list-img {height: 4rem;}
+.Upload-img .jq_photo_more span.resporse_photo, .Upload-img .moreToUpload_img{margin:0 5px 5px 0; float:left; z-index:3;}
+.Upload-img .jq_photo_more span.resporse_photo img, .Upload-img .jq_uploads_img img{width:100%;margin-bottom:3px;}
+.Upload-img .jq_photo_more span.resporse_photo a.resporse_a, .Upload-img .jq_uploads_img .moreToUpload_img a{ font-size:12px; color:#FFF;margin-right: 0px;bottom:0;width:45px;height:20px;line-height:20px;text-align:center;background: #06c1ae;padding: 0 10px;}
+#login-input input.mapinputs{ width:48%; float:left; margin-right:5px;}
+#login-input input.mapinputs2{ width:100%; float:left; margin:10px 0px;}
+</style>
+
+<form class="fabu-form" method="post"  target="x-frame" action="<{:U('book/pay',array('cate_id'=>$detail['cate_id']))}>">
+	<div class="blank-10"></div>
+	<div class="Upload-img-box">
+		<div id="moreToUpload">
+			上传图片
+		</div>
+        <div class="blank-10"></div>
+		<div class="Upload-img">
+			<div class="list-img loading_photo" style="display:none;"></div>
+			<div class="list-img jq_photo_photo" style="display:none;"></div>
+			<div class="jq_photo_more"></div>
+			<div class="jq_uploads_img">
+				<foreach  name="thumb" item="item">
+				<div class="moreToUpload_img x3">
+					<img src="<{:config_img($item)}>">
+					<a href="javascript:void(0);">取消</a>
+					<input type="hidden" name="thumb[]" value="<{$item}>" />  
+				</div>
+				</foreach>
+			</div>
+		</div>
+	</div>
+	<script>
+    	var width_book = '<{:thumbSize($CONFIG[attachs][book][thumb],0)}>';                     
+		var height_book = '<{:thumbSize($CONFIG[attachs][book][thumb],1)}>'; 
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>"book"))}>',                             
+			pick: '#moreToUpload',
+			fileNumberLimit:10,                    
+			resize: true,    
+			accept: {
+				title: 'Images',
+				extensions: 'gif,jpg,jpeg,png',
+				mimeTypes: 'image/*'
+			}, 
+			compress:{width:width_book,height:height_book,quality:80,allowMagnify: false,crop: true}     
+        });
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loading_photo").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_tuan_pic,
+                    quality:60
+                });
+            }
+        });
+        uploader.on('uploadSuccess', function( file,resporse) {
+            $(".loading_photo").hide();
+			var str = '<span class="resporse_photo x3"><img src="' + resporse.url + '">  <input type="hidden" name="photos[]" value="' + resporse.url + '" /><a class="resporse_a" href="javascript:void(0);">取消</a> </span>';     
+            $(".jq_photo_more").append(str);  
+        });
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+        $(document).ready(function () {
+            $(document).on("click", ".jq_uploads_img a", function () {
+                $(this).parent().remove();
+            });
+			$(document).on("click", ".jq_photo_more a", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+	<!--缩略图结束-->
+
+
+<div class="blank-10 bg border-top"></div>
+
+
+<div class="row">
+	<div class="line">
+		<span class="x3">选择类型</span>
+		<span class="x9">
+			<select name="data[attr_id]" id="attr_id" class="text-select" onchange="getAttrPrice();">
+				<option value="0" selected="selected">选择服务类型</option>
+				<foreach name="attrs" item="var">
+					<option value="<{$var.attr_id}>"><{$var.attr_name}></option>
+                </foreach>
+			</select>
+		</span>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="line">
+		<span class="x3">选择日期</span>
+		<span class="x9">
+        <input type="text" class="text-input"  id="gotime" name="data[gotime]"   placeholder="点击选择时间"  data-field="datetime" readonly>
+		</span>
+	</div>
+</div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">预约姓名</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[name]" value="<if condition="$MEMBER.nickname neq null"><{$MEMBER.nickname}></if>" />
+		</span>
+	</div>
+</div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">预约电话</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[mobile]" value="<if condition="$MEMBER.mobile neq null"><{$MEMBER.mobile}></if>" />
+		</span>
+	</div>
+</div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">预约地址</span>
+		<span class="x9">
+			<a id="local-addr"></a>
+		</span>
+	</div>
+</div>
+
+
+  <!--商家地图开始-->
+   	<style>
+		.panel-list li em {float:inherit; margin-left:5px;}
+		#data_address_val{ border:none; padding:10px;idth: 100%; margin-left:5px;}
+	</style>
+      <div class="blank-10 bg"></div>
+        <input id="data_addr" type="hidden" name="data[addr]" value="<{$detail.addr|default=''}>" />
+        <input id="data_lng" type="hidden" name="data[lng]" value="<{$detail.lng|default=''}>" />
+        <input id="data_lat" type="hidden" name="data[lat]" value="<{$detail.lat|default=''}>" />
+        <div class="panel-list">
+            <ul>
+              <li>
+                 <a title="选择坐标" rel="<{:U('wap/api/maps',array('lat'=>$lat,'lng'=>$lng))}>" onclick="showWindow('90%','90%',this.rel,this.title)">
+                 详细地址：<em id="data_address" class="text-dot">点击选择</em><i class="iconfont icon-angle-right"></i>
+                 </a>
+               </li>
+            </ul>
+        </div>
+        <div class="blank-10 bg"></div>    
+    <!--商家地图结束-->
+
+
+
+<div class="blank-10 bg"></div>
+<div class="line">
+	<div class="blank-10"></div>
+	<div class="container">
+		<textarea rows="2" name="data[introduce]" class="text-area" placeholder="请输入详细说明，30字以内"></textarea>
+	</div>
+</div>
+<div class="blank-10 bg"></div>
+
+	<ul id="pay-method" class="pay-method">
+			<foreach name="payment" item="var">
+			<li data-rel="<{$var.code}>" class="media media-x payment">
+				<a class="float-left"  href="javascript:;">
+					<img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+				</a>
+				<div class="media-body">
+					<div class="line">
+						<div class="x10">
+						<{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+						</div>
+						<div class="x2">
+							<span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+						</div>
+					</div>
+				</div>
+			</li>
+			</foreach>
+	</ul>
+   <input id="code" type="hidden" name="data[code]" value="" />
+
+<script type="text/javascript">
+	function getAttrPrice(){
+		var attr_id = $("#attr_id").val();
+		var cate_id = "<{$detail['cate_id']}>";
+		var url = "<{:U('book/getAttrPrice')}>";
+		$.post(url,{cate_id:cate_id,attr_id:attr_id},function(result){										
+			if(result.status == 'success'){
+				$("#getAttrPrice").html(result.msg);
+				$('.button-big').addClass("bg-dot");
+			}else{
+				layer.msg(result.msg,{icon:2});
+				$('.button-big').removeClass("bg-dot");
+				
+			}														
+		},'json');
+	}   
+ </script>              
+                
+
+
+
+<div class="blank-30 bg"></div>
+	<footer class="foot-fixed">
+    	<div class="container">
+            <div class="blank-10"></div>
+            	<button type="submit" id="button-big" class="button button-block button-big bg-gray"><span id="getAttrPrice"></span>确认下单</button>
+            <div class="blank-10"></div>
+        </div>
+    </footer>
+ </form>   
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+    
+

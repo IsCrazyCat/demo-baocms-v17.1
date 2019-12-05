@@ -1,0 +1,61 @@
+ <foreach name="list" item="item">   
+<li class="line ">
+      <dt><a class="x4">拼车ID：<{$item.pinche_id}></a><a class="x8 text-right">发布日期：<{$item.create_time|date='Y-m-d H:i',###}></a></dt>
+        
+      <dd class="zhong">
+      
+      <if condition="$item['photo']">
+            <div class="x3">
+                <a href="<{:U('wap/pinche/detail',array('pinche_id'=>$item['pinche_id']))}>">
+                    <img src="<{:config_img($item['photo'])}>"  style="width:80%;">
+                </a>
+            </div>
+       </if>
+       
+      <div class="<if condition="$item['photo']">x9<else/>x12</if>">
+            <p class="text-small"> 类型：
+                <if condition="$item['cate_id'] eq 1">
+                <a class="text-red">车找人</a>
+                <elseif condition="$item['cate_id'] eq 2"/>
+                <a class="text-red">人找车</a>
+                <elseif condition="$item['cate_id'] eq 3"/>
+                <a class="text-red">车找货</a>
+                <elseif condition="$item['cate_id'] eq 4"/>
+                <a class="text-red">货找车</a>
+                </if>
+                <if condition="$item['cate_id'] eq 1">
+                【<{$item['num_1']}>空位】
+                <elseif condition="$item['cate_id'] eq 2"/>
+                【<{$item['num_2']}>位置】
+                <elseif condition="$item['cate_id'] eq 3"/>
+                【<{$item['num_3']}>可装吨数】
+                <elseif condition="$item['cate_id'] eq 4"/>
+                【<{$item['num_4']}>吨数】
+                </if>
+            </p>
+            <php>
+                $start_time = strtotime($item['start_time']);
+            </php>
+            <p class="text-small">出发时间：（<{:pincheTime($start_time)}>/<{$item['start_time_more']}>）</p>
+            <p class="text-small">出发地-目的地：<{$item['goplace']}> -<{$item['toplace']}> 
+                <if condition="!empty($item['middleplace'])">-途经（<{$item['middleplace']}>）</if>
+            </p>
+            <p class="text-small text-dot">电话：<{$item['mobile']}></p>
+            <if condition="!empty($item['details'])">
+            	<p class="text-small text-gray">备注：<{$item['details']}></p>
+            </if>
+      </div>
+      </dd>
+       
+      <dl>
+         <p class="padding-top x12 text-right"> 
+             <a class="button button-small bg-blue"  href="<{:u('pinche/edit',array('pinche_id'=>$item['pinche_id']))}>">编辑</a>
+             <a class="button button-small bg-gray" target="x-frame" href="<{:U('pinche/delete',array('pinche_id'=>$item['pinche_id']))}>">删除</a>
+         </eq>
+        
+       </p>
+      </dl>
+    </li>
+ 
+    <div class="blank-10 bg"></div>
+   </foreach> 

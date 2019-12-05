@@ -1,0 +1,89 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家设置</a> > <a href="">模板管理</a> > <a>选择模板</a></li>
+    </ul>
+
+</div>
+
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('branch/create')}>">添加分店+</a></div>
+        </div>
+    </div>
+    <include  file='shop:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>模板ID</td>
+            <td>模板名称</td>
+            <td>模板类型</td>
+            <td>模板图标</td>
+            <td>模板说明</td>
+            <td>购买价格</td>
+            <td>操作</td>
+        </tr>
+        
+         <tr style="background-color:#EEE;">
+            <td colspan="7">手机版配置</td>
+        </tr>
+        
+        
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.template_id}></td>
+                <td><{$var.name}></td>
+                <td>手机模板</td>
+                <td><img class="w80" src="__ROOT__/themes/<{$var.theme}>/<{$var.photo}>"/></td>
+                <td><{$var.intro}></td>
+                <td> &yen; <{:round($var['price']/100,2)}>元</td>
+                <td>
+                    <if condition="$var['state'] eq 1">
+                        <if condition="$SHOP['wap_template_id'] eq $var['template_id']">
+                            <a class="radius3 sjgl_an tuan_topbt">当前默认模板</a>
+                        <else/>
+                        	<a mini="confirm"  href="<{:U('shop/template_default',array('template_id'=>$var['template_id']))}>" class="radius3 sjgl_an tuan_topbt">选此手机模板</a>
+                        </if>
+                    </if>
+                  
+                	<if condition="$var['state'] eq 0">
+                    	<a mini="confirm"  href="<{:U('shop/pay_template',array('template_id'=>$var['template_id'],'shop_id'=>$SHOP['shop_id']))}>" class="radius3 sjgl_an tuan_topbt">购买手机模板</a>
+                    </if>
+                </td>
+            </tr>
+        </foreach>
+        
+        <tr style="background-color:#EEE;">
+            <td colspan="7">下面是电脑模板</td>
+        </tr>
+        
+        
+        
+        <foreach name="list2" item="item">
+            <tr>
+                <td><{$item.template_id}></td>
+                <td><{$item.name}></td>
+                <td>电脑模板</td>
+                <td><img class="w80" src="__ROOT__/themes/<{$item.theme}>/<{$item.photo}>"/></td>
+                <td><{$item.intro}></td>
+                <td> &yen; <{:round($item['price']/100,2)}>元</td>
+                <td>
+                	<if condition="$item['state'] eq 1">
+                        <if condition="$SHOP['pc_template_id'] eq $item['template_id']">
+                            <a class="radius3 sjgl_an tuan_topbt">当前默认模板</a>
+                        <else/>
+                        	<a mini="confirm"  href="<{:U('shop/template_default',array('template_id'=>$item['template_id']))}>" class="radius3 sjgl_an tuan_topbt">选此电脑模板</a>
+                        </if>
+                    </if>
+                    
+                	<if condition="$item['state'] eq 0">
+                    	<a mini="confirm"  href="<{:U('shop/pay_template',array('template_id'=>$item['template_id'],'shop_id'=>$SHOP['shop_id']))}>" class="radius3 sjgl_an tuan_topbt">购买电脑模板</a>
+                    </if>
+                </td>
+            </tr>
+        </foreach>
+        
+        
+    </table>
+</div>
+<include  file='public:footer'/>

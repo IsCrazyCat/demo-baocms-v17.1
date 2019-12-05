@@ -1,0 +1,37 @@
+<include file="public:header"/>
+<style>
+.list-media-x { margin-top: 2.2rem;}
+ul{padding-left: 0px;}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('member/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			我的KTV
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+	<li class="x2"><a href="<{:LinkTo('ktv/index',array('status'=>0))}>" <eq name='status' value='0'>class="on"</eq>>未付款</a></li>
+	<li class="x2"><a href="<{:LinkTo('ktv/index',array('status'=>1))}>" <eq name='status' value='1'>class="on"</eq>>已付款</a></li>
+    <li class="x2"><a href="<{:LinkTo('ktv/index',array('status'=>3))}>" <eq name='status' value='3'>class="on"</eq>>退款中</a></li>
+    <li class="x2"><a href="<{:LinkTo('ktv/index',array('status'=>4))}>" <eq name='status' value='4'>class="on"</eq>>已退款</a></li>
+    <li class="x2"><a href="<{:LinkTo('ktv/index',array('status'=>8))}>" <eq name='status' value='8'>class="on"</eq>>已完成</a></li>
+    <li class="x2"><a href="<{:LinkTo('ktv/check')}>">验证</a></li>
+</ul>
+    
+
+<div class="list-media-x" id="list-media">
+<div class="blank-10 bg"></div>
+	<ul></ul>
+</div>	
+<script>
+    $(document).ready(function () {
+        loaddata('<{:U("ktv/loaddata/",array("status"=>$status,"p"=>"0000"))}>', $("#list-media ul"), true);
+    });
+</script>
+<include  file='public:footer'/>

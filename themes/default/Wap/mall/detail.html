@@ -1,0 +1,739 @@
+<php>$mobile_title = $detail['title'];</php>
+<include file='public:header'/>   
+ <script src="/static/default/wap/js/global.js"></script>    
+<style>
+.top-fixed .top-title span{padding:0 10px}
+.top-fixed .top-title span.on{border-bottom:2px solid #FFF}
+.cartadd_num{font-size:12px}
+.navContent{display:block}
+.ui-sx{width:100%;overflow:hidden}
+.subNavBox{overflow:hidden;margin-left:10px;padding-bottom:0;margin-right:10px}
+.subNav{background-size:auto 13px}
+.subNav.on{background-size:auto 14px}
+.subNav strong{display:block;width:100%;height:40px;border-bottom:1px solid #eee;color:#666;font-weight:400;font-size:16px;line-height:40px}
+.currentDt{background-size:auto 13px}
+.navContent li{overflow:hidden;width:100%}
+.navContent li .title{width:100%;font-size:16px;line-height:30px;color:#666;margin-top:5px}
+.navContent li .item{overflow:hidden;border-bottom:1px solid #eee;padding-bottom:5px}
+.navContent li .item a{padding-left:10px;padding-right:10px;border:1px solid #CCC;line-height:30px;display:inline-block;-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;margin-right:5px;margin-bottom:10px}
+.navContent li .item a.hover{background:red;color:#FFF;border:1px solid red;-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px}
+.navContent li .purchase{font-size:14px;line-height:25px;color:#666}
+.navContent li .purchase_v{font-size:16px;line-height:25px;color:#dd2724;font-weight:700}
+.navContent li h2{font-size:18px;line-height:30px;color:#333;font-weight:400}
+.navContent li p{width:95%;overflow:hidden;height:25px;line-height:25px;margin:auto}
+.navContent li .key{display:block;float:left;width:30%;font-size:14px;color:#666;text-align:right}
+.navContent li .p-price-v{display:block;width:70%;float:left;font-size:16px;color:#dd2724}
+.navContent li .title1{width:100%;font-size:16px;height:20px;line-height:20px;color:#666;padding-top:10px}
+.navContent li .item1{width:100%;height:50px;overflow:hidden;padding-bottom:5px}
+.navContent li .item1 a{padding-left:10px;padding-right:10px;border:1px solid #CCC;line-height:30px;display:inline-block;-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;margin-right:5px;margin-bottom:10px}
+.navContent li .item1 a.hover{background:red;color:#FFF;border:0;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px}
+.navContent li .item1 .ui-number{border:1px solid #ddd9da;overflow:hidden;height:30px;display:block;width:106px;margin-top:10px}
+.navContent li .item1 .ui-number .decrease{display:inline-block;background:0 0;font-size:24px;line-height:30px;border:0;width:30px;float:left;height:30px;color:#F8849C;border-right:1px solid #ddd9da;text-indent:-9999px;background-size:60px}
+.navContent li .item1 .ui-number .num{display:inline-block;border:0;width:40px;height:30px;float:left;text-align:center;font-size:12px;line-height:30px;color:#666;font-size:20px;text-align:center}
+.navContent li .item1 .ui-number .increase{display:inline-block;background:0 0;border:0;border-left:1px solid #ddd9da;float:right;width:30px;height:30px;font-size:24px;line-height:30px;color:#F8849C;background-size:60px;text-indent:-9999px}
+.row{padding:15px 10px}
+.tuan-detail2{border-top:0 solid #eee}
+.txt-small .txt{border:none}
+.margin-small-top2{margin-top:5px}
+.buy_area .detail_coupons,.detail_baitiao{position:relative;padding:0 30px 0 10px;height:42px;line-height:42px;font-size:0;color:#999;word-break:break-word;overflow:hidden}
+.buy_area .detail_coupons span.num,.detail_baitiao span.num{float:right}
+.buy_area .detail_coupons span,.detail_baitiao span{font-size:12px}
+.buy_area .detail_coupons span.title,.detail_baitiao span.title{margin-right:16px}
+.buy_area .detail_coupons .coupon,.detail_baitiao .coupon{position:relative;display:inline-block;margin-right:5px;padding:0 9px 0 12px;border-top:1px solid #e4393c;border-bottom:1px solid #e4393c;height:18px;line-height:18px;color:#e4393c;font-size:10px}
+.buy_area .detail_coupons .coupon:before,.detail_baitiao .coupon:before{left:0;width:7px}
+.buy_area .detail_coupons .coupon:after,.detail_baitiao .coupon:after{right:0;width:4px;background-position:-11px 0}
+.buy_area .detail_coupons .coupon:after,.buy_area .detail_coupons .coupon:before,.detail_baitiao .coupon:after,.detail_baitiao .coupon:before{content:"";position:absolute;top:-1px;height:18px;background-size:15px 18px;background-repeat:no-repeat}
+/*右侧弹窗*/
+.container{width:0;position:fixed;top:0;right:0;z-index:10000;display:none;overflow-x:hidden;padding:0}
+.container .area-list,.container .city-list,.container .province-list{width:100%;overflow-x:hidden}
+.container .city{overflow-x:hidden;padding:.42667rem;background-color:#fff;margin-top:1.6rem}
+.container .city p{font-size:12px;color:#afafaf;width:95%;height:2.6rem;line-height:2.6rem;border-bottom:1px solid #e8ecf1;cursor:pointer}
+.container .city p.co_current{color:#f23030}
+.screen_wi_loc{display:block;width:100%;position:absolute;top:0;right:0;background-color:#f8f8f8}
+.screen_wi_loc .suce_ok{font-size:12px}
+.classreturn .content .return{position:absolute;left:1rem}
+.screen_wi_loc .content .search{width:12rem;margin-left:3rem}
+.mask-filter-div{display:none;position:fixed;max-width:100%;margin:0 auto;width:100%;left:0;right:0;top:0;bottom:0;z-index:12;background:rgba(0,0,0,.4)}
+
+.layui-layer-page .layui-layer-content .service_weixin_qrcode{ text-align:center}
+/*土豆弹窗*/
+
+
+.tudou-cart-num-mask .filter-spec-img{margin-left:20px;margin-top:20px;}
+.tudou-cart-num-mask .filter-spec-img img{width:3rem;height:3rem;border: 1px solid #c2c2c2;vertical-align: middle;}
+
+
+.tudou-cart-num-mask{ position:fixed;  display:none; z-index:1200; top:0; left:0; width:100%; height:100%; background: rgba(0, 0, 0, 0.6); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF000000,endColorstr=#BF000000);}
+.tudou-cart-num-mask .cont{ position:absolute; bottom:0px; left:0; width:100%; background:#fff;}
+.tudou-cart-num-mask .title1{ overflow:hidden; font-size:14px; color:#333; line-height:2.34rem; padding:0 0.6rem; background:#f7f7f7;}
+.tudou-cart-num-mask .title1 .closs{ font-size:16px;}
+.tudou-cart-num-mask .nr{padding:0.6rem;}
+.tudou-cart-num-int{margin:0.2rem 0;}
+.tudou-cart-num-int .table th {}
+.tudou-cart-num-int ul li{display:block; float:left;}
+.tudou-cart-num-mask .btn_box{ border-top: 0.1rem solid #dedede; padding:0.6rem 0 0; text-align:center;}
+.tudou-cart-num-mask .btn{ display:inline-block; width: 80%; height: 2.1rem; line-height: 2.1rem; background: #2FBDAA; border-radius: 0.34rem; text-align: center; color: #FFF; font-size: 14px;}
+
+</style>
+
+
+<header class="top-fixed bg-yellow bg-inverse detail">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('mall/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title search center">
+		<span class="on">商品</span>
+        <span>详情</span>
+        <span><a href="<{:U('mall/dianping',array('goods_id'=>$detail['goods_id']))}>">评论</a></span>
+	</div>
+    <div class="top-signed">
+		<a id="search-btn" href="<{:U('mall/cart')}>"><i class="iconfont icon-yunzhi2gouwuche"></i><span class="badge bg-red"><{$cartnum}></span></a>
+	</div>
+</header>
+
+
+
+   
+<div class="xq_details"> 
+        <div class="tuan-detail">
+            <div class="line banner">	
+                <div id="focus" class="focus">
+                    <div class="hd">
+                        <ul></ul>
+                    </div>
+                    <div class="bd">
+                        <ul>
+                            <li><a href="javascript:void(0);"><img src="<{:config_img($detail['photo'])}>" /></a></li>
+                            <foreach  name="pics" item="item">
+                            <li><a href="javascript:void(0);"><img src="<{:config_img($item['photo'])}>" /></a></li>
+                            </foreach>
+                        </ul>
+                    </div>
+                </div>
+           </div>
+        </div>      
+               
+        <script type="text/javascript">
+            TouchSlide({ 
+                slideCell:"#focus",
+                titCell:".hd ul", 
+                mainCell:".bd ul", 
+                effect:"left", 
+                autoPlay:true,//自动播放
+                autoPage:true, //自动分页
+                switchLoad:"_src" 
+            });
+        </script>
+
+		<div class="item-detail">
+			<div class="detail-row bb">
+				<div class="item-price">
+                   <h1><{:tu_msubstr($detail['title'],0,24)}></h1>
+					<p class="price" id="goods_price">&yen; <{:round($detail['mall_price']/100,2)}> 
+                        <span class="pre-price-tips">
+                        <php>$zhe = round($detail['mall_price']/$detail['price']*10,1);</php>
+                        <if condition="$zhe neq 10">
+                        	<span class="dt-icon"><{:round($detail['mall_price']/$detail['price']*10,1)}>折</span>
+                        </if>
+                                <if condition="!empty($detail['use_integral'])">
+                                    <span class="dt-icon" style="background-color:#ff9204;">积分抵扣 &yen;<{:getUseIntegral($detail['use_integral'],$type = 'goods',$detail['goods_id'])}></span>
+                                </if>
+                                <if condition="!empty($detail['mobile_fan'])">
+                                    <span class="dt-icon" style="background-color: #F00;">下单立减 &yen;<{:round($detail['mobile_fan']/100,2)}></span>
+                                </if>
+                        </span>
+                    </p>  
+                                    
+                    <div class="x12 price-tip">
+                        <span class="text-gray">原价：<del>&yen; <{:round($detail['price']/100,2)}></del></span>
+                        <span class="text-gray text-small">销量：<{$detail['sold_num']}>笔 </span>
+                    </div>
+                    <if condition="!empty($detail['sold_num']) && !empty($count_goodsfavorites)">
+                        <div class="x12 price-tip">
+                            <if condition="!empty($detail['sold_num'])">
+                                <span class="dt-icon" style="background-color: #F00;">月售：<{$detail['sold_num']}> 笔</span>
+                            </if>
+                            <if condition="!empty($count_goodsfavorites)">
+                                 <span class="dt-icon" style="background-color: #F00;">收藏人数： <{$count_goodsfavorites}> </span>
+                            </if>
+                            <span id="price" class="dt-icon" style="background-color: #F00; display:none"></span>
+                        </div>
+					</if>
+				</div>
+			</div>
+            <if condition="!empty($is_vs)">
+                <div class="detail-row bb">
+                    <div class="item-tips">
+                        <eq name="detail.is_vs1" value="1"><em><span class="text-green"><i class="check-circle"></i></span>认证商家</em></eq>
+                        <eq name="detail.is_vs2" value="1"><em><span class="text-green"><i class="check-circle"></i></span>正品保证</em></eq>
+                        <eq name="detail.is_vs3" value="1"><em><span class="text-green"><i class="check-circle"></i></span>假一赔十</em></eq>
+                        <eq name="detail.is_vs4" value="1"><em><span class="text-green"><i class="check-circle"></i></span>当日送达</em></eq>
+                        <eq name="detail.is_vs6" value="1"><em><span class="text-green"><i class="check-circle"></i></span>货到付款</em></eq>
+                        <eq name="detail.is_vs5" value="1"><em><span class="text-green"><i class="check-circle"></i></span>免运费</em></eq>
+                    </div>
+                </div>
+           </if>
+		</div>
+      
+        
+        <script src="/static/default/wap/js/mobile-location.js"></script>
+        
+        
+        
+        
+                    <script type="text/javascript">
+                        function locationaddress(e){
+                            $('.container').animate({width: '80%', opacity: 'show'}, 'normal',function(){
+                                $('.container').show();
+                            });
+                            if(!$('.container').is(":hidden")){
+                                $('body').css('overflow','hidden')
+                                cover();
+                                $('.mask-filter-div').css('z-index','9999');
+                            }
+                        }
+                        function closelocation(){
+                            var province_div = $('.province-list');
+                            var city_div = $('.city-list');
+                            var area_div = $('.area-list');
+                            if(area_div.is(":hidden") == false){
+                                area_div.hide();
+                                city_div.show();
+                                province_div.hide();
+                                return;
+                            }
+                            if(city_div.is(":hidden") == false){
+                                area_div.hide();
+                                city_div.hide();
+                                province_div.show();
+                                return;
+                            }
+                            if(province_div.is(":hidden") == false){
+                                area_div.hide();
+                                city_div.hide();
+                                $('.container').animate({width: '0', opacity: 'show'}, 'normal',function(){
+                                    $('.container').hide();
+                                });
+                                undercover();
+                                $('.mask-filter-div').css('z-index','inherit');
+                                return;
+                            }
+                        }
+                    </script>
+
+           
+        
+        <div class="tuan-detail2">
+        
+            <if condition="$shop['is_profit']"> 
+               <div class="line status border-bottom">
+                   <div class="x3"><span>我要分销</span></div>
+                   <div class="x9"><span class="float-right">
+                   <a id="www-hatudou-com-url-btn" href="<{:U('seller/create',array('user_id'=>$MEMBER['user_id'],'type_id'=>1,'id'=>$detail['goods_id']))}>">添加到我的小店</a><i class="iconfont icon-angle-right"></i></span></div>
+               </div> 
+            </if>    
+        
+           <div class="line status border-bottom" onclick="locationaddress(this);">
+               <div class="x3"><span>所在地区</span></div>
+               <div class="x9"><span class="float-right"><a id="address"></a><i class="iconfont icon-angle-right"></i></span></div>
+           </div> 
+           
+           <if condition="$filter_spec">
+               <div class="line status border-bottom">
+                   <div class="x3"><span>规格属性</span></div>
+                   <div class="x9"><span class="float-right"><a class="pop-goods-attribute">点击选择规格</a><i class="iconfont icon-angle-right"></i></span></div>
+               </div> 
+           </if>
+       	   <div class="line status border-bottom">
+               <div class="x3"><span>售后服务</span></div>
+               <div class="x9">
+               <span class="float-right"><a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>">【<{$shop['shop_name']}>】进行发货进</a><i class="iconfont icon-angle-right"></i></span></div>
+           </div>
+           <div class="line status border-bottom">
+               <div class="x3"><span>商品详情</span></div>
+               <div class="x9"><span class="float-right"><a class="text-dot seedeadei">查看商品详情</a><i class="iconfont icon-angle-right"></i></span></div>
+           </div> 
+           <div class="line status">
+                <div class="x6"><span class="ui-starbar"><span style="width:<{:round($score*10,2)}>%"></span></span></div>
+                <div class="x6"><span class="float-right"><a href="<{:U('mall/dianping',array('goods_id'=>$detail['goods_id']))}>"><{$pingnum}>人评价了该商品 </a><i class="iconfont icon-angle-right"></i></span></div>
+            </div> 
+       </div>
+       </div>
+ </div> 
+ 
+        
+		<if condition="$goods_attr_list"> 
+            <div class="blank-10 bg"></div>  
+            <div class="item-intro xq_details">
+                <h2>商品属性</h2>
+                <div class="intro-bd">
+                   <foreach name="goods_attr_list" item="v" key="k">
+                        <p><{$goods_attribute[$v[attr_id]]}> : <{$v[attr_value]}></p>
+                   </foreach>
+                </div>
+            </div>
+        </if>     
+		
+		
+  
+         <div class="item-intro xq_details" style="display: none;">
+			<h2>商品详情</h2>
+			<div class="intro-bd"><{$detail['details']}></div>
+		</div>
+        
+        
+<!--如果看了又看不等于空-->
+<if condition="!empty($recom)">
+   <div class="blank-10 bg"></div>
+        <div class="item-list item-intro" id="item-list">
+        <h2>看了又看</h2>
+        <ul>
+            <volist name="recom" id="item" key="index">
+                <li class="line">
+                    <a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>">
+                    <div class="x3">
+                        <img src="<{:config_img($item['photo'])}>" />
+                    </div>
+                    <div class="x9">
+                        <h5><{$item.title}></h5>
+                        <p class="desc"><{:tu_msubstr($item[instructions],0,60)}></p>
+                        <p class="info">
+                            <span>&yen;<{:round($item['mall_price']/100,2)}></span><del>&yen;<{:round($item['price']/100,2)}></del>
+                            <em>已售<{$item.sold_num}></em>
+                         </p>
+                    </div>
+                    </a>
+                </li>
+            </volist>
+        </ul>
+   </div>
+</if>
+        
+        
+<div class="blank-20"></div>  
+     
+           
+<script>
+	$(document).ready(function(){
+		$(document).on('click','#service_weixin_qrcode',function(e){
+				var img = $(this).attr('data');
+				layer.open({
+				  type: 1,
+				  title: false ,
+				  closeBtn: false,
+				  area: '300px;',
+				  shade: 0.8,
+				  id: 'LAY_layuipro',
+				  resize: false,
+				  btn: ['关闭窗口'],
+				  btnAlign: 'c',
+				  moveType: 1 ,
+				  content: '<div class="service_weixin_qrcode"><img src='+img+'><br/><a>添加客服二维码</a></div>',success: function(layero){
+					var btn = layero.find('.layui-layer-btn');
+				  }
+				});
+				
+			});
+            
+        });
+</script>
+
+
+       
+<!--底部footer开始-->  
+<div data-spm="action" class="item-action">
+    <if condition="$shop['service_weixin_qrcode']"> 
+        <div class="active-contact">
+            <a data-spm="dwangwang"  id="service_weixin_qrcode" data = "<{:config_img($shop['service_weixin_qrcode'])}>"> 
+            <span class="iconfont icon-31erweima"></span>客服</a>
+        </div>
+    </if>
+    
+    <div class="<if condition="!empty($goodsfavorites)">toggle-collect-news<else/>toggle-collect</if>" >
+        <a target="x-frame" href="<{:U('mall/favorites',array('goods_id'=>$detail['goods_id']))}>"> 
+        <span class="iconfont icon-shouc01"></span>收藏</a>
+    </div>
+    
+    <div class="go-store">
+        <a data-spm="dstore" href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>">
+        <span class="iconfont icon-shangjia2"></span>店铺</a>
+    </div>
+    
+    
+    <if condition="$filter_spec">
+         <div id="bottom-cart-entrance" class="add-to-cart pop-goods-attribute">加入购物车</div>
+         <if condition="$detail['num'] elt 0"> 
+            <div><a>暂无库存</a></div>
+         <else/>
+            <div class="buy-now"><a href="javascript:" class="pop-goods-attribute">立即购买</a></div>
+         </if>
+    <else/>
+         <div id="bottom-cart-entrance" class="add-to-cart cartadd2">加入购物车</div>
+         <if condition="$detail['num'] elt 0"> 
+         	<div><a>暂无库存</a></div>
+         <else/>
+         	<div class="buy-now"><a href="javascript:" class="buy_now2">立即购买</a></div>
+         </if>
+    </if>
+</div>
+<!--底部footer结束-->  
+
+<!--配送至-s-->
+	    <input type="hidden" id="goods_id" name="goods_id" value="<{$detail.goods_id}>">
+        <div class="container" >
+            <div class="city">
+                <div class="screen_wi_loc">
+                    <div class="classreturn loginsignup">
+                        <div class="content padding-small">
+                            <div class="ds-in-bl return seac_retu">
+                                <a href="javascript:void(0);" onclick="closelocation();"><i class="iconfont icon-angle-left"></i></a>
+                            </div>
+                            <div class="ds-in-bl search center">
+                                <span class="sx_jsxz">配送至</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="province-list"></div>
+                <div class="city-list" style="display:none"></div>
+                <div class="area-list" style="display:none"></div>
+            </div>
+        </div>
+ <!--配送至-e-->
+        
+
+
+
+<!--弹窗属性开始-->  
+ <div class="tudou-cart-num-mask">
+            <div class="cont">
+                <div class="title1"><{:tu_msubstr($detail['title'],0,24)}><a href="javascript:void(0);" class="closs float-right">×</a></div>
+                
+                <div class="filter-spec-img">
+                	<div class="x3">
+                		<img id="zoomimg" src="<{:config_img($detail['photo'])}>">
+                    </div>
+                    <div class="x9">
+                        <span class="txt-small">当前库存：<span id="stock" ><{$detail['num']}></span></span><br>
+                        <span class="txt-small">当前价格：<span id="goods-price" class="text-red"> &yen; <{:round($detail['mall_price']/100,2)}></span></span>
+                    </div>
+                    
+                </div><!---商品图片---->
+                
+                
+                <div class="nr">
+                    <div class="tudou-cart-num-int">
+                        <ul>
+                        <if condition="!empty($filter_spec)">  
+                            <section id="search_ka">
+                            <!---属性---->
+                            <div class="ui-sx bian1"> 
+                            <div class="subNavBox"> 
+                                <ul class="navContent"> 
+                                <foreach item="spec" key="key" name="filter_spec">
+                                <li>   
+                                      <div class="title"><{$key}></div>
+                                      <div class="item">
+                                      <foreach name="spec" item="v2" key="k2">
+                                          <a href="javascript:;" onclick="switch_spec(this);" title="<{$v2[item]}>" <if condition="$k2 eq 0">class="hover"</if>>
+                                            <input type="radio" style="display:none;" name="goods_spec[<{$key}>]" value="<{$v2[item_id]}>" <if condition="$k2 eq 0 ">checked="checked"</if>/>
+                                            <{$v2[item]}>            
+                                          </a>
+                                       </foreach>
+                                      </div>                    
+                                </li>
+                                </foreach>
+                                   </ul>  
+                                </div>
+                                </div>    
+                            </section> 
+                       </if>
+                       <div class="x12 row">
+                            <span class="float-left margin-small-top2">购买数量：<span class="text-small text-gray"></span></span>
+                                <span class="float-right">
+                                    <span class="txt txt-small radius-small bg-dot decrease" onClick="goods_cut();">-</span>
+                                    <span class="txt-border txt-small radius-small border-gray">
+                                        <input type="text" class="txt txt-small radius-small  bg-white num"  id="goods_num" name="goods_num" value="1" min="1" max="1000"/>
+                                    </span>
+                                    <input type="hidden" name="goods_id" value="<{$goods.goods_id}>"/>
+                                    <span class="txt txt-small radius-small bg-dot increase" onClick="goods_add();">+</span>
+                                </span>
+                        </div>
+                        <div class="x12 row text-right">
+                            <a type="button" class="button button-small bg-yellow text-center cartadd2">加入购物车</a>
+                            <a type="button" class="button button-small bg-dot text-center buy_now">立即购买</a>
+                        </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--弹窗属性结束-->          
+        
+<script>
+
+
+ 		//查看商品详情
+        $('.seedeadei').click(function(){
+            $('.xq_details').eq(0).hide();
+            $('.xq_details').eq(1).show();
+            $('body').animate({ scrollTop: 0 }, 0);
+            $('.detail').find('.center').find('span').eq(1).addClass('on');
+            $('.detail').find('.center').find('span').eq(0).removeClass('on');
+        })
+
+        //评论
+        $('.tbv').click(function(){
+            $('.xq_details').eq(0).hide();
+            $('.xq_details').eq(2).show();
+            $('body').animate({ scrollTop: 0 }, 0);
+            $('.detail').find('.center').find('span').eq(2).addClass('on');
+            $('.detail').find('.center').find('span').eq(0).removeClass('on');
+            $('.gizle').show();
+        })
+
+
+
+
+
+        //顶部导航切换
+        $('.detail .search span').click(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+            var a = $('.detail .search span').index(this);
+            $('.xq_details').eq(a).show().siblings('.xq_details').hide();
+            $('.xq_details').eq(2).show();
+            if($('.detail .search span').eq(2).hasClass('on')){
+                $('.comment_de').show();
+            }else{
+                $('.comment_de').hide();
+            }
+            if($('.detail .search span').eq(1).hasClass('on')){
+                $('.tab-con-wrapper').hide();
+                $('.comment_con').hide();
+            }else{
+                $('.tab-con-wrapper').show();
+                $('.comment_con').show();
+            }
+        });
+
+
+
+
+ 		$(".pop-goods-attribute").click(function () {
+            $(".tudou-cart-num-mask").show();
+        });
+        $(".tudou-cart-num-mask").find(".closs").click(function () {
+            $(".tudou-cart-num-mask").hide();
+        });
+		
+		
+		$(document).ready(function(){
+            	$(".buy_now2").click(function(){
+				var url = "<{:U('mall/buy')}>";
+				var num = $("#goods_num").val();
+				var goods_id = "<{$detail.goods_id}>";
+				var shop_id = "<{$detail.shop_id}>";
+				$.post(url,{goods_id:goods_id,shop_id:shop_id,spec_key:spec_key,num:num},function(data){
+					  
+					   if(data.status == 'success'){
+						   layer.msg(data.msg);
+						   setTimeout(function(){
+								window.location.href=data.url;
+						   },2000);  
+					   }else{
+						   layer.msg(data.msg);
+					   }
+				   },'json');
+				});	
+			});
+		   
+		   
+		   
+		//加入购物车
+        $(document).ready(function () {
+            $(".cartadd2").click(function(){
+               var url = "<{:U('mall/cartadd2')}>";
+               var goods_id = "<{$detail.goods_id}>" ;
+               var num = $("#goods_num").val();
+               var shop_id = "<{$detail.shop_id}>";
+			   
+			   if(num == 0){
+				   layer.msg('当前规格没库存啦');
+				   return;
+				}	
+			   
+               $.post(url,{goods_id:goods_id,shop_id:shop_id,spec_key:spec_key,num:num},function(data){
+                   if(data.status == 'success'){
+                       layer.msg(data.msg, function () {
+                            setTimeout(function () {
+                                window.location.reload(true);
+                            }, 1000)
+                        });
+                   }else{
+                       layer.msg(data.msg);
+                   }
+               },'json')
+           })
+		   
+		//购买链接2可以 
+		$(document).ready(function(){
+			 
+           $(document).on('click', '.buy_now', function () {
+              var num = $("#goods_num").val();
+              var goods_id = "<{$detail.goods_id}>";
+              var url = '<{$CONFIG.site.host}>/index.php?g=wap&m=mall&a=buy&mt=<{:time()}>&goods_id=<{$detail.goods_id}>&num=' + num<if condition='$spec_goods_price' >+'&spec_key='+spec_key</if>;
+			  
+			  if(num == 0){
+				   layer.msg('当前规格没库存啦');
+				   return;
+			  }	
+			  
+			  
+              $.get(url, function (data) {
+                   if(data.status == 'success') {
+                         layer.msg(data.msg);
+                            setTimeout(function(){
+                              	window.location.href=data.url;
+                              },2000);  
+                          }else{
+                              layer.msg(data.msg);
+                             }
+                    },'json');
+               });
+			
+			});
+		   
+			
+			
+			
+        });
+    </script>
+
+<script type="text/javascript">
+	//更新商品价格
+	$(document).ready(function(){   
+     	get_goods_price();
+    });
+	function switch_spec(spec){
+		$(spec).siblings().removeClass('hover');
+		$(spec).addClass('hover');
+		$(spec).siblings().children('input').prop('checked',false);
+		$(spec).children('input').prop('checked',true);	
+		get_goods_price();//更新商品价格
+	}
+
+	function get_goods_price(){
+  		var goods_price = <{$goods["mall_price"] }>; //商品起始价
+        var spec_goods_price = '';//避免空值
+		
+		
+	    <if condition="!empty($spec_goods_price)">
+			spec_goods_price =<{$spec_goods_price}>;  //规格 对应 价格 库存表
+	    </if>
+	
+        //如果有属性选择项2
+		if(spec_goods_price != null){
+			goods_spec_arr = new Array();
+			$("input[name^='goods_spec']:checked").each(function(){
+				 goods_spec_arr.push($(this).val());
+			});    
+			spec_key = goods_spec_arr.sort(sortNumber).join('_');  //排序后组合成 key	 搞一下就成了全局变量了
+			goods_price = spec_goods_price[spec_key]['price']; // 找到对应规格的价格		
+			store_count = spec_goods_price[spec_key]['store_count']; // 找到对应规格的库存
+			if(store_count > 0){
+				$("#goods_num").val(1);
+			}
+		}
+		
+	    var goods_num = parseInt($("#goods_num").val()); 
+		
+		
+		//库存不足的情况
+		if(goods_num > store_count){
+		   goods_num = store_count;
+		   layer.msg('库存仅剩 '+store_count+' 件');
+		   $("#goods_num").val(goods_num);
+		}
+		
+		$("#goods_price").html('￥'+goods_price+'元'); // 变动价格显示
+		$("#goods-price").html('￥'+goods_price+'元'); // 变动价格显示
+		$("#stock").html(store_count);
+		
+	
+		}
+	
+		function sortNumber(a,b) { 
+			return a - b; 
+		} 
+	
+		function goods_cut(){
+			var num_val=document.getElementById('goods_num');  
+			var new_num=num_val.value;  
+			var Num = parseInt(new_num);  
+			if(Num>1)Num=Num-1;  
+			num_val.value=Num;
+		}  
+		
+		function goods_add(){
+			var num_val=document.getElementById('goods_num'); 
+			var new_num=num_val.value;  
+			var Num = parseInt(new_num);  
+			Num=Num+1;  num_val.value=Num;
+		} 
+
+</script>
+
+<div class="mask-filter-div" style="display: none;"></div>
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>	
+</body>
+</html>
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+    wx.config({
+	debug: false,
+	appId: '<{$signPackage.appId}>',
+    timestamp: '<{$signPackage.timestamp}>',
+    nonceStr: '<{$signPackage.nonceStr}>',
+    signature: '<{$signPackage.signature}>',
+	jsApiList: [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'onMenuShareQZone'
+		]
+	});
+
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+            title: '<{$detail["title"]}>."推荐的商品"',
+        	link: "<{$CONFIG.site.host}><{:U('wap/mall/detail',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'goods_id'=>$detail['goods_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($detail['photo'])}>", 
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+        });
+        //分享给朋友
+        wx.onMenuShareAppMessage({
+            title: '<{$detail["title"]}>."推荐的商品"',
+            desc: '<{$detail["intro"]}>',
+            link: "<{$CONFIG.site.host}><{:U('wap/mall/detail',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'goods_id'=>$detail['goods_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($detail['photo'])}>", 
+            type: '',
+            dataUrl: '',
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+        });
+
+});
+
+</script>

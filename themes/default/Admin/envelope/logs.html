@@ -1,0 +1,123 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2">红包</li>
+        <li class="li2 li3">红包领取记录</li>
+    </ul>
+</div>
+
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span> 这里显示所有的红包的领取记录</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="right">
+                <form method="post" action="<{:U('envelope/logs')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <span>开始时间</span>
+                                <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                            </label>
+                            <label>
+                                <span>结束时间</span>
+                                <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                            </label>
+                            <label>
+                                <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                                <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text " />
+                                <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="sumit">选择商家</a>
+                            </label>
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            
+                            <label>
+                                <span>红包类型：</span>
+                                <select class="select w120" name="type">
+                                 <option <eq name="type" value="999">selected="selected"</eq> value="999">请选择类型</option>
+                                	<foreach name="types" key="key" item="item">
+                                        <option <eq name="type" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                                    </foreach>
+                                </select>
+                            </label>
+                            
+                            <label>
+                                <span>订单类型：</span>
+                                <select class="select w120" name="orderType">
+                                 <option <eq name="orderType" value="999">selected="selected"</eq> value="999">请选择订单类型</option>
+                                	<foreach name="orderTypes" key="key" item="item">
+                                        <option <eq name="orderType" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                                    </foreach>
+                                </select>
+                            </label>
+                            
+                            <label>
+                                <span> 关键字：</span>   
+                                <input type="text" name="envelope_id" value="<{$keyword}>" class="inptText" />
+                                <input type="submit" class="inptButton" value="搜索" />
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="log_id" /></td>
+                        <td class="w50">日志ID</td>
+                        <td>红包类型</td>
+                        <td>原始订单类型</td>
+                        <td>原始订单ID</td>
+                        <td>红包ID</td>
+                        <td>红包标题</td>
+                        <td>红包商家ID</td>
+                        <td>红包商家名称</td>
+                        <td>领取会员ID</td>
+                        <td>领取会员昵称</td>
+                        <td>领取金额</td>
+                        <td>当前红包库剩余总额</td>
+                        <td>领取说明</td>
+                        <td>领取时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_log_id" type="checkbox" name="log_id[]" value="<{$var.log_id}>" /></td>
+                            <td><{$var.log_id}></td>
+                            <td><{$types[$var['type']]}></td>
+                            <td><{$orderTypes[$var['orderType']]}></td>
+                            <td><{$var.order_id}></td>
+                            <td><{$var.envelope_id}></td>
+                            <td><{$var.envelope.title}></td>
+                            <td><{$var.shop_id}></td>
+                            <td><{$var.shop.shop_name}></td>
+                            <td><{$var.user.user_id}></td>
+                            <td><{$var.user.nickname}></td>
+                            <td>￥<{:round($var['money']/100,2)}></td>
+                            <td>￥<{:round($var['surplus_prestore']/100,2)}></td>
+                            <td><{$var.intro}></td>
+                            <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                            <td>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<include  file='public:footer'/>       

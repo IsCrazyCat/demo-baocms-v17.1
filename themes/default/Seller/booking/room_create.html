@@ -1,0 +1,115 @@
+<include  file='public:header'/>   
+<link rel="stylesheet" type="text/css" href="/static/default/webuploader/webuploader.css">
+<script src="/static/default/webuploader/webuploader.min.js"></script>
+
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('booking/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		添加房间
+	</div>
+</header>
+
+<style>
+.fabu-form .form-content {border: none;resize: none;width: 100%;height: 80px;padding: 10px;font-size: 12px;}
+.fabu-form .form-content1 {border: none;resize: none;width: 100%;height: 150px;padding: 10px;font-size: 12px;}
+</style>
+
+<form class="fabu-form" method="post"  target="x-frame" action="<{:U('booking/room_create')}>">
+
+<div class="blank-10"></div>
+<div class="Upload-img-box">
+   <div  id="fileToUpload">上传图片</div>
+   <div class="Upload-img">
+   <div class="list-img loading" style="display:none;"><img src=""></div>
+   <div class="list-img jq_photo" style="display:none;"></div>
+  </div>
+</div>
+    <script>
+    	var width = '<{:thumbSize($CONFIG[attachs][hotel][thumb],0)}>';                     
+		var height = '<{:thumbSize($CONFIG[attachs][hotel][thumb],1)}>';  
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>"hotel"))}>',                             
+			pick: '#fileToUpload',                             
+			resize: true,    
+			compress :{width:width,height:height,quality:60,allowMagnify: false,crop: true} 
+        });
+        
+        uploader.on( 'uploadSuccess', function( file,resporse){
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[photo]" value="' + resporse.url + '" />';
+            $(".jq_photo").show().html(str);
+        });
+
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function (){
+                $(this).parent().remove();
+            });
+        });
+    </script>
+
+<div class="blank-10 bg border-top"></div>
+<div class="row">
+	<div class="line">
+		<span class="x3">名称：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[name]" value="<{$detail.name|default=''}>" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">就餐人数：</span>
+		<span class="x9">
+			<select name="data[type_id]" id="type_id" class="text-select">
+				<option value="0" selected="selected">请选择</option>
+				 <?php foreach($types as $key=>$val){?>
+                     <option value="<{$key}>" <?php if($key == $detail['type_id']) echo  'selected="selected"';?> ><{$val}></option>
+                 <?php }?>
+			</select>
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">说明：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[intro]" value="<{$detail.intro|default=''}>" />
+		</span>
+	</div>
+</div>
+
+<div class="row">
+    <div class="line">
+       <span class="x3">最低消费金额：</span>
+        <span class="x9">
+         <input type="text" class="text-input" name="data[money]" value="<{:round($detail['money']/100,2)}>" />
+      </span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="line">
+       <span class="x3">是否可预定：</span>
+       <span class="x9">
+            <label><input type="radio" <?php if($detail['closed'] == 1) echo 'checked="checked"';?>  name="data[closed]" id="data[is_bao]" value="1"/>不能预定</label>
+            <label><input type="radio" <?php if($detail['closed'] == 0) echo 'checked="checked"';?>  name="data[closed]" id="data[is_bao]" value="0"/>可预定</label>
+       </span>
+    </div>
+ </div>
+             
+   
+<div class="container">
+     <div class="blank-30"></div>
+     <button type="submit" class="button button-block button-big bg-dot">添加房间</button>
+     <div class="blank-30"></div>
+</div>
+
+</form>
+
+
+<include file="booking:footer"/>

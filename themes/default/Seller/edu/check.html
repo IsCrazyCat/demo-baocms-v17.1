@@ -1,0 +1,44 @@
+<include file='public:header'/>  
+<style>.xiaoqu-search { margin-top:2rem;}</style>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('edu/index',array('st'=>1))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			课程订单验证中心
+		</div>
+		<div class="top-share">
+		</div>
+	</header>
+
+<style>ul { padding-left: 0px;}</style>
+
+<ul id="shangjia_tab">
+   <li class="x3"><a href="<{:LinkTo('edu/index',array('st'=>0))}>" <eq name='st' value='0'>class="on"</eq>>未付款</a></li>
+   <li class="x3"><a href="<{:LinkTo('edu/index',array('st'=>1))}>" <eq name='st' value='1'>class="on"</eq>>已付款</a></li>
+   <li class="x3"><a href="<{:LinkTo('edu/index',array('st'=>8))}>" <eq name='st' value='8'>class="on"</eq>>已完成</a></li>
+   <li class="x3"><a href="<{:LinkTo('edu/check')}>" class="on">订单验证</a></li>
+</ul>
+    
+
+<div class="blank-40"></div>   
+ <form action="<{:U('edu/check')}>" method="post" target="x-frame">
+
+
+	<div class="line padding border-bottom">
+		<span class="x3">验证码：</span>
+		<span class="x9"><input type="text" name="code"  class="text-input text-gray" placeholder="请输入验证码"></span>
+		</div>
+	<div class="container">
+		<div class="blank-30"></div>
+		<p><span class="text-dot">小提示：</span> 用户可出示验证码，商家只需要登陆后扫描客户提供的二维码即可完成验证，方便快捷！</p>
+
+	</div>
+	<div class="container">
+		<div class="blank-30"></div>
+		<button class="button button-big button-block bg-dot">提交修改</button>
+		<div class="blank-30"></div>
+	</div>
+</form>
+<include file="public:footer"/>

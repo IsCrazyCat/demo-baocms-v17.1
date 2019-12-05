@@ -1,0 +1,119 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">KTV管理</li>
+        <li class="li2">KTV订单</li>
+        <li class="li2 li3">KTV订单列表</li>
+    </ul>
+</div>
+
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+
+
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span>这里可以删除没有参与KTV的订单，已付款的订单无法删除，可以根据下面的成交记录筛选订单！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="right">
+                <form method="post" action="<{:U('ktv/order')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            
+                            <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                         <label>
+                                <span>状态：</span>
+                                <select class="select w120" name="status">
+                                 <option <eq name="status" value="999">selected="selected"</eq> value="999">请选择</option>
+                                	 <foreach name="getTypes" key="key" item="item">
+                                        <option <eq name="status" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                                    </foreach>
+                                </select>
+                            </label>
+                            
+                            <label>
+                                <span>  订单ID：</span>  
+                                <input type="text" name="order_id" value="<{$order_id|default=''}>" class="inptText" />
+                                <input type="submit" class="inptButton" value="搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="order_id" /></td>
+                        <td>订单ID</td>
+                        <td>订单编号</td>
+                        <td>KTV名称</td>
+                        <td>房间</td>
+                        <td>订单价格</td>
+                        <td>结算价格</td>
+                        <td>验证码</td>
+                        <td>姓名</td>
+                        <td>电话</td>
+                        <td>预订时间</td>
+                        <td>订单状态</td>
+                        <td>下单时间</td>
+                        <td class="w80">操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_order_id" type="checkbox" name="order_id[]" value="<{$var.order_id}>" /></td>
+                            <td><{$var.order_id}></td>
+                            <td><{$var.order_number}></td>
+                            <td><{$ktv[$var['ktv_id']]['ktv_name']}></td>
+                            <td><{$var.room.title}></td>
+                            <td><{:round($var['price']/100,2)}></td>
+                            <td><{:round($var['jiesuan_price']/100,2)}></td>
+                            <td><{$var.code}></td>
+                            <td><{$var.name}></td>
+                            <td><{$var.mobile}></td>
+                            <td><{$var.gotime|date='Y-m-d',###}></td>
+                            <td><{$getTypes[$var['status']]}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td>
+                            <if condition="$var['status'] eq 0">
+                                <{:BA('ktv/order_delete',array("order_id"=>$var["order_id"]),'删除','act','remberBtn_small_quxiao')}>
+                            </if>
+                            <if condition="$var['status'] eq 3">
+                                <{:BA('ktv/order_agree_refund',array("order_id"=>$var["order_id"]),'退款','act','remberBtn_small_quxiao')}>
+                            </if>
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<include  file='public:footer'/>       

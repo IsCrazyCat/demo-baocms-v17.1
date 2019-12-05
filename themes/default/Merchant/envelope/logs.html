@@ -1,0 +1,69 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商家红包</a> > <a>红包领取记录</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('envelope/logs')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+                开始时间：
+                <input type="text" class="radius3 tuan_topser"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"/>
+                结束时间：
+                <input type="text" class="radius3 tuan_topser"  name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"/>
+                <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            </div>
+        </div>
+    </div>
+    </form>
+    
+    <div class="tuanfabu_tab">
+      <ul>
+        <li class="tuanfabu_tabli"><a href="<{:U('envelope/create')}>">添加红包</a></li>
+        <li class="tuanfabu_tabli"><a href="<{:U('envelope/index')}>">红包列表</a></li>
+        <li class="tuanfabu_tabli on"><a href="<{:U('envelope/logs')}>">红包领取记录</a></li>
+      </ul>
+    </div>
+
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>日志ID</td>
+            <td>原始订单ID</td>
+            <td>红包ID</td>
+            <td>红包标题</td>
+            <td>红包商家ID</td>
+            <td>红包商家名称</td>
+            <td>领取会员ID</td>
+            <td>领取会员昵称</td>
+            <td>领取金额</td>
+            <td>当前红包库剩余总额</td>
+            <td>领取说明</td>
+            <td>领取时间</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.log_id}></td>
+                <td><{$var.order_id}></td>
+                <td><{$var.envelope_id}></td>
+                <td><{$var.envelope.title}></td>
+                <td><{$var.shop_id}></td>
+                <td><{$var.shop.shop_name}></td>
+                <td><{$var.user.user_id}></td>
+                <td><{$var.user.nickname}></td>
+                <td>￥<{:round($var['money']/100,2)}></td>
+                <td>￥<{:round($var['surplus_prestore']/100,2)}></td>
+                <td><{$var.intro}></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td>
+            	</td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<include  file='public:footer'/>

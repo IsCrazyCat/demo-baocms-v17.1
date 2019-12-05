@@ -1,0 +1,267 @@
+<include file="public:header" /> 
+<include file="public:top"/>
+<include file="live:nav"/>
+<style>
+.zy_content_l{width:925px}
+.zy_content_r{width:265px;padding-left:9px}
+.nearbuy_hotCp{border:1px solid #e9e9e9;background-color:#fff;padding:0 0 9px 0}
+.nearbuy_hotCpT{overflow:hidden;height:auto;background-color:#f5f5f5;border-bottom:2px solid #FE9600}
+.nearbuy_hotCpT .left{color:#333;font-size:14px;font-weight:700;line-height:35px;padding-top:0;padding-left:9px;padding-right:0;padding-bottom:0}
+.vb-l{width:925px}
+.vb-l .vb-bottom{margin:0 0}
+.vb-l .vb-bottom .info-holder{padding:7px 10px 6px 0;background:#eaeaea;height:33px;font-size:12px;color:#838383;text-align:right;position:relative;border-bottom:1px solid #dadada}
+.vb-l .vb-bottom .info-holder .icon-area{float:left;text-align:left;line-height:20px;min-width:67px;margin-top:7px;position:relative;width:auto!important}
+.vb-l .vb-bottom .info-holder .icon-area.un-good{height:23px;margin:5px 0 0 210px;line-height:23px;background:url(/themes/default/Pchome/statics/images/good-btn.png) no-repeat 0 -50px;cursor:pointer}
+.vb-l .vb-bottom .info-holder .icon-area.icon-fav{background:url(/themes/default/Pchome/statics/images/good-btn.png) no-repeat 0 0}
+.hide{visibility:hidden!important;display:none!important}
+.resolution-box{position:absolute;right:140px;top:11px;width:44px;height:24px;line-height:23px;text-align:center;cursor:pointer}
+.vb-l .vb-bottom #bdshare{float:right;width:124px;margin-top:4px}
+.vb-l .vb-bottom .info-holder .icon-area .icon.icon-visit{background-position:-16px -12px}
+.vb-l .vb-bottom .info-holder .icon-area .icon{background:url(/static/default/wap/image/live/white-icon.png) no-repeat 0 11px;width:19px;height:20px;float:left;margin-right:10px}
+.vb-l .vb-bottom .info-holder .icon-area .icon.icon-say{background-position:-142px -12px;margin:0 3px 0 7px}
+.qg-sp-tab-nrList .history h3{margin-bottom:1px;font-size:14px}
+.qg-sp-tab-nrList h3{font-size:18px;line-height:27px;word-break:break-all}
+.qg-sp-tab-nrList .history .his-item{overflow:hidden;position:relative}
+.qg-sp-tab-nrList .history .his-item .item{width:253px;padding-bottom:2px;background-color:#eaeaea;margin-right:10px}
+.qg-sp-tab-nrList .history .his-item .item .img-a{display:block;position:relative;width:253px;overflow:hidden}
+.qg-sp-tab-nrList .history .his-item .item .img-a img{width:253px;height:132px}
+.qg-sp-tab-nrList .history .his-item .item .img-a .icon.over-play{left:78px;background-position:-75px -41px}
+.qg-sp-tab-nrList .history .his-item .item .img-a .icon{display:block;position:absolute;height:100px;width:78px;margin-top:-50px;top:50%;cursor:pointer;background:url(/static/default/wap/image/live/white-icon.png) no-repeat}
+.qg-sp-tab-nrList .history .his-item .item .name{color:#000;font-size:14px;margin:5px 0 0 5px;margin:5px 0 0 5px;word-break:break-all}
+</style>
+<div class="content zy_content">
+
+    <div style="text-align:left;height:30px;line-height:30px;font-size:24px;font-weight:bold; margin-bottom:10px;">
+        <{$live.name}> 
+    </div>
+
+    <div class="spxq_xqT spxq_xqT2" style="width:925px;">
+        <ul>
+            <li class="jq_spxq_xqBt1 " style="display:none"><code rel="spxq_xqBt1">店铺介绍</code><em></em></li>
+            <li class="jq_spxq_xqBt2 on"><code rel="spxq_xqBt2">现场直播</code><em></em></li>
+            <li class="jq_spxq_xqBt3"><code rel="spxq_xqBt3">店铺地图</code><em></em></li>
+            <li class="jq_spxq_xqBt4"><code rel="spxq_xqBt5">直播简介</code><em></em></li>
+        </ul>
+        <div style="float:right;display:none">
+        <a style="height:31px;line-height:31px;margin-top:5px;width:100px;" class="spxq_qgjjKq spxq_qgjjLq jq_addcart2" href="javascript:void(0);">查看信用</a></div>
+    </div>
+
+  <script>
+        $(document).ready(function () {
+            var href = window.location.href;
+            var param = href.split('#');
+            if (param[1] != undefined && param[1] !=null && param[1] != "") {
+                var _targetTop2 = $('#' + param[1]).offset().top;//获取位置
+                jQuery("html,body").animate({scrollTop: _targetTop2}, 300);//跳转
+            }
+            $(".spxq_xqT2 ul li").click(function () {
+                $(".spxq_xqT2 ul li").removeClass("on");
+                $(this).addClass("on");
+                var _targetTop = $('.' + $(this).find('code').attr('rel')).offset().top;//获取位置
+                jQuery("html,body").animate({scrollTop: _targetTop}, 300);//跳转
+            });
+
+
+            $(window).scroll(function () {
+//alert("dd");
+                $('.spxq_xqT2 ul li').each(function(i){
+                    if($("."+$(this).find('code').attr("rel")).offset().top - $(window).scrollTop() < 50){
+                        $(this).addClass('on').siblings().removeClass('on');
+                    }
+                });
+            });            
+        });
+    </script>
+
+    <div class="left zy_content_l">
+            <div class="spxq_xqT" style="display:none">
+                <ul>
+                    <li style="display:none"><code rel="spxq_xqBt1">店铺介绍</code><em></em></li>
+                    <li class="on"><code rel="spxq_xqBt2">现场直播</code><em></em></li>
+                    <li><code rel="spxq_xqBt3">店铺地图</code><em></em></li>
+                    <li><code rel="spxq_xqBt4">直播简介</code><em></em></li>
+                </ul>
+            </div>
+
+            <script>
+
+                $(document).ready(function () {
+                    $(".spxq_xqT li").click(function () {
+                        $(".spxq_xqT2 ul li").removeClass("on");
+                        $(".jq_" + $(this).find('code').attr('rel')).addClass("on");
+                        var _targetTop = $('.' + $(this).find('code').attr('rel')).offset().top;//获取位置
+                        jQuery("html,body").animate({scrollTop: _targetTop}, 300);//跳转
+                    });
+                    var json = <{$url}>;
+                    var url = '';
+                    for(var i=0;i<json.length;i++){
+                        if(i<json.length-1){
+                            url+=json[i]+'/';
+                        }else{
+                            url+=json[i];
+                        }
+                        
+                    }
+                    $("#play").attr('src','http://'+url);
+                });
+
+            </script>
+
+            <div class="spxq_xqBt2">
+                <div class="spxq_xqBt" style="display:none">现场直播</div>
+                <div class="qg-sp-listBox" style="display:;">
+                    <iframe scrolling="no" style="border:0px;" width="925px" height="520px" src="" id="play"></iframe> 
+                </div>
+                
+                <div class="vb-l">
+                    <div class="vb-bottom clearfix">
+                        <div class="info-holder clearfix">
+                            <div class="icon-area" style="margin-left: 20px;">
+                                <span class="icon icon-visit"></span>
+                                <span class="visitNum" id="curVisit"><{$live.views}></span>
+                            </div>
+                            
+                            <!--<div class="icon-area un-good" id="sayGood" collect="play_3_like">
+                                <span class="icon icon-good" collect="play_3_like"></span>
+                                <span class="goodNum" id="curGood" collect="play_3_like">47</span>
+                                <span class="tipGood" style="position: absolute;left: 4px;top:-1px;z-index: 9999;color: #4baef4;font-weight: bold;display: none;">+1</span>
+                            </div>
+                            <div class="icon-area fav-area icon-fav" id="doFav" collect="play_4_fav"></div>
+                                
+                            
+                            
+                            <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+                                <span class="shareLabel">分享到：</span>
+                                <a class="bds_tqq" title="分享到腾讯微博" href="#"></a>
+                                <a class="bds_tsina" title="分享到新浪微博" href="#"></a>
+                                <span class="bds_more"></span>
+                            </div>-->
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="spxq_xqBt3" style="height:15px;">
+            </div>
+
+            <div class="spxq_xqBt5">
+                <div class="spxq_xqBt">
+                    <div class="left">直播简介</div>
+                </div>
+                <div class="spxq_xqNr">
+                    <ul>
+                        <div class="x"><{$live.intro}> </div>
+                    </ul>
+                </div>
+            </div>
+    </div>
+
+    <div class="right zy_content_r" style="display:;">
+
+        <div class="nearbuy_hotCp" style="height:557px;">
+                <div class="nearbuy_hotCpT">
+                    <div class="left">直播详情</div>
+                    <div class="right" style="margin-top:10px;display:none"><a class="nearbuy_zjClear" href="javascript:void(0);">换换<em></em></a></div>
+                </div>
+
+                <ul id="glike" style="padding-left:9px;padding-right:9px;">
+                    <li>
+                            <div class="sy_hottjList"><a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$shop['shop_id']))}>">
+                                    <p class="sy_hottjbt">直播来自：</p> <{$shop.shop_name}></a>
+                            </div>
+                            <div class="sy_hottjList">
+                                    <p class="sy_hottjbt">直播位置</p> 
+                                    <div class="left ">
+                                        <script type="text/javascript" src="<{$CONFIG['config']['baidu_map_api']}>"></script>
+                                        <div id="allmap" style="width:245px; height:215px;"></div>
+                                        <script type="text/javascript">
+                                            var map = new BMap.Map("allmap");
+                                            map.centerAndZoom(new BMap.Point("<{$live.lng}>", "<{$live.lat}>"), 15);
+                                            var point = new BMap.Point("<{$live.lng}>", "<{$live.lat}>");
+                                            map.centerAndZoom(point, 15);
+                                            var marker = new BMap.Marker(point); 
+                                            map.clearOverlays();
+                                            map.addOverlay(marker); 
+                                            marker.setAnimation(BMAP_ANIMATION_BOUNCE); 
+                                            map.addControl(new BMap.NavigationControl()); 
+                                        </script>
+                                    </div>
+                                    <p style="display:none"><span class="left" style="margin-top:3px;">212d35073bf4a86258f8a7ccdf8742/214404</span></p>
+
+                            </div>
+                            <div class="sy_hottjList" style="line-height: 20px">
+                                    <p class="sy_hottjbt">商家简介</p> 
+                                    <p class="sy_hottjJg"><span><{$shop_details.details}> ......</span></p>
+                                    <a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$shop['shop_id']))}>" class="spxq_qgjjKk jq_addcart" style="margin-top:5px; width:253px;height:33px;line-height:33px;">去店铺</a>
+                            </div>
+                        </li>
+                </ul>
+        </div>
+            
+        <div style="height:15px;">
+            
+        </div>
+
+        <div class="qg-sp-tab-box">
+            <script>
+                $(function () {
+                    $(".qg-sp-tab span").each(function (e) {
+                        $(this).click(function () {
+                            $(this).parent().find("span").removeClass("on");
+                            $(this).addClass("on");
+                            $(".qg-sp-tab-nr .qg-sp-tab-nrList").each(function (i) {
+                                if (e == i) {
+                                    $(this).parent().find(".qg-sp-tab-nrList").hide();
+                                    $(this).show();
+                                }
+                                else {
+                                    $(this).hide();
+                                }
+                            });
+                        });
+                        $(".qg-sp-tab span").eq(0).click();
+                    });
+                });
+
+            </script>
+            <div class="nearbuy_hotCpT">
+                <div class="left">本店直播</div>
+                <div class="right" style="margin-top:10px;display:none"><a class="nearbuy_zjClear" href="javascript:void(0);">换换<em></em></a></div>
+            </div>
+
+            <div class="qg-sp-tab" style="display:none">
+                <span class="on">本店直播</span>
+                <span>热点直播</span>
+            </div>
+            <div class="qg-sp-tab-nr" style="padding-top:5px;">
+                <div class="qg-sp-tab-nrList">
+                    <div id="history" class="history">
+                        <h3><span style="font-size: 15px;" class="historyUserName" title="<{$shop.shop_name}>"></span>&nbsp;本店正在分享的视频还有</h3>
+                        <div id="hisList" class="his-item dib-wrap" style="width: 253px; left: 0px;">
+                            <foreach name="list" item="v">
+                            <div class="item dib">
+                                <div class="img-a">
+                                    <img width="253px" src="<{:config_img($v['photo'])}>">
+                                    <a href="<{:U('live/view',array('live_id'=>$v['live_id']))}>" class="over-play icon" title="点击播放"></a>
+                                    <a href="javascript:void(0);" class="over-right icon" onfocus="this.blur()" title="查看下一个"></a>
+                                </div>
+                                <h5 class="name"><{$v.name}></h5>
+                            </div>
+                            </foreach>
+                            <div style="height:5px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<include file="public:footer"/>
+
+
+
+
+

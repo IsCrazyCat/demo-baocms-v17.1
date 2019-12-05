@@ -1,0 +1,231 @@
+<include file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">其他</a> > <a href="">便利店设置</a> > <a>便利店营业状态</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">打烊状态用户将不能在继续下单</div>
+        </div>
+    </div> 
+    <include file="storeorder:nav"/> <!--引入商品-->
+    <div class="tabnr_change show">
+    <style type="text/css">
+	.tuanfabu_table tr td{width:50px;}
+	#busihour{ width:460px; height:30px;} 
+	
+	</style>
+        <form  method="post" target="x-frame"  action="<{:U('store/open')}>">
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><p class="tuanfabu_t">营业状态设置</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                        <label> <input type="radio" <eq name="store.is_open" value="0"> checked="checked" </eq>  name="is_open"  value="0"/>打烊中</label>
+                        <label><input type="radio" <eq name="store.is_open" value="1"> checked="checked" </eq>    name="is_open" value="1"/>营业中</label>
+                    </div>
+                </td>
+            </tr>
+             <tr>
+                <td><p class="tuanfabu_t">是否支持在线付款</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                       <label><input type="radio" <eq name="store.is_pay" value="0"> checked="checked" </eq>  name="is_pay"  value="0"/>不支持</label>
+                       <label><input type="radio" <eq name="store.is_pay" value="1"> checked="checked" </eq> name="is_pay"  value="1"/>支持</label>
+                    </div>
+                </td>
+            </tr>
+             <tr>
+                <td><p class="tuanfabu_t">是否支持货到付款</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                       <label><input type="radio" <eq name="store.is_daofu" value="0"> checked="checked" </eq>  name="is_daofu"  value="0"/>不支持</label>
+                       <label><input type="radio" <eq name="store.is_daofu" value="1"> checked="checked" </eq> name="is_daofu"  value="1"/>支持</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><p class="tuanfabu_t">是否支持使用店铺优惠劵</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                       <label><input type="radio" <eq name="store.is_coupon" value="0"> checked="checked" </eq>  name="is_coupon"  value="0"/>不支持</label>
+                       <label><input type="radio" <eq name="store.is_coupon" value="1"> checked="checked" </eq> name="is_coupon"  value="1"/>支持</label>
+                    </div>
+                </td>
+            </tr>
+            
+            <tr style="border-top:2px #ccc solid"><td width="60"><p class="tuanfabu_t"></td><td></td></tr>
+            
+            <tr>
+                <td><p class="tuanfabu_t">是否开启新单立减</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                       <label><input type="radio" <eq name="store.is_new" value="0"> checked="checked" </eq>  name="is_new"  value="0"/>不支持</label>
+                       <label><input type="radio" <eq name="store.is_new" value="1"> checked="checked" </eq> name="is_new"  value="1"/>支持</label>
+                    </div>
+                </td>
+            </tr>
+              <tr>
+                <td width="60"><p class="tuanfabu_t">新单满多少钱</td>
+                <td>
+                  <div class="tuanfabu_nr">
+                  <input type="text" name="full_money" class="tuanfabu_int tuanfabu_intw2" value="<{:round($store[full_money]/100,2)}>" />
+                  <code>←新单满多少钱</code>
+                  <input type="text" name="new_money" class="tuanfabu_int tuanfabu_intw2" value="<{:round($store[new_money]/100,2)}>" />
+                  <code>←减去多少钱</code>
+                  </div>
+                </td>
+            </tr>
+            
+            <tr><td width="60"><p class="tuanfabu_t"></td><td></td></tr>
+            <tr style="border-top:2px #ccc solid"><td width="60"><p class="tuanfabu_t"></td><td></td></tr>
+            
+            <tr>
+                <td><p class="tuanfabu_t">是否开启满减</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                       <label><input type="radio" <eq name="store.is_full" value="0"> checked="checked" </eq>  name="is_full"  value="0"/>关闭</label>
+                       <label><input type="radio" <eq name="store.is_full" value="1"> checked="checked" </eq> name="is_full"  value="1"/>开启</label>
+                    </div>
+                </td>
+            </tr>
+              <tr>
+                <td width="60"><p class="tuanfabu_t">满减设置</td>
+                <td>
+                  <div class="tuanfabu_nr">
+                  <input type="text" name="order_price_full_1" class="tuanfabu_int" value="<{:round($store[order_price_full_1]/100,2)}>" />
+                  <code>←满多少钱1</code>
+                  <input type="text" name="order_price_reduce_1" class="tuanfabu_int" value="<{:round($store[order_price_reduce_1]/100,2)}>" />
+                  <code>←减多少钱1</code>
+                  
+                  <input type="text" name="order_price_full_2" class="tuanfabu_int" value="<{:round($store[order_price_full_2]/100,2)}>" />
+                  <code>←满多少钱2</code>
+                  <input type="text" name="order_price_reduce_2" class="tuanfabu_int" value="<{:round($store[order_price_reduce_2]/100,2)}>" />
+                  <code>←减多少钱2</code>
+                  </div>
+                </td>
+            </tr>
+            
+            <tr><td width="60"><p class="tuanfabu_t"></td><td></td></tr>
+            <tr style="border-top:2px #ccc solid"><td width="60"><p class="tuanfabu_t"></td><td></td></tr>
+            
+            
+            <tr>
+                <td width="60"><p class="tuanfabu_t">配送费</td>
+                <td>
+                  <div class="tuanfabu_nr">
+                  <input type="text" name="logistics" class="tuanfabu_int tuanfabu_intw2" value="<{:round($store[logistics]/100,2)}>" />
+                  <code>固定的配送费用，建议2-5元</code>
+                  <input type="text" name="logistics_full" class="tuanfabu_int tuanfabu_intw2" value="<{:round($store[logistics_full]/100,2)}>" />
+                  <code>用户下单时候单笔订单满多少钱后免配送费用</code>
+                  </div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td width="60"><p class="tuanfabu_t">便利店配送半径</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                  <input type="text" name="is_radius" id="is_radius" class="tuanfabu_int tuanfabu_intw2" value="<{$store[is_radius]}>" />
+                  <code>单位为KM，超过距离范围不显示，请填写数字，建议填写1-5，以可以不填写</code>
+                    </div>
+                </td>
+            </tr>
+            
+             <tr>
+                <td width="60"><p class="tuanfabu_t">指定配送员ID:</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                  <input type="text" name="given_distribution" id="given_distribution" class="tuanfabu_int tuanfabu_intw2" value="<{$store[given_distribution]}>" />
+                  <code>如留空，开启第三方配送后都可以抢单，如需要指定配送员，请填写配送员的ID号或者咨询网站客服</code>
+                    </div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td><p class="tuanfabu_t">是否开启自动发货</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                        <label>
+                            <input type="radio" <eq name="store.is_print_deliver" value="0"> checked="checked" </eq>  name="is_print_deliver" value="0"/>关闭
+                        </label>
+                         <label>
+                             <input type="radio" <eq name="store.is_print_deliver" value="1"> checked="checked" </eq>    name="is_print_deliver" value="1"/>开启
+                        </label>
+                        <code>必须配置打印机后才能开启自动打印，配置方式：商家设置》》》基本设置》》》填写相关参数后保存</code>
+                    </div>
+                </td>
+            </tr>
+            
+              <tr>
+                <td><p class="tuanfabu_t">点餐二维码</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                       <img style="width:40px" src="__ROOT__/attachs/<{$file['big_file']}>"/>
+                         <code><a style="color:#00F" target="_blank" href="__ROOT__/attachs/<{$file['big_file']}>">点击下载二维码，新窗口打开，另存到电脑上，然后印刷出来即可！</a></code>
+                    </div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td><p class="tuanfabu_t">开启订单语音提示</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                        <label><input type="radio" <eq name="store.is_voice" value="0"> checked="checked" </eq> name="is_voice"  value="0"/>关闭 </label>
+                         <label><input type="radio" <eq name="store.is_voice" value="1"> checked="checked" </eq> name="is_voice" value="1"/>开启</label>
+                        <code>开启后PC有新订单来了有语音提示</code>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><p class="tuanfabu_t">开启自动刷新</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                        <label><input type="radio" <eq name="store.is_refresh" value="0"> checked="checked" </eq> name="is_refresh" value="0"/>关闭</label>
+                        <label><input type="radio" <eq name="store.is_refresh" value="1"> checked="checked" </eq> name="is_refresh" value="1"/>开启</label>
+                        <code>开启后PC已卖出的订单自动刷新</code>
+                    </div>
+                </td>
+            </tr>
+            
+             <tr>
+                <td width="60"><p class="tuanfabu_t">自动刷新间隔秒数:</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                  <input type="text" name="is_refresh_second" id="is_refresh_second" class="tuanfabu_int tuanfabu_intw2" value="<{$store[is_refresh_second]}>" />
+                  <code>必须先开启自动刷新后才有效，建议10秒一下</code>
+                    </div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td width="60"><p class="tuanfabu_t">营业时间</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                  <input type="text" name="busihour" id="busihour" class="px" value="<{$store[busihour]}>" />
+                  <code>比如：8:00-12:00,13:00-16:00 中间用,分割</code>
+                    </div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td width="60"><p class="tuanfabu_t">留言标签</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                    <input type="text" name="tags" id="busihour" class="px" value="<{$store[tags]}>" />
+                    <code>比如：辣多一点,辣少一点,请提供打包,没零钱,米饭多一点 中间用,分割</code>
+                    </div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td><input type="submit" class="radius3 sjgl_an tuan_topbt" value="立刻更新"/></td>
+            </tr>
+        </table>
+        </form>
+    </div> 
+</div>
+<include file='public:footer'/>

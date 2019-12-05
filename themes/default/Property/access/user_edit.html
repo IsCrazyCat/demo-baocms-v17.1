@@ -1,0 +1,54 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li>
+            <a target="main_frm" href="<{:U('index/index')}>">物业管理</a> > 
+            <a target="main_frm" href="<{:U('access/lists')}>">门锁列表</a> > 
+            <a target="main_frm" href="<{:U('access/user',array('list_id'=>$list_id))}>">用户列表</a> > 
+            <a target="main_frm" href="<{:U('access/user_edit',array('list_id'=>$list_id,'id'=>$detail['id']))}>">编辑用户</a> 
+        </li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="tabnr_change  show">
+        <form method="post"  action="<{:U('access/user_edit',array('list_id'=>$list_id,'id'=>$detail['id']))}>"  target="x-frame">
+            <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="tuanfabu_t">选择业主：</p></td>
+                <td><div class="tuanfabu_nr">
+                    <select id="owner_id" name="data[owner_id]" class="seleFl w300">
+                    <option value="">请选择业主</option>   
+                         <foreach name="owners" item="var"> 
+                        	<option value="<{$var.owner_id}>"  <eq name="var.owner_id" value="$detail.owner_id">selected="selected"</eq> ><{$var.name}> -- 【<{$var.location}>】</option>   
+                         </foreach>
+                    </select>
+                    <code>单个设备业主不能重复添加，业主需要会员申请  <a target="main_frm" class="radius3 sy_lookan"  href="<{:U('owner/index')}>">业主管理</a></code>
+                </div></td>
+            </tr>
+                
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">生效时间：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[bg_date]" value="<{$detail.bg_date|default=''}>" onfocus="WdatePicker();" class="tuanfabu_int tuanfabu_intw2" />
+                            <code>选择用户开锁的生效时间</code>
+                        </div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">失效时间：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[end_date]" value="<{$detail.end_date|default=''}>" onfocus="WdatePicker();" class="tuanfabu_int tuanfabu_intw2" />
+                            <code>选择用户开锁的失效时间</code>
+                        </div></td>
+                </tr>
+               
+            </table>
+            <div class="tuanfabu_an">
+                <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认编辑" />
+            </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>
+
+

@@ -1,0 +1,79 @@
+<include file="public:header"/>
+
+<style>
+.member-top{-webkit-animation:changeBg 20s infinite;-moz-animation:changeBg 20s infinite;animation:changeBg 20s infinite;background-color:#ED5564;background-size:cover;text-align:center;width:100%;height:12rem;position:relative;z-index:1;}
+.member-info{width:12rem;height:6rem;margin:-3rem 0 0 -6rem;position:absolute;z-index:1;top:50%;left:50%;animation:memberInfoDown 1s ease-in;-webkit-animation:memberInfoDown 1s ease-in}
+.member-info .user-avatar{background-color:#FFF;width:4rem;height:4rem;margin:0 auto;border-radius:100%}
+.member-info .user-avatar img{width:100%;height:100%;border-radius:100%}
+.member-info .user-name{color:#FFF}
+.member-info .user-name span{font-weight:lighter;font-size:14px;line-height:1.2rem;height:1.2rem;position:relative;z-index:1}
+.member-info .user-name sup{font-size:12px;line-height:1rem;background-color:#ED5564;display:block;height:1rem;padding:0 .1rem;margin-left:.2rem;border-radius:.1rem;position:absolute;z-index:1;top:.2rem;right:-4rem;box-shadow:1px 1px 1px rgba(0,0,0,.15)}
+.member-info .user-name sup.aux{font-size:12px;line-height:1rem;background-color:#0058DC;display:block;height:1rem;padding:0 .1rem;margin-left:.2rem;border-radius:.1rem;position:absolute;z-index:1;top:-1.2rem;right:-4rem;box-shadow:1px 1px 1px rgba(0,0,0,.15)}
+.member-collect{font-size:0;height:3rem;filter:progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr='#19000000', endColorstr='#19000000');background:rgba(0,0,0,.1);position:absolute;bottom:0;left:0;right:0}
+.member-collect span{display:inline-block;width:33.33%;height:2rem;padding:.5rem 0}
+.member-collect span a{display:block}
+.member-collect span em{font-weight:lighter;font-size:14px;color:#FFF;line-height:1rem;text-align:center;vertical-align:top;display:inline-block;min-width:1rem;height:1rem;margin:0 auto}
+.member-collect span p{font-size:12px;line-height:1rem;color:#FFF;height:1rem}
+.member-collect span i.goods-browse{background-repeat:no-repeat;background-position:50% 50%;background-size:100%}
+.member-collect span i{vertical-align:top;display:inline-block;width:1rem;height:1rem;margin:0 auto}
+.member-center dl{background-color:#FFF;box-shadow:0 1px 0 rgba(0,0,0,.05)}
+.member-center dt{line-height:2.5rem;display:block;height:2.6rem;padding:.8rem .7rem .5rem 0;margin-left:.5rem;border-bottom:solid .1rem #EEE}
+.member-center dt:last-child{border-bottom:none}
+.member-center dt a{display:block}
+.member-center dt h3{font-size:14px;line-height:1rem;color:#111;vertical-align:top;display:inline-block;height:1rem;font-weight:400;color:#999}
+.member-center dt h3 i{vertical-align:top;display:inline-block;width:1rem;height:1rem;margin-right:.1rem;background-repeat:no-repeat;background-position:50% 50%;background-size:70%}
+.member-center dt h5{font-size:14px;color:#999;float:right;line-height:1rem;font-weight:400}
+.member-center dt h5 i{display:inline-block;vertical-align:middle;opacity:.4;font-size:20px;margin-left:.8rem}
+.member-center dd{display:block;padding:.2rem 0}
+.member-center dd ul{font-size:0}
+.member-center dd ul li{vertical-align:top;display:inline-block;text-align:center;width:20%;padding:.2rem 0 .2rem 0}
+.member-center dd ul li a{display:block;position:relative}
+.member-center dd ul li a em{background-color:#ED5564;width:.3rem;height:.3rem;border-radius:100%;position:absolute;top:-.15rem;right:.85rem}
+.member-center dd ul li i{vertical-align:top;display:inline-block;font-size:24px}
+.member-center dd ul li p{font-size:12px;color:#888;line-height:1rem;height:1rem}
+</style>
+
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-shouye"></i></a>
+		</div>
+		<div class="top-title">
+			配送员介绍
+		</div>
+		<div class="top-share">
+		</div>
+	</header>
+	
+
+    
+    <div class="member-top">
+        <div class="member-info">
+        	<div class="user-avatar"> <img src="<{:config_img($USERS['face'])}>"> </div>
+        <div class="user-name"> 
+             <if condition="!empty($USERS['nickname'])">
+               <{$USERS.nickname}>
+             <else/>
+                 <{$USERS.account}>
+             </if>
+        </div>
+    </div>
+    
+    
+    <div class="member-collect">
+        <span><a><em><{$today_p}> 单</em><p>今日配送</p></a> </span>
+        <span><a><em><{$today_ok}> 单</em><p>今日完成</p></a> </span>
+        <span><a><em><{$all_ok}> 单</em><p>全部完成</p></a> </span>
+    </div>
+</div>   
+
+</div>
+
+<div class="panel-list">
+	<ul>
+        <li><a href="<{:U('delivery/lists', array('id'=>$detail['id']))}>"><span class="iconfont icon-shangcheng-copy-copy"></span>评价列表<i class="iconfont icon-angle-right"></i></a></li>
+	</ul>
+</div>
+
+
+<include  file='distribution:footer'/>

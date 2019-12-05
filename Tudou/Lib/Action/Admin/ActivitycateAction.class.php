@@ -1,0 +1,110 @@
+<?php
+class ActivitycateAction extends CommonAction{
+    private $create_fields = array('cate_name', 'orderby');
+    private $edit_fields = array('cate_name', 'orderby');
+    public function index(){
+        $Activitycate = D('Activitycate');
+        $list = $Activitycate->fetchAll();
+        $this->assign('list', $list);
+        $this->assign('page', $show);
+        $this->display();
+    }
+    public function select(){
+        $Activitycate = D('Activitycate');
+        import('ORG.Util.Page');
+        $map = array('closed' => array('IN', '0,-1'));
+        if ($cate_name = $this->_param('cate_name', 'htmlspecialchars')) {
+            $map['cate_name'] = array('LIKE', '%' . $cate_name . '%');
+            $this->assign('cate_name', $cate_name);
+        }
+        $count = $Activitycate->where($map)->count();
+        $Page = new Page($count, 8);
+        $pager = $Page->show();
+        $list = $Activitycate->where($map)->order(array('cate_id' => 'desc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+        $this->assign('list', $list);
+        $this->assign('page', $pager);
+        $this->display();
+    }
+    public function create($parent_id = 0){
+        if ($this->isPost()) {
+            $data = $this->createCheck();
+            $obj = D('Activitycate');
+            if ($obj->add($data)) {
+                $obj->cleanCache();
+                $this->tuSuccess('添加成功', U('activitycate/index'));
+            }
+            $this->tuError('操作失败');
+        } else {
+            $this->display();
+        }
+    }
+    private function createCheck(){
+        $data = $this->checkFields($this->_post('data', false), $this->create_fields);
+        $data['cate_name'] = htmlspecialchars($data['cate_name']);
+        if (empty($data['cate_name'])) {
+            $this->tuError('分类不能为空');
+        }
+        $data['orderby'] = (int) $data['orderby'];
+        return $data;
+    }
+    public function edit($cate_id = 0){
+        if ($cate_id = (int) $cate_id) {
+            $obj = D('Activitycate');
+            if (!($detail = $obj->find($cate_id))) {
+                $this->tuError('请选择要编辑的活动类型');
+            }
+            if ($this->isPost()) {
+                $data = $this->editCheck();
+                $data['cate_id'] = $cate_id;
+                if (false !== $obj->save($data)) {
+                    $obj->cleanCache();
+                    $this->tuSuccess('操作成功', U('activitycate/index'));
+                }
+                $this->tuError('操作失败');
+            } else {
+                $this->assign('detail', $detail);
+                $this->display();
+            }
+        } else {
+            $this->tuError('请选择要编辑的活动类型');
+        }
+    }
+    private function editCheck(){
+        $data = $this->checkFields($this->_post('data', false), $this->edit_fields);
+        $data['cate_name'] = htmlspecialchars($data['cate_name']);
+        if (empty($data['cate_name'])) {
+            $this->tuError('分类不能为空');
+        }
+        $data['orderby'] = (int) $data['orderby'];
+        return $data;
+    }
+    public function delete($cate_id = 0){
+        if (is_numeric($cate_id) && ($cate_id = (int) $cate_id)) {
+            $obj = D('Activitycate');
+            $obj->delete($cate_id);
+            $obj->cleanCache();
+            $this->tuSuccess('删除成功', U('activitycate/index'));
+        } else {
+            $cate_id = $this->_post('cate_id', false);
+            if (is_array($cate_id)) {
+                $obj = D('Activitycate');
+                foreach ($cate_id as $id) {
+                    $obj->delete($id);
+                }
+                $obj->cleanCache();
+                $this->tuSuccess('删除成功', U('activitycate/index'));
+            }
+            $this->tuError('请选择要删除的活动类型');
+        }
+    }
+    public function update(){
+        $orderby = $this->_post('orderby', false);
+        $obj = D('Activitycate');
+        foreach ($orderby as $key => $val) {
+            $data = array('cate_id' => (int) $key, 'orderby' => (int) $val);
+            $obj->save($data);
+        }
+        $obj->cleanCache();
+        $this->tuSuccess('更新成功', U('activitycate/index'));
+    }
+}

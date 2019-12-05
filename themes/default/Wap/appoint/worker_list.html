@@ -1,0 +1,134 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('appoint/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">技师列表</div>
+		<div class="top-signed"></div>
+	</header>
+<style>
+.container {margin-top:0rem;}
+.shop-list .item{overflow:hidden;padding:10px 0;border-bottom:thin solid #EEE;display:block;position:relative;}
+.shop-list .item .pic{float:left;width:100px;width:80px;}
+.shop-list .item .des{float:left;width:100%;padding-left:90px;position:absolute;left:0;}
+.shop-list .item .des h5{overflow:hidden;margin-bottom:5px;width:100%;}
+.shop-list .item .des .info span.ui-starbar{ margin-top:2px;}
+.shop-list .item .des .info span.shopyouhui{color:#F00;font-size:14px; padding: 0 3px;float: right;}
+.shop-list .item .des .distance{float:right;}
+.shop-list .item .des .addr{font-size:12px;color:#999; display:block;overflow:hidden;margin-bottom: 0px;}
+.shop-list .item .des span.distance {color: #Fff;font-size: 12px;padding: 0 3px;background: #F00;}
+</style>
+
+<div id="filter2" class="filter2">
+    <ul class="tab clearfix">
+      <li class="item">
+        <a href="javascript:void(0);"> 
+            <if condition="!empty($cate_id)">
+            	<span id="str_b_node" style="color:#f60"> <{$appointcates[$cate_id]['cate_name']}></span>
+            <else/>
+            	<span id="str_b_node">选择分类</span>
+            </if>
+        <em></em>
+        </a>
+      </li>
+       <li class="item">
+        <a href="javascript:void(0);"> 
+            <if condition="!empty($star)">
+            	<volist name='stars' id='item'> 
+                	<if condition="$star eq $i">
+                		<span id="str_b_node" style="color:#f60"> <{$item}></span>
+                    </if>
+                </volist>
+            <else/>
+                <span id="str_b_node">选择星级</span>
+            </if>
+            <em></em>
+        </a>
+      </li>
+       
+      
+      <li class="item">
+        <a href="javascript:void(0);">
+            <if condition="empty($order)">
+            	<span id="str_e_node">选择排序</span>
+            <elseif condition="$order eq d"/>
+            	<span id="str_b_node" style="color:#f60;">默认排序</span>
+            <elseif condition="$order eq s"/>
+            	<span id="str_b_node" style="color:#f60;">人气排序</span>
+            <elseif condition="$order eq p"/>
+            	<span id="str_b_node" style="color:#f60;">价格排序</span>
+            <elseif condition="$order eq t"/>
+            	<span id="str_b_node" style="color:#f60;">时间排序</span>
+            </if>
+        <em></em>
+        </a>
+      </li>
+      
+    </ul>
+    
+
+                
+                
+    <div class="inner" style=" display:none">
+      <ul>
+        <li class="item">
+        <a class="rights" href="<{:U('appoint/worker_list',array('cate_id'=>0,'date_id'=>$date_id,'week_id'=>$week_id,'order'=>$order))}>">全部分类</a>
+        </li>
+       <foreach name="appointcates" item="var">
+         <if condition="$var.parent_id eq 0">  
+            <li id="cat_<{$var['cate_id']}>"><a class="rights hasUlLink" title="<{$var.cate_name}>" href="javascript:void(0);>"><{$var.cate_name}><span class="num"></span></a>
+               <ul id="items0">  
+                <foreach name="appointcates" item="product">
+                   <if condition="$product.parent_id eq $var['cate_id']"> 
+                       <li><a title="<{$product.cate_name}>" href="<{:LinkTo('appoint/worker_list',$linkArr,array('cate_id'=>$product['cate_id']))}>"> <{$product.cate_name}><span class="num"></span></a>
+                   </if>
+                </foreach>
+               </ul>
+                       
+             </li>
+         </if>
+        </foreach>
+      </ul>
+     </div>
+    
+    
+    <div class="inner" style=" display:none">
+      <ul>
+       <li><a <if condition='empty($stars)'>style="color:red;"</if> href="<{:LinkTo('appoint/worker_list',$linkArr,array('star'=>0))}>">全部</a></li>
+       <volist name="stars" id="item"> 
+       		<li><a <if condition="$star eq $i">cstyle="color:red;"</if> href="<{:LinkTo('appoint/worker_list',$linkArr,array('star'=>$key))}>"><{$item}></a></li>
+       </volist>
+       </ul>
+    </div>
+    
+    
+   <div class="inner" style="display:none;">
+              <ul>
+                <li><a <if condition="$order eq 0"> style="color:red;"</if> href="<{:LinkTo('appoint/worker_list',$linkArr,array('order'=>0))}>">默认排序</a></li>
+                <li><a <if condition="$order eq d"> style="color:red;"</if> href="<{:LinkTo('appoint/worker_list',$linkArr,array('order'=>d))}>">固定排序</a></li>
+                <li><a <if condition="$order eq s"> style="color:red;"</if> href="<{:LinkTo('appoint/worker_list',$linkArr,array('order'=>s))}>">预约量排序</a></li>
+                <li><a <if condition="$order eq p"> style="color:red;"</if> href="<{:LinkTo('appoint/worker_list',$linkArr,array('order'=>p))}>">价格排序</a></li>
+                <li><a <if condition="$order eq t"> style="color:red;"</if> href="<{:LinkTo('appoint/worker_list',$linkArr,array('order'=>t))}>">发布时间</a></li>
+            </ul>
+      </div>
+    
+      
+      <div id="parent_container" class="inner_parent" style="display:none;"><div class="innercontent"></div></div>
+      <div id="inner_container" class="inner_child" style="display:none;"><div class="innercontent"></div> </div>
+ </div>
+<!--end-->    
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;"><i class="pull2"></i></div>
+
+
+
+    
+	<div class="container">
+		<div id="shop-list" class="shop-list"></div>
+	</div>
+	<script>
+		showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+<include file="public:footer"/>

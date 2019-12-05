@@ -1,0 +1,41 @@
+<include file='public:header'/>  
+<style>.xiaoqu-search { margin-top:2rem;}</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('zhe/index',array('aready'=>0))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			五折卡预约验证
+		</div>
+		<div class="top-share">
+		</div>
+	</header>
+
+<style>ul { padding-left: 0px;}</style>
+
+<ul id="shangjia_tab">
+    <li class="x3"><a href="<{:LinkTo('zhe/index')}>">未消费</a></li>
+    <li class="x3"><a href="<{:LinkTo('zhe/index',array('aready'=>1))}>" <eq name='aready' value='1'>class="on"</eq>>已验证</a></li>
+    <li class="x3"><a href="<{:LinkTo('zhe/index',array('aready'=>-1))}>" <eq name='aready' value='-1'>class="on"</eq>>已过期</a></li>
+    <li class="x3"><a href="<{:LinkTo('zhe/check')}>" class="on">去验证</a></li>
+</ul>
+    
+
+<div class="blank-40"></div>   
+ <form action="<{:U('zhe/verify',array('yuyue_id'=>$detail['yuyue_id']))}>" method="post" target="x-frame">
+	<div class="line padding border-bottom">
+		<span class="x4">验证码：</span>
+		<span class="x8"><input type="text" name="yzm"  class="text-input text-gray" placeholder="验证码"></span>
+		</div>
+	<div class="container">
+		<div class="blank-30"></div>
+        <p><span class="text-dot">小提示：</span> 输入用户手机收到的验证码，填写进去，然后点击验证即可。</p>
+	</div>
+	<div class="container">
+		<div class="blank-30"></div>
+		<button class="button button-big button-block bg-dot">点击验证</button>
+		<div class="blank-30"></div>
+	</div>
+</form>
+
+<include file="public:footer"/>

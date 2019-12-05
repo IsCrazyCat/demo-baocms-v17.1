@@ -1,0 +1,96 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			智慧乡村通知管理
+		</div>
+		<div class="top-share">
+        <a href="<{:U('all/notice_create')}>" class="top-addr icon-plus"> 增加</a>
+		</div>
+	</header>
+<style>
+.button-toolbar .button-group {padding: 0 10px;}
+.xiaoqu-search { margin-top:2rem;}
+.list-media-x { margin-top: 0.0rem;}
+.list-media-x p {margin-top: 0.0rem;}
+</style>
+
+<div class="line xiaoqu-search">
+		<form method="post"  action="<{:U('all/notice')}>" id="form1" class="form1">
+			<div class="form-group">
+				<div class="field">
+					<div class="input-group">
+						<span class="addbtn"><button type="button" class="button iconfont icon-search"></button></span>
+						<input type="text" class="input" name="keyword" size="50" value="<{$keyword}>" placeholder="请输入关键字"  />
+						<span class="addbtn"><button type="submit" class="button">搜索</button></span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+        <li class="x3"><a href="<{:U('all/notice')}>"  class="on" >乡村通知</a></li>
+        <li class="x3"><a href="<{:U('all/worker')}>">乡村团队</a></li>
+        <li class="x3"><a href="<{:U('all/suggestion')}>" >乡村反馈</a></li>
+        <li class="x3"><a href="<{:U('all/bbs')}>">乡村贴吧</a></li>
+</ul>   
+<div class="blank-10 bg"></div>
+<div class="list-media-x" id="list-media">
+	<ul>
+<foreach name="list" item="var">   
+<li class="line ">
+      <dt><a class="x3">通知ID：<{$var.id}></a><a class="x9 text-right">创建时间：<{$var.addtime|date='Y-m-d H:i:s',###}></a></dt>
+      <dd class="zhong">
+         <div class="12">
+            <p class="text-small">标题：<{$var.title}></p>
+            <p class="text-small">类型：<eq name="var.audit" value="1">通知<else/>展示</eq> 浏览：<{$var.views}></p>
+            <p class="text-small">发布人：<{$users[$var['user_id']]['nickname']|default='未设置'}></p>
+         </div>
+      </dd>
+       
+      <dl>
+         <p class="text-right x12"> 
+         <a class="button button-small bg-dot" href="<{:U('all/notice_detail',array('id'=>$var['id']))}>">详细</a>
+         <a  href="javascript:void(0);" rel="<{$var.id}>"  class="jquery-delete button button-small  margin-top bg-blue">删除</a>
+         </p>
+      </dl>
+    </li>
+ 
+    <div class="blank-10 bg"></div>
+   </foreach>    
+  </ul>
+</div> 
+
+<div class="blank-20"></div>
+<div class="container login-open">
+<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+</div>
+<script>
+	$(document).ready(function () {
+		$(document).on('click', ".jquery-delete", function (e) {
+			var id = $(this).attr('rel');
+			layer.confirm('您确定要删除该通知？', {
+				skin: 'layer-ext-demo', 
+				area: ['60%', 'auto'], 
+				btn: ['是的', '不'], 
+				shade: false 
+			}, function () {
+				$.post("<{:U('all/notice_delete')}>", {id: id}, function (result) {
+					if (result.status == "success") {
+						layer.msg(result.msg);
+						setTimeout(function () {
+							location.reload();
+						}, 1000);
+					} else {
+						layer.msg(result.msg);
+					}
+				}, 'json');
+			});
+		});
+	});
+</script>
+
+<include file="public:footer"/>

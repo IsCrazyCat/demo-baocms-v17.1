@@ -1,0 +1,40 @@
+<include file='public:header'/>  
+<style>.xiaoqu-search { margin-top:2rem;}</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('integral/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">店员积分核销</div>
+		<div class="top-share"></div>
+	</header>
+<style>ul { padding-left: 0px;}</style>
+
+<div class="blank-10"></div>   
+ <form action="<{:U('integral/verify',array('user_id'=>$detail['user_id'],'type'=>$type))}>" method="post" target="x-frame">
+ 	<div class="line padding border-bottom">
+		<span class="x12">核销用户：<{$detail['nickname']}> ，可核销积分： <{$detail['integral']}></span>
+	</div>
+ 	<div class="line padding border-bottom">
+		<span class="x4">积分数量：</span>
+		<span class="x8"><input type="text" name="integral"  class="text-input text-gray" placeholder="输入需要核销的积分"></span>
+	</div>
+	<div class="line padding border-bottom">
+		<span class="x4">验证码：</span>
+		<span class="x8"><input type="text" name="yzm"  class="text-input text-gray" placeholder="输入用户手机验证码"></span>
+	</div>
+	<div class="container">
+		<div class="blank-10"></div>
+        <p><span class="text-dot">小提示：</span> 尊敬的店员，请输入用户手机收到的验证码，填写进去，然后点击核销即可。</p>
+	</div>
+	<div class="container">
+		<div class="blank-10"></div>
+		<button class="button button-big button-block bg-yellow">店员点击核销</button>
+		<div class="blank-10"></div>
+	</div>
+</form>
+
+<div class="blank-20"></div>
+<div class="container login-open">
+    <a href="<{:U('integral/index')}>" class="button button-block button-big bg-blue text-center">店员核销记录</a>
+</div>   
+<include file="public:footer"/>

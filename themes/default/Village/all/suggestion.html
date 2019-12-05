@@ -1,0 +1,111 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			意见反馈
+		</div>
+		<div class="top-share">
+		</div>
+	</header>
+<style>
+.button-toolbar .button-group {padding: 0 10px;}
+.xiaoqu-search { margin-top:2rem;}
+.list-media-x { margin-top: 0.0rem;}
+.list-media-x p {margin-top: 0.0rem;}
+</style>
+<div class="line xiaoqu-search">
+		<form method="post"  action="<{:U('all/suggestion')}>" id="form1" class="form1">
+			<div class="form-group">
+				<div class="field">
+					<div class="input-group">
+						<span class="addbtn"><button type="button" class="button iconfont icon-search"></button></span>
+						<input type="text" class="input" name="keyword" size="50" value="<{$keyword}>" placeholder="请输入关键字"  />
+						<span class="addbtn"><button type="submit" class="button">搜索</button></span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+        <li class="x3"><a href="<{:U('all/notice')}>" >乡村通知</a></li>
+        <li class="x3"><a href="<{:U('all/worker')}>" >乡村团队</a></li>
+        <li class="x3"><a href="<{:U('all/suggestion')}>"  class="on">乡村反馈</a></li>
+        <li class="x3"><a href="<{:U('all/bbs')}>">乡村贴吧</a></li>
+</ul> 
+
+
+<div class="blank-10 bg"></div>
+<div class="list-media-x" id="list-media">
+
+	<ul>
+
+<foreach name="list" item="var">   
+<li class="line ">
+      <dt><a class="x3">编号：<{$var.id}></a><a class="x9 text-right">时间：<{$var.addtime|date='Y-m-d H:i:s',###}></a></dt>
+        
+      <dd class="zhong">
+         <div class="12">
+            <p class="text-small">反馈人：<{$var['person']}>/<{$var['tel']}></p>
+            <p class="text-small">标题：<{$var.title}></p>
+            <p class="text-small">反馈内容：<{:tu_msubstr($var['context'],0,30,false)}></p>
+         </div>
+      </dd>
+      <if condition="!empty($var['reply'])">
+      <dt>
+         <div class="x12">
+           <span class="margin-right text-gray">官方回复：<{:tu_msubstr($var['reply'],0,10,false)}></span>
+         </div>
+      </dt>
+      </if>
+       
+      <dl>
+         <p class="text-right x12"> 
+         <if condition="!empty($var['reply'])">
+         <a class="button button-small bg-gray">已回复</a>
+         <else/>
+         <a href="<{:U('all/suggestion_edit',array('id'=>$var['id']))}>" class="button button-small bg-dot">编辑</a>
+         </if>
+         <a  href="javascript:void(0);" rel="<{$var.id}>"  class="jquery-delete button button-small  margin-top bg-blue">删除</a>
+         </p>
+      </dl>
+    </li>
+ 
+    <div class="blank-10 bg"></div>
+   </foreach>    
+  </ul>
+</div> 
+
+<div class="blank-20"></div>
+<div class="container login-open">
+<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+</div>
+<script>
+	$(document).ready(function () {
+		$(document).on('click', ".jquery-delete", function (e) {
+			var id = $(this).attr('rel');
+			layer.confirm('您确定要删除该反馈？', {
+				skin: 'layer-ext-demo', 
+				area: ['50%', 'auto'], 
+				btn: ['是的', '不'], 
+				shade: false 
+			}, function () {
+				$.post("<{:U('all/suggestion_delete')}>", {id: id}, function (result) {
+					if (result.status == "success") {
+						layer.msg(result.msg);
+						setTimeout(function () {
+							location.reload();
+						}, 1000);
+					} else {
+						layer.msg(result.msg);
+					}
+				}, 'json');
+			});
+		});
+	});
+</script>
+
+<include file="public:footer"/>

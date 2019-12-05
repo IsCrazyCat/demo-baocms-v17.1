@@ -1,0 +1,146 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">家政</li>
+        <li class="li2">家政服务</li>
+        <li class="li2 li3">预约列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span> 这个家政是可以在线支付的，退款请用店员中心平台来完成。 <if condition="$appoint_id"><a style="color:#F00">您当前已选择家政【<{$appoint['title']}>】</a></if></p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form  method="post"  action="<{:U('appointorder/index')}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                    
+                     <div class="seleK">
+                     
+                     
+                          
+                          
+                          <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        
+                        <label>
+                                <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                                <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text " />
+                                <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="sumit">选择商家</a>
+                            </label>
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                            
+                                <span>分类筛选</span>
+                                <select id="cate_id" name="cate_id" class="selecttop">
+                                    <option value="0">请选择...</option>
+                                    <foreach name="cates" item="var">
+                                        <eq name="var.parent_id" value="0">
+                                        <option value="<{$var.cate_id}>"  <eq name="var.cate_id" value="$cate_id">selected="selected"</eq> ><{$var.cate_name}></option>                
+                                        <foreach name="cates" item="var2">
+                                            <eq name="var2.parent_id" value="$var.cate_id">
+                                            <option value="<{$var2.cate_id}>"  <eq name="var2.cate_id" value="$cate_id">selected="selected"</eq> > &nbsp;&nbsp;<{$var2.cate_name}></option>
+                                            </eq>
+                                        </foreach>
+                                        </eq>
+                                    </foreach>
+                                </select>
+                            </label>
+                            
+                         
+                         <label>
+                                <span>订单状态：</span>
+                                <select class="select w120" name="status">
+                                 <option <eq name="status" value="999">selected="selected"</eq> value="999">请选择状态</option>
+                                	<foreach name="types" key="key" item="item">
+                                        <option <eq name="status" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                                    </foreach>
+                                </select>
+                            </label>
+                            
+                           <label>
+                                <span>预约类型：</span>
+                                <select class="select w120" name="orderType">
+                                 <option <eq name="orderType" value="999">selected="selected"</eq> value="999">请选择订单类型</option>
+                                	<foreach name="orderTypes" key="key" item="item">
+                                        <option <eq name="status" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                                    </foreach>
+                                </select>
+                            </label> 
+                            
+                            
+                        <span>关键字</span>
+                        <input type="text"  class="inptText" name="keys" value="<{$housework}>"  />
+                        <input type="submit" value=" 搜索"  class="inptButton" />
+                    </div> 
+                    </div>
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="order_id" /></td>
+                        <td>编号</td>
+                        <td>预约类型</td>
+                        <td>服务项目</td>
+                        <td>服务时间</td>
+                        <td>服务地址</td>
+                        <td>姓名</td>
+                        <td>电话</td>
+                        <td>内容</td>
+                        <td>订单状态</td>
+                        <td>实际支付</td>
+                        <td>下单时间</td>
+                        <td>付款时间</td>
+                        <td>点评状态</td>
+                        <td>打印状态</td>
+                        <td>操作</td>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_order_id" type="checkbox" name="order_id[]" value="<{$var.order_id}>" /></td>
+                            <td><{$var.order_id}></td>
+                            <td style="color:#F00"><{$orderTypes[$var['orderType']]}></td>
+                            <td><{$cates[$var['cate_id']]['cate_name']}></td>
+                            <td><{$var.svctime}></td>
+                            <td><{$var.addr}></td>
+                            <td><{$var.name}></td>
+                            <td><{$var.tel}></td>
+                            <td><{$var.contents}></td>
+                            <td><{$types[$var['status']]}></td>
+                            <td>&yen;<{:round($var['need_pay']/100,2)}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><{$var.pay_time|date='Y-m-d H:i:s',###}></td>
+                            <td><if condition="$var['comment_status'] eq 1">已点评 <else/>未点评</if></td>
+                            <td><if condition="$var['is_print'] eq 1">已打印 <else/>未打印</if></td>
+                        <td>
+                            <if condition="$var['status'] eq 0">
+                                <{:BA('appointorder/delete',array("order_id"=>$var["order_id"]),'删除','act','remberBtn')}>
+                            </if>
+                        </td>
+                        </tr>
+                    </foreach>      
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

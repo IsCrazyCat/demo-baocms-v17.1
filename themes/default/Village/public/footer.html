@@ -1,0 +1,25 @@
+    <footer class="foot-fixed">		
+    <a class="foot-item <if condition="($ctl eq 'index') AND ($act neq 'more')">active</if>" href="<{:U('index/index')}>">		
+    	<span class="iconfont icon-shouye"></span>		
+        	<span class="foot-label">首页</span>		
+            </a>		
+            
+            <a class="foot-item <eq name="act" value="notice">active</eq>" href="<{:U('all/notice')}>">		
+            	<span class="iconfont icon-xiaoxi3"></span>			
+                <span class="foot-label">通知</span>	</a>		
+            
+            <a class="foot-item <eq name="act" value="worker">active</eq>" href="<{:U('all/worker')}>">			
+            <span class="iconfont icon-trlogonline"></span>			
+            <span class="foot-label">团队</span></a>	
+            
+              <a class="foot-item <eq name="act" value="suggestion">active</eq>" href="<{:U('all/suggestion')}>">			
+            <span class="iconfont icon-xiaoxi3"></span>			
+            <span class="foot-label">反馈</span></a>
+            
+              <a class="foot-item <eq name="act" value="bbs">active</eq>" href="<{:U('all/bbs')}>">			
+            <span class="iconfont icon-xiaoxi3"></span>			
+            <span class="foot-label">贴吧</span></a>	
+        </footer>	
+        <iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+       </body>
+  </html>

@@ -1,0 +1,48 @@
+<include file="public:header"/>
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			兑换优惠卡
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+   <li class="x4"><a href="<{:LinkTo('appoint/card',array('state'=>0))}>" <eq name='state' value='0'>class="on"</eq>>未使用</a></li>
+   <li class="x4"><a href="<{:LinkTo('appoint/card',array('state'=>1))}>" <eq name='state' value='1'>class="on"</eq>>已使用</a></li>
+   <li class="x4"><a href="<{:LinkTo('couponcard/exchange')}>" class="on">兑换</a></li>
+</ul>
+
+
+<form action="<{:U('appoint/exchange')}>" method="post" target="x-frame">
+	<div class="blank-40 bg"></div>
+    <div class="blank-10 bg"></div>
+	<div class="line padding border-bottom">
+		<span class="x3 text-gray">当前用户</span>
+		<span class="x9"><{$MEMBER['account']}></span>
+	</div>
+	<div class="line padding border-bottom">
+		<span class="x3 text-gray">输入手机</span>
+		<span class="x9"><input type="text" name="cardNumber" id="cardNumber" class="text-input" placeholder="请输入兑换码"></span>
+	</div>
+	
+	<div class="container">
+		<div class="blank-30"></div>
+		<p><span class="text-dot">小提示：</span> 输入兑换码即可兑换优惠卡，家政订单付款的时候可以使用！</p>
+	</div>
+	<div class="container">
+		<div class="blank-30"></div>
+		<button class="button button-big button-block bg-dot">立即兑换</button>
+		<div class="blank-30"></div>
+	</div>
+</form>
+
+
+<include  file='public:footer'/>  

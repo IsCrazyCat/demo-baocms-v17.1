@@ -1,0 +1,341 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员认证</li>
+        <li class="li2">实名认证</li>
+        <li class="li2 li3">编辑会员认证</li>
+    </ul>
+</div>
+<form target="x-frame" action="<{:U('usersaux/edit',array('user_id'=>$detail['user_id']))}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+             <tr>
+                    <td class="lfTdBt">实名用户：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="user_id" name="data[user_id]" value="<{$detail.user_id|default=''}>"/>
+                            <input class="scAddTextName sj" type="text" name="nickname" id="nickname"  value="<{$user.nickname}>" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                        <code>不要去更改，虽然后台不做限制，但是乱修改会导致认证信息错乱</code>
+                    </td>
+                </tr> 
+                
+              <tr>
+                    <td class="lfTdBt">会员身份证：</td>
+                 <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[card_photo]" value="<{$detail.card_photo}>" id="data_card_photo" />
+                        <div id="fileToUpload" >上传缩略图</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="card_photo_img" width="120" height="80"  src="<{:config_img($detail['card_photo'])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.shop_audit.thumb}>
+                    </div>
+                    <script>                                            
+						var width_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],0)}>';                         
+						var height_shop_audit = '<{:thumbSize($CONFIG[attachs][shop_audit][thumb],1)}>';
+						var pic_pc_quality = '<{$CONFIG[attachs][pic_pc_quality][thumb]}>';                          
+						var uploader = WebUploader.create({                             
+						auto: true,                             
+						swf: '/static/default/webuploader/Uploader.swf',                             
+						server: '<{:U("app/upload/uploadify",array("model"=>"shop_audit"))}>',                             
+						pick: '#fileToUpload',                             
+						resize: true,  
+						accept: {
+							title: 'Images',
+							extensions: 'gif,jpg,jpeg,png',
+							mimeTypes: 'image/*'//只永许上传JPG格式文件
+						}, 
+						compress:{
+							width: width_shop_audit,//宽度
+							height: height_shop_audit,//高度
+							quality: pic_pc_quality,//压缩质量
+							allowMagnify: false,
+							crop: false,
+							preserveHeaders: true,
+							noCompressIfLarger: true,
+							compressSize:0
+						}          
+					});                                                 
+					uploader.on( 'uploadSuccess', function( file,resporse) {                             
+						$("#card_photo").val(resporse.url);                             
+						$("#card_photo_img").attr('src',resporse.url).show();                         
+					});                                                
+					uploader.on( 'uploadError', function( file ) {                             
+						alert('上传出错');                         
+					});                     
+                    </script>
+                </td>
+            </tr>
+            
+                
+                <tr>
+                    <td class="lfTdBt">姓名：</td>
+                    <td class="rgTdBt"><input type="text" name="data[name]" value="<{$detail.name|default=''}>" class="scAddTextName w260" />
+					<code>会员的实名认证姓名</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">手机：</td>
+                    <td class="rgTdBt"><input type="text" name="data[mobile]" value="<{$detail.mobile|default=''}>" class="scAddTextName w260" />
+					<code>会员的实名认证手机</code>
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    <td class="lfTdBt">身份证号码：</td>
+                    <td class="rgTdBt"><input type="text" name="data[card_id]" value="<{$detail.card_id|default=''}>" class="scAddTextName w260" />
+					<code>会员的身份证号码，后台不做判断，管理员乱修改后果自负</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">所在区域：</td>
+                    <td class="rgTdBt jq_tu_city_area">
+                       <select name="data[city_id]" id="city_id" ></select>城市
+                       <select name="data[area_id]" id="area_id"></select>← 地区
+                       <select name="data[business_id]" id="business_id"></select>← 商圈
+                    </td>
+                </tr>
+             
+    			<script src="<{:U('app/datas/cab',array('name'=>'cityareas'))}>"></script>
+                <script>          
+				
+				
+								var city_id = <?php echo (int)$detail['city_id'];?>;
+							    var area_id = <?php echo (int)$detail['area_id'];?>;
+                                var business_id = <?php echo (int)$detail['business_id'];?>;
+                                $(document).ready(function () {
+                                    var city_str = ' <option value="0">请选择...</option>';
+                                    for (a in cityareas.city) {
+                                        if (city_id == cityareas.city[a].city_id) {
+                                            city_str += '<option selected="selected" value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                        } else {
+                                            city_str += '<option value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                        }
+                                    }
+                                    $("#city_id").html(city_str);
+
+                                    $("#city_id").change(function () {
+                                        if ($("#city_id").val() > 0) {
+                                            city_id = $("#city_id").val();
+                                            var area_str = ' <option value="0">请选择...</option>';
+                                            for (a in cityareas.area) {
+                                                if (cityareas.area[a].city_id == city_id) {
+                                                    if (area_id == cityareas.area[a].area_id) {
+                                                        area_str += '<option selected="selected" value="' + cityareas.area[a].area_id + '">' + cityareas.area[a].area_name + '</option>';
+                                                    } else {
+                                                        area_str += '<option value="' + cityareas.area[a].area_id + '">' + cityareas.area[a].area_name + '</option>';
+                                                    }
+                                                }
+                                            }
+                                            $("#area_id").html(area_str);
+                                            $("#business_id").html('<option value="0">请选择...</option>');
+                                        } else {
+                                            $("#area_id").html('<option value="0">请选择...</option>');
+                                            $("#business_id").html('<option value="0">请选择...</option>');
+                                        }
+
+                                    });
+
+                                    if (city_id > 0) {
+                                        var area_str = ' <option value="0">请选择...</option>';
+                                        for (a in cityareas.area) {
+                                            if (cityareas.area[a].city_id == city_id) {
+                                                if (area_id == cityareas.area[a].area_id) {
+                                                    area_str += '<option selected="selected" value="' + cityareas.area[a].area_id + '">' + cityareas.area[a].area_name + '</option>';
+                                                } else {
+                                                    area_str += '<option value="' + cityareas.area[a].area_id + '">' + cityareas.area[a].area_name + '</option>';
+                                                }
+                                            }
+                                        }
+                                        $("#area_id").html(area_str);
+                                    }
+
+
+                                    $("#area_id").change(function () {
+                                        if ($("#area_id").val() > 0) {
+                                            area_id = $("#area_id").val();
+                                            var business_str = ' <option value="0">请选择...</option>';
+                                            for (a in cityareas.business) {
+                                                if (cityareas.business[a].area_id == area_id) {
+                                                    if (business_id == cityareas.business[a].business_id) {
+                                                        business_str += '<option selected="selected" value="' + cityareas.business[a].business_id + '">' + cityareas.business[a].business_name + '</option>';
+                                                    } else {
+                                                        business_str += '<option value="' + cityareas.business[a].business_id + '">' + cityareas.business[a].business_name + '</option>';
+                                                    }
+                                                }
+                                            }
+                                            $("#business_id").html(business_str);
+                                        } else {
+                                            $("#business_id").html('<option value="0">请选择...</option>');
+                                        }
+
+                                    });
+
+                                    if (area_id > 0) {
+                                        var business_str = ' <option value="0">请选择...</option>';
+                                        for (a in cityareas.business) {
+                                            if (cityareas.business[a].area_id == area_id) {
+                                                if (business_id == cityareas.business[a].business_id) {
+                                                    business_str += '<option selected="selected" value="' + cityareas.business[a].business_id + '">' + cityareas.business[a].business_name + '</option>';
+                                                } else {
+                                                    business_str += '<option value="' + cityareas.business[a].business_id + '">' + cityareas.business[a].business_name + '</option>';
+                                                }
+                                            }
+                                        }
+                                        $("#business_id").html(business_str);
+                                    }
+                                    $("#business_id").change(function () {
+                                        business_id = $(this).val();
+                                    });
+                                });
+                </script> 
+                
+                
+                <tr>
+                    <td class="lfTdBt">所在团队：</td>
+                    <td class="rgTdBt jq_tu_city_area">
+                       <select name="data[team_id]" id="team_id" ></select>队伍
+                       <select name="data[jury_id]" id="jury_id"></select>← 团队
+                       <select name="data[group_id]" id="group_id"></select>← 群
+                    </td>
+                </tr>
+             
+    			 <script src="<{:U('app/datas/stock',array('name'=>'teamjurys'))}>"></script>
+                    <script>
+                                    var team_id = "<{$detail['team_id']}>";
+                                    var jury_id = "<{$detail['jury_id']}>";
+                                    var group_id = "<{$detail['group_id']}>";
+                                    $(document).ready(function () {
+                                        var team_str = ' <option value="0">请选择...</option>';
+                                        for (a in teamjurys.team) {
+											//alert(teamjurys.team[a].team_name);//在页面上弹出上联
+                                            if (team_id == teamjurys.team[a].team_id) {
+                                                team_str += '<option selected="selected" value="' + teamjurys.team[a].team_id + '">' + teamjurys.team[a].team_name + '</option>';
+                                            } else {
+                                                team_str += '<option value="' + teamjurys.team[a].team_id + '">' + teamjurys.team[a].team_name + '</option>';
+                                            }
+                                        }
+                                        $("#team_id").html(team_str);
+    
+                                        $("#team_id").change(function () {
+                                            if ($("#team_id").val() > 0) {
+                                                team_id = $("#team_id").val();
+                                                var jury_str = ' <option value="0">请选择...</option>';
+												//alert("上联：山石岩下古木枯");//在页面上弹出上
+                                                for (a in teamjurys.jury) {
+                                                    if (teamjurys.jury[a].team_id == team_id) {
+                                                        if (jury_id == teamjurys.jury[a].jury_id) {
+                                                            jury_str += '<option selected="selected" value="' + teamjurys.jury[a].jury_id + '">' + teamjurys.jury[a].jury_name + '</option>';
+                                                        } else {
+                                                            jury_str += '<option value="' + teamjurys.jury[a].jury_id + '">' + teamjurys.jury[a].jury_name + '</option>';
+                                                        }
+                                                    }
+                                                }
+                                                $("#jury_id").html(jury_str);
+                                                $("#group_id").html('<option value="0">请选择...</option>');
+                                            } else {
+                                                $("#jury_id").html('<option value="0">请选择...</option>');
+                                                $("#group_id").html('<option value="0">请选择...</option>');
+                                            }
+    
+                                        });
+    
+                                        if (team_id > 0) {
+											//alert("上联：山石岩下古木枯");//在页面上弹出上联
+                                            var jury_str = ' <option value="0">请选择...</option>';
+                                            for (a in teamjurys.jury) {
+												
+                                                if (teamjurys.jury[a].team_id == team_id) {
+                                                    if (jury_id == teamjurys.jury[a].jury_id) {
+                                                        jury_str += '<option selected="selected" value="' + teamjurys.jury[a].jury_id + '">' + teamjurys.jury[a].jury_name + '</option>';
+                                                    } else {
+                                                        jury_str += '<option value="' + teamjurys.jury[a].jury_id + '">' + teamjurys.jury[a].jury_name + '</option>';
+														
+														
+                                                    }
+                                                }
+                                            }
+                                            $("#jury_id").html(jury_str);
+                                        }
+    
+    
+                                        $("#jury_id").change(function () {
+                                            if ($("#jury_id").val() > 0) {
+                                                jury_id = $("#jury_id").val();
+                                                var group_str = ' <option value="0">请选择...</option>';
+                                                for (a in teamjurys.group) {
+                                                    if (teamjurys.group[a].jury_id == jury_id) {
+                                                        if (group_id == teamjurys.group[a].group_id) {
+                                                            group_str += '<option selected="selected" value="' + teamjurys.group[a].group_id + '">' + teamjurys.group[a].group_name + '</option>';
+                                                        } else {
+                                                            group_str += '<option value="' + teamjurys.group[a].group_id + '">' + teamjurys.group[a].group_name + '</option>';
+                                                        }
+                                                    }
+                                                }
+                                                $("#group_id").html(group_str);
+                                            } else {
+                                                $("#group_id").html('<option value="0">请选择...</option>');
+                                            }
+    
+                                        });
+    
+                                        if (jury_id > 0) {
+                                            var group_str = ' <option value="0">请选择...</option>';
+                                            for (a in teamjurys.group) {
+                                                if (teamjurys.group[a].jury_id == jury_id) {
+                                                    if (group_id == teamjurys.group[a].group_id) {
+                                                        group_str += '<option selected="selected" value="' + teamjurys.group[a].group_id + '">' + teamjurys.group[a].group_name + '</option>';
+                                                    } else {
+                                                        group_str += '<option value="' + teamjurys.group[a].group_id + '">' + teamjurys.group[a].bgroup_name + '</option>';
+                                                    }
+                                                }
+                                            }
+                                            $("#group_id").html(group_str);
+                                        }
+                                        $("#group_id").change(function () {
+                                            group_id = $(this).val();
+                                        });
+                                    });
+                    </script> 
+                
+                
+                
+                 <tr>
+                    <td class="lfTdBt">地址：</td>
+                    <td class="rgTdBt"><input type="text" name="data[addr_info]" value="<{$detail.addr_info|default=''}>" class="scAddTextName w260" />
+					<code>会员的详细地址</code>
+                    </td>
+                </tr>
+                
+          
+                
+                
+                 <tr>
+                    <td class="lfTdBt">担保人的姓名：</td>
+                    <td class="rgTdBt">  
+                    <input type="text" name="data[guarantor_name]" value="<{$detail.guarantor_name|default=''}>" class="scAddTextName w260" />
+					<code>担保人的姓名</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">担保人的电话：</td>
+                    <td class="rgTdBt">  
+                    <input type="text" name="data[guarantor_mobile]" value="<{$detail.guarantor_mobile|default=''}>" class="scAddTextName w260" />
+					<code>担保人的电话</code>
+                    </td>
+                </tr>
+    </table>
+</div>
+<div class="smtQr"><input type="submit" value="确定编辑" class="smtQrIpt" /></div>
+</div>
+</form>
+<include  file='public:footer'/>       

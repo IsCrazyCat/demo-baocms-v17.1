@@ -1,0 +1,62 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">会员管理</li>
+        <li class="li2 li3">会员等级</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>会员的等级图标建议写成样式！请不要随意删除等级，不然等级混乱后影响全局操作！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('userrank/create','','添加等级','load','',800,550)}>
+            </div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="rank_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>等级名称</td>
+                        <td>需要人数</td>
+                        <td>等级折扣</td>
+                        <td>等级推广奖励</td>
+                        <td>等级图标</td>
+                        <td>需要积分</td> 
+                        <td>购买金额</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_rank_id" type="checkbox" name="rank_id[]" value="<{$var.rank_id}>" /></td>
+                            <td><{$var.rank_id}></td>
+                            <td><{$var.rank_name}></td>
+                            <td><{$var.number}></td>
+                            <td><{$var.discount}>%</td>
+                            <td><{$var.reward}>%</td>
+                            <td><img style="width:38px;" src="<{:config_img($var['photo'])}>"/></td>
+                            <td><{$var.integral}></td>
+                            <td style="color:#F00"><{:round($var['price']/100,2)}></td>
+                            <td>
+                                <{:BA('userrank/edit',array("rank_id"=>$var["rank_id"]),'编辑','load','remberBtn',800,550)}>
+                                <{:BA('userrank/delete',array("rank_id"=>$var["rank_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+
+
+

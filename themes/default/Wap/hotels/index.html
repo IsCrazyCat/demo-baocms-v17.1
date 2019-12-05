@@ -1,0 +1,210 @@
+<include file='public:header'/> 
+<php>
+    $areas = D('Area')->where(array('city_id'=>$city_id))->select();
+    $Area = D('Area')->find($area_id);
+</php>   
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+        
+		<if condition="empty($keyword)">
+        	<div class="top-title  get-map-marker">酒店首页</div>
+        </if>
+		<div class="top-search" style="<if condition="empty($keyword)">display:none;</if>">
+			<form method="post" action="<{:LinkTo('hotels/index',$linkArr,array('keyword'=>'0'))}>">
+				<input name="keyword" placeholder="<{$keyword|default='输入酒店的关键字'}>"  />
+				<button type="submit" class="iconfont icon-search"></button> 
+			</form>
+		</div>
+        <if condition="empty($keyword)">
+            <div class="top-signed">
+                <a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+            </div>
+        </if>
+        
+	</header>
+<style>
+
+.shop-list .item{padding:10px 0!important}
+.shop-list .item h5 span{height:inherit;line-height:inherit;color:#999;width:auto}
+.shop-list .item .des .addr{padding:0}
+footer{height:3rem}
+.cate-wrap{font-size:0;background-color:#fff;border-bottom:1px solid #f3f3f3;width:100%;overflow:hidden}
+.cate-wrap li{box-sizing:border-box;width:20%;float:left}
+.icon2{color:#555;font-size:16px;text-align:center;display:block;padding:.6rem 0}
+.cate-img{background-size:6rem auto;display:inline-block}
+.cate-img img{width:2.6rem;height:2.6rem}
+.cate-desc{display:block}
+.cate-desc{padding-top:.4rem}
+.shop-list .item a.pic{float:left;width:100px;height:80px;width:80px}
+.shop-list .item .des{display:block;overflow:hidden}
+.shop-list a.item{padding:10px 0}
+.shop-list a.item .pics{overflow:hidden;width:100%;margin-top:20px;display:-webkit-inline-box}
+.shop-list a.item .pics img{width:99%}
+.shop-list a.item .gallery{width:100%;overflow:hidden;padding:0}
+.shop-list a.item .gallery li{float:left;border:none;list-style:none;width:20%;margin-right:5px}
+.shop-list a.item .gallery img{max-width:100%;max-height:60px;overflow:hidden;float:left;display:inline;margin-right:10px;position:relative;z-index:1;width:auto}
+</style>
+
+	<script>
+		$(function(){
+			$("#search-btn").click(function(){
+				if($(".top-search").css("display")=='block'){
+					$(".top-search").hide();
+					$(".top-title").show(200);
+				}
+				else{
+					$(".top-search").show();
+					$(".top-title").hide(200);
+				}
+			});
+		});
+	</script>
+    
+    
+       <!--广告位开始-->
+     	<div id="tudou-slide" class="tudou-slide">
+			<div class="hd"><ul></ul></div>
+			<div class="bd">
+				<ul>
+					<calldata mdl="Ad" where=" closed=0 AND site_id=79 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+						<li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+        <script>
+			TouchSlide({
+				slideCell: "#tudou-slide",
+				titCell: ".hd ul",
+				mainCell: ".bd ul",
+				effect: "left",
+				autoPlay: true,
+				autoPage: true,
+				switchLoad: "_src",
+			});
+		</script>
+    <!--广告位END-->  
+    
+    
+    
+     <if condition="empty($cate_id) && empty($area_id) && empty($order)">
+        <ul class="cate-wrap bbOnepx">
+            <php>$a = 0;</php>
+            <volist name="stars" id="item">
+                    <php>$a++;</php>    
+                    <if condition="$a lt 11"> 
+                        <li>
+                            <a class="icon2" href="<{:LinkTo('hotels/index',$linkArr,array('star'=>$i))}>" tongji_tag="m_home_job_new">
+                                <span class="cate-img" id="job"><img src="/static/default/wap/image/hotel/hotel_star_<{$a}>.png" /></span>
+                                <span class="cate-desc" <eq name="i" value="$star">style="color:#F00"</eq> ><{:tu_msubstr($item,0,4,false)}></span>
+                            </a>
+                        </li>
+                    </if>
+            </volist>
+        </ul>
+    </if>
+    
+    
+    
+    
+    <div id="filter2" class="filter2">
+    <ul class="tab clearfix">
+      <li class="item">
+        <a href="javascript:void(0);">
+            <if condition="!empty($cate_id)">
+            	<volist name="cates" id="var">
+                 	<if condition="$cate_id eq $i">
+            			<span id="str_b_node" style="color:#f60"> <{$var}></span>
+                    </if>
+                </volist>
+            <else/>
+            	<span id="str_b_node">选择分类</span>
+            </if>
+            <em></em>
+        </a>
+      </li>
+      <li class="item">
+        <a href="javascript:void(0);">
+        
+                <if condition="!empty($area_id)">
+               		<span id="str_b_node" style="color:#f60;"><{$Area['area_name']}></span>
+                <else/>
+                	<span id="str_d_node">选择地区</span>
+                </if>
+        <em></em>
+        </a>
+      </li>
+      <li class="item">
+        <a href="javascript:void(0);">
+        
+        <if condition="empty($order)">
+        	<span id="str_e_node">选择排序</span>
+        <elseif condition="$order eq m"/>
+        	<span id="str_b_node" style="color:#f60;">默认排序</span>
+        <elseif condition="$order eq d"/>
+        	<span id="str_b_node" style="color:#f60;">距离最近</span>
+        <elseif condition="$order eq s"/>
+        	<span id="str_b_node" style="color:#f60;">销量排序</span>
+        <elseif condition="$order eq p"/>
+        	<span id="str_b_node" style="color:#f60;">价格最低</span>
+        </if>
+        
+        <em></em>
+        </a>
+      </li>
+    </ul>
+    
+    <div class="inner" style=" display:none">
+      <ul>
+        <li><a <if condition='empty($cate_id)'>style="color:red;"</if>  href="<{:LinkTo('hotels/index',$linkArr,array('cate_id'=>0))}>">全部</a></li>
+        <volist name="cates" id="var">
+         <li><a <if condition="$cate_id eq $i">style="color:red;"</if>  href="<{:LinkTo('hotels/index',$linkArr,array('cate_id'=>$i))}>"><{$var}></a></li>
+        </volist>
+       </ul>
+    </div>
+    
+    
+    <div class="inner" style=" display:none">
+        <ul>
+         <li class="<if condition="empty($area_id)">style="color:red;"</if> "><a href="<{:LinkTo('booking/index',$linkArr,array('area_id'=>0))}>" >全部地区</a></li>
+				<foreach name="areas" item="var">
+                <php>if($var['city_id'] == $city_id){</php>    
+				<li><a <if condition="$area eq $var['area_id']"> style="color:red;"</if>  href="<{:LinkTo('hotels/index',$linkArr,array('area_id'=>$var['area_id']))}>"><{$var.area_name}></a></li>
+                <php>}</php> 
+				</foreach>
+            </ul>
+    </div>
+    
+    
+   
+    
+    <div class="inner" style="display:none;">
+     <ul>
+          <li><a href="<{:LinkTo('hotels/index')}>">重新选择</a></li>
+          <li><a <if condition="$order gt m"> style="color:red;"</if> href="<{:LinkTo('hotels/index',$linkArr,array('order'=>'m'))}>">默认排序</a></li>
+          <li><a <if condition="$order gt d"> style="color:red;"</if> href="<{:LinkTo('hotels/index',$linkArr,array('order'=>'d'))}>">距离最近</a></li>
+          <li><a <if condition="$order eq s"> style="color:red;"</if> href="<{:LinkTo('hotels/index',$linkArr,array('order'=>'s'))}>">销量最高</a></li>
+          <li><a <if condition="$order eq p"> style="color:red;"</if>href="<{:LinkTo('hotels/index',$linkArr,array('order'=>'p'))}>">价格最低</a></li>
+       </ul>
+    </div>
+    <div id="parent_container" class="inner_parent" style="display:none;"><div class="innercontent"></div></div>
+    <div id="inner_container" class="inner_child" style="display:none;"><div class="innercontent"></div></div>
+</div>
+<!--end-->    
+
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;"><i class="pull2"></i></div>
+
+	<div class="container">
+		<ul id="shop-list" class="shop-list"></ul>
+    </div>
+
+	<script>
+		$(document).ready(function () {
+			showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+	
+<include file="public:footer"/>

@@ -1,0 +1,67 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">分类信息</li>
+        <li class="li2">分类管理</li>
+        <li class="li2 li3">配置标签</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+<p class="attention"><span>注意：</span>当前分类【<{$detail['cate_name']}>】</p>
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('lifecate/tag',array('cate_id'=>$detail['cate_id']))}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+             
+             
+             
+             
+                    <tr>
+                        <td width="140" class="lfTdBt">标签名称:</td>
+                        <td>
+                            <table width="500" style="margin-left: 10px;" class="jq_table<{$detail['cate_id']}>">
+                                <tr>
+                                    <td colspan="3" style="text-align:right; margin-top:10px;">
+                                        <a class="jq_add" rel="<{$detail['cate_id']}>" href="javascript:void(0);">新增一个标签</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>属性</th>
+                                    <th>排序</th>
+                                    <th>操作</th>
+                                </tr>
+                                <foreach name="tags" item="item">
+                                    <tr>
+                                        <td align="center"><input class="manageInput w150" type="text" value="<{$item.tag_name}>" name="old[<{$item.tag_id}>][tag_name]"/></td>
+                                        <td align="center"><input class="manageInput w150" type="text" value="<{$item.orderby}>" name="old[<{$item.tag_id}>][orderby]"/></td>
+                                        <td align="center"><a class="jd" mini="act" href="<{:U('lifecate/tag_delete',array('tag_id'=>$item['tag_id']))}>">删除</a></td>
+                                    </tr>  
+                                </foreach>
+                            </table>
+                        </td>
+                    </tr>
+               
+                
+                <script>
+                    var num_1 = 1;
+                    $(document).ready(function (){
+                        $(document).on('click', '.jq_delete', function (){
+                            $(this).parent().parent().remove();
+                        });
+
+                        $(".jq_add").click(function (){
+                            var rel = $(this).attr('rel');
+                            num_1++;
+                            var str = '<tr><td align="center"><input class="manageInput w150" type="text" name="data[select' + rel + '][' + num_1 + '][tag_name]"/></td><td align="center"><input class="manageInput w150" type="text" value="100" name="data[select' + rel + '][' + num_1 + '][orderby]"/></td> <td align="center"><a class="jq_delete" href="javascript:void(0);">删除</a></td></tr> ';
+                            $(".jq_table" + rel).append(str);
+                        });
+                    });
+                </script>   
+                
+            </table>
+            <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

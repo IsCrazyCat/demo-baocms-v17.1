@@ -1,0 +1,125 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">五折卡</li>
+        <li class="li2">五折卡订单</li>
+        <li class="li2 li3">订单列表</li>
+    </ul>
+</div>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+.main-jsgl .jsglNr .selectNr .left a, .piliangcaozuo {height: 30px;line-height: 30px;margin-bottom: 10px;}
+</style>
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span> 五折卡订单详细列表，您可以根据城市，下单时间，等信息检索五折卡信息，支持添加五折卡订单，注意不要胡乱添加</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+        	<div class="left">
+                <{:BA('zhe/order_create','','添加五折卡订单')}>
+            </div>
+            <div class="right">
+                <form method="post" action="<{:U('zhe/order')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                        <span>  城市：</span>   
+                        <select name="area_id" id="city_id" class="select w120">
+                            <option value="0">请选择...</option>
+                            <foreach name="zhe_city" item="var">
+                                <option value="<{$var.city_id}>"  <eq name="var.city_id" value="$city_id">selected="selected"</eq> ><{$var.name}></option>
+                            </foreach>   
+                        </select>
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>订单状态：</span>
+                                <select class="select w120" name="st">
+                                    <option <eq name="st" value="999">selected="selected"</eq> value="999">请选择</option>
+                                    <option <eq name="st" value="0">selected="selected"</eq>  value="0">未付款</option>
+                                    <option <eq name="st" value="1">selected="selected"</eq>  value="1">已付款</option>
+                                </select>
+                            </label>
+                            
+                            <label>
+                                <span>五折卡类别：</span>
+                                <select class="select w120" name="type">
+                                    <option <eq name="type" value="999">selected="selected"</eq> value="999">请选择</option>
+                                    <option <eq name="type" value="1">selected="selected"</eq>  value="1">周卡</option>
+                                    <option <eq name="type" value="2">selected="selected"</eq>  value="2">年卡</option>
+                                </select>
+                            </label>
+                            <label>
+                                <span>  订单ID：</span>   
+                                <input type="text" name="order_id" value="<{$order_id|default=''}>" class="inptText" />
+                                <input type="submit" class="inptButton" value="搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="order_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>城市</td>
+                        <td>用户</td>
+                        <td>类别</td>
+                        <td>状态</td>
+                        <td>编号</td>
+                        <td>实付金额</td>
+                        <td>开始时间</td>
+                        <td>结束时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_order_id" type="checkbox" name="order_id[]" value="<{$var.order_id}>" /></td>
+                            <td><{$var.order_id}></td>
+                            <td><{$citys[$var['city_id']]['name']}></td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td><if condition="$var['type'] eq 1">周卡<else/>年卡</if></td>
+                            <td><if condition="$var['status'] eq 1">已付款<else/>未付款</if></td>
+                            <td><{$var.number}></td>
+                            <td>&yen;<{:round($var['need_pay']/100,2)}></td>
+                            <td><{$var.start_time|date="Y-m-d H:i:s",###}></td>
+                            <td><{$var.end_time|date="Y-m-d H:i:s",###}></td>
+                            <td>
+                            	<{:BA('zhe/order_edit',array("order_id"=>$var["order_id"]),'编辑','','remberBtn')}>
+                                <{:BA('zhe/order_delete',array("order_id"=>$var["order_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                   
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<include  file='public:footer'/>       

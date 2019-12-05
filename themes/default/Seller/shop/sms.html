@@ -1,0 +1,41 @@
+<include file='public:header'/>  
+<style>.xiaoqu-search { margin-top:2rem;}</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			商家短信管理
+		</div>
+		<div class="top-share">
+		</div>
+	</header>
+
+<style>ul {padding-left: 0px;}</style>
+
+<include file='shop:nav'/> 
+
+<div class="blank-40"></div>   
+ <form action="<{:U('shop/sms')}>" method="post" target="x-frame">
+	<div class="line padding border-bottom">
+		<span class="x3">条数：</span>
+		<span class="x9"><input type="text" name="num"  class="text-input text-gray" placeholder="请输入100的倍数"></span>
+		</div>
+	<div class="container">
+		<div class="blank-30"></div>
+		<p><span class="text-dot">小提示：</span> 
+        	亲，您当前共有余额：<font color="red"><{:round($MEMBER['money']/100,2)}></font>【这里不能用商户资金购买，商户资金只能提现】
+            <if condition="!empty($detail['num'])">
+               您当前有短信：<font color="red"><{$detail['num']}></font>条。
+            </if>
+           价格<{$CONFIG[sms_shop][sms_shop_money]}>元一条，一次性最多购买<{$CONFIG[sms_shop][sms_shop_big]}>条！最少<{$CONFIG[sms_shop][sms_shop_small]}>条，并只能为整数。
+       </p>
+
+	</div>
+	<div class="container">
+		<div class="blank-30"></div>
+		<button class="button button-big button-block bg-dot">点击购买</button>
+		<div class="blank-30"></div>
+	</div>
+</form>
+<include file="public:footer"/>

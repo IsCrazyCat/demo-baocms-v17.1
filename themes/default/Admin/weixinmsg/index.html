@@ -1,0 +1,91 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">微信管理</li>
+        <li class="li2">微信消息</li>
+        <li class="li2 li3">发送日志</li>
+    </ul>
+</div>
+<style>
+.tips{color: #fff; background: #1ca290; padding: 0px 5px; border-radius:0px; margin-left:0 5px; display: inline-block; float: right; height: 20px; line-height: 20px;}
+</style>
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span>这里是微信模板消息发送列表，每一页排列100条记录，支持批量删除，主要是为了保留方便管理员查询调试作用，这里的返回码对应的错误到微信官方去查询！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+        	<div class="left">
+                <a mini="act" href="<{:U('weixinmsg/delete_drop')}>">清空微信模板日志【谨慎操作】</a>  
+            </div>
+            
+            <div class="right">
+                <form method="post" action="<{:U('weixinmsg/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>  ID：</span>   <input type="text" name="order_id" value="<{$msg_id|default=''}>" class="inptText" />
+                                <input type="submit" class="inptButton" value=" 搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="msg_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>接受用户ID</td>
+                        <td>接受用户昵称</td>
+                        <td>模板标题</td>
+                        <td>返回码</td>
+                        <td>返回内容</td>
+                        <td>发送内容</td>
+                        <td>创建时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                        <td><input class="child_msg_id" type="checkbox" name="msg_id[]" value="<{$var.msg_id}>" /></td>
+                        <td><{$var.msg_id}></td>
+                        <td><{$var.user_id}></td>
+                        <td><{$users[$var['user_id']]['nickname']}></td>
+                        <td><{$var.serial.title}></td>
+                        <td><{$var.status}></td>
+                        <td><a class="tips" rel="<{$var.info}>" href="javascript:void(0)">查看返回码</a></td>
+                        <td style="font-size:10px; height:20px; line-height:20px;"><{$var.comment}></td>
+                        <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                        <td>
+                            <{:BA('weixinmsg/delete',array("msg_id"=>$var["msg_id"]),'删除','act','remberBtn_small_quxiao')}>
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('weixinmsg/delete','','批量删除','list',' a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+  <script>
+       $(document).ready(function (e) {
+			$(".tips").click(function () {
+				var tipnr = $(this).attr('rel');
+				layer.tips(tipnr, $(this), {
+					tips: [4, '#1ca290'],
+					time: 4000
+				});
+			})
+		});
+    </script>
+<include  file='public:footer'/>       

@@ -1,0 +1,8 @@
+<foreach name="list" item="item">
+	<a class="item" href="#">	
+		<div class="des">	
+			<h5><{:tu_msubstr($item['title'],0,9,false)}></h5>
+			<span class="addr">	地址：<{$item['addr']}></span>
+		</div>	
+	</a>
+</foreach>

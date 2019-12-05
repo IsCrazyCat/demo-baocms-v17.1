@@ -1,0 +1,53 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			小区管理
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+    
+     
+		<li><a href="<{:U('community/user')}>"><span class="iconfont icon-key"></span>我要开门<i class="iconfont icon-angle-right"></i></a></li>
+    
+		<li><a href="<{:U('community/index')}>"><span class="iconfont icon-wodexiaoqu1"></span>我加入的小区<if condition="$community gt 0"><font>(<{$community}>)</font> </if><i class="iconfont icon-angle-right"></i></a></li>
+		<li><a href="<{:U('community/tongzhi')}>"><span class="iconfont icon-xiaoxi3"></span>小区通知<i class="iconfont icon-angle-right"></i></a></li>
+
+  		<li>
+            <a href="<{:U('community/tieba')}>"><span class="iconfont icon-tubiao1tieba1"></span>我的小区贴吧
+                <if condition="$tieba gt 0"><font>(<{$tieba}>)</font> </if>
+                <if condition="$counts['tieba_today'] neq null"><font>今日：(<b><{$counts.tieba_today}></b>)</font>  </if> 
+                <i class="iconfont icon-angle-right"></i>
+            </a>
+        </li>
+
+       <div class="blank-10 bg"></div>
+		<li>
+            <a href="<{:U('community/feedback')}>"><span class="iconfont icon-guanli"></span>我的报修
+                <if condition="$feedback gt 0"><font>(<{$feedback}>)</font> </if>               
+                <if condition="$counts['feedback_today'] neq null"><font>今日：(<b><{$counts.feedback_today}></b>)</font>  </if> 
+                <i class="iconfont icon-angle-right"></i>
+            </a>
+        </li>
+        <li>
+            <a href="<{:U('community/order')}>"><span class="iconfont icon-maidan"></span>我的缴费单
+                <if condition="$communityorder gt 0"><font>(<{$communityorder}>)</font> </if>
+                <if condition="$counts['communityorder_today'] neq null"><font>今日：(<b><{$counts.communityorder_today}></b>)</font>  </if> 
+                <i class="iconfont icon-angle-right"></i>
+            </a>
+        </li>
+
+
+	</ul>
+</div>
+
+
+<include file='public:footer'/>

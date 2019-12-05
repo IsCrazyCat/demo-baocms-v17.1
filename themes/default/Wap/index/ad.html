@@ -1,0 +1,65 @@
+
+<if condition="empty($index_mask_show) and $CONFIG['other']['index_mask_show']">
+	<div id="notice" style="visibility:visible;display:block;">
+        <div class="mask" onclick="showDig()"></div>
+        <div class="mask2 ">
+            <div class="iboxx n-cus-bb animated bounceIn animationd05">
+                <div class="n-cus-b">
+                    <div class="top1">
+                        <h2><{$CONFIG[other][index_mask_title]}></h2>
+                        <span style="left:0px;"><{$CONFIG[other][index_mask_intro]}></span>
+                    </div>
+
+                    <div class="bottom1">
+                        <div class="notice"><{$CONFIG[other][index_mask_textarea]}></div>
+                        <div class="bs">
+                            <a href="javascript:;" onclick="showDig('<{:U('index/url')}>')" class="url">抢红包</a>
+                            <a href="javascript:;" onclick="showDig('<{:U('news/index')}>')" class="url2">今日头条</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <i class="close iconfont animated bounceIn animationd05" onclick="showDig()"></i>
+        </div>
+    </div>
+</if>
+
+<style>
+.mask{background:rgba(0,0,0,.55);position:absolute;height:110%;width:100%;top:0;left:0;overflow:hidden}
+#notice .n-cus-bb{z-index:1001;width:100%;background:#fff;position:relative}
+#notice{display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:1001;box-sizing:border-box;padding-top:30%}
+#notice .n-cus-bb i{z-index:6;font-size:35px;position:absolute;display:block;right:43%;bottom:0;color:#fff}
+#notice .mask{display:block;z-index:1001}
+#notice .iboxx{overflow:hidden;height:auto;background-color:#fff;margin:0 auto;border-radius:10px 10px 10px 10px}
+#notice .top1{background-size:cover;height:80px;text-align:center;padding:20px 20px 20px 20px;background-image:url(/static/default/wap/image/index/bgimg.png)}
+#notice .bottom1{height:auto;padding:20px 20px 20px 20px;background-color:#fff}
+#notice .top1>h2{color:rgba(248,250,90,.93);height:30px;overflow:hidden;margin-bottom:5px}
+#notice .notice{height:auto;color:grey;margin-bottom:15px;font-size:14px;line-height:1.8em}
+#notice .bs>a:visited{color:#fff}
+#notice .bs>a:link{color:#fff}
+#notice .bs{height:40px;width:100%;margin:0 auto;margin-top:20px}
+#notice .bs a{height:40px;background-color:#ffd800;text-align:center;color:#fff;line-height:40px;border-radius:20px 20px 20px 20px;float:left;margin-right:10%;width:45%;display:inline-block}
+#notice .bs .url2{background-color:rgba(255,106,0,.97);float:right;margin:0}
+#notice .imgg{margin-top:20px;background-color:#fff;width:35px;height:35px;border-radius:50%;line-height:50px}
+#notice .imgg img{width:23px;height:18px;position:relative;top:-4px}
+#notice .top1>span{font-size:13px;color:#fff;position:relative;right:-25px}
+#notice .mask2{height:auto;width:80%;margin:0 auto;border-radius:10px 10px 30px 10px;z-index:13}
+#notice .close{z-index:1001;font-size:35px;position:relative;display:block;color:#fff;text-align:center;bottom:-10px}
+#notice .iboxx .top1 .audio-play{box-shadow:0 0 10px 1px rgba(0,0,0,.06);text-align:center;line-height:40px;width:40px;height:40px;border-radius:50%;box-shadow:0 0 10px #e0e6ec;position:absolute;left:20px;margin-top:10px;text-align:center;background-color:#fff}
+#notice .iboxx .audio-play>.music{margin-top:35px;margin-left:13px;position:relative;top:-5px;left:-5px}
+#triangle-right1{width:0;height:0;position:absolute;left:13px;top:12px;border-top:10px solid transparent;border-left:20px solid #c00;border-bottom:10px solid transparent}
+#notice audio{display:none}
+#notice .hidd{display:none}
+</style>
+<script>
+      
+        function showDig(url) {
+            if($("#notice:visible").length==1){
+                if(url != undefined)
+					window.location.href = url;
+					$("#notice").remove();
+            }else{
+				$("#notice").show();
+			}
+        }
+    </script>

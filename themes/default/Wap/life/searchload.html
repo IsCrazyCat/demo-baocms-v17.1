@@ -1,0 +1,47 @@
+<volist name="list" id="var">
+	<li class="tie-item" onclick="location='<{:U('life/detail',array('life_id'=>$var['life_id']))}>'">
+		<div class="item-head line">
+			<span class="avatar x2"><img src="<{:config_img($users[$var['user_id']]['face'])}>"/></span>
+			<span class="info x10">
+				<em>
+                    <{:config_user_name($users[$var['user_id']]['nickname'])}>
+                    <gt name="var.top_date" value="$today"><span class="top">顶</span></gt>
+                    <gt name="var.urgent_date" value="$today"><span class="top">急</span></gt>
+                    <eq name="var.packet" value="1"><span class="top text-dot">有红包</span></eq>
+                </em>
+				<span class="float-right"><{:formatTime($var['create_time'])}></span>
+				<p class="title"><{:tu_msubstr($var['title'],0,25)}></p>
+			</span>
+            
+		</div>
+		<div class="item-body">
+        
+			<a href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>">
+                <if condition="!empty($var['details'])">
+                	<p><{:tu_msubstr(cleanhtml($var['details']),0,100,false)}></p>
+                </if>
+			</a>
+           
+           <!--如果有图片-->
+            <if condition="$var['pics']">
+                <div class="pic">
+                    <ul class="gallery">
+                        <volist name="var.pics" id="pic">
+                            <php> if($key < 3){ </php>
+                            <li class="fl img-list <if condition='$key eq 0'>imgli</if>"><img src="<{:config_img($pic['photo'])}>" height="75"/></li>
+                            <php> } </php>
+                        </volist>
+                    </ul>
+                </div>
+                <div class="blank-10"></div>
+            </if>
+         
+			<div class="ctrl">
+				<a class="ctrl-zan" href="tel:<{$var.mobile}>"><i class="iconfont icon-phone-line"></i> <em></em></a>
+				<a class="ctrl-reply"><i class="iconfont icon-liulan2"></i> <em><{$var['views']}></em></a>
+			</div>
+		</div>
+		
+	</li>
+    <div class="blank-10 bg"></div>
+</volist>

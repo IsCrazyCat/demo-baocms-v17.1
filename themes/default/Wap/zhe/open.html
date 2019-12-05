@@ -1,0 +1,77 @@
+<php>$mobile_title = $detail['zhe_name'];</php>
+<include  file='public:header'/>   
+	<header class="top-fixed bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('zhe/detail',array('zhe_id'=>$detail['zhe_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			五折卡详情
+		</div>
+		<div class="top-search" style="display:none;">
+			<form method="post" action="<{:U('zhe/index')}>">
+				<input name="keyword" placeholder="输入五折卡的关键字"  />
+				<button type="submit" class="iconfont icon-search"></button> 
+			</form>
+		</div>
+       <div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+		</div>
+	</header>  
+    
+    <script type="text/javascript">
+	$(function(){
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+		
+	});
+	</script>
+    
+<form method="post" target="x-frame" action="<{:U('zhe/buy',array('zhe_id'=>$detail['zhe_id']))}>">
+        <div class="blank-10 bg"></div>
+            <ul id="pay-method" class="pay-method">
+                 <li data-rel="1" class="media media-x payment active">
+                    <a class="float-left" href="javascript:;"><img src="/static/default/wap/image/pay/alipay_mobile.png"></a>
+                    <div class="media-body">
+                        <div class="line">
+                            <div class="x10">周卡<p>价格 &yen;<{$CONFIG['zhe']['week_card_price']}>元</p></div>
+                            <div class="x2"><span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span></div>
+                        </div>
+                    </div>
+                </li>
+                <li data-rel="2" class="media media-x payment">
+                    <a class="float-left" href="javascript:;"><img src="/static/default/wap/image/pay/money_mobile.png"></a>
+                    <div class="media-body">
+                        <div class="line">
+                            <div class="x10">年卡<p>价格 &yen;<{$CONFIG['zhe']['year_card_price']}>元</p></div>
+                            <div class="x2"><span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span></div>
+                        </div>
+                    </div>
+                </li>		
+               </ul>
+              <input id="type" type="hidden" name="type" value="1"/>  
+              <div class="blank-20"></div>
+              <div class="container text-center">
+                  <button type="submit" class="button button-block button-big bg-dot">购买五折卡</button>
+             </div>
+            
+		</div>
+          </form> 
+        <script>
+		$("#pay-method li").click(function(){
+				var type = $(this).attr("data-rel");
+				$("#type").val(type);
+				$("#pay-method li").each(function(){
+					$(this).removeClass("active");
+				});
+				$(this).addClass("active");
+			});
+        </script>         
+<include  file='public:footer'/> 

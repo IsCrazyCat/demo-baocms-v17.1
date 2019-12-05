@@ -1,0 +1,80 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">教育</li>
+        <li class="li2">教育分类</li>
+        <li class="li2 li3">分类列表</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>教育暂时2级分类的，请及时要上传分类的图片，用于手机版显示哦~</p>
+    <div class="jsglNr">
+        <form id="cate_action" action="" target="x-frame" method="post">
+            <div class="selectNr" style="border-top: 1px solid #dbdbdb;">
+                <div class="left">
+                    <{:BA('edu/cate_create','','添加一级分类','load','',600,300)}>
+                </div>
+                <div class="right">
+                    <{:BA('edu/cate_update','','更新','list','remberBtn')}>
+                </div>
+            </div>
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF; text-align:center;">
+                    <tr bgcolor="#F5F6FA" height="48px;" style="color:#333; font-size:16px; line-height:48px;">
+                        <td>分类</td>
+                        <td>排序</td>
+                        <td>图标</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <if condition="($var.parent_id eq 0)">  
+                            <tr bgcolor="#f1f1f1" height="48px" style="font-size:14px; color:#545454; text-align:center; line-height:48px;">
+                                <td style="text-align:left; padding-left:20px;"><{$var.cate_name}> id：(<{$var.cate_id}>)</td>
+                                <td style="padding-left:70px;"><input name="orderby[<{$var.cate_id}>]" value="<{$var.orderby}>" type="text" class="remberinput w80" /></td>
+                                <td>
+                                    <if condition="empty($var['photo'])"> 
+                                      暂无图表
+                                    <else/>
+                                        <img src="<{:config_img($var['photo'])}>" width="30" height="30" />
+                                    </if>
+                                </td>
+                                <td style="text-align: center;">
+                                    <{:BA('edu/cate_create',array("parent_id"=>$var["cate_id"]),'添加子分类','load','remberBtn',600,300)}>
+                                    <{:BA('edu/cate_edit',array("cate_id"=>$var["cate_id"]),'编辑','load','remberBtn',600,300)}>
+                                    <{:BA('edu/cate_delete',array("cate_id"=>$var["cate_id"]),'删除','act','remberBtn')}>
+                              </td>
+                            </tr>
+                            <foreach name="list" item="var2">
+                                <eq name="var2.parent_id" value="$var.cate_id">
+                                <tr height="48px" style="font-size:14px; color:#545454; text-align:center; line-height:48px;">
+                                    <td>|-------<{$var2.cate_name}> id： (<{$var2.cate_id}>)</td>
+                                    <td><input name="orderby[<{$var2.cate_id}>]" value="<{$var2.orderby}>" type="text" class="remberinput w80" /></td>
+                                    <td>
+                                        <if condition="empty($var2['photo'])"> 
+                                          暂无图表
+                                        <else/>
+                                            <img src="<{:config_img($var['photo'])}>" width="30" height="30" />
+                                        </if>
+                                    </td>
+                                    <td>
+                                        <{:BA('edu/cate_edit',array("cate_id"=>$var2["cate_id"]),'编辑','load','remberBtn',600,300)}>
+                                        <{:BA('edu/cate_delete',array("cate_id"=>$var2["cate_id"]),'删除','act','remberBtn')}>
+                                    </td>
+                                </tr>
+                                </eq>
+                            </foreach>
+                        </if>
+                    </foreach>        
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+
+
+
+
+
+

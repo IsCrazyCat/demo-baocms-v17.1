@@ -1,0 +1,84 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+    
+       <if condition="$type eq 1">
+	   		<a class="top-addr" href="<{:U('wap/ele/pay',array('order_id'=>$order_id))}>"><i class="iconfont icon-angle-left"></i></a>
+       <else/>
+       		<a class="top-addr" href="<{:U('information/index')}>"><i class="iconfont icon-angle-left"></i></a>
+       </if>
+	</div>
+		<div class="top-title">
+			收货地址设置
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+  
+ <style>
+ .list-media-x{ margin-top:0rem;}
+ </style>   
+    
+    <div class="list-media-x" id="list-media">
+	<ul>
+        <volist name="list" id="item">
+            <div class="line padding border-bottom">
+                <div class="x12">
+                    <p class="text-gray">姓名：<{$item.name}></p>
+                    <p class="text-gray">电话：<{$item.mobile}></p>
+                    <p class="text-gray">区域：<{$item['city']['name']}> <{$item['area']['area_name']}> <{$item['business']['business_name']}></p>
+                    <p class="text-gray">地址：<{$item.addr}></p>
+                </div>
+            </div>
+            <div class="line padding">
+                <span class="text-right x12">
+                
+                <eq name="item.is_default" value="1">
+                    <a class="button button-small bg-gray">默认地址</a>
+                <else/>
+                	<a id="www-hatudou-com-url-btn" class="button button-small bg-dot" href="<{:U('addrs/update_addr',array('addr_id'=>$item['addr_id'],'type'=>$type,'order_id'=>$order_id))}>">设为默认</a>
+                </eq>
+                <if condition="!empty($type)">
+                    <a id="www-hatudou-com-url-btn" class="button button-small bg-dot" href="<{:U('addrs/update_addr',array('addr_id'=>$item['addr_id'],'type'=>$type,'order_id'=>$order_id))}>">选择收货地址</a>
+                </if>
+                <a href="<{:U('addrs/edit',array('addr_id'=>$item['addr_id'],'type'=>$type,'order_id'=>$order_id))}>" class="button button-small bg-blue edit_addr">编辑</a>
+                <a href="javascript:void(0);" rel="<{$item.addr_id}>" class="jquery-delete button button-small bg-gray">删除</a>
+                </span>
+            </div>
+            <div class="blank-10 bg"></div>
+        </volist>
+  </ul>
+</div>
+	
+	<div class="container">
+		<div class="blank-30"></div>
+		<a href="<{:U('addrs/create',array('addr_id'=>$item['addr_id'],'type'=>$type,'order_id'=>$order_id))}>"  class="button button-block button-big bg-blue text-center ">新增收货地址</a>
+	</div>
+</ul>
+
+ <script>
+	$(document).ready(function () {
+		$(document).on('click', ".jquery-delete", function (e) {
+			var addr_id = $(this).attr('rel');
+			layer.confirm('您确定要删除该地址？', {
+				skin: 'layer-ext-demo', 
+				area: ['50%', 'auto'], 
+				btn: ['是的', '不'], 
+				shade: false
+			}, function () {
+				$.post("<{:U('addrs/delete')}>", {addr_id: addr_id}, function (result) {
+					if (result.status == "success") {
+						layer.msg(result.msg);
+						setTimeout(function () {
+							location.reload();
+						}, 1000);
+					} else {
+						layer.msg(result.msg);
+					}
+				}, 'json');
+			});
+		});
+	});
+</script>  
+<include  file='public:footer'/>  

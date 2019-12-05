@@ -1,0 +1,59 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商品规格</a> > <a>操作规格</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">这里可操作商品的规格</div>
+        </div>
+    </div> 
+    <div class="tabnr_change  show">
+    	<form method="post"  action="<{:U('goodsattr/spec')}>"  target="x-frame">
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="tuanfabu_t">规格名称：</p></td>
+                <td><div class="tuanfabu_nr"><input type="text" name="name" value="<{$spec.name}>" class="tuanfabu_int tuanfabu_intw2" /></div></td>
+            </tr>
+            
+            
+            <tr>
+                <td width="120"><p class="tuanfabu_t">所属商品类型：</p></td>
+                <td><div class="tuanfabu_nr">              
+                  <select name="type_id" id="type_id">
+                      <option value="">请选择</option>
+                      <volist name="goodsTypeList" id="vo">
+                      <option value="<{$vo[id]}>" <if condition="$vo[id] eq $spec[type_id]">selected="selected"</if>><{$vo[name]}></option>
+                      </volist>                                        
+                 </select>
+                </div></td>
+            </tr>     
+            
+            <tr>
+                <td width="120"><p class="tuanfabu_t">能否进行检索：</p></td>
+                <td class="rgTdBt"><div class="tuanfabu_nr">
+                <input type="radio" value="0" name="search_index" <if condition="$spec[search_index] eq 0">checked="checked"</if>  .>不需要检索
+                <input type="radio" value="1" name="search_index" <if condition="($spec[search_index] eq 1) or ($spec[search_index] eq NULL)">checked="checked"</if>  />关键字检索
+                </div></td>
+            </tr>
+            
+            <tr>
+                <td class="lfTdBt">规格项：</td>
+                <td><div class="tuanfabu_nr">
+                  <textarea rows="5" cols="30" name="items"><{$spec.items}></textarea>
+                </div></td>
+            </tr>
+            
+          
+        </table>
+        <div class="tuanfabu_an">
+        	<input type="hidden" name="shop_id" value="<{$SHOP.shop_id}>">
+        	<input type="hidden" name="id" value="<{$spec.id}>">
+          	<input type="submit" value="确认保存" class="radius3 sjgl_an tuan_topbt"/>
+        </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>

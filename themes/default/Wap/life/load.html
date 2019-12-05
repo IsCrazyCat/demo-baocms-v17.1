@@ -1,0 +1,78 @@
+<style>
+	.tie-item .item-body {padding:10px 0px 0px 0px;;}
+	.tie-item .item-head .title{font-size:16px;}
+	.tie-item .item-body p{margin-bottom:0px;word-wrap: break-word;word-break:normal; line-height:inherit}
+	.tie-item .item-body .ctrl .badge{width: 40px;}
+	.tie-item .item-body .ctrl .bg-gray{ background:#c53e14}
+</style>
+
+<volist name="list" id="var">
+	<li class="tie-item">
+		<div class="item-head line">
+			<span class="avatar x2"><img src="<{:config_img($users[$var['user_id']]['face'])}>"/></span>
+			<span class="info x10" onclick="location='<{:U('life/detail',array('life_id'=>$var['life_id']))}>'">
+				<em>
+                    <{:config_user_name($users[$var['user_id']]['nickname'])}> 
+                    <if condition="$cates[$var['cate_id']]['cate_name']">
+                    	<a class="text-gray text-little">#<{$cates[$var['cate_id']]['cate_name']}></a>
+                    </if>
+                    <if condition="$var['channel_name']">
+                    	<a class="text-gray text-little">#<{$var['channel_name']}></a>
+                    </if>
+                    <gt name="var.top_date" value="$today"><span class="top">顶</span></gt>
+                    <gt name="var.urgent_date" value="$today"><span class="top">急</span></gt>
+                    <eq name="var.packet" value="1"><span class="top text-dot">有红包</span></eq>
+                </em>
+				<span class="float-right"><{:formatTime($var['create_time'])}></span>
+				<p class="title"><{:tu_msubstr($var['title'],0,25)}> </p>
+			</span>
+            
+		</div>
+		<div class="item-body">
+        
+			<a href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>">
+                <if condition="!empty($var['details'])">
+                	<p><{:tu_msubstr(cleanhtml($var['details']),0,100,false)}></p>
+                </if>
+			</a>
+           
+    
+           <!--如果有图片-->
+            <if condition="$var['pics']">
+                <div id="layer-photos-demo-<{$var['life_id']}>" class="pic layer-photos-demo-<{$var['life_id']}>">
+                    <ul class="gallery"  onclick="popUpPic(<{$var['life_id']}>)">
+                        <volist name="var.pics" id="pic">
+                            <php> if($key < 3){ </php>
+                            <li class="fl img-list <if condition='$key eq 0'>imgli</if>">
+                            	<img layer-pid="<{$var['life_id']}>" layer-src="<{:config_img($pic['photo'])}>" src="<{:config_img($pic['photo'])}>" alt="<{:tu_msubstr($var['title'],0,25)}>" height="75"/>
+                            </li>
+                            <php> } </php>
+                        </volist>
+                    </ul>
+                </div>
+                <div class="blank-10"></div>
+            </if>
+         
+			<div class="ctrl">
+				<a class="ctrl-zan  badge bg-gray" href="tel:<{$var.mobile}>"><i class="iconfont icon-phone-line  text-large text-white"></i> <em></em></a>
+				<a class="ctrl-reply"><i class="iconfont icon-liulan2"></i> <em><{$var['views']}></em></a>
+			</div>
+		</div>
+         
+        <php>$Lifecate= D('Lifecate')->find($var['cate_id']);</php>
+        <span class="info x12">
+        	<php>$k = 0;</php>
+        	<volist name="var.tags" id="var3">
+            	<php>
+                $k++;
+                </php>
+                
+                <a href="<{:U('life/channel',array('channel'=>$Lifecate['channel_id'],'cat'=>$var['cate_id'],'tag_id'=>$var3['tag_id']))}>" class="button button-little margin-small-right <if condition="$k eq 1">border-dot</if> <if condition="$k eq 2">border-yellow</if> <if condition="$k eq 3">border-blue</if> <if condition="$k eq 4">border-dot</if>  <if condition="$k eq 5">border-dot</if>  <if condition="$k eq 5">border-yellow</if>  <if condition="$k eq 7">border-blue</if>">#<{$var3['tag_name']}></a>
+            </volist>       
+		</span>
+	</li>
+    <div class="blank-10 bg"></div>
+ 
+   
+    
+</volist>

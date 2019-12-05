@@ -1,0 +1,182 @@
+<include file="public:header"/>
+<link href="/static/default/wap/other/jquery-ui.css" rel="stylesheet" />
+<script src="/static/default/wap/other/jquery-ui.js"></script> 
+<style>
+.panel-list li { padding:10px;}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('ktv/detail',array('ktv_id'=>$ktv_id))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			KTV预约
+		</div>
+		<div class="top-signed">
+		</div>
+</header> 
+
+<!--<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+		<li>
+				可预约日期：
+				<em class="week_ids">
+                <foreach name="dates" item="var" key="index">
+                  <?php if(in_array($index,$date_ids)){?><{$var}><if condition="$index neq count($dates)">，</if><?php }?>
+                </foreach>   
+                </em>
+		</li>
+	</ul>
+</div>-->
+<div class="blank-10 bg"></div>
+            
+            
+
+<form action="<{:U('ktv/orderCreate')}>" method='post' target="x-frame" class="www_hatudou_com_form "> 
+<div class="padding border-bottom">
+		<div class="line">
+			<span class="x2">日期：</span>
+			<span class="x10">
+            <input class="date datepicker text-input" id='gotime' type="text" placeholder="点击选择日期" name="data[gotime]"  value="<{$gotime}>"   onchange="getDayDate();"/></span>
+		</div>
+</div>
+
+<div class="padding border-bottom">
+	<div class="line">
+		<span class="x2">姓名：</span>
+		<span class="x10"><input id='name' class="text-input" type="text" name="data[name]" value="<{$name}>"  placeholder="<if condition="!empty($MEMBER['nickname'])"><{$MEMBER.nickname}><else/>请输入您的姓名</if>"/></span>
+	</div>
+</div>
+<div class="padding border-bottom">
+	<div class="line">
+		<span class="x2">手机：</span>
+		<span class="x10"><input id='tel' class="text-input"  type="text" name="data[tel]" value=""  placeholder="<if condition="!empty($MEMBER['mobile'])"><{$MEMBER.mobile}><else/>请输入手机号码</if>"/></span>
+	</div>
+</div>
+<div class="padding border-bottom">
+	<div class="line">
+		<span class="x2">备注：</span>
+		<span class="x10"><input id='note' class="text-input"  type="text" name="data[note]" value="<{$note}>"  placeholder="填写备注"/></span>
+	</div>
+</div>
+</div>
+
+		<script>
+            $(document).ready(function() {
+                $('#chk_pid li').click(function(){
+                    $('#chk_pid li').removeClass('on');
+                    $(this).addClass('on');
+                    var val = $(this).attr('val');
+                    $('#pid_val').val(val);
+                }) 
+            });
+        </script>
+<input type='hidden' name='data[room_id]' value='<{$room_id}>' id='pid_val'>
+
+<div class="seatDelt_tit border_t border_b mt10">
+        <h2 class="fl">您已选择房间</h2>
+    </div>
+    <div class="farmDelt_taocan mb10 border_b">
+        <ul id='chk_pid'>
+            <volist name='room' id='var'>
+            <if condition="$room_id eq $var['room_id']">
+                <li class="list <if condition="$room_id eq $var['room_id']">on</if>" val='<{$var.room_id}>' >
+                    <{$var.title}>【可容纳<{$var.accommodate_number}>人】  定金：&yen;<{:round($var['price']/100,2)}>元，最低消费&yen;<{:round($var['small_price']/100,2)}>元
+                    <if condition="!empty($var['daofu_price'])">
+                    	, 到店付：&yen;<{:round($var['daofu_price']/100,2)}>元。
+                    </if>
+                <em class="ico"></em></li>
+                </if>
+            </volist>
+        </ul>
+        <script>
+            $(document).ready(function() {
+                $(".farmDelt_taocan .list").each(function(e){
+                    $(this).click(function(){
+                        $(".farmDelt_taocan .list").removeClass("on");
+                        $(this).addClass("on");
+                        $(".farmDelt_taocanList").each(function(i){
+                            if(e==i){
+                                $(".farmDelt_taocanList").hide();
+                                $(this).show();
+                            }else{
+                                $(this).hide();
+                            }
+                        });
+                    });
+                });
+            });
+        </script>
+    </div>
+
+ 
+<nav class="cart-bar">
+	<div class="tudou_result">
+        <input type="submit" value="提交订单" id="sub_btn" class="submit long_btn button button-block  bg-dot">
+	</div>
+</nav> 
+<script>
+	<if condition="empty($MEMBER['mobile'])">
+		check_user_mobile('<{:U("wap/tuan/tuan_sendsms")}>','<{:U("wap/tuan/tuan_mobile")}>');
+		$('.submit').click(function(){
+			check_user_mobile('<{:U("wap/tuan/tuan_sendsms")}>','<{:U("wap/tuan/tuan_mobile")}>');
+			return false;
+		});
+	</if>
+</script>
+    
+    
+ <script>
+	jQuery(function($){
+		$.datepicker.regional['zh-CN'] = {
+			closeText: '关闭',
+			prevText: '&#x3c;上月',
+			nextText: '下月&#x3e;',
+			currentText: '今天',
+			monthNames: ['一月','二月','三月','四月','五月','六月',
+			'七月','八月','九月','十月','十一月','十二月'],
+			monthNamesShort: ['一','二','三','四','五','六',
+			'七','八','九','十','十一','十二'],
+			dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+			dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+			dayNamesMin: ['日','一','二','三','四','五','六'],
+			weekHeader: '周',
+			dateFormat: 'yy-mm-dd',
+			firstDay: 1,
+			isRTL: false,
+			showMonthAfterYear: true,
+			yearSuffix: '年'};
+		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+	});
+	$(function() {
+		$('.datepicker').datepicker({
+			minDate: -0,  
+            maxDate: "+15D",
+			beforeShow: function() {
+				$(this).attr("disabled", true);
+			},
+			onClose: function() {
+				$(this).attr("disabled", false);
+			}
+		});
+	});
+	//选择日期后判断
+	function getDayDate(){
+	  var gotime = $("#gotime").val();
+	  var ktv_id = "<{$ktv_id}>";
+	  var url = "<{:U('ktv/YuyueDate')}>";
+	  $.post(url,{gotime:gotime,ktv_id:ktv_id},function(result){										
+			if(result.status == 'success'){
+				layer.msg(result.msg);
+			}else{
+				layer.msg(result.msg,{icon:2});
+			}														
+	  },'json');
+	}   
+
+
+</script>
+</form>
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+</body>
+</html>

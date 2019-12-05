@@ -1,0 +1,103 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2">广告购买记录</li>
+        <li class="li2 li3">编辑广告</li>
+    </ul>
+</div>
+    <div class="mainScAdd">
+        <div class="tableBox">
+        <form target="x-frame" action="<{:U('adrecord/edit',array('id'=>$detail['id']))}>" method="post">
+              <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">所属广告位：</td>
+                    <td  class="rgTdBt">
+                        <select name="data[site_id]" class="manageSelect">
+                              <foreach name="sites" item="var">
+                                <option value="<{$var.site_id}>" <eq name="var.site_id" value="$detail.site_id">selected="selected"</eq> ><{$var.site_name}>（<{$types[$var['site_type']]}>）</option>
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+               <tr>
+                    <td class="lfTdBt">所属城市：</td>
+                    <td class="rgTdBt">
+                        <select name="data[city_id]" class="manageSelect" style="display: inline-block;">
+                             <option value="0">请选择</option>
+                            <foreach name="citys" item="var">
+                                <option value="<{$var.city_id}>" <eq name="var.city_id" value="$detail['city_id']">selected="selected"</eq> ><{$var.name}></option>
+                            </foreach>
+                        </select>
+                        <code>不选择则表示全站通用</code>
+                    </td>
+                </tr>
+   				<tr>
+                    <td class="lfTdBt">链接地址：</td>
+                    <td class="rgTdBt"><input type="text" name="data[link_url]" value="<{$detail.link_url|default=''}>" class="manageInput" />
+                    </td>
+                </tr>
+                
+               <tr>
+                    <td class="lfTdBt"> 广告图片：</td>
+                 <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
+                        <div id="fileToUpload" >上传广告图片</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_img" width="80" height="80"  src="<{:config_img($detail['photo'])}>" />
+                    </div>
+                    <script>                                                                  
+						var uploader = WebUploader.create({                             
+						auto: true,                             
+						swf: '/static/default/webuploader/Uploader.swf',                             
+						server: '<{:U("app/upload/uploadify",array("model"=>""))}>',                             
+						pick: '#fileToUpload',                             
+						resize: true,  
+						compress :{quality: 100}                                         
+					});                                                 
+					uploader.on( 'uploadSuccess', function( file,resporse) {                             
+						$("#data_photo").val(resporse.url);                             
+						$("#photo_img").attr('src',resporse.url).show();                         
+					});                                                
+					uploader.on( 'uploadError', function( file ) {                             
+						alert('上传出错');                         
+					});                     
+                    </script>
+                </td>
+            </tr>
+            
+            <tr>
+              <td class="lfTdBt">申请者：</td>
+                 <td class="rgTdBt">
+                   <div class="lt">
+                       <input type="hidden" id="user_id" name="data[user_id]" value="<{$detail.user_id|default=''}>" />
+                       <input class="scAddTextName w210 sj" type="text" name="nickname" id="nickname"  value="<{$nickname}>" />
+                    </div>
+                    <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                    <code></code>
+                </td>
+            </tr> 
+            <tr>
+                <td class="lfTdBt">申请展示时间：</td>
+                <td class="rgTdBt">
+                <input type="text" name="data[active_time]" value="<{$detail.active_time|default=''}>"  class="manageInput"/>
+                <code>个月</code>
+                </td>
+            </tr>
+            <tr>
+                <td class="lfTdBt">预付积分：</td>
+                <td class="rgTdBt">
+                <input type="text" name="data[prestore_integral]" value="<{$detail.prestore_integral|default=''}>"  class="manageInput"/>
+                <code>预付积分，每点击一次消耗一定积分（可在设置-积分设置中调整），规定时间内没有消耗的积分将会返还给用户</code>
+                </td>
+            </tr>
+         
+    </table>
+     <div style="margin-left:140px;margin-top:20px">
+        <td><input type="submit" value="确定编辑" class="smtQrIpt" /></td>
+      </div> 
+</form>
+
+<include  file='public:footer'/>       

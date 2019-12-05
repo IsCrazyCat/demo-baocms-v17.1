@@ -1,0 +1,14 @@
+<foreach name="list" item="item">
+  <li class="line" onclick="location='<{:U('stock/detail',array('stock_id'=>$item['stock_id']))}>'">	
+    <div class="x4 detail-base">
+    	<img src="<{:config_img($item['photo'])}>">
+    </div>
+		<div class="x8">	
+			<h5><{:tu_msubstr($item['title'],0,32,false)}></h5>
+            <p class="addr">价格： &yen;<{:round($item['price']/100,2)}> 元</p>
+			<p class="addr">已售：<{$item.sold_num}></p>
+            <p class="addr">浏览：<{$item.views}></p>
+		</div>
+  </li>
+<div class="blank-10 bg"></div>
+</foreach>

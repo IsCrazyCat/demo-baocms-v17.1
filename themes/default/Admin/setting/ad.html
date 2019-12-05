@@ -1,0 +1,60 @@
+<include  file='public:header'/>
+<style>
+.profit {text-align: center;color: #333;font-weight: bold; background: #F5F5FB;}
+.lfTdBt{width:200px;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">广告设置</li>
+    </ul>
+</div>
+<p class="attention">注意：<span>注意：这里是广告相关配置</span></p>
+<form  target="x-frame" action="<{:U('setting/ad')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                  
+                 
+                 
+                 <tr>
+                    <td class="lfTdBt">广告点击一次消费积分：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[ad_consume]" value="<{$CONFIG.ad.ad_consume|default='0'}>" class="scAddTextName w150" />
+                        <code>针对商家购买的广告位</code>
+                    </td>
+                </tr>
+               <tr>
+                    <td class="lfTdBt">反上级推荐人积分数量：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[ad_chief]" value="<{$CONFIG.ad.ad_chief|default='0'}>" class="scAddTextName w150" />
+                        <code>不得高于广告点击一次消费的积分数(用户广告点击) </code>
+                    </td>
+                </tr>
+              <tr>
+                    <td class="lfTdBt">反用户积分数量：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[ad_user]" value="<{$CONFIG.ad.ad_user|default='0'}>" class="scAddTextName w150" />
+                        <code>
+                           不得高于广告点击一次消费的积分数(用户广告点击)
+                        </code>
+                    </td>
+                </tr>
+           <tr>
+                    <td class="lfTdBt">广告位购买预付的积分：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[ad_month]" value="<{$CONFIG.ad.ad_month|default='0'}>" class="scAddTextName w150" />一个月
+                        <code> 购买广告位，每月需要预付的积分。</code>
+                    </td>
+                </tr>
+                
+                
+             
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       

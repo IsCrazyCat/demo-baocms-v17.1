@@ -1,0 +1,12 @@
+<foreach name="list" item="var">
+    <li class="line">
+        <dd class="zhong">
+            <div class="x12">
+                <p class="text-small text-gray">购买等级：<{$var.rank.rank_name}></p>
+                <p class="text-small text-red">付款金额：&yen;<{:round($var['need_pay']/100,2)}>元</p>
+                <p class="text-small text-gray">付款时间：<{$var.pay_time|date='Y-m-d H:i:s',###}></p>
+            </div>
+        </dd>
+    </li>
+</foreach>        
+         

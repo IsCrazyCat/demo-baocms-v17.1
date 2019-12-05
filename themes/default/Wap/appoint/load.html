@@ -1,0 +1,25 @@
+<foreach name="list" item="item">
+<li class="line">
+	<a href="<{:U('appoint/detail',array('appoint_id'=>$item['appoint_id']))}>" class="item fix hightitem">	
+		<div class="x3">
+
+			<img src="<{:config_img($item['photo'])}>">
+		</div>
+		<div class="x9">	
+			<h5><{:tu_msubstr($item['title'],0,26,false)}></h5>	
+			<p>	
+				<span>具体时间：<{$item.biz_time}>&nbsp;截止：<{$item.end_date}></span>	
+				<span class="float-right"><i class="icon-map-marker"></i> <{$var.d}></span>	
+			</p>
+            <p>	
+				<span>服务价：&yen;<{:round($item['price']/100,2)}> <if condition="!empty($item['unit'])">
+                    	/<{$item.unit}>
+                    </if></span>	
+			</p>	
+			<p class="addr">	
+				<{$item['intro']}>
+			</p>
+		</div>
+	</a>
+</li>
+</foreach>

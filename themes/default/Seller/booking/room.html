@@ -1,0 +1,58 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			房间列表
+		</div>
+		<div class="top-share">
+			<a href="<{:U('booking/room_create')}>" class="top-addr icon-plus">增加房间</a>
+		</div>
+	</header>
+
+
+<ul id="shangjia_tab">
+    <li style="width:16.66666667%;"><a href="<{:U('booking/room',array('type_id'=>$k))}>" <eq name='type_id' value='0'>class="on"</eq>>全部房间</a></li>    
+    <?php foreach($types as $k=>$val){?>   
+		<li style="width:16.66666667%;"><a href="<{:U('booking/room',array('type_id'=>$k))}>" <?php if($type_id == $k)echo 'class="on"';?>><{$val}></a></li>
+   <?php }?>
+</ul>
+
+<div class="blank-40"></div> 
+<div class="xiaoqu-list">
+	<ul id="xiaoqu-list">
+        <foreach name="list" item="var">
+          <li class="line">
+            <a href="javascript:void(0);" class="item fix hightitem">	
+                <div class="x2">
+                     <img src="<{:config_img($var['photo'])}>">
+                </div>
+                </a>
+                <div class="x7">
+                	<p class="addr">ID：<{$var.room_id}></p>
+                    <p class="addr">名称：<{$var.name}></p>
+                    <p class="addr">就餐人数：<{$types[$var['type_id']]}></p>
+                    <p class="addr">消费限制：&yen; <{:round($var['money']/100,2)}> 元</p>
+                    <p class="addr">简介<{$var.intro}></p>
+                </div>
+                
+                <div class="x3">
+                	<eq name="var.closed" value="1">
+                    	<a target="x-frame" href="<{:U('booking/roomdelete',array('room_id'=>$var['room_id']))}>" class="button bg-yellow float-right margin-top">开启预定</a>
+                    <else/>
+                    	<a target="x-frame" href="<{:U('booking/roomdelete',array('room_id'=>$var['room_id']))}>" class="button bg-blue float-right margin-top">关闭预定</a>
+                    </eq>
+                    <a href="<{:U('booking/room_edit',array('room_id'=>$var['room_id']))}>" class="button bg-green float-right  margin-top">编辑</a>
+                </div>
+                </li>
+        <div class="blank-10 bg"></div>
+    </foreach>
+	</ul>  
+</div>   
+
+<div class="blank-20"></div>
+<div class="container login-open">
+	<h5 style="text-align:center"><{$page}></h5>
+</div>
+<include file="booking:footer"/>

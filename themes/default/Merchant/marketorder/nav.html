@@ -1,0 +1,20 @@
+<div class="tuanfabu_tab">
+ <ul>
+ <if condition="$SHOP['is_market_pei'] eq 0">
+   <li class="tuanfabu_tabli tabli_change <eq name="ctl" value="market">on</eq>"><a href="<{:U('market/index')}>">设置</a></li>
+   <li class="tuanfabu_tabli tabli_change <if condition="($ctl neq 'market') AND ($act eq 'index')">on</if>"><a href="<{:U('marketorder/index')}>">确认订单</a></li>
+   <li class="tuanfabu_tabli tabli_change <eq name="act" value="wait">on</eq>" ><a href="<{:U('marketorder/wait')}>">配送中</a></li>
+   <li class="tuanfabu_tabli tabli_change <eq name="act" value="wait_refunded">on</eq>"><a href="<{:U('marketorder/wait_refunded')}>">待退款</a></li>
+   <li class="tuanfabu_tabli tabli_change <eq name="act" value="refunded">on</eq>"><a href="<{:U('marketorder/refunded')}>">已退款</a></li>
+   <li class="tuanfabu_tabli tabli_change <eq name="act" value="over">on</eq>"><a href="<{:U('marketorder/over')}>">已完成</a></li>
+ <else/>
+   <li class="tuanfabu_tabli tabli_change <eq name="ctl" value="market">on</eq>"><a href="<{:U('market/index')}>">设置</a></li>
+   <li class="tuanfabu_tabli tabli_change <eq name="act" value="whole">on</eq>"><a href="<{:U('marketorder/whole')}>">全部订单【配】</a></li>
+   <li class="tuanfabu_tabli tabli_change <eq name="act" value="wait">on</eq>"><a href="<{:U('marketorder/wait')}>">等待处理【配】</a></li>
+   <li class="tuanfabu_tabli tabli_change <eq name="act" value="wait_refunded">on</eq>"><a href="<{:U('marketorder/wait_refunded')}>">待退款【配】</a></li>
+   <li class="tuanfabu_tabli tabli_change <eq name="act" value="refunded">on</eq>"><a href="<{:U('marketorder/refunded')}>">已退款【配】</a></li>
+   <li class="tuanfabu_tabli tabli_change <eq name="act" value="count">on</eq>"><a href="<{:U('marketorder/count')}>">订单统计【配】</a></li>
+ </if>
+ </ul>
+</div> 
+

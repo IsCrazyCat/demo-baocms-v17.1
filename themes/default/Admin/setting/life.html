@@ -1,0 +1,109 @@
+<include  file='public:header'/>
+<style>
+.lfTdBt { width: 200px;}
+.profit{ text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">分类信息</li>
+        <li class="li2 li3">功能设置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>配置分类信息的基本设置</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/life')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+              
+                <tr>
+                    <td class="lfTdBt" >置顶每天价格：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[top]" value="<{$CONFIG.life.top}>" class="scAddTextName " />
+                        <code>用户置顶一天需要的价格，支持小数点，不能为空</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >加急每天价格：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[urgent]" value="<{$CONFIG.life.urgent}>" class="scAddTextName " />
+                        <code>用户加急一天需要的价格，支持小数点，不能为空</code>
+                    </td>
+                </tr>
+                
+                <tr><td class="rgTdBt  profit" colspan = "2" >红包设置</td></tr>
+                <tr>
+                    <td class="lfTdBt" >信息创建红包满多少置顶：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[packet_top_date]" value="<{$CONFIG.life.packet_top_date}>" class="scAddTextName " />
+                        <code>用户为分类信息创建红包的时候，满多少后可自动置顶，建议设置30元，默认置顶3天</code>
+                    </td>
+                </tr>
+                
+                 <tr><td class="rgTdBt  profit" colspan = "2" >下面是小程序发布页面设置项目</td></tr>
+                 <tr>
+                    <td class="lfTdBt">红包手续费：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[hb_sxf]" value="<{$CONFIG.life.hb_sxf}>" class="scAddTextName w80" />
+                        <code>单位百分比，小程序发布红包时候收取的手续费不能超过20%否则无效</code>
+                    </td>
+                </tr>
+               
+                 
+                <tr>
+                   <td class="lfTdBt">发布须知：</td>
+                   <td class="rgTdBt">
+                        <textarea name="data[ft_xuz]" cols="60" rows="8"><{$CONFIG.life.ft_xuz}></textarea>
+                        <code>小程序的发布页面的发布须知</code>
+                    </td>
+               </tr>
+                
+                
+                <tr><td class="rgTdBt  profit" colspan = "2" >下面控制wap信息详情红包弹幕提示</td></tr>
+                
+                <tr class="jq_type_bo">
+                    <td class="lfTdBt">wap信息详情新已领红包提示开关：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[scroll_open]" <eq name="CONFIG.life.scroll_open" value="1">checked="checked"</eq> value="1" />开启</label>
+                        <label><input type="radio" name="data[scroll_open]"  <eq name="CONFIG.life.scroll_open" value="0">checked="checked"</eq>  value="0" />关闭</label>
+                        <code>点击关闭后，wap信息详情新已领红包不显示</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">wap信息详情新已领红包提示排序：</td>
+                    <td class="rgTdBt">
+                        <select name="data[order]"  class="scAddTextName sogn">
+                        	<option value="0" <if condition="$CONFIG['life']['order'] eq 0">selected='selected'</if>>默认排序</option>
+                            <option value="1" <if condition="$CONFIG['life']['order'] eq 1">selected='selected'</if>>领取时间排序</option>
+                            <option value="2" <if condition="$CONFIG['life']['order'] eq 2">selected='selected'</if>>领取价格排序</option>
+                        </select>
+                        <code>wap商城已领红包提醒排序方式</code></td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >wap信息详情新已领红包数量：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[limit]" value="<{$CONFIG.life.limit}>" class="scAddTextName w80" />
+                        <code>循环播放的时候，显示多少条数据</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >wap信息详情新已领红包提醒时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[scroll_time]" value="<{$CONFIG.life.scroll_time}>" class="scAddTextName w80" />
+                        <code>填写1000等于1秒，建议设置为1000-9000，这里建议设置整数</code>
+                    </td>
+                </tr>
+                
+                
+               
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

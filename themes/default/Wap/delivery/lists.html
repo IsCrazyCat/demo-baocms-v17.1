@@ -1,0 +1,48 @@
+<include  file='public:header'/>  
+
+<link href="/static/default/wap/css/dianping.css">
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('delivery/delivery',array('id'=>$detail['id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$detail.name}>
+		</div>
+        <div class="top-ping">
+		</div>
+	</header>
+    
+<style>
+ul{ padding-left:0px;}
+.coupon-list2{margin-top:0px;}
+.pics_img{width:60px; height:50px;float:left;padding-right:5px;}
+</style> 
+
+
+
+<div class="row padding">
+		<div class="line">
+			<span class="x12">
+            	<a class="margin-right button button-small <eq name="var['tag_id']" value="0">bg-dot<else/>border-gray</eq>" href="<{:LinkTo('delivery/lists',$linkArr,array('tag_id'=>0))}>" />全部标签</a>
+                 <foreach name="tags" item="var">
+                     <a class="margin-right button button-small <eq name="var['tag_id']" value="$tag_id">bg-dot<else/>border-gray</eq>" href="<{:LinkTo('delivery/lists',$linkArr,array('tag_id'=>$var['tag_id']))}>"/><{$var['tagName']}></a>
+                 </foreach>   
+			</span>
+		</div>
+	</div>
+    
+    
+ <div id="coupon-list" class="coupon-list2"></div>
+    <script>
+        $(document).ready(function (){
+			loaddata('<{$nextpage}>', $("#coupon-list"), true);
+        });
+		function popUpPic(id){
+			layer.photos({
+				photos: '#layer-photos-demo-'+id,
+				shift: 5 //0-6的选择，指定弹出图片动画类型，默认随机
+			}); 
+		}
+    </script>
+<include  file='public:footer'/>   

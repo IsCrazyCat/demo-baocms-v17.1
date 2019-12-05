@@ -1,0 +1,235 @@
+<include file='public:header'/>
+
+
+<div class="sjgl_lead">
+    <ul>
+        <li><em class="sjgl_leadico sjgl_leadico4"></em><a href="#"></a></li>
+        <li>&gt;<a class="sjgl_leadEnd" href="#">入驻申请</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+    	<div class="tuan_top_t">
+            <div class="left tuan_topser_l">注意：商家入驻要在后台审核之后才能显示</div>
+        </div>
+    </div>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli tabli_change on"><a href="#">基本资料</a></li>
+            
+        </ul>
+    </div>
+    <div class="tabnr_change show">
+	  <form  target="x-frame" action="<{:U('market/apply')}>" method="post">
+        <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+       
+            <tr>
+                <td><p class="tuanfabu_t">店铺名称：</p></td>
+                <td><div class="tuanfabu_nr"><input type="text" class="tuanfabu_int tuanfabu_intw2" name="data[shop_name]" /></div></td>
+            </tr>
+			
+              
+          <tr>
+                    <td class="tuanfabu_t">所在区域：</td>
+                    <td class="tuanfabu_nr">
+                        
+                          <select name="data[city_id]" style="float: left; margin-right: 20px;"  id="city_id" class="tuanfabu_int tuanfabu_intw2"></select>
+                       <select name="data[area_id]" style="float: left;"  id="area_id" class="tuanfabu_int tuanfabu_intw2"></select>
+
+                    </td>
+                </tr>
+                    <script src="<{:U('app/datas/onecity',array('name'=>'cityareas'))}>"></script> 
+                       <script>
+								var city_id = <?php echo (int)$detail['city_id'];?>;
+								var area_id = <?php echo (int)$detail['area_id'];?>;
+								var business_id = <?php echo (int)$detail['business_id'];?>;
+                                $(document).ready(function () {
+                                    var city_str = ' <option value="0">请选择...</option>';
+                                    for (a in cityareas.city) {
+                                        if (city_id == cityareas.city[a].city_id) {
+                                            city_str += '<option selected="selected" value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                        } else {
+                                            city_str += '<option value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                        }
+                                    }
+                                    $("#city_id").html(city_str);
+                                    $("#city_id").change(function () {
+                                        if ($("#city_id").val() > 0) {
+                                            city_id = $("#city_id").val();
+     										   $.ajax({
+													  type: 'POST',
+													  url: "<{:U('app/datas/twoarea')}>",
+													  data:{cid:city_id},
+													  dataType: 'json',
+													  success: function(result){
+                                                         var area_str = ' <option value="0">请选择...</option>';
+                                                        for (a in result) {
+                                                          area_str += '<option value="' + result[a].area_id + '">' + result[a].area_name + '</option>';                                                        }
+                                                       $("#area_id").html(area_str);
+                                                        $("#business_id").html('<option value="0">请选择...</option>');
+													  }
+												});
+                                            $("#area_id").html(area_str);
+                                            $("#business_id").html('<option value="0">请选择...</option>');
+                                        } else {
+                                            $("#area_id").html('<option value="0">请选择...</option>');
+                                            $("#business_id").html('<option value="0">请选择...</option>');
+                                        }
+                                    });
+                                    if (city_id > 0) {
+                                        var area_str = ' <option value="0">请选择...</option>';
+										$.ajax({
+										  type: 'POST',
+										  url: "<{:U('app/datas/twoarea')}>",
+										  data:{cid:city_id},
+										  dataType: 'json',
+										  success: function(result){
+                                             for (a in result) {
+                                                if (area_id == result[a].area_id) {
+                                                    area_str += '<option selected="selected" value="' + result[a].area_id + '">' + result[a].area_name + '</option>';
+                                                } else {
+                                                    area_str += '<option value="' + result[a].area_id + '">' + result[a].area_name + '</option>';
+                                                }
+                                              }
+                                             $("#area_id").html(area_str);
+											}
+										});
+                                    }
+                                    $("#area_id").change(function () {
+                                        if ($("#area_id").val() > 0) {
+                                            area_id = $("#area_id").val();
+                             					$.ajax({
+													  type: 'POST',
+													  url: "<{:U('app/datas/tbusiness')}>",
+													  data:{bid:area_id},
+													  dataType: 'json',
+													  success: function(result) {
+                                                         var business_str = ' <option value="0">请选择...</option>';
+													     for (a in result) {
+												   				business_str += '<option value="' + result[a].business_id + '">' + result[a].business_name + '</option>';
+													     }
+												     	$("#business_id").html(business_str);
+													 }
+											       });
+                                        } else {
+                                            $("#business_id").html('<option value="0">请选择...</option>');
+                                        }
+                                    });
+                                    if (area_id > 0) {                                    
+									   $.ajax({
+										  type: 'POST',
+										  url: "<{:U('app/datas/tbusiness')}>",
+										  data:{bid:area_id},
+										  dataType: 'json',
+										  success: function(result){
+											var business_str = ' <option value="0">请选择...</option>';
+											for (a in result) {
+													if (business_id == result[a].business_id) {
+														business_str += '<option selected="selected" value="' + result[a].business_id + '">' + result[a].business_name + '</option>';
+													} else {
+													  business_str += '<option value="' + result[a].business_id + '">' + result[a].business_name + '</option>';
+													}
+											}
+											 $("#business_id").html(business_str);
+										  }
+									   });
+                                    }
+                                    $("#business_id").change(function () {
+                                        business_id = $(this).val();
+                                    });
+                                });
+                </script> 
+			<tr>
+                <td><p class="tuanfabu_t">分类：</p></td>
+                <td>
+					<div class="tuanfabu_nr">
+					 <foreach name="getMarketCate" item="var" key="index">
+                            <label style="margin-right: 10px;"><input type="checkbox" name="cate[]" value="<{$index}>"/><{$var}></label>
+                        </foreach>   
+					</div>
+				</td>
+            </tr>
+			  <tr>
+                    <td class="tuanfabu_t">是否支持在线付款：</td>
+                    <td class="tuanfabu_nr">
+                        <label> <input type="radio" name="data[is_pay]" value="1" <eq name="detail.is_pay" value="1">checked="checked"</eq>  /> 支持</label>
+                        <label> <input type="radio" name="data[is_pay]" value="0"  <eq name="detail.is_pay" value="0">checked="checked"</eq> /> 不支持</label>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="tuanfabu_t">是否返利：</td>
+                    <td class="tuanfabu_nr">
+                        <label> <input type="radio" name="data[is_fan]" value="1" <eq name="detail.is_fan" value="1">checked="checked"</eq>  /> 支持</label>
+                        <label> <input type="radio" name="data[is_fan]" value="0"  <eq name="detail.is_fan" value="0">checked="checked"</eq> /> 不支持</label>
+                    </td>
+                </tr>
+				 <tr>
+                    <td class="tuanfabu_t">最高返利金额：</td>
+                     <td class="tuanfabu_nr">
+                        <input type="text" name="data[fan_money]" value="<{:round($detail['fan_money']/100,2)}>" class="tuanfabu_int tuanfabu_intw2" />
+                        <code>比如填写的是9元 那么很可能也只会反1元也可能会返现几角几分！如果填写0就不返利</code>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="tuanfabu_t">新客户下单立减：</td>
+                    <td class="tuanfabu_nr">
+                        <label> <input type="radio" name="data[is_new]" value="1" <eq name="detail.is_new" value="1">checked="checked"</eq>  /> 支持</label>
+                        <label> <input type="radio" name="data[is_new]" value="0"  <eq name="detail.is_new" value="0">checked="checked"</eq> /> 不支持</label>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="tuanfabu_t">满多少钱：</td>
+                    <td class="tuanfabu_nr"><input type="text" name="data[full_money]" value="<{:round($detail['full_money']/100,2)}>" class="tuanfabu_int tuanfabu_intw2" />
+
+                    </td>
+                </tr>
+				<tr>
+                    <td class="tuanfabu_t">减多少钱：</td>
+                    <td class="tuanfabu_nr">
+                        <input type="text" name="data[new_money]" value="<{:round($detail['new_money']/100,2)}>" class="tuanfabu_int tuanfabu_intw2" />
+                        <code>每超过满的金额10元将额外增加一元</code>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="tuanfabu_t">配送费：</td>
+                    <td class="tuanfabu_nr"><input type="text" name="data[logistics]" value="<{:round($detail['logistics']/100,2)}>" class="tuanfabu_int tuanfabu_intw2" />
+
+                    </td>
+                </tr>
+				<tr>
+                    <td class="tuanfabu_t">起送价：</td>
+                    <td class="tuanfabu_nr"><input type="text" name="data[since_money]" value="<{:round($detail['since_money']/100,2)}>" class="tuanfabu_int tuanfabu_intw2" />
+                        <code>满多少钱才能下单！</code>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="tuanfabu_t">配送：</td>
+                    <td class="tuanfabu_nr"><input type="text" name="data[distribution]" value="<{$detail.distribution|default='100'}>" class="tuanfabu_int tuanfabu_intw2" /> 分钟送达
+
+                    </td>
+                </tr>
+				 <tr>
+                    <th >商家坐标：</th>
+                    <td>
+
+                        <span class="mr10"><input type="text" name="data[lng]" id="lng" value="<{$detail.lng|default=''}>" class="tuanfabu_int tuanfabu_intw2" />经度</span>
+                        <span><input type="text" name="data[lat]" id="lat" value="<{$detail.lat|default=''}>" class="tuanfabu_int tuanfabu_intw2" />纬度</span>
+
+                    </td>
+                </tr>
+                 <include file="./themes/default/Home/public/maps.html" /><!--调用地图html-->
+			 
+             <tr>
+                <td width="120"><p class="tuanfabu_t">公告：</p></td>
+                <td><div class="tuanfabu_nr">
+                <textarea  name="data[intro]" cols="50" rows="10" ><{$detail.intro}></textarea>
+                </div></td>
+            </tr>
+			
+           
+        </table>
+        <div class="tuanfabu_an"><input  type="submit" class="radius3 sjgl_an tuan_topbt" value="确认申请" /></div>
+        </form>
+</div>
+
+<include file='public:footer'/>

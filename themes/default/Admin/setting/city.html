@@ -1,0 +1,31 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">城市</li>
+        <li class="li2 li3">功能设置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>配置代理城市的基本功能</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/city')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+              
+                <tr>
+                    <td class="lfTdBt" >城市购买价：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[apply_city_price]" value="<{$CONFIG.city.apply_city_price}>" class="scAddTextName " />
+                        <code>申请城市的时候代理价</code>
+                    </td>
+                </tr>
+               
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

@@ -1,0 +1,41 @@
+<foreach name='list' item='var'>
+<div class="item">	
+	<div class="line" id="layer-photos-demo-<{$var['comment_id']}>">
+		<div class="x2">
+         	<img class="pic"  src="<{:config_img($delivery[$var['delivery_id']]['photo'])}>" />
+        </div>
+        
+		<div class="x10">
+			<h5><{:config_user_name($delivery[$var['delivery_id']]['name'])}></h5> 
+            <p class="intro"><{$var.content}></p>
+            
+            <php>$stars= intval(($var['score'])*20);</php>
+			<p class="intro ui-starbar"><span style="width:<{$stars}>%"></span></p>
+            
+            <span class="intro intro1 float-right "><{$var.create_time|date='Y-m-d H:i',###}></span>
+            
+			<p class="info7 x12">
+				<volist name="pics" id="pic" key="index"> 
+                    <eq name="pic.comment_id" value="$var['comment_id']"> 
+                         <div class="pics"  onclick="popUpPic(<{$var['comment_id']}>)">
+                         	<img class="pics_img" layer-pid="<{$pic['comment_id']}>" layer-src="<{:config_img($pic['photo'])}>" src="<{:config_img($pic['photo'])}>" />
+                        </div>
+                    </eq>
+                </volist> 
+			</p>
+            
+            <if condition="$var['reply']">
+            	<br/>
+            	<p class="intro x12">配送员回复：<a style="color:#FF6430"><{$var.reply}></a></p>
+            </if>
+            
+            <if condition="empty($var['reply']) and ($MEMBER['user_id'] eq $delivery[$var['delivery_id']]['user_id'])">
+                <p class="x12 margin-top"><a class="button button-little bg-yellow" href ="<{:U('delivery/reply',array('comment_id'=>$var['comment_id']))}>">点击回复</a></p>
+            </if>
+            
+            
+		</div>
+	</div>
+</div>
+<div class="blank-10 bg"></div>
+</foreach>

@@ -1,0 +1,139 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">教育</li>
+        <li class="li2">教育管理</li>
+        <li class="li2 li3">新增教育</li>
+    </ul>
+</div>
+<form  target="x-frame" action="<{:U('edu/create')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                  <tr>
+                    <td class="lfTdBt">选择商家：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="shop_id" name="data[shop_id]" value="<{$detail.shop_id|default=''}>"/>
+                            <input type="text" id="shop_name" name="shop_name" value="<{$shop.shop_name}>" class="manageInput" />
+                        </div>
+                        <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="remberBtn">选择商家</a>
+                        <code>这里必选，首先您的有商家入驻，这里的城市ID，经纬度调用的商家的信息</code> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">教育分类：</td>
+                    <td class="rgTdBt"> 
+
+                        <select id="cate_id" name="data[cate_id]" class="manageSelect w150">
+                            <foreach name="cates" item="var">
+                                <eq name="var.parent_id" value="0">
+                                <option value="<{$var.cate_id}>"  <eq name="var.cate_id" value="$detail.cate_id">selected="selected"</eq> ><{$var.cate_name}></option>                
+                                <foreach name="cates" item="var2">
+                                    <eq name="var2.parent_id" value="$var.cate_id">
+                                    <option value="<{$var2.cate_id}>"  <eq name="var2.cate_id" value="$detail.cate_id">selected="selected"</eq> > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<{$var2.cate_name}></option>
+                                    </eq>
+                                </foreach>
+                                </eq>
+                            </foreach> 
+                        </select>
+                        <code>不能选择主分类，只能选择二级分类</code>
+                    </td> 
+                </tr>
+                <tr>
+                    <td class="lfTdBt">教育商家名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[edu_name]" value="<{$detail.edu_name|default=''}>" class="scAddTextName w210" />
+					<code>当前教育商家的名称</code>
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">教育商家简介：</td>
+                    <td class="rgTdBt"><input type="text" name="data[intro]" value="<{$detail.intro|default=''}>" class="scAddTextName w210" />
+					<code>当前教育商家的简短说明</code>
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">教育商家地址：</td>
+                    <td class="rgTdBt"><input type="text" name="data[addr]" value="<{$detail.addr|default=''}>" class="scAddTextName w210" />
+					<code>当前教育商家的地址</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">教育电话：</td>
+                    <td class="rgTdBt"><input type="text" name="data[tel]" value="<{$detail.tel|default=''}>" class="scAddTextName w210" />
+					<code>当前教育商家的电话，这里一般填写座机，暂时不调用商家的电话，万一这个商家有自己的店铺还有自己的教育学校呢</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">教育主图：</td>
+                 <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
+                        <div id="fileToUpload" >上传教育商家主图</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_img" width="120" height="80"  src="<{:config_img($detail['photo'])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.hotle.thumb}>
+                    </div>
+                    <script>                                            
+						var width_edu = '<{:thumbSize($CONFIG[attachs][edu][thumb],0)}>';                         
+						var height_edu = '<{:thumbSize($CONFIG[attachs][edu][thumb],1)}>';                         
+						var uploader = WebUploader.create({                             
+						auto: true,                             
+						swf: '/static/default/webuploader/Uploader.swf',                             
+						server: '<{:U("app/upload/uploadify",array("model"=>"edu"))}>',                             
+						pick: '#fileToUpload',                             
+						resize: true,  
+						compress : {width: width_edu,height: height_edu,quality: 80,allowMagnify: false,crop: true}                       
+					});                                                 
+					uploader.on( 'uploadSuccess', function( file,resporse) {                             
+						$("#data_photo").val(resporse.url);                             
+						$("#photo_img").attr('src',resporse.url).show();                         
+					});                                                
+					uploader.on( 'uploadError', function( file ) {                             
+						alert('上传出错');                         
+					});                     
+                    </script>
+                </td>
+            </tr>
+              
+        <tr>
+            <td class="lfTdBt">教育坐标：</td>
+            <td class="rgTdBt">
+                <div class="lt">
+                    经度<input type="text" name="data[lng]" id="data_lng" value="<{$detail.lng|default=''}>" class="scAddTextName w200" />
+                    纬度 <input type="text" name="data[lat]" id="data_lat" value="<{$detail.lat|default=''}>" class="scAddTextName w200" />
+                </div>
+                <a style="margin-left: 10px;" mini="select"  w="600" h="600" href="<{:U('public/maps')}>" class="seleSj">百度地图</a>
+        </tr>
+        
+         <tr>
+            <td class="lfTdBt">结算费率：</td>
+            <td class="rgTdBt"><input type="text" name="data[rate]" value="<{$detail.rate|default=''}>" class="scAddTextName w210" />
+			<code>这里用千分比表示，比如填写100就是百分之10，填写50就是百分之5，建议不要高于30%，就是不要高于数字300，建议整数</code>
+            </td>
+        </tr>
+       <tr>
+        <td class="lfTdBt">教育商家详情：</td>
+        <td class="rgTdBt">
+        	<script type="text/plain" id="data_details" name="data[details]" style="width:800px;height:360px;"><{$detail.details}></script>
+        </td>
+      </tr>
+          <link rel="stylesheet" href="__PUBLIC__/qiniu_ueditor/themes/default/css/ueditor.min.css" type="text/css">
+          <script type="text/javascript" charset="utf-8" src="__PUBLIC__/qiniu_ueditor/ueditor.config.js"></script>
+          <script type="text/javascript" charset="utf-8" src="__PUBLIC__/qiniu_ueditor/ueditor.all.min.js"></script>
+          <script type="text/javascript" src="__PUBLIC__/qiniu_ueditor/lang/zh-cn/zh-cn.js"></script>
+          <script>
+            um = UE.getEditor('data_details', {
+            lang: 'zh-cn',
+            toolbars:[['fullscreen', 'source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'backcolor', 'fontsize', 'fontfamily', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', 'link', 'unlink', 'map', 'template', 'background','inserttable','print','attachment',  'emotion',  'snapscreen','insertimage', 'music', 'insertvideo']],  
+               });
+         </script>
+
+    </table>
+       <div class="smtQr"><input type="submit" value="确定添加" class="smtQrIpt" /></div>
+</div>
+
+</div>
+</form>
+<include  file='public:footer'/>       

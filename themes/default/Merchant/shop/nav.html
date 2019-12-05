@@ -1,0 +1,19 @@
+<style>
+.tuanfabu_tabli {padding: 0 10px !important;}
+</style>
+<div class="tuanfabu_tab">
+   <ul>
+     <li class="tuanfabu_tabli <if condition="($ctl eq 'shop') AND ($act eq 'about')">on</if>"><a href="<{:U('shop/about')}>">基本设置</a></li>
+     <li class="tuanfabu_tabli <if condition="($ctl eq 'shop') AND ($act eq 'service')">on</if>"><a href="<{:U('shop/service')}>">其他设置</a></li>
+     <li class="tuanfabu_tabli <if condition="($ctl eq 'shop') AND ($act eq 'image')">on</if>"><a href="<{:U('shop/image')}>">形象图</a></li>
+     <li class="tuanfabu_tabli <if condition="($ctl eq 'photo') AND ($act eq 'index')">on</if>"><a href="<{:U('photo/index')}>">环境图</a></li>
+     <li class="tuanfabu_tabli <if condition="($ctl eq 'audit') AND ($act eq 'index')">on</if>"><a href="<{:U('audit/index')}>">认证管理</a></li>
+     <li class="tuanfabu_tabli <if condition="($ctl eq 'shopyouhui') AND ($act eq 'index')">on</if>"><a href="<{:U('shopyouhui/index')}>">收银台设置</a></li>
+     <li class="tuanfabu_tabli <if condition="($ctl eq 'breaks') AND ($act eq 'index')">on</if>"><a href="<{:U('breaks/index')}>">买单订单</a></li>
+     <li class="tuanfabu_tabli <if condition="($ctl eq 'worker') AND ($act eq 'index')">on</if>"><a href="<{:U('worker/index')}>">员工管理</a></li>
+     <li class="tuanfabu_tabli <if condition="($ctl eq 'shopkuaidi') AND ($act eq 'index')">on</if>"><a href="<{:U('shopkuaidi/index')}>">运费设置</a></li>
+     <li class="tuanfabu_tabli <if condition="($ctl eq 'shop') AND ($act eq 'grade')">on</if>"><a href="<{:U('shop/grade')}>">商家等级</a></li>
+     <li class="tuanfabu_tabli <if condition="($ctl eq 'shop') AND ($act eq 'sms')">on</if>"><a href="<{:U('shop/sms')}>">购买短信</a></li>
+     <li class="tuanfabu_tabli <if condition="($ctl eq 'shop') AND ($act eq 'template')">on</if>"><a href="<{:U('shop/template')}>">模板设置</a></li>
+  </ul>
+</div>

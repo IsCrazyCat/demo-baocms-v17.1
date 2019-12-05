@@ -1,0 +1,93 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">家政</li>
+        <li class="li2"> 家政点评</li>
+        <li class="li2 li3">点评列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>家政点评在这里可以删除编辑</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('appointdianping/create','','添加点评')}>
+            </div>
+            <div class="right">
+                <form action="<{:U('appointdianping/index')}>" >  
+                    <div class="seleHidden" id="seleHidden">
+                        <span>评论ID：</span>
+                        <input type="text"  name="id" value="<{$id}>" class="inptText" /><input type="submit" value="   搜索"  class="inptButton" />
+                    </div> 
+                </form>
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form action="<{:U('appointdianping/index')}>" >  
+            <div class="selectNr selectNr2">
+                <div class="left">
+                </div>
+                <div class="right">
+                    <input type="submit" value="搜索"  class="inptButton" />
+                </div>
+        </form>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <th class="w50"><input type="checkbox" class="checkAll" rel="dianping_id" /></th>
+                    <td class="w50">ID</td>
+                    <td>评论人昵称</td>
+                    <td>评论人ID</td>
+                    <td>家政ID</td>
+                    <td>技师ID</td>
+                    <td>综合评分</td>
+                    <td><{$CONFIG['appoint']['d1']|default="描述相符"}></td>
+                    <td><{$CONFIG['appoint']['d1']|default="服务态度"}></td>
+                    <td><{$CONFIG['appoint']['d1']|default="快速守时"}></td>
+                    <td>评论内容</td>
+                    <td>评论时间</td>
+                    <td>回复内容</td>
+                    <td>回复时间</td>
+                    <td>生效日期</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_dianping_id" type="checkbox" name="dianping_id[]" value="<{$var.dianping_id}>" /></td>
+                        <td><{$var.dianping_id}></td>
+                        <td><{$users[$var['user_id']]['nickname']}></td>
+                        <td><{$var.user_id}></td>
+                        <td><{$var.appoint_id}></td>
+                        <td><{$var.worker_id}></td>
+                        <td><{$var.score}></td>
+                        <td><{$var.d1}></td>
+                        <td><{$var.d2}></td>
+                        <td><{$var.d3}></td>
+                        <td><{$var.contents}></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td><{$var.reply}></td>
+                        <td><{$var.reply_time|date='Y-m-d H:i:s',###}></td>
+                        <td><{$var.show_date}></td>
+                        <td>
+                            <{:BA('appointdianping/edit',array("dianping_id"=>$var["dianping_id"]),'编辑','','remberBtn')}>
+                            <{:BA('appointdianping/delete',array("dianping_id"=>$var["dianping_id"]),'删除','act','remberBtn')}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <{:BA('appointdianping/delete','','批量删除','list',' a2')}>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  

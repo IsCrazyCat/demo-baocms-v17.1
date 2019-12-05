@@ -1,0 +1,210 @@
+<include file="public:header"/>
+
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('seller/set',array('user_id'=>$users['user_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+        <div class="top-title  get-map-marker"><{:tu_msubstr($detail['seller_name'],0,14,false)}>的店铺</div>
+	</header>
+ 
+<style>
+.worker_bg{background-size:100%;background:url(<{:config_img($detail['seller_photo'])}>) no-repeat;}
+</style>   
+  
+  <if condition="$detail"><!--如果有店铺-->
+  
+  	<div class="worker_container worker_bg">
+		<div class="worker_line worker_detail-base">
+			<div class="x3">
+				<div class="pic"><img src="<{:config_img($users['face'])}>">	</div>
+			</div>
+			<div class="x9">
+				<h1><{:tu_msubstr($detail['seller_name'],0,14,false)}></h1>
+                <p class="text-small"><{:tu_msubstr($detail['seller_sign'],0,24,false)}></p>
+			</div>
+		</div>
+    </div>
+    
+ </if>
+
+<div class="blank-10"></div>
+
+
+	<!--广告位开始-->
+     	<div id="tudou-slide" class="tudou-slide">
+			<div class="hd"><ul></ul></div>
+			<div class="bd">
+				<ul>
+					<calldata mdl="Ad" where=" closed=0 AND site_id=83 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+						<li><a href="<{:U('app/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+        <script>
+			TouchSlide({
+				slideCell: "#tudou-slide",
+				titCell: ".hd ul",
+				mainCell: ".bd ul",
+				effect: "left",
+				autoPlay: true,
+				autoPage: true,
+				switchLoad: "_src",
+			});
+		</script>
+    <!--广告位END-->  
+    
+    
+    
+		
+        
+ 
+        
+        
+      <!--推荐商家开始-->  
+      <div class="blank-10"></div>
+      <div class="blank-10 bg"></div>
+            
+	  <div class="tab index-tab" data-toggle="click">
+				<div class="tab-head">
+					<ul class="tab-nav line">
+                        <li class="x6 active"><a href="#tab-tuan">推荐抢购</a></li>
+                        <li class="x6"><a href="#tab-shop">推荐商家</a></li>
+					</ul>
+				</div>
+				<div class="tab-body">
+                  <div class="tab-panel active" id="tab-tuan">
+						<ul class="line index-tuan">
+							<volist name="tuans" id="item" key="index"> 
+                               <div class="container1" onclick="location='<{:U('tuan/detail',array('tuan_id'=>$item['id']))}>'">
+                                <img class="x3" src="<{:config_img($item['tuan']['photo'])}>">	
+                                <div class="des x9">
+                                    <h5><{:tu_msubstr($item['tuan']['title'],0,18)}></h5>
+                                    <p class="info">
+                                        <span class="text-dot">抢购价：￥ <em><{:round($item['tuan']['tuan_price']/100,2)}></em></span> <del>¥ <{:round($item['tuan']['price']/100,2)}></del>
+                                        <span class="text-little float-right badge bg-yellow margin-small-top padding-right">已售<{$item.tuan.sold_num}></span>
+                                    </p>
+                                    <p class="intro">简介：<{:tu_msubstr($item['tuan']['intro'],0,12,false)}></p>
+                                </div>
+                             </div>
+                            </volist>
+						</ul>
+					</div>
+                   
+                   <div class="tab-panel" id="tab-shop">
+						<ul class="index-tuan">
+							<volist name="shops" id="item" key="index"> 
+                                   <div class="container1" onclick="location='<{:U('shop/detail',array('shop_id'=>$item['id']))}>'">
+                                    <img class="x3" src="<{:config_img($item['shop']['photo'])}>">	
+                                    <div class="des x9">
+                                    <php>
+                                        $business = D('Business')->where(array('business_id'=>$item['shop']['business_id']))->find();
+                                    </php>
+                                        <h5><{:tu_msubstr($item['shop']['shop_name'],0,10,false)}></h5>
+                                        <if condition="$item['shop']['score']">
+                                            <p class="intro"><span class="ui-starbar" style="margin-top:0.2rem;"><span style="width:<{:round($item['shop']['score']*2,2)}>%"></span></span></p>
+                                        <else/>
+                                            <p class="intro"> 暂无评价 </p>
+                                        </if>
+                                        <p class="intro">地址：<{:tu_msubstr($item['shop']['addr'],0,12,false)}></p>
+                                    </div>
+                                 </div>
+                            </volist>
+						</ul>
+					</div>
+                    
+				</div>
+			</div>
+		
+
+	  <div class="blank-10 bg"></div>
+      <!--推荐商家END-->   
+      
+      
+      
+      <!--置顶商品开始-->
+		<section class="index_floor_lou">
+            <div class="floor_body ">
+                <h2>
+                    <em></em>置顶商品<div class="geng"><a class="text-small" href="<{:U('mall/index')}>">更多商品 <i class="iconfont icon-angle-right"></i></a></div>
+                </h2>
+                <ul>
+                	<volist name="goods_top" id="item" key="index"> 
+                        <li>
+                            <a href="<{:U('mall/detail',array('goods_id'=>$item['id']))}>"></a>
+                            <div class="index_pro">
+                            <a href="<{:U('mall/detail',array('goods_id'=>$item['id']))}>"> 
+                                <div class="products_kuang"><img src="<{:config_img($item['goods']['photo'])}>"></div>
+                                <div class="goods_name"><{:tu_msubstr($item['goods']['title'],0,10)}></div>
+                            </a>
+                            <div class="price">
+                                <a href="<{:U('mall/detail',array('goods_id'=>$item['id']))}>" title="<{:tu_msubstr($item['goods']['title'],0,10)}>"></a>
+                                <span class="price_pro">销售价：&yen;<{:round($item['goods']['mall_price']/100,2)}></span>
+                            </div>
+                          </div>
+                        </li>
+                	</volist>      
+                 </ul>
+            </div>
+        </section>
+        <!--置顶商品End-->
+        
+             
+       
+             
+        
+<div class="blank-10 bg"></div>        
+
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+    wx.config({
+	debug: false,
+	appId: '<{$signPackage.appId}>',
+    timestamp: '<{$signPackage.timestamp}>',
+    nonceStr: '<{$signPackage.nonceStr}>',
+    signature: '<{$signPackage.signature}>',
+	jsApiList: [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'onMenuShareQZone'
+		]
+	});
+
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+            title: '<{$users["nickname"]}>."推荐的店铺"',
+        	link: "<{$CONFIG.site.host}><{:U('wap/seller/shop',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'user_id'=>$users['user_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($detail['photo'])}>", 
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+        });
+        //分享给朋友
+        wx.onMenuShareAppMessage({
+            title: '<{$users["nickname"]}>."推荐的店铺"',
+            desc: '<{$detail["seller_intro"]}>',
+            link: "<{$CONFIG.site.host}><{:U('wap/seller/shop',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'user_id'=>$users['user_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($detail['seller_photo'])}>", 
+            type: '',
+            dataUrl: '',
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+        });
+
+});
+
+</script>
+	
+<include  file='public:footer'/>    

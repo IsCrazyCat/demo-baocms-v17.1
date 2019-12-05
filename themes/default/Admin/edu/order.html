@@ -1,0 +1,112 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">教育管理</li>
+        <li class="li2">教育订单</li>
+        <li class="li2 li3">教育订单列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span>这里可以删除没有参与教育的订单，已付款的订单无法删除，可以根据下面的成交记录筛选订单！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+         	<div class="left">
+                <{:BA('edu/create','','添加')}>
+            </div>
+            <div class="right">
+                <form method="post" action="<{:U('edu/order')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>类型：</span>
+                                <select class="select w120" name="type">
+                                    <option <eq name="type" value="999">selected="selected"</eq> value="999">请选择</option>
+                                    <option <eq name="type" value="1">selected="selected"</eq>  value="1">完整课程</option>
+                                    <option <eq name="type" value="2">selected="selected"</eq>  value="2">试课</option>
+                                </select>
+                           </label>
+                             <label>
+                                <span>状态</span>
+                                <select name="st" class="select w100">
+                                    <option value="999">请选择</option>
+                                    <foreach name="types" key="key" item="item">
+                                        <option <eq name="st" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                                    </foreach>
+
+                                </select>
+                            </label>
+                            <label>
+                                <span>ID</span>   <input type="text" name="order_id" value="<{$order_id|default=''}>" class="inptText" /><input type="submit" class="inptButton" value="搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="order_id" /></td>
+                        <td>订单ID</td>
+                        <td>课程名称</td>
+                        <td>课程类型</td>
+                        <td>原价</td>
+                        <td>实付价格</td>
+                        <td>买家昵称</td>
+                        <td>验证码</td>
+                        <td>点评状态</td>
+                        <td>订单状态</td>
+                        <td>下单时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_order_id" type="checkbox" name="order_id[]" value="<{$var.order_id}>" /></td>
+                            <td><{$var.order_id}></td>
+                            <td><{$courses[$var['course_id']]['title']}></td>
+                            <td><eq name="var.type" value="1">课程<else/><a style="color:#F00">试课</a></eq> </td>
+                            <td>&yen;<{:round($var['price']/100,2)}>元</td>
+                            <td><a style="color:#F00">&yen;<{:round($var['need_pay']/100,2)}>元</a></td>
+
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td><{$var.code}></td>
+                            <td><eq name="var.comment_status" value="0">未点评<else/><a style="color:#F00">已点评</a></eq> </td>
+                            <td>
+                               <{$types[$var['order_status']]}>
+                            </td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td>
+                        
+                            <if condition="$var['order_status'] eq 1">
+                                  <{:BA('edu/complete',array("order_id"=>$var["order_id"]),'确认订单','act','remberBtn_small_quxiao')}>
+                            </if>
+                            <if condition="$var['order_status'] neq -1">
+                                <{:BA('edu/cancel',array("order_id"=>$var["order_id"]),'取消订单','act','remberBtn_small_quxiao')}>
+                            </if>
+                            <if condition="$var['order_status'] eq -1">
+                                <if condition="$var['closed'] eq 0">
+                                    <{:BA('edu/order_delete',array("order_id"=>$var["order_id"]),'删除订单','act','remberBtn_small_quxiao')}>
+                                </if>
+                            </if>
+          
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<include  file='public:footer'/>       

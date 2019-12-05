@@ -1,0 +1,29 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('member/xiaoqu')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			我的报修
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+<style>
+.list-media-x { margin-top: 2rem;}
+.list-media-x p.text-gray{ font-size:12px;}
+</style>
+
+<include file="community:nav"/><!--引入导航-->
+
+<div class="list-media-x" id="list-media">
+	<ul></ul>
+</div>	
+
+<script>
+	$(document).ready(function () {	 
+		loaddata('<{$nextpage}>', $("#list-media ul"), true);
+	});
+</script>
+<include  file='public:footer'/>

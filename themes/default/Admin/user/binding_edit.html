@@ -1,0 +1,52 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">会员绑定</li>
+        <li class="li2 li3">编辑绑定</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+<div class="tableBox">
+        <form target="x-frame" action="<{:U('binding_edit',array('connect_id'=>$detail['connect_id']))}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+             <tr>
+                    <td class="lfTdBt">选择用户：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="user_id" name="data[user_id]" value="<{$detail.uid|default=''}>" />
+                            <input class="scAddTextName w210 sj" type="text" name="nickname" id="nickname"  value="<{$user.nickname}>" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                        <code>可更换用户UID，谨慎操作，因为自己编辑造成的数据错乱，概不负责</code>
+                    </td>
+                </tr>    
+             
+                 <tr>
+                    <td class="lfTdBt">open_id：</td>
+                    <td class="rgTdBt"><input type="text" name="data[open_id]" value="<{$detail.open_id|default=''}>" class="manageInput w210" />
+                    <code>用户的OPEN_ID不懂不要去修改</code>
+                   </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">昵称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[nickname]" value="<{$detail.nickname|default=''}>" class="manageInput w210" />
+                    <code>没什么用处，这里可换绑定的昵称，但不是会员昵称，修改无用</code>
+                   </td>
+                </tr>
+              
+            </table>
+               <div style="margin-left:140px;margin-top:20px">
+                 <input type="submit" value="确认编辑" class="smtQrIpt" />
+            </div> 
+
+        </form>
+
+</div>
+
+    </div>
+
+<include  file='public:footer'/>
+

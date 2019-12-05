@@ -1,0 +1,98 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+         <li class="li1">设置</li>
+        <li class="li2">模版管理</li>
+        <li class="li2 li3">网站风格</li
+    ></ul>
+</div>
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span> 模板在这里管理统一，包括商家模板，会员模板，网站模板，销售价格只针对商家模板有效，为了安全考虑，编辑功能只针对价格有效，二开联系q .2.8.6.09.9.981</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form  method="post"  action="<{:U('template/index')}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                    
+                     <div class="seleK">
+                         <label>
+                                <span>模板类型：</span>
+                                <select class="select w120" name="type">
+                                 <option <eq name="type" value="999">selected="selected"</eq> value="999">请选择类型</option>
+                                	<foreach name="types" key="key" item="item">
+                                        <option <eq name="type" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                                    </foreach>
+                                </select>
+                         </label>
+                        <span>模板名称</span>
+                        <input type="text"  class="inptText" name="keys" value="<{$keyword}>"  />
+                        <input type="submit" value=" 搜索"  class="inptButton" />
+                    </div> 
+                    </div>
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="template_id" /></td>
+                        <td>ID</td>
+                        <td>模板名称</td>
+                        <td>模板类型</td>
+                        <td>模板标识</td>
+                        <td>模板介绍</td>
+                        <td>模板图片</td>
+                        <td>销售价格</td>
+                        <td>已售数量</td>
+                        <td>是否手机版</td>
+                        <td>是否默认</td>
+                        <td>操作</td>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_template_id" type="checkbox" name="template_id[]" value="<{$var.template_id}>" /></td>
+                            <td><{$var.template_id}></td>
+                            <td><{$var.name}></td>
+                            <td style="color:#00F"><{$types[$var['type']]}></td>
+                            <td><{$var.theme}></td>
+                            <td>
+								<if condition="$var['intro']">
+                            		<a class="tips" rel="<{$var.intro|default='对不起，暂无模板介绍，请编辑添加'}>" href="javascript:void(0)">点击查看</a>
+                            	<else/>
+									暂无模板介绍
+                            	</if>
+                            </td>
+                            <td><img class="w80" src="__ROOT__/themes/<{$var.theme}>/<{$var.photo}>"/></td>
+                            <td style="color:#F00">&yen;<{:round($var['price']/100,2)}>元</td>
+                            <td><{$var.sold_num}></td>
+                            <td><if condition="$var['is_mobile'] eq 1">手机版 <else/>电脑版</if></td>
+                            <td><if condition="$var['is_default'] eq 1">是 <else/>否</if></td>
+                           
+                        <td>
+                            <if condition="!empty($themes[$var['theme']])">
+                            	<{:BA('template/uninstall',array("theme"=>$var["theme"]),'卸载','act','remberBtn')}>
+                                <if condition="!$themes[$var['theme']]['is_default']">
+                                    <{:BA('template/defaults',array("theme"=>$var["theme"]),'设置为默认','act','remberBtn')}>
+                                </if>
+                            <else />
+                            <{:BA('template/install',array("theme"=>$var["theme"]),'安装','act','remberBtn')}>
+                            </if>
+                            
+                            <a target="_blank" href="/index.php?theme=<{$var['theme']}>" class="remberBtn">预览</a>
+                            <{:BA('template/edit',array("template_id"=>$var["template_id"]),'编辑','load','remberBtn',400,350)}>
+                        </td>
+                        </tr>
+                    </foreach>      
+                </table>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

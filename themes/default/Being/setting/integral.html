@@ -1,0 +1,299 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">积分设置</li>
+    </ul>
+</div>
+<style>
+.profit {text-align: center;color: #333;font-weight: bold; background: #F5F5FB;}
+.lfTdBt{width:200px;}
+</style>
+<p class="attention"><span>注意：消费抵扣积分比例不要经常修改，出现的错误概不负责！</span>更多更好功能二开联系QQ：286、099、981！</p>
+<form  target="x-frame" action="<{:U('setting/integral')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+               	
+                <tr>
+                	<td class="rgTdBt profit" colspan="2"> ↓↓↓最重要的设置，积分在购物的时候抵扣比例，只能写0</td>
+                </tr>
+                
+                
+                
+                 <tr>
+                    <td class="lfTdBt">消费抵扣积分比例：</td>
+                    <td class="rgTdBt">
+                        <select name="data[buy]"  class="scAddTextName sogn">
+                            <option value="0" <if condition="$CONFIG['integral']['buy'] eq 0">selected='selected'</if>>100:1</option>
+                            <option value="10" <if condition="$CONFIG['integral']['buy'] eq 10">selected='selected'</if>>10:10</option>
+                            <option value="100" <if condition="$CONFIG['integral']['buy'] eq 100">selected='selected'</if>>1:1</option>
+                        </select>
+                        <code>请勿改动，这里只能写0，这里是用户下单时候积分抵扣比例，请按照要求填写，0位100:1,10为10:1,100为1：1，只能填写0,10,100，不能填写其他数字，切记，一旦运营了这里不能改动，不然导致后期数据显示混乱！</code>
+                </tr>
+                
+              
+                
+                
+                <tr>
+                	<td class="rgTdBt profit" colspan="2"> ↓↓↓用户订单在结算商家的时候，积分返还给买家，就是消费返积分设置，不要乱写，默认按照消费100元，返回100积分可设置扣点</td>
+                </tr>
+                
+                <tr>
+                 <td class="lfTdBt">购物返还开关：</td>
+                   <td class="rgTdBt">
+                   <label>
+                      <input type="radio" name="data[is_restore]" <eq name="CONFIG.integral.is_restore" value="1">checked="checked"</eq> value="1"/>开启
+                   </label>
+                   <label>
+                      <input type="radio" name="data[is_restore]" <eq name="CONFIG.integral.is_restore" value="0">checked="checked"</eq>  value="0"/>关闭
+                   </label>
+                   <code>开启后，下面的设置才有效，关闭后下面的模块统一都不返利。</code>
+                  </td>
+			    </tr>
+                                
+                 <tr>
+                    <td class="lfTdBt">积分返还会员金额类型：</td>
+                    <td class="rgTdBt">
+                        <select name="data[restore_type]"  class="scAddTextName sogn">
+                            <option value="0">请选择返还金额类型</option>
+                            <option value="1" <if condition="$CONFIG['integral']['restore_type'] eq 1">selected='selected'</if>>用户实付金额</option>
+                            <option value="2" <if condition="$CONFIG['integral']['restore_type'] eq 2">selected='selected'</if>>商家结算金额</option>
+                            <option value="3" <if condition="$CONFIG['integral']['restore_type'] eq 3">selected='selected'</if>>用户实付金额-商家结算金额=差价</option>
+                        </select>
+                        <code>必须选择，不选择返利失效，不过选择后，请不要轻易修改哦，毕竟差别还是挺大的，建议选择【用户实付金额-商家结算金额=差价】</code></td>
+                </tr>
+                
+                 <tr>
+                 <td class="lfTdBt">返还会员扣点百分比：</td>
+                 <td class="rgTdBt">
+                 <input type="text" name="data[restore_points]" value="<{$CONFIG.integral.restore_points}>" class="scAddTextName w150" />%
+                    <code>这里统一设置，对下面的模块都有效，比如计算出该订单应该返还用户100元，那么就应该给用户返还100积分，设置扣点10%，结果给用户返还90积分。</code>
+                  </td>
+			    </tr>
+                
+                
+                <tr>
+                 <td class="lfTdBt">是否开启商城返还用户积分：</td>
+                   <td class="rgTdBt">
+                   <label>
+                   <input type="radio" name="data[is_goods_restore]" <eq name="CONFIG.integral.is_goods_restore" value="1">checked="checked"</eq> value="1"/>开启
+                   </label>
+                   <label>
+                   <input type="radio" name="data[is_goods_restore]" <eq name="CONFIG.integral.is_goods_restore" value="0">checked="checked"</eq>  value="0"/>关闭
+                   </label>
+                   <code>开启后，用户商城确认收货后回获得积分返利，货到付款无效。</code>
+                  </td>
+			    </tr>
+                 <tr>
+                 <td class="lfTdBt">是否开启外卖返还用户积分：</td>
+                   <td class="rgTdBt">
+                   <label>
+                   <input type="radio" name="data[is_ele_restore]" <eq name="CONFIG.integral.is_ele_restore" value="1">checked="checked"</eq> value="1"/>开启
+                   </label>
+                   <label>
+                   <input type="radio" name="data[is_ele_restore]" <eq name="CONFIG.integral.is_ele_restore" value="0">checked="checked"</eq>  value="0"/>关闭
+                   </label>
+                   <code>开启后，外卖订单给商户结算的时候返利，货到付款无效。</code>
+                  </td>
+			    </tr>
+                 <tr>
+                 <td class="lfTdBt">是否开启抢购返还用户积分：</td>
+                   <td class="rgTdBt">
+                   <label>
+                   <input type="radio" name="data[is_tuan_restore]" <eq name="CONFIG.integral.is_tuan_restore" value="1">checked="checked"</eq> value="1"/>开启
+                   </label>
+                   <label>
+                   <input type="radio" name="data[is_tuan_restore]" <eq name="CONFIG.integral.is_tuan_restore" value="0">checked="checked"</eq>  value="0"/>关闭
+                   </label>
+                   <code>开启后，验证抢购劵时候返利，货到付款无效。</code>
+                  </td>
+			    </tr>
+       
+                
+                
+                <tr>
+                	<td class="rgTdBt profit" colspan="2"> ↓↓↓积分返还商家设置在这里，强烈建议关闭，一般不需要开启</td>
+                </tr>
+                <tr>
+                 <td class="lfTdBt">返还商家比例：</td>
+                 <td class="rgTdBt">
+                 <input type="text" name="data[return_integral]" value="<{$CONFIG.integral.return_integral}>" class="scAddTextName w150" />%
+                    <code>首先开启上面那个才会有效，这里就是说开启返还给商家后，的比例是什么百分比，建议80%就填写10就行，就是100积分返还给商家80积分。</code>
+                  </td>
+			    </tr>
+                
+                <tr>
+                 <td class="lfTdBt">积分兑换频道返还商家：</td>
+                 <td class="rgTdBt">
+                 <label><input type="radio" name="data[return]" <eq name="CONFIG.integral.return" value="1">checked="checked"</eq> value="1"/>开启</label>
+                 <label><input type="radio" name="data[return]" <eq name="CONFIG.integral.return" value="0">checked="checked"</eq>  value="0"/>关闭</label>
+                    <code>用户在前台积分兑换频道兑换积分后，积分是否返现给商家，开启就返，不开启默认网站回收。</code>
+                  </td>
+			    </tr>
+                
+                 <tr>
+                 <td class="lfTdBt">抢购积分返还商家：</td>
+                 <td class="rgTdBt">
+                 <label><input type="radio" name="data[tuan_return_integral]" <eq name="CONFIG.integral.tuan_return_integral" value="1">checked="checked"</eq> value="1"/>开启</label>
+                 <label><input type="radio" name="data[tuan_return_integral]" <eq name="CONFIG.integral.tuan_return_integral" value="0">checked="checked"</eq>  value="0"/>关闭</label>
+                    <code>抢购验证的时候积分是否返还给商家账户，必须开启积分返还才会生效，返还比例<a style="color:#F00"><{$CONFIG.integral.return_integral}>%</a>。</code>
+                  </td>
+			    </tr>
+                
+                <tr>
+                 <td class="lfTdBt">商城积分返还商家：</td>
+                 <td class="rgTdBt">
+                 <label><input type="radio" name="data[mall_return_integral]" <eq name="CONFIG.integral.mall_return_integral" value="1">checked="checked"</eq> value="1"/>开启</label>
+                 <label><input type="radio" name="data[mall_return_integral]" <eq name="CONFIG.integral.mall_return_integral" value="0">checked="checked"</eq>  value="0"/>关闭</label>
+                    <code>用户商城确认收货后返还给商家积分，必须开启积分返还才会生效，返还比例<a style="color:#F00"><{$CONFIG.integral.return_integral}>%</a>。</code>
+                  </td>
+			    </tr>
+                 <php>
+                        $config = D('Setting')->fetchAll();
+                        $integral_buy = $config['integral']['buy'];
+                    </php>
+                <tr><td class="rgTdBt profit" colspan = "2"> ↓↓↓下面是积分兑换控制开关，这里控制的的是会员中心兑换比例，<a style="color:#F00"> <if condition="$integral_buy eq 0">
+                    	当前积分使用比例100:1
+                    <elseif condition="$integral_buy eq 10" />
+                    	当前积分使用比例10:1
+                    <elseif condition="$integral_buy eq 100" />
+                    	当前积分使用比例1:1
+                    <else/>
+                    	错误，不合法的积分比例设置
+                    </if></a></td></tr>
+                
+                <tr>
+                 <td class="lfTdBt">开启积分兑换余额：</td>
+                 <td class="rgTdBt">
+                 <label><input type="radio" name="data[integral_exchange]" <eq name="CONFIG.integral.integral_exchange" value="1">checked="checked"</eq> value="1"/>开启</label>
+                 <label><input type="radio" name="data[integral_exchange]" <eq name="CONFIG.integral.integral_exchange" value="0">checked="checked"</eq>  value="0"/>关闭</label>
+                    <code>开启后会员中心才会出现积分兑换余额的按钮，积分兑换比例跟使用比例一致，不建议经常修改
+                   
+                    <a style="color:#F00">
+                    <if condition="$integral_buy eq 0">
+                    	当前积分使用比例100:1
+                    <elseif condition="$integral_buy eq 10" />
+                    	当前积分使用比例10:1
+                    <elseif condition="$integral_buy eq 100" />
+                    	当前积分使用比例1:1
+                    <else/>
+                    	错误，不合法的积分比例设置
+                    </if>
+                    </a></code>
+                  </td>
+			    </tr>
+                
+                <tr>
+                 <td class="lfTdBt">用户积分兑换余额税点：</td>
+                 <td class="rgTdBt">
+                 <input type="text" name="data[integral_exchange_tax]" value="<{$CONFIG.integral.integral_exchange_tax}>" class="scAddTextName w150" />%，这里是扣点百分比！
+                    <code>这里就是设置用户积分兑换余额的时候应该扣除多少点，扣除部分网站回收，比如设置10%那么相当于用户用90积分去兑换，兑换比例
+                    <a style="color:#F00">
+                    <if condition="$integral_buy eq 0">
+                    	100:1
+                    <elseif condition="$integral_buy eq 10" />
+                    	10:1
+                    <elseif condition="$integral_buy eq 100" />
+                    	1:1
+                    <else/>
+                    	错误的比例设置
+                    </if>
+                    </a>
+                    。</code>
+                  </td>
+			    </tr>
+                
+                <tr>
+                 <td class="lfTdBt">每次兑换最少积分数：</td>
+                 <td class="rgTdBt">
+                 <input type="text" name="data[integral_exchange_small]" value="<{$CONFIG.integral.integral_exchange_small}>" class="scAddTextName w150" />
+                    <code>用户每一次积分兑换最少需要多少积分才可以兑换到余额，建议设置100，不过跟上面的比例有关系，如果积分比例是大的话这里设置大一点</code>
+                  </td>
+			    </tr>
+                
+                <tr>
+                 <td class="lfTdBt">每次兑换最多积分数：</td>
+                 <td class="rgTdBt">
+                 <input type="text" name="data[integral_exchange_big]" value="<{$CONFIG.integral.integral_exchange_big}>" class="scAddTextName w150" />
+                    <code>用户每一次积分兑换最多需要多少积分才可以兑换到余额，建议设置1000，不过跟上面的比例有关系，如果积分比例是大的话这里设置大一点</code>
+                  </td>
+			    </tr>
+                
+               
+                <tr><td class="rgTdBt profit" colspan = "2"> ↓↓↓下面是各种操作奖励积分，二开请写下面！不能填写小数，只能填写整数</td></tr>
+                
+                <tr>
+                    <td class="lfTdBt">发表帖子：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[share]" value="<{$CONFIG.integral.share}>" class="scAddTextName w150" />
+                        <code>由于分享需要审核，积分会在后台审核后增加到用户账户</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">回复帖子：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[reply]" value="<{$CONFIG.integral.reply}>" class="scAddTextName w150" />
+                        <code>由于回复帖子需要审核，积分会在后台审核后增加到用户账户</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">绑定手机：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[mobile]" value="<{$CONFIG.integral.mobile}>" class="scAddTextName w150" />
+                        <code>用户绑定手机获得的积分</code>
+                    </td>
+                </tr>  
+                <tr>
+                    <td class="lfTdBt">邮件认证：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[email]" value="<{$CONFIG.integral.email}>" class="scAddTextName w150" />
+                        <code>用户绑定邮箱获得的积分</code>
+                    </td>
+                </tr> 
+
+                <tr>
+                    <td class="lfTdBt">手机签到：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[sign]" value="<{$CONFIG.integral.sign}>" class="scAddTextName w150" />
+                        <code>手机签到一次获得的积分数量</code>
+                    </td>
+                </tr> 
+                <tr>
+                    <td class="lfTdBt">会员注册：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[register]" value="<{$CONFIG.integral.register}>" class="scAddTextName w150" />
+                        <code>会员注册成功后默认奖励的积分，建议设置1-100分</code>
+                    </td>
+                </tr> 
+                <tr>
+                    <td class="lfTdBt">实名认证：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[useraux]" value="<{$CONFIG.integral.useraux}>" class="scAddTextName w150" />
+                        <code>会员前台申请实名认证，后台管理员点击认证的时候新增的积分，建议设置1-100分</code>
+                    </td>
+                </tr> 
+                <tr>
+                    <td class="lfTdBt">手机首次签到：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[firstsign]" value="<{$CONFIG.integral.firstsign}>" class="scAddTextName w150" />
+                        <code>建议多奖励一些积分</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">微信分享分类信息：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[life]" value="<{$CONFIG.integral.life}>" class="scAddTextName w150" />
+                        <code>不能为小数点，只能为证书，用户在微信端分享分类信息后可领取的积分数量</code>
+                    </td>
+                </tr>
+                
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>   

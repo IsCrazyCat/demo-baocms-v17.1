@@ -1,0 +1,47 @@
+<include file='public:header'/>
+
+<div class="tuan_content">
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+          	<td>会员编号</td>
+            <td>会员账户</td>
+         
+          	<td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <td><{$var.user_id}></td>
+            <td> <{$var['nickname']}></td>
+             <td>
+                <input type="hidden" name="owner-user-nickname" id="owner-user-nickname-<{$var['user_id']}>" value="<{$var.nickname}>"/>
+                <a class="text-blue" id="showInfo" onclick="showInfo(<{$var['user_id']}>);">选择该会员</a>
+             </td>
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+	
+	function showInfo(id){
+		var id = id;
+		var data = $('#owner-user-nickname-'+id).val();
+		if(id === ''){
+			parent.layer.msg('请选择会员');
+			return;
+		}
+		parent.$('#owner-user-id').val(id);
+		parent.$('#owner-user-nickname').val(data);
+		parent.layer.close(parent.layer.getFrameIndex(window.name));
+    }
+   
+
+
+</script>
+
+
+
+<include file='public:footer'/>

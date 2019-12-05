@@ -1,0 +1,73 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">功能</li>
+        <li class="li2">汽车品牌管理</li>
+        <li class="li2 li3">汽车品牌列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span> 汽车品牌请谨慎操作！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('carbrand/create','','添加内容')}>
+            </div>
+            <div class="right">
+                <form  method="post"  action="<{:U('carbrand/index')}>"> 
+
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <span>标题</span>
+                            <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  />
+                            <input type="submit" value=" 搜索"  class="inptButton" />
+                        </div>
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="brand_id" /></td>
+                        <td>汽车品牌ID</td>  
+                        <td>品牌名称</td>
+                        <td>品牌图片</td>
+                        <td>排序</td>
+                        <td>添加时间</td>
+                        <td>添加IP</td>
+                        <td>操作</td>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_brand_id" type="checkbox" name="brand_id[]" value="<{$var.brand_id}>" /> </td>
+                            <td><{$var.brand_id}></td>
+                            <td><{$var.name}></td>
+                            <td><img src="<{:config_img($var['photo'])}>"/></td>
+                            <td><{$var.orderby}></td>
+                            <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                            <td><{$var.create_ip}></td>
+                        <td>
+                            <{:BA('carbrand/edit',array("brand_id"=>$var["brand_id"]),'编辑','','remberBtn')}>
+                            <{:BA('carbrand/delete',array("brand_id"=>$var["brand_id"]),'删除','act','remberBtn')}>
+
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('carbrand/delete','','批量删除','list',' a2')}>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

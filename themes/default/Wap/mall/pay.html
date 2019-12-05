@@ -1,0 +1,176 @@
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('mall/index',array('cat'=>$detail['cate_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			订单设定
+		</div>
+	</header>
+
+  
+<style>
+.iconfont icon-angle-right{ float:right; font-size:20px;}
+</style>    
+	<form class="pay-form" action="<{:U('mall/pay2',array('order_id'=>$order['order_id']))}>" method="post" target="x-frame">
+
+        <if condition="!empty($order['total_price'])">
+            <div class="row">
+                <span class="float-left">购物费用：</span>
+                <span class="float-right">  &yen;<{:round($order['total_price']/100,2)}>元</span>
+            </div>
+            <hr/>
+        </if>
+        
+        
+        
+        <if condition="!empty($order['express_price'])">
+            <div class="row">
+                <span class="float-left">配送费：</span>
+                <span class="float-right">  &yen;<{:round($order['express_price']/100,2)}>元</span>
+            </div>
+            <hr/>
+        </if>
+        
+       
+        <if condition="!empty($order['mobile_fan'])">
+            <div class="row">
+                <span class="float-left">手机下单立减：</span>
+                <span class="float-right">  &yen;<{:round($order['mobile_fan']/100,2)}>元</span>
+            </div>
+            <hr/>
+        </if>
+        
+        <if condition="!empty($order['use_integral'])">
+            <div class="row">
+                <span class="float-left">积分抵扣：</span>
+                <span class="float-right">  &yen;<{:round($order['use_integral']/100,2)}>元</span>
+            </div>
+            <hr/>
+        </else>
+        	<if condition="!empty($use_integral)">
+                <div class="row">
+                    <span class="float-left">积分抵扣：</span> 
+                    <span class="float-right">  &yen;<{:getUseIntegral($use_integral,$type = 'goods',$order['goods_id'])}> 元</span>
+                </div>
+                <hr/>
+            </if>
+        </if>
+        
+         <if condition="!empty($order['can_use_integral'])">
+            <div class="row">
+                <span class="float-left">积分抵扣：</span>
+                <span class="float-right">  &yen; <{:getUseIntegral($order['can_use_integral'],$type = 'goods',$order['goods_id'])}> 元
+                </span>
+            </div>
+            <hr/>
+        </if>
+        
+         <!--使用优惠劵逻辑开始-->
+        <if condition="!empty($coupon)">
+            <div class="row">
+                <span class="float-left">优惠劵使用：</span>
+                <input type="hidden" name="download_id" id="download_id" value="<{$coupon['download_id']}>" checked="checked" />
+                <span class="float-right"> 优惠劵ID：<{$coupon['download_id']}>，抵现 &yen;<{:round($coupon['reduce_price']/100,2)}>元</span>
+            </div>
+            <hr/>
+		<elseif condition="!empty($download_id)" />
+        	<div class="row">
+                <span class="float-left">优惠劵使用：</span>
+                <input type="hidden" name="download_id" id="download_id" value="$download_id" checked="checked" />
+                <span class="float-right"> 当前使用的优惠劵ID：<{$download_id}></span>
+            </div>
+            <hr/>
+        </if>
+        
+         <div class="row">
+			<span class="float-left">实际支付：</span>
+			<span class="float-right text-dot">
+                <if condition="$order['need_pay']">&yen; <{:round($order['need_pay']/100,2)}><else/>&yen; <{:round($need_pay/100,2)}></if>元
+            </span>
+		</div>
+        <hr/>
+        <!--使用优惠劵逻辑结束-->
+        
+        
+
+        <div class="blank-10 bg"></div>
+		<div class="row address_bg">
+        <span class="x10">
+			<i class="icon-wo iconfont"></i> <{:tu_msubstr($defaultAddress['xm'],0,3,false)}> &nbsp; <i class="iconfont icon-phone-line"></i> <{$defaultAddress.tel}> 
+            <p onclick="location='<{$changeAddressUrl}>'"><{$defaultAddress.area_str}> <{$defaultAddress.info}></p>
+         </span>
+          <span class="x2" onclick="location='<{$changeAddressUrl}>'"><i class="iconfont icon-angle-right padding-top"></i></span>
+		</div>
+		
+		<div class="blank-10 bg"></div>
+		
+		<ul id="pay-method" class="pay-method">
+			<foreach name="payment" item="var">
+			<li data-rel="<{$var.code}>"  id="<{$var.code}>" class="media media-x payment">
+				<a class="float-left"  href="javascript:;">
+					<img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+				</a>
+				<div class="media-body">
+					<div class="line">
+						<div class="x10">
+						<{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+						</div>
+						<div class="x2">
+							<span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+						</div>
+					</div>
+				</div>
+			</li>
+			</foreach>
+			<li data-rel="wait" class="media media-x payment">
+				<a class="float-left" href="javascript:;">
+					<img src="/static/default/wap/image/pay/dao.png">
+				</a>
+				<div class="media-body">
+					<div class="line">
+						<div class="x10">
+						货到付款<p>如果您没有网银，可以到店付</p>
+						</div>
+						<div class="x2">
+							<span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+		<input id="code" type="hidden" name="code" value="" />
+		
+		<div class="text-center padding-left padding-right margin-large-top">
+			<button type="submit" class="button button-big button-block bg-yellow">提交订单</button>
+		</div>
+		
+		<div class="blank-20"></div>
+	</form>
+</div>
+     <script>
+	
+	   $(document).ready(function(){
+			var name = $("#<{$CONFIG['pay']['auto']}>").attr("data-rel");
+			if(name == "<{$CONFIG['pay']['auto']}>"){
+				$("#<{$CONFIG['pay']['auto']}>").addClass("active");
+				$("#code").val(name);
+			}
+		});
+		
+		
+    	$(document).ready(function(){
+			$("#pay-method li").click(function(){
+				var code = $(this).attr("data-rel");
+				$("#code").val(code);
+				$("#pay-method li").each(function(){
+					$(this).removeClass("active");
+				});
+				$(this).addClass("active");
+			});
+			
+		});
+    </script>
+     
+
+<include  file='public:footer'/>       

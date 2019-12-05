@@ -1,0 +1,106 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">家政</li>
+        <li class="li2">家政管理</li>
+        <li class="li2 li3">添加证书</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('worker_cert_create',array('appoint_id'=>$appoint['appoint_id'],'worker_id'=>$worker['worker_id']))}>" method="post">
+        	
+            
+            <input type="hidden" name="appoint_id" value="<{$appoint['appoint_id']}>" >
+            <input type="hidden" name="worker_id" value="<{$worker['worker_id']}>" >
+            
+        
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+           
+                
+              <tr>
+                    <td class="lfTdBt">证书名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[name]" value="<{$detail['name']}>" class="manageInput" />
+                    <code>必须选择证书名称</code>
+                    </td>
+               </tr> 
+               
+                <tr>
+                    <td class="lfTdBt">证书类型：</td>
+                    <td class="rgTdBt">
+                        <select id="cert" name="data[cert]" class="seleFl w210">
+                            <option value="">=选择=</option>
+                            <volist name="certs" id="var">
+                                    <option value="<{$i}>"  <eq name="i" value="$detail.star">selected="selected"</eq> ><{$var}></option>
+                            </volist>
+                        </select>
+					<code>证书类型必须选择</code>
+                    </td>
+                </tr> 
+                
+             
+                
+          
+             <tr>
+                    <td class="lfTdBt">
+                证书图片：
+                </td>
+                 <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[photo]" value="<{$detail['photo']}>" id="data_photo" />
+                        <div id="fileToUpload" >上传证书</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_photo" width="80" height="80"  src="<{:config_img($detail['photo'])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸：800*800
+                    </div>
+                    <script>                                            
+						var width = '800';                         
+						var height = '800';                         
+						var uploader = WebUploader.create({                             
+						auto: true,                             
+						swf: '/static/default/webuploader/Uploader.swf',                             
+						server: '<{:U("app/upload/uploadify",array("model"=>"appoint"))}>',                             
+						pick: '#fileToUpload',                             
+						resize: true,  
+						compress : {width: width,height: height,quality: 80,allowMagnify: false,crop: true}                       
+					});                                                 
+					uploader.on( 'uploadSuccess', function( file,resporse) {                             
+						$("#data_photo").val(resporse.url);                             
+						$("#photo_photo").attr('src',resporse.url).show();                         
+					});                                                
+					uploader.on( 'uploadError', function( file ) {                             
+						alert('上传出错');                         
+					});                     
+                    </script>
+                </td>
+            </tr>
+            
+         <tr>
+            <td class="lfTdBt">证书说明：</td>
+             <td class="rgTdBt"> <textarea cols='60' rows='5' name="data[intro]"><{$detail.intro|default=''}></textarea>
+				 <code>填写证书的说明，建议80字以内</code>
+            </td>
+        </tr>
+        
+        <tr>
+          <td class="lfTdBt">是否显示：</td>
+          <td  class="rgTdBt">
+              <label> <input type="radio" name="data[is_show]" value="1" <eq name="detail.is_show" value="1">checked="checked"</eq>  /> 是</label>
+              <label> <input type="radio" name="data[is_show]" value="0" <eq name="detail.is_show" value="0">checked="checked"</eq> /> 否</label>
+              <code>开启后，前台显示此证书，否则不显示</code>
+          </td>
+      </tr>
+      
+ 
+    </table>
+    <div style="margin-left:140px;margin-top:20px">
+        <input type="submit" value="确认添加" class="smtQrIpt" />
+    <div>
+</form>
+</div>
+</div>
+<include  file='public:footer'/>       

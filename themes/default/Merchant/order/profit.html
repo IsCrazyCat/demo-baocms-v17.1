@@ -1,0 +1,60 @@
+<include file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+       <li><a href="<{:U('order/index')}>">商城</a> > <a href="<{:U('order/wait')}>">订单列表</a> >订单分销详情</li>
+    </ul>
+</div>
+
+
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">分成详情</div>
+             <div class="right tuan_topfb_r">
+                <a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('order/profit',array('order_id'=>$detail['order_id']))}>">刷新分成状态</a>
+                <a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('order/wait')}>">返回订单列表</a>
+            </div>
+        </div>
+    </div> 
+    
+    <div class="tabnr_change show">
+    	
+        <div style="margin-top:10px;"></div>
+        <table class="order_goods_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        	
+            <tr class="order_goods_table_tr">
+                <td><p class="tuanfabu_nr">分成ID</p></td>
+                <td><div class="tuanfabu_nr">分成原始订单ID</div></td>
+                <td <p class="tuanfabu_nr">分成会员</p></td>
+                <td><p class="tuanfabu_nr">分成金额</p></td>
+                <td><p class="tuanfabu_nr">分成时间</p></td>
+                <td><p class="tuanfabu_nr">分成状态</p></td>
+            </tr>
+           <foreach name="list" item="item">
+            	<tr>
+                    <td><p class="tuanfabu_nr"><{$item['log_id']}></p></td>
+                    <td><div class="tuanfabu_nr"><{$item['order_id']}></div></td>
+                    <td><p class="tuanfabu_nr"> <{$users[$item['user_id']]['nickname']}> ---会员ID：<{$item['user_id']}></td>
+                    <td><p class="tuanfabu_nr"><{:round($item['money']/100,2)}>元</p></td>
+                    <td><p class="tuanfabu_nr"><{$item.create_time|date='Y-m-d H:i:s',###}></p></td>
+                    <td <p class="tuanfabu_nr">
+                    		<switch name="item.is_separate">
+                                <case value="0">待分成</case>
+                                <case value="1">已分成</case>
+                                <case value="2">已撤消</case>
+                                <case value="3">已取消</case>
+                            </switch></p></td>
+                </tr>
+            </foreach>  
+            <tr>
+            	<td colspan="6" class="tuanfabu_t" style="font-size:18px; color:#F00; font-weight:bold"> 累计分成 ： <{:round($profit_price/100,2)}>元&nbsp;&nbsp;&nbsp;&nbsp; </td>
+            </tr>
+            
+            </tr>
+        </table>
+
+           
+      
+    </div> 
+</div>
+<include file='public:footer'/>

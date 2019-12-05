@@ -1,0 +1,55 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">外卖配置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里配置是外卖相关的信息，请各位看清楚下面配置具体事项，配置不正确直接影响全局，二开q 2.8.6.0.9.9.9.8.1</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/ele')}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt" >餐具费用最高：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[tableware_price_max]" value="<{$CONFIG.ele.tableware_price_max}>" class="scAddTextName w80" />
+                        <code>注意，这里留空或者不填写的话，全局关闭配送费，如果设置了最高配送费，最低配送费就必须设置，商家在设置餐具费用的时候，餐具费用最高不能超过多元，建议设置1-3元，支持小数点，但是不超过2位数</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >餐具费用最低：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[tableware_price_mini]" value="<{$CONFIG.ele.tableware_price_mini}>" class="scAddTextName w80" />
+                        <code>
+                        
+                        <if condition="$CONFIG['ele']['tableware_price_max']">
+                            <if condition="$CONFIG['ele']['tableware_price_mini'] egt $CONFIG['ele']['tableware_price_max']">
+                            	<a style="color:#F00; font-size:16px; font-weight:bold">最低餐具费用不得大于等于最高餐具费用</a>
+                            </if>
+                        </if>
+                        
+                        商家在设置餐具费用的时候，餐具费用最低不能超过多元，建议设置0.3-0.5元，支持小数点，不超过2位数
+                        
+                        </code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt" >外卖未付款订单自动过期时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[past_due_ele_order_time]" value="<{$CONFIG.ele.past_due_ele_order_time}>" class="scAddTextName w80" />
+                        <code>用户下单后，多少分钟不付款，订单自动删除，但是会微信通知买家，这里时间是分钟比如可以设置15分钟，删除后，买家需要重新下单</code>
+                    </td>
+                </tr>
+                
+                
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

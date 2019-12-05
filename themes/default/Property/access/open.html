@@ -1,0 +1,70 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li>
+            <a target="main_frm" href="<{:U('index/index')}>">物业管理</a> > 
+            <a target="main_frm" href="<{:U('access/lists')}>">门锁列表</a> > 
+            <a target="main_frm" href="<{:U('access/user',array('list_id'=>$list_id))}>">用户列表</a> > 
+            <a target="main_frm" href="<{:U('access/open',array('list_id'=>$list_id,'id'=>$id))}>">开锁记录</a>
+        </li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('access/open',array('list_id'=>$list_id,'id'=>$id))}>">
+        <div class="radius5 tuan_top">
+            <div class="tuan_top_t">
+                <div class="left tuan_topser_l">
+                    业主ID：
+                    <input type="text" class="radius3 tuan_topser"  name="keyword" value="<{$keyword}>"/>
+                    <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+                </div>
+                <div class="right tuan_topfb_r">
+                    <a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('access/lists')}>">门锁列表</a>
+                    <a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('access/user',array('list_id'=>$list_id))}>">用户列表</a>
+                    <a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('access/open',array('list_id'=>$list_id,'id'=>$id))}>">开锁记录</a>
+                </div>
+            </div> 
+        </div>
+    </form>
+
+    
+    
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>ID</td>
+            <td>会员ID</td>
+            <td>会员昵称</td>
+            <td>业主ID</td>
+            <td>业主称呼</td>
+            <td>业主户号</td>
+            <td>业主地址</td>
+            <td>开锁名称</td>
+            <td>开锁方式</td>
+            <td>开锁时间</td>
+            <td>开锁备注</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.open_id}></td>
+                <td><{$var.user.user_id}></td>
+                <td><{$var.user.nickname}></td>
+                <td><{$var.owner_id}></td>
+                <td><{$var.owner.name}></td>
+                <td><{$var.owner.number}></td>
+                <td><{$var.owner.location}></td>
+                <td><{$var.access.intro}></td>
+                <td><eq name="var.type" value="0">默认<else/>二维码</eq></td>
+                <td><{$var.open_time|date='Y-m-d H:i:s',###}></td>
+                <td><{$var.intro}></td>
+                <td>
+                   
+                </td>
+                </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+<include  file='public:footer'/>

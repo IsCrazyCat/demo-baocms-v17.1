@@ -1,0 +1,96 @@
+<include  file='public:header'/>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-jsgl .jsglNr .selectNr .left a, .piliangcaozuo, .main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right:;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+.attention {height: auto;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">积分管理</li>
+        <li class="li2">积分库</li>
+        <li class="li2 li3">积分库列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span>名称解释：积分库总额：就是管理员给会员新增的积分总数，这个数字不变。剩余积分库：就是当前还需要返还给用户的积分数量。每天返还库积分：就是每天应该给用户返还多少积分。已返还积分：就是当前库中已经给客户返还多少积分。返还总天数：需要给用户返还的总天数，用来计算的。已返还天数：系统自动计算已返还天数，返还一次记录一次。</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+        	<div class="left">
+                <{:BA('integral/library_create','','添加')}>
+            </div>
+            <div class="right">
+                <form method="post" action="<{:U('integral/library')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>订单ID：</span>   
+                                <input type="text" name="library_id" placeholder=" 订单ID" value="<{$library_id|default=''}>" class="inptText" />
+                                <input type="submit" class="inptButton" value="搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="library_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>会员昵称</td>
+                        <td>积分库总额</td>
+                        <td>剩余积分库</td>
+                        <td>每天返还库积分</td>
+                        <td>已返还积分</td>
+                        <td>返还总天数</td>
+                        <td>已返还天数</td>
+                        <td>备注</td>
+                        <td>创建时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_library_id" type="checkbox" name="library_id[]" value="<{$var.library_id}>" /></td>
+                            <td><{$var.library_id}></td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td><{$var.integral_library}></td>
+                            <td><{$var.integral_library_surplus}></td>
+                            <td><{$var.integral_library_day}></td>
+                            <td><{$var.integral_library_success}></td>
+                            <td><{$var.integral_library_total}></td>
+                            <td><{$var.integral_library_total_success}></td>
+                            <td><{$var.intro}></td>
+                        	<td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                            <td>
+                                <if condition="$var['integral_library_total_success'] eq 0">
+                                    <{:BA('integral/library_delete',array("library_id"=>$var["library_id"]),'删除','act','remberBtn')}>
+                                <else/>
+                                	<{:BA('integral/restore',array("library_id"=>$var["library_id"]),'返还记录','','remberBtn')}>
+                                </if>
+                               	<{:BA('integral/library_edit',array("library_id"=>$var["library_id"]),'编辑','','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

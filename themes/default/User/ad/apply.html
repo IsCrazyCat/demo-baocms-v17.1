@@ -1,0 +1,208 @@
+<include file="public:header"/>
+
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/webuploader/webuploader.min.js"></script>
+
+
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('ad/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			申请广告
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+<style>
+	ul{padding-left:0px;}
+	.integral{ font-weight:bold}
+</style>
+
+<ul id="shangjia_tab">
+	<li class="x6"><a href="<{:U('ad/apply')}>"  class="on">申请广告</a></li>
+    <li class="x6"><a href="<{:U('ad/applylog')}>" >申请记录</a></li>
+</ul>
+
+<div class="blank-40 bg"></div>
+
+<form  class="fabu-form" id="ajaxForm"  method="post" action="<{:U('ad/apply')}>" >
+	<div class="blank-10"></div>
+    
+    <div class="row">
+       <div class="line">
+           <span class="text-dot">温馨提示，申请广告必须保证账户剩余积分充足，如积分不够，则无法通过审核！</span>
+       </div>
+    </div>
+                 
+
+	<div class="blank-10"></div>
+
+		<div class="row">
+        	<div class="line">
+                <span class="x4">广告位置：</span>
+                <span class="x8">
+                       <select name="data[site_id]" id="site_id" class="text-select">
+                           <option value="0">请选择广告位</option>
+                           <foreach name="sites" item="var">
+                             <option value="<{$var.site_id}>" <eq name="var.site_id" value="$detail.site_id">selected="selected"</eq> ><{$var.site_name}></option>
+                           </foreach>
+                      </select>
+                </span>
+			</div>
+        </div>
+        
+		<div class="row">
+        	<div class="line">
+			<span class="x4">选择城市：</span>
+			<span class="x8">       
+                 <select name="data[city_id]" class="text-select">
+                    <option value="0">请选择城市</option>
+                    <foreach name="citys" item="var">
+                        <option value="<{$var.city_id}>" <eq name="var.city_id" value="$detail['city_id']">selected="selected"</eq> ><{$var.name}></option>
+                    </foreach>
+                </select>
+			</span>
+		</div>
+        </div>
+        <input id="site_price" type="hidden" name="site_price" value="" />
+		<div class="row">
+        	<div class="line">
+			<span class="x4">选择时间：</span>
+			<span class="x8">
+			<select name="data[active_time]" id="active_time" class="text-select">
+            	<option value="0">请选择时间</option>
+				<option value="1">1天</option>
+				<option value="7">7天</option>
+				<option value="30">1个月</option>
+				<option value="60">2个月</option>
+				<option value="90">3个月</option>
+				<option value="360">12个月</option>
+				<option value="240">24个月</option>
+			</select>
+            
+       </span>
+	</div>
+     </div>
+<script>
+
+$(function(){
+	$("#site_id").on("change",function(){
+		var site_id = $("#site_id").val();
+		$.post('<{:U("ad/getsiteprice")}>',{site_id:site_id},function(result){
+			if(result.code == '1'){
+				$("#site_price").val(result.price);
+			}
+			if(result.code == '0'){
+				layer.msg(result.msg,{icon:2});
+			}
+		},'json');
+	});
+	$("#active_time").on("change",function(){
+     	check();//执行函数
+	});
+});
+
+
+function check(){
+	var a = $("#active_time").val();
+	var v = $("#site_price").val();
+	var data = a*v;
+	$(".integral").html(data);
+	$("#prestore_integral").val(data);
+	var yue =$(".yue").html();
+       if(data > yue){
+         $("#apply-submit").attr('disabled','disabled');
+         $("#msg").show();
+       }else{
+       	  $("#apply-submit").removeAttr('disabled');
+       	  $("#msg").hide();
+       }
+} 
+
+</script>
+		
+        <div class="row">
+           <div class="line">
+                <span class="x4">所需积分：</span>
+                <span class="x8"><span class="integral text-dot text-big">0</span>
+                <input type="hidden" name="data[prestore_integral]"  id="prestore_integral" value="0">
+           </div>
+        </div>
+		
+        <div class="blank-10"></div>
+        <div class="Upload-img-box">
+           <div  id="fileToUpload">上传图片</div>
+           <div class="Upload-img">
+               <div class="list-img loading" style="display:none;"><img src=""></div>
+               <div class="list-img jq_photo" style="display:none;"></div>
+          </div>
+        </div>
+		<script>
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>"ad"))}>',                             
+			pick: '#fileToUpload',                             
+			resize: true,    
+        });
+        uploader.on('beforeFileQueued', function(file){
+            $(".loading").show();
+            if(file.size > 1024000){
+                uploader.option('compress',{
+                    width:720,
+                    quality:60
+                });
+            }
+        });
+
+        uploader.on('uploadSuccess',function(file,resporse){
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[photo]" value="' + resporse.url + '" />';
+            $(".jq_photo").show().html(str);
+        });
+        uploader.on( 'uploadError', function(file){
+            alert('上传出错');
+        });
+        $(document).ready(function (){
+            $(document).on("click", ".photo img", function (){
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    	
+        
+    
+        <div class="blank-10 bg"></div>
+        
+         <div class="row">
+           <div class="line">
+                <span class="x4">图片url地址：</span>
+                <span class="x8"><input name="data[link_url]" class="text-input" type="text" placeholder="" value=""></span>
+           </div>
+        </div>
+        
+    
+    <div class="blank-10 bg"></div>
+    
+    
+    <div class="row">
+        <div class="line">
+           <div class="x12">
+               <p>账户积分：<a class="yue text-dot"><{$integral}></a>积分</p>
+               <p id="msg" class="text-dot">积分不足，请充值后操作！</p>
+           </div>
+      </div>
+    </div>
+        
+   
+    <div class="blank-10"></div>
+    <div class="container">
+    	<button type="submit" class="button button-block button-big bg-dot" id="apply-submit">提交申请</button></div>
+    <div class="blank-30"></div>
+    </form>
+
+<include file="public:footer"/>

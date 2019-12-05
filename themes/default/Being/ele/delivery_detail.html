@@ -1,0 +1,108 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">餐饮管理</li>
+        <li class="li2">订单管理</li>
+        <li class="li2 li3">配送员统计</li>
+    </ul>
+</div>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+.main-sc .jsglNr .selectNr .left a.on{background-color:#F00;border:1px solid #FF0000;}
+</style>
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span> 这里统计配送员配送的详细列表</p>
+    <div class="jsglNr">
+    
+     	<div class="selectNr" style="margin-top:0px;border-top:none;">
+            <div class="left">
+                <a href="<{:U('ele/delivery')}>">返回配送员列表</a>
+                <a class="on" href="<{:U('ele/delivery_detail',array('id'=>$id))}>">刷新当前页面</a>
+               </div>
+            <div class="right">
+            </div>
+            <div class="clear"></div>
+        </div>
+        
+        
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="right">
+                <form method="post" action="<{:U('ele/delivery_detail')}>">
+                <input type="hidden" name="id" value="<{$id}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                            <label>
+                                <span>  订单ID：</span>   
+                                <input type="text" name="keyword" value="<{$keyword|default=''}>" class="inptText" />
+                                <input type="submit" class="inptButton" value="搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>类型</td>
+                        <td>订单编号</td>
+                        <td>配送员ID</td>
+                        <td>配送金额</td>
+                        <td>商家名称</td>
+                        <td>购买人姓名</td>
+                        <td>购买人电话</td>
+                        <td>购买人地址</td>
+                        <td>购买人备注</td>
+                        <td>时间</td>
+                        <td class="w100">状态</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.order_id}></td>
+                            <td><eq name="var.type" value="0">商城</eq><eq name="var.type" value="1">外卖</eq></td>
+                            <td><{$var.type_order_id}></td>
+                            <td><{$var.delivery_id}></td>
+                            <td>&yen;<{:round($var['logistics_price']/100,2)}></td>
+                            <td><{$var.shop_name}></td>
+                            <td><{$var.name}></td>
+                            <td><{$var.mobile}></td>
+                            <td><{$var.addr}></td>
+                            <td><{$var.intro}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td>
+                                <eq name="var.status" value="0"><span style="color:#f6b300;">等待接单</span></eq>
+                                <eq name="var.status" value="1"><span style="color:#f6b300;">等待接单</span></eq>
+                                <eq name="var.status" value="2"><span style="color:#ff0000;">配送中</span></eq>
+                                <eq name="var.status" value="8"><span style="color:#18c900;">已完成</span></eq>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<include  file='public:footer'/>       

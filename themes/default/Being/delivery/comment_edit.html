@@ -1,0 +1,122 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">配送</li>
+        <li class="li2">配送点评</li>
+        <li class="li2 li3">编辑</li>
+    </ul>
+</div>
+<form target="x-frame" action="<{:U('delivery/comment_edit',array('comment_id'=>$detail['comment_id']))}>" method="post">
+    <div class="mainScAdd ">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+           		 <tr>
+                    <td  class="lfTdBt">订单ID：</td>
+                    <td class="rgTdBt"><input type="text" name="data[order_id]" value="<{$detail.order_id|default=''}>" class="manageInput w200" />
+                     <code>这里写配送预约订单编号的ID</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">用户：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="user_id" name="data[user_id]" value="<{$detail.user_id|default=''}>" class="manageInput" />
+                            <input class="scAddTextName sj" type="text" name="nickname" id="nickname"  value="<{$user.nickname}>" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                    </td>
+                </tr> 
+                
+                <tr>
+                    <td  class="lfTdBt">综合评分：</td>
+                    <td class="rgTdBt"><input type="text" name="data[score]" value="<{$detail.score|default=''}>" class="manageInput w200" />
+                    <code>只能填写1-5数字</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td  class="lfTdBt"><{$CONFIG['delivery']['d1']|default="描述相符"}>评分：</td>
+                    <td class="rgTdBt"><input type="text" name="data[d1]" value="<{$detail.d1|default=''}>" class="manageInput w200" />
+                    <code>只能填写1-5数字</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt"><{$CONFIG['delivery']['d2']|default="服务态度"}>评分：</td>
+                    <td class="rgTdBt"><input type="text" name="data[d2]" value="<{$detail.d2|default=''}>" class="manageInput w200" />
+                    <code>只能填写1-5数字</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt"><{$CONFIG['delivery']['d3']|default="快速守时"}>评分：</td>
+                    <td class="rgTdBt"><input type="text" name="data[d3]" value="<{$detail.d3|default=''}>" class="manageInput w200" />
+                    <code>只能填写1-5数字</code>
+                    </td>
+                </tr>
+           
+                <tr>
+                    <td class="lfTdBt">评价内容：</td>
+                    <td class="rgTdBt">
+                        <textarea name="data[content]" rows="5" cols="40"><{$detail.content|default=''}></textarea>
+                        <code>评论的内容</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                  <td class="lfTdBt">更多点评图片：</td>
+                        <td class="rgTdBt">
+                            <div>
+                                <div id="moreToUpload" >上传点评图片</div>
+                            </div>							
+							<script>                                
+									var width = '<{:thumbSize($CONFIG[attachs][dianping][thumb],0)}>';                              
+									var height = '<{:thumbSize($CONFIG[attachs][dianping][thumb],1)}>'; 
+									var uploader = WebUploader.create({                                    
+									auto: true,                                    
+									swf: '/static/default/webuploader/Uploader.swf',                                    
+									server: '<{:U("app/upload/uploadify",array("model"=>"dianping"))}>',                                    
+									pick: '#moreToUpload',                                    
+									fileNumberLimit:10,                                    
+									resize: true, 
+									crop: false,  
+									compress : {width:width,height:height,quality: 80,allowMagnify: false,crop: true},														
+								});                                                               
+								uploader.on( 'uploadSuccess', function( file,resporse) {                                    
+								var str = '<span style="width:200px; height:100px; float: left; margin-left: 5px; margin-top: 10px;">  <img width="200" height="100" src="' + resporse.url + '">  <input type="hidden" name="photos[]" value="' + resporse.url + '" />    <a href="javascript:void(0);">取消</a>  </span>';                                   
+								 $(".jq_uploads_img").append(str);                                
+									 });                                                            
+								 uploader.on( 'uploadError', function( file ) {                                    
+									alert('上传出错');                                
+								 });                                
+								 $(document).on("click", ".jq_uploads_img a", function () {                                    
+									 $(this).parent().remove();                                
+								 });                            
+                             </script>
+                            <div class="jq_uploads_img">
+                                <foreach  name="photos" item="item">
+                                    <span style="width 200px; height:100px; float: left; margin-left: 5px; margin-top: 10px;"> 
+                                        <img width="200" height="100" src="<{:config_img($item['photo'])}>">  
+                                        <input type="hidden" name="photos[]" value="<{$item.photo}>" />  
+                                        <a href="javascript:void(0);">取消</a>  
+                                    </span>
+                                </foreach>
+                            </div>					
+                        </td>
+                    </tr>
+             <tr>
+                <tr>
+                    <td class="lfTdBt">回复：</td>
+                    <td class="rgTdBt">
+                        <textarea name="data[reply]" rows="5" cols="40"><{$detail.reply|default=''}></textarea>
+                    </td>
+                </tr>
+                
+            </table>
+        </div>
+        <div>
+            <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+        </div>
+</form>
+
+<include  file='public:footer'/>       

@@ -1,0 +1,110 @@
+<include file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">家政</a> > <a href="<{:U('appoint/index')}>">家政项目</a>> <a href="<{:U('appoint/order')}>">家政订单</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('appoint/order')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+       		<div class="left tuan_topser_l">
+            开始时间：<input type="text" placeholder="输入开始时间"  class="radius3 seleFl"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            结束时间：<input type="text"  placeholder="输入结束时间" class="radius3 seleFl"  name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            订单状态：
+               <select class="seleFl w80" name="status">
+                   <option <eq name="status" value="999">selected="selected"</eq> value="999">请选择状态</option>
+                   <foreach name="types" key="key" item="item">
+                      <option <eq name="status" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                   </foreach>
+               </select>
+                            
+            家政订单ID：
+            <input type="text" name="keyword" value="<{$keyword}>"  placeholder="输入家政订单ID" class="radius3 tuan_topser" />
+            <input type="submit" style="margin-left:10px;"  class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            </div>
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('appoint/create')}>">添加家政+</a></div>
+        </div>
+    </div>
+    </form>
+    <div class="tuanfabu_tab">
+        <ul>
+          <li class="tuanfabu_tabli tabli_change"><a href="<{:U('appoint/index')}>">家政项目</a></li>
+          <li class="tuanfabu_tabli tabli_change <eq name='st' value='0'> on</eq>"><a href="<{:LinkTo('appoint/order',array('st'=>0))}>">未付款</a></li>
+          <li class="tuanfabu_tabli tabli_change <eq name='st' value='1'> on</eq>"><a href="<{:LinkTo('appoint/order',array('st'=>1))}>">已付款</a></li>
+          <li class="tuanfabu_tabli tabli_change <eq name='st' value='2'> on</eq>"><a href="<{:LinkTo('appoint/order',array('st'=>2))}>">已派单</a></li>
+          <li class="tuanfabu_tabli tabli_change <eq name='st' value='3'> on</eq>"><a href="<{:LinkTo('appoint/order',array('st'=>3))}>">退款中</a></li>
+          <li class="tuanfabu_tabli tabli_change <eq name='st' value='4'> on</eq>"><a href="<{:LinkTo('appoint/order',array('st'=>4))}>">已退款</a></li>
+          <li class="tuanfabu_tabli tabli_change <eq name='st' value='8'> on</eq>"><a href="<{:LinkTo('appoint/order',array('st'=>8))}>">已完成</a></li>
+        </ul>
+    </div>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+          <td>编号</td>
+          <td>预约类型</td>
+          <td>服务项目</td>
+          <td>服务时间</td>
+          <td>服务地址</td>
+          <td>姓名</td>
+          <td>电话</td>
+          <td>内容</td>
+          <td>订单状态</td>
+          <td>实际支付</td>
+          <td>下单时间</td>
+          <td>付款时间</td>
+          <td>点评状态</td>
+          <td>打印状态</td>
+          <td>操作</td>             
+        </tr>
+        
+        <foreach name="list" item="var">
+        
+         <td><{$var.order_id}></td>
+         <td style="color:#F00"><{$orderTypes[$var['orderType']]}></td>
+         <td><{$cates[$var['cate_id']]['cate_name']}></td>
+         <td><{$var.svctime}></td>
+         <td><{$var.addr}></td>
+         <td><{$var.name}></td>
+         <td><{$var.tel}></td>
+         <td><{$var.contents}></td>
+         <td><{$types[$var['status']]}></td>
+         <td>&yen;<{:round($var['need_pay']/100,2)}></td>
+         <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+         <td><{$var.pay_time|date='Y-m-d H:i:s',###}></td>
+         <td><if condition="$var['comment_status'] eq 1">已点评 <else/>未点评</if></td>
+         <td><if condition="$var['is_print'] eq 1">已打印 <else/>未打印</if></td>
+                            
+         <td>
+             <if condition="$item['status'] eq 0">
+                  <a class="button-appoint-order"   mini='confirm'  href="<{:U('appoint/cancel',array('order_id'=>$item['order_id']))}>">取消订单</a>
+             <elseif condition="$item[status] eq 1" />
+                  <a class="button button-little bg-dot" >已付款</a>
+                  <a class="button-appoint-order"   mini='confirm'  href="<{:U('appoint/confirm',array('order_id'=>$item['order_id']))}>">确认接单</a>
+             <elseif condition="$item[status] eq 2" />
+                  <a class="button-appoint-order" >已确认接单</a>
+             <elseif condition="$item[status] eq 3" />
+                  <a class="button-appoint-order" >客户退款中</a>
+                  <a class="button-appoint-order"   mini='confirm'  href="<{:U('appoint/agree_refund',array('order_id'=>$item['order_id']))}>">同意退款</a>
+             <elseif condition="$item[status] eq 4" />
+                  <a class="button-appoint-order" >已退款</a>
+                  <a class="button-appoint-order"   mini='confirm'  href="<{:U('appoint/cancel',array('order_id'=>$item['order_id']))}>">删除订单</a>
+             <elseif condition="$item[status] eq 8" />
+                  <a class="button-appoint-order" >已完成</a>
+                  <if condition="$item['comment_status'] eq 1">
+                      <a class="button-appoint-order" >已点评</a>
+                  <else/>
+                      <a class="button-appoint-order" >未点评</a>
+                  </if>
+             </if>       
+                       
+         </td>
+       
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+<include file='public:footer'/>

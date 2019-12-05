@@ -1,0 +1,74 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">贴子</li>
+        <li class="li2">回复管理</li>
+        <li class="li2 li3">回复列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span> 这里管理帖子的回复列表</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+           	 <{:BA('threadpost/comments_create',array('post_id'=>$post_id),'添加回复')}>
+            </div>
+            <div class="right">
+                <form method="post" action="<{:U('threadpost/comments',array('post_id'=>$post_id))}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <span>帖子ID</span>
+                        <input type="text" name="post_id" value="<{$post_id|default=''}>" class="inptText w120" />
+                        <span>  用户ID：</span>   <input type="text" name="user_id" value="<{$user_id|default=''}>" class="inptText w150" />
+                        <input type="submit" class="inptButton" value="  搜索" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="comment_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>帖子标题</td>
+                        <td>帖子ID</td>
+                        <td>部落名称</td>
+                        <td>用户昵称</td>
+                        <td>回复内容</td>
+                        <td>创建时间</td>
+                        <td>创建IP</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_comment_id" type="checkbox" name="comment_id[]" value="<{$var.comment_id}>" /></td>
+                            <td><{$var.comment_id}></td>
+                            <td><{$threadpost[$var['post_id']]['title']}></td>
+                            <td><{$var.post_id}></td>
+                            <td><{$var.thread_name}></td>
+                            <td><{$users[$var['user_id']]['account']}>(<{$var.user_id}>)</td>
+                            <php>$contents = tu_msubstr($var['contents'],0,28,false)</php>
+                            <td>
+                                <{:cleanhtml($contents)}><br/>
+                                <{:BA('threadpost/comments_edit',array("comment_id"=>$var["comment_id"],"post_id"=>$var["post_id"]),'完整回复','','remberBtn')}>
+                            </td>
+                            <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                            <td><{$var.create_ip}>(<{$var.create_ip_area}>)</td>
+                        <td>
+                            <{:BA('threadpost/comments_edit',array("comment_id"=>$var["comment_id"],"post_id"=>$var["post_id"]),'编辑','','remberBtn')}>
+                            <{:BA('threadpost/comments_delete',array("comment_id"=>$var["comment_id"],"post_id"=>$var["post_id"]),'删除','act','remberBtn')}>
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('threadpost/comments_delete','','批量删除','list','a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+    <include  file='public:footer'/>       

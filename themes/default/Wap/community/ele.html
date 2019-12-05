@@ -1,0 +1,20 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:u('community/detail',array('community_id'=>$detail['community_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			附近外卖
+		</div>
+		<div class="top-signed">
+		</div>
+	</header>
+
+
+	<ul id="shop-list" class="shop-list"></ul>
+	<script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+<include file="public:footer"/>

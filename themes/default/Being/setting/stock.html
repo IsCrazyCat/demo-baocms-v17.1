@@ -1,0 +1,42 @@
+<include  file='public:header'/>
+<style>
+.lfTdBt {width: 180px;}
+.profit{ text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">常用功能</li>
+        <li class="li2 li3">股权设置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>新版股权配置，二开配置写这里</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/stock')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+                <tr>
+                    <td class="lfTdBt" ><{$CONFIG.prestige.name|default='威望'}>抵扣比例：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[deduction]" value="<{$CONFIG.stock.deduction}>" class="scAddTextName w80" />%
+                        <code>购买股权商品时候抵扣百分比，<{$CONFIG.prestige.name|default='威望'}>已100为基数，比如填写3就是，100<{$CONFIG.prestige.name|default='威望'}>抵扣3元，以此类推，不支持小数点哦~</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >给股权商家结算百分比：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[settlement]" value="<{$CONFIG.stock.settlement}>" class="scAddTextName w80" />%
+                        <code>这里是给股权商家结算的时候扣除的百分比，比如这是20%就是，股权价值100元，给商家20元的意思</code>
+                    </td>
+                </tr>
+                
+            </table>
+            <div class="smtQr"><input type="submit" value="确认配置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

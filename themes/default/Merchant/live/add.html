@@ -1,0 +1,218 @@
+<include  file='public:header'/>
+
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">直播</a> > <a>创建直播</a></li>
+    </ul>
+</div>
+
+<div class="tuan_content">
+
+ 	<div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli"><a href="<{:U('live/index')}>">直播列表</a></li>
+            <li class="tuanfabu_tabli on"><a href="<{:U('live/add')}>">操作直播</a></li>
+        </ul>
+    </div> 
+    
+    
+
+    <div class="tabnr_change  show">
+        <form method="post"  action="<{:U('live/add')}>"  target="x-frame">
+            <input type="hidden" name="shop_id" value="<{$shop_id}>">
+            <input type="hidden" name="cate_id" value="<{$cate_id}>">
+            <input type="hidden" name="live_id" value="<{$detail.live_id}>">
+            <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">直播名称：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="name" value="<{$detail.name|default=''}>" class="tuanfabu_int tuanfabu_intw2"/>
+                            <code>填写直播名称</code>
+                        </div>
+                        </td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">直播简介：</p></td>
+                    <td><div class="tuanfabu_nr">
+                    <textarea name="intro" cols="50" rows="10" ><{$detail.intro|default=''}></textarea>
+                    <code>填写直播简介</code>
+                    </div></td>
+                </tr>
+            	
+                <tr>
+                 <td><p class="tuanfabu_t">缩略图：</p></td>
+                 <td><div class="tuanfabu_nr">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="photo" value="<{$detail.photo}>" id="data_photo" />
+                        <div id="fileToUpload" >上传缩略图</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_img" width="80" height="80"  src="<{:config_img($detail['photo'])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.goods.thumb}>
+                    </div>
+                    <script>                                            
+						var width = '<{:thumbSize($CONFIG[attachs][goods][thumb],0)}>';                         
+						var height = '<{:thumbSize($CONFIG[attachs][goods][thumb],1)}>';                         
+						var uploader = WebUploader.create({                             
+						auto: true,                             
+						swf: '/static/default/webuploader/Uploader.swf',                             
+						server: '<{:U("app/upload/uploadify",array("model"=>"goods"))}>',                             
+						pick: '#fileToUpload',                             
+						resize: true,   
+						compress : {width:width,height:height,quality:80,allowMagnify: false,crop: true}                       
+					});                                                 
+					uploader.on( 'uploadSuccess', function(file,resporse) {                             
+						$("#data_photo").val(resporse.url);                             
+						$("#photo_img").attr('src',resporse.url).show();                         
+					});                                                
+                    </script>
+                    </div>
+                </td>
+            </tr>
+               
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">视频地址：</p></td>
+                    <td><div class="tuanfabu_nr"><input type="text" name="url" value="<{$detail.url|default=''}>" class="tuanfabu_int tuanfabu_intw3" />
+                    <code>填写直播链接</code>
+ 					</div>
+                    </td>
+                </tr>
+
+               <!--坐标开始-->
+               
+                 <tr>
+                    <td width="120"><p class="tuanfabu_t">坐标：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="lng" id="lng" value="<notempty name="detail.lng"><{$detail.lng}><else/><{$the_shop.lng}></notempty>" class="tuanfabu_int tuanfabu_intw2" /> 经度
+                            <input type="text" name="lat" id="lat" value="<notempty name="detail.lat"><{$detail.lat}><else/><{$the_shop.lat}></notempty>" class="tuanfabu_int tuanfabu_intw2" /> 纬度
+                        </div></td>
+                </tr>
+            
+                
+                 <tr>
+                    <td width="120"><p class="tuanfabu_t">地图：</p></td>
+                    <td><div class="tuanfabu_nr">
+                        <script type="text/javascript" src="<{$CONFIG['config']['baidu_map_api']}>"></script>
+                        <div class="top" style="width:700px; margin-bottom: 20px;">
+                            <div id="r-result"><input type="text" id="suggestId" class="mapinputs tuanfabu_int tuanfabu_intw2" size="20" value="重庆" /> 请输入地址自动定位查找</div>    
+                        </div>
+                        <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                        <div id="allmap" style="width: 600px; height:500px;"></div>
+                        <script type="text/javascript">
+                            var map = new BMap.Map("allmap");
+                            var lng = "<{$CONFIG['site']['lng']}>";
+                            var lat = "<{$CONFIG['site']['lat']}>";
+                            if (!lng && !lat) {
+                                map.centerAndZoom("河南");
+                                var point = new BMap.Point(117.260852, 31.825717);
+                            } else {
+                                map.centerAndZoom(new BMap.Point(lng, lat), 15);
+                                var point = new BMap.Point(lng, lat);
+                            }
+                            map.centerAndZoom(point, 15);
+                            var marker = new BMap.Marker(point); 
+                            map.clearOverlays();
+                            map.addOverlay(marker);           
+                            marker.setAnimation(BMAP_ANIMATION_BOUNCE); 
+                            function showPoint(e) {
+                                document.getElementById('lat').value = e.point.lat;
+                                document.getElementById('lng').value = e.point.lng;
+                                var p = new BMap.Point(e.point.lng, e.point.lat);
+                                var mk = new BMap.Marker(p);
+                                map.clearOverlays();
+                                map.addOverlay(mk);
+                                mk.setAnimation(BMAP_ANIMATION_BOUNCE); 
+                            }
+                            map.enableScrollWheelZoom(true);
+                            map.addControl(new BMap.NavigationControl()); 
+                            map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}));  
+                            map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_LEFT, type: BMAP_NAVIGATION_CONTROL_PAN})); 
+                            map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT, type: BMAP_NAVIGATION_CONTROL_ZOOM})); 
+                            map.addEventListener("click", showPoint);
+                            function G(id) {
+                                return document.getElementById(id);
+                            }
+                            var ac = new BMap.Autocomplete(
+                                    {"input": "suggestId"
+                                        , "location": map
+                                    });
+
+                            ac.addEventListener("onhighlight", function (e) { 
+                                var str = "";
+                                var _value = e.fromitem.value;
+                                var value = "";
+                                if (e.fromitem.index > -1) {
+                                    value = _value.province + _value.city + _value.district + _value.street + _value.business;
+                                }
+                                str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+                                value = "";
+                                if (e.toitem.index > -1) {
+                                    _value = e.toitem.value;
+                                    value = _value.province + _value.city + _value.district + _value.street + _value.business;
+                                }
+                                str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+                                G("searchResultPanel").innerHTML = str;
+                            });
+
+                            var myValue;
+                            ac.addEventListener("onconfirm", function (e) { 
+                                var _value = e.item.value;
+                                myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+                                G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+                                setPlace();
+                            });
+
+
+                            function setPlace() {
+                                map.clearOverlays(); 
+                                function myFun() {
+                                    var pp = local.getResults().getPoi(0).point;  
+                                    map.centerAndZoom(pp, 18);
+                                    map.addOverlay(new BMap.Marker(pp));   
+                                }
+                                var local = new BMap.LocalSearch(map, {
+                                    onSearchComplete: myFun
+                                });
+                                local.search(myValue);
+                            }
+
+                        </script>
+                    </div></td>
+                </tr>
+                <!--坐标结束-->
+                
+            </table>
+            <div class="tuanfabu_an">
+                <input type="submit" class="sjgl_an tuan_topbt" value="<{$btn}>" onclick="return add();" />
+            </div>
+        </form>
+    </div> 
+</div>
+<script>
+function add(){
+    var name = $("input[name='name']").val();
+    var photo = $("input[name='photo']").val();
+    var url = $("input[name='url']").val();
+    var lng = $("input[name='lng']").val();
+    var lat = $("input[name='lat']").val();
+    var msg = '';
+    if(name==''){
+        msg = '请填写直播名称';
+    }else if(photo==''){
+        msg = '请上传缩略图';
+    }else if(url==''){
+        msg = '请填写视频地址';
+    }else if(lng==''||lat==''){
+        msg = '请选择地图位置'
+    }
+    if(msg){
+        layer.msg(msg);
+        return false;
+    }
+};
+</script>
+<include  file='public:footer'/>

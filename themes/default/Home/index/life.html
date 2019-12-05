@@ -1,0 +1,104 @@
+
+
+<script src="/themes/default/Home/statics/js/common2017.js"></script>
+
+<div class="inforWrap heTabs clearfix" id="tab_ajax_02">
+	<div class="hd">
+		<h3>生活信息</h3>
+		<div class="tabs">
+			<ul class="tab-hd clearfix">
+				<li class="item selected" data-cat="live_ajax_0"><a href="<{:LinkTo('life/index',array('channel'=>1))}>" target="_blank">二手</a></li>
+				<li class="item" data-cat="live_1"><a href="<{:LinkTo('life/index',array('channel'=>2))}>" target="_blank">车辆</a></li>
+                <li class="item" data-cat="live_2"><a href="<{:LinkTo('life/index',array('channel'=>3))}>" target="_blank">求职</a></li>
+                <li class="item" data-cat="live_3"><a href="<{:LinkTo('life/index',array('channel'=>4))}>" target="_blank">交友</a></li>
+                <li class="item" data-cat="live_4"><a href="<{:LinkTo('life/index',array('channel'=>5))}>" target="_blank">房屋</a></li>
+                <li class="item" data-cat="live_5"><a href="<{:LinkTo('life/index',array('channel'=>6))}>" target="_blank">培训</a></li>
+                <li class="item" data-cat="live_6"><a href="<{:LinkTo('life/index',array('channel'=>7))}>" target="_blank">招聘</a></li>
+				<li><a href="<{:U('life/index')}>" target="_blank">更多</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="liveCon clearfix">
+		<div class="picList">
+			<ul class="clearfix">
+             <calldata mdl="Life" where="closed=0 AND audit=1 AND city_id IN ({$city_ids})"  order="views desc" limit="0,4" cache="280">
+				<li>
+                
+					<div class="pic"><a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><img src="<{:config_img($item['photo'])}>" ></a></div>
+					<div class="title"><a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{:tu_msubstr($item['title'],0,16)}></a></div>
+				</li>
+                </calldata>
+               
+			</ul>
+		</div>
+		<!--文字描述-->
+		<div class="conn">
+			<div class="touban">
+				<ul class="news clearfix tab-cont" data-success="1" style="display: block;">
+                <foreach name="list_channel_1"  item="var">
+					<li><a href="<{:U('life/index',array('cat'=>$var['cate_id']))}>" target="_blank" class="gray">[<{$var.cate_name}>]</a> 
+                    <a href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank" style="color:; font-weight:;"><{:tu_msubstr($var['title'],0,16)}></a><em><{$var.create_time|date="Y-m-d",###}></em></li>
+                 </foreach>   
+				</ul>
+				<ul class="news clearfix tab-cont" data-success="1" style="display: none;">
+                
+                <foreach name="list_channel_2"  item="var">
+					<li><a href="<{:U('life/index',array('cat'=>$var['cate_id']))}>" target="_blank" class="gray">[<{$var.cate_name}>]</a> 
+                    <a href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank" style="color:; font-weight:;"><{:tu_msubstr($var['title'],0,16)}></a><em><{$var.create_time|date="Y-m-d",###}></em></li>
+                 </foreach> 
+                
+                </ul>
+				
+                
+                
+               <ul class="news clearfix tab-cont" data-success="1" style="display: none;"> 
+               
+               <foreach name="list_channel_3"  item="var">
+					<li><a href="<{:U('life/index',array('cat'=>$var['cate_id']))}>" target="_blank" class="gray">[<{$var.cate_name}>]</a> 
+                    <a href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank" style="color:; font-weight:;"><{:tu_msubstr($var['title'],0,16)}></a><em><{$var.create_time|date="Y-m-d",###}></em></li>
+                 </foreach> </ul> 
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+				<ul class="news clearfix loadding tab-cont" data-success="0" style="display:none;">
+                 <foreach name="list_channel_4"  item="var">
+					<li><a href="<{:U('life/index',array('cat'=>$var['cate_id']))}>" target="_blank" class="gray">[<{$var.cate_name}>]</a> 
+                    <a href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank" style="color:; font-weight:;"><{:tu_msubstr($var['title'],0,16)}></a><em><{$var.create_time|date="Y-m-d",###}></em></li>
+                 </foreach> 
+                </ul>
+				<ul class="news clearfix loadding tab-cont" data-success="0" style="display:none;">
+                 <foreach name="list_channel_5"  item="var">
+					<li><a href="<{:U('life/index',array('cat'=>$var['cate_id']))}>" target="_blank" class="gray">[<{$var.cate_name}>]</a> 
+                    <a href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank" style="color:; font-weight:;"><{:tu_msubstr($var['title'],0,16)}></a><em><{$var.create_time|date="Y-m-d",###}></em></li>
+                 </foreach> 
+                </ul>
+				<ul class="news clearfix loadding tab-cont" data-success="0" style="display:none;">
+                 <foreach name="list_channel_6"  item="var">
+					<li><a href="<{:U('life/index',array('cat'=>$var['cate_id']))}>" target="_blank" class="gray">[<{$var.cate_name}>]</a> 
+                    <a href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank" style="color:; font-weight:;"><{:tu_msubstr($var['title'],0,16)}></a><em><{$var.create_time|date="Y-m-d",###}></em></li>
+                 </foreach> 
+                </ul>
+				<ul class="news clearfix loadding tab-cont" data-success="0" style="display:none;">
+                 <foreach name="list_channel_7"  item="var">
+					<li><a href="<{:U('life/index',array('cat'=>$var['cate_id']))}>" target="_blank" class="gray">[<{$var.cate_name}>]</a> 
+                    <a href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank" style="color:; font-weight:;"><{:tu_msubstr($var['title'],0,16)}></a><em><{$var.create_time|date="Y-m-d",###}></em></li>
+                 </foreach> 
+                </ul>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+
+<script type="text/javascript">
+$("#tab_ajax_02").TabADS4(window['siteUrl'],22,'live',false);
+        </script>

@@ -1,0 +1,194 @@
+<include  file='public:header'/>
+<style>
+.main .mainNr .center {width: 100%;}
+.mainNr .center .mainC1 .nr { background-color: #fff; border-bottom: 1px #e1e6eb solid;}
+.mainNr .center .mainC1 .nr2 { background-color:#ECECEC; padding-top: 10px;padding-right: 20px;padding-bottom: 10px; padding-left: 20px;}
+.order_goods_table{border-collapse:collapse;border-top:none 0;text-align:center}
+.order_goods_table tr{border-top:solid 1px #EEE}
+.order_goods_table td{padding:0}
+.www_hatudou_com_nr{padding:6px 10px;overflow:hidden;height:auto}
+.www_hatudou_com__topser_l{padding:6px 10px;}
+.www_hatudou_com_status{ margin:30px 10px; text-align:center}
+</style>
+<div class="main">
+    <div class="mainBt">
+        <ul>
+        <li class="li1">外卖</li>
+        <li class="li2">外卖订单</li>
+        <li class="li2 li3"> 外卖订单详情</li>
+    </ul>
+    </div>
+    
+    
+                            
+    <div class="mainNr">
+        <div class="center">
+            <div class="mainC1">
+                
+                
+                <div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left www_hatudou_com__topser_l"><a class="remberBtn">订单详情</a></div>
+             <div class="right www_hatudou_com_nr">
+                <{:BA('eleorder/detail',array("order_id"=>$detail["order_id"]),'刷新订单状态','','remberBtn')}>
+                <{:BA('eleorder/index','','返回订单列表','','remberBtn')}>
+            </div>
+        </div>
+    </div> 
+    
+    <div class="tabnr_change show">
+    	
+    	<table class="order_goods_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="tuanfabu_t">订单编号：</p></td><td>
+                <div class="www_hatudou_com_nr">
+                	<{$detail.order_id}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    下单账户：<{$detail['user']['nickname']}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    下单时间：<{$detail.create_time|date='Y-m-d H:i',###}>
+                    <if condition="!empty($detail['pay_time'])">
+                    	付款时间：<{$detail.pay_time|date='Y-m-d H:i',###}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </if>
+                    <if condition="!empty($detail['refund_time'])">
+                    	退款时间：<{$detail.refund_time|date='Y-m-d H:i',###}>
+                    </if>
+                </div></td>
+            </tr>
+            
+             <tr>
+                <td width="120"><p class="tuanfabu_t">费用明细：</p></td>
+                <td>
+                <div class="www_hatudou_com_nr">
+                <div class="tuanfabu_nr">
+               	 <if condition="!empty($detail['total_price'])">
+                    应付总费用：&yen;<{:round($detail['total_price']/100,2)}>元(含配送费)
+                 </if>
+             	 <if condition="!empty($detail['new_money'])">
+                    - 新单立减：&yen;<{:round($detail['new_money']/100,2)}>元
+                 </if>
+                 <if condition="!empty($detail['logistics_full_money'])">
+                    - 免配送费：&yen;<{:round($detail['logistics_full_money']/100,2)}>元
+                 </if>
+                 <if condition="!empty($detail['reduce_coupun_money'])">
+                   - 优惠劵抵扣费用：&yen;<{:round($detail['reduce_coupun_money']/100,2)}>元
+                 </if>
+                  <if condition="!empty($detail['full_reduce_price'])">
+                   - 满减优惠：&yen;<{:round($detail['full_reduce_price']/100,2)}>元
+                 </if>
+                 <if condition="!empty($detail['tableware_price'])">
+                    + 餐具费：&yen;<{:round($detail['tableware_price']/100,2)}> 元
+                 </if>
+                 <if condition="!empty($detail['logistics'])">
+                    + 配送费用：&yen;<{:round($detail['logistics']/100,2)}> 元
+                 </if>
+             </span>
+             <span>= 实际支付：<a  class="text-dot">&yen;<{:round($detail['need_pay']/100,2)}>元 </a></span>&nbsp;&nbsp;&nbsp;&nbsp;
+               <if condition="empty($detail['is_daofu'])">
+               	 <a style="color:#09C">结算费用： &yen; <{:round($detail['settlement_price']/100,2)}> 元&nbsp;&nbsp;</a>
+               <else/>
+                 <a style="color:#09C">当前订单为货到付款，不支持线上结算</a>
+               </if>
+               </div>
+               </td>
+            </tr>
+            <tr>
+                <td width="120"><p class="tuanfabu_t">收货地址：</p></td><td><div class="www_hatudou_com_nr">
+                <{$addr.addr}>
+                <{$addr.name}>
+                <{$addr.mobile}>
+                </div></td>
+            </tr>
+            
+            <tr>
+                <td width="120"><p class="tuanfabu_t">其他信息：</p></td><td><div class="www_hatudou_com_nr">
+                
+                <if condition="!empty($detail['message'])">
+                <a href="javascript:;">留言：<em><{$detail['message']}></em></a>
+                </if>
+                
+                <a href="javascript:;">配送方式：<em>
+                <notempty name='deliveryorder'>第三方配送<else/>商家配送</notempty><!-- （配送费 <span class="fontcl1">￥<{:round($detail['logistics']/100,2)}></span>）-->
+                </em></a>
+                <notempty name='deliveryorder'>               
+                <a href="javascript:;">配送员：<gt name="do.delivery_id" value="0"><{$delivery.name}>(<{$delivery.mobile}>)<else/>还未接单</gt></a>
+                </notempty>
+                </div></td>
+            </tr>
+            
+        </table>
+
+        <div style="margin-top:10px;"></div>
+        <table class="order_goods_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        	
+            <tr class="order_goods_table_tr">
+                <td><p class="www_hatudou_com_nr">标题</p></td>
+                <td><p class="www_hatudou_com_nr">菜品介绍</p></td>
+                <td><div class="www_hatudou_com_nr">缩略图</div></td>
+                <td <p class="www_hatudou_com_nr">单价</p></td>
+                <td><p class="www_hatudou_com_nr">数量</p></td>
+                <td><p class="www_hatudou_com_nr">总价</p></td>
+            </tr>
+           <volist name="eleorderproduct" id="var">  
+            	<tr>
+                    <td><p class="www_hatudou_com_nr"><{$products[$var['product_id']]['product_name']}></p></td>
+                    <td <p class="www_hatudou_com_nr"><{$products[$var['product_id']]['desc']}></p></td>
+                    <td><div class="www_hatudou_com_nr">
+                    <img style="margin: 10px auto; width:60px;" src="<{:config_img($products[$var['product_id']]['photo'])}>" /></div></td>
+                    <td><p class="www_hatudou_com_nr"> <{:round($products[$var['product_id']]['price']/100,2)}>元</p></td>
+                    <td><p class="www_hatudou_com_nr"><{$var.num}></p></td>
+                    <td><p class="www_hatudou_com_nr"><{:round($var['total_price']/100,2)}> 元</p></td>
+                    
+                </tr>
+            </volist>   
+            <tr>
+            	<td colspan="6" class="www_hatudou_com"> 
+                <p class="www_hatudou_com_nr">  <if condition="!empty($detail['total_price'])">
+                    应付总费用：&yen;<{:round($detail['total_price']/100,2)}>元(含配送费)
+                 </if>
+             	 <if condition="!empty($detail['new_money'])">
+                    - 新单立减：&yen;<{:round($detail['new_money']/100,2)}>元
+                 </if>
+                 <if condition="!empty($detail['logistics_full_money'])">
+                    - 免配送费：&yen;<{:round($detail['logistics_full_money']/100,2)}>元
+                 </if>
+                 <if condition="!empty($detail['reduce_coupun_money'])">
+                   - 优惠劵抵扣费用：&yen;<{:round($detail['reduce_coupun_money']/100,2)}>元
+                 </if>
+                 <if condition="!empty($detail['full_reduce_price'])">
+                   - 满减优惠：&yen;<{:round($detail['full_reduce_price']/100,2)}>元
+                 </if>
+                 <if condition="!empty($detail['tableware_price'])">
+                    + 餐具费：&yen;<{:round($detail['tableware_price']/100,2)}> 元
+                 </if>
+                 <if condition="!empty($detail['logistics'])">
+                    + 配送费用：&yen;<{:round($detail['logistics']/100,2)}> 元
+                 </if>
+             </span>
+             <span>= 实际支付：<a  class="text-dot">&yen;<{:round($detail['need_pay']/100,2)}>元</a></span>
+         
+                &nbsp;&nbsp;&nbsp;  </p>
+                
+               </td>
+            </tr>
+            </tr>
+        </table>
+
+        <div class="www_hatudou_com_status">  
+            <if condition="$detail['status'] egt 4">
+                <{:BA('eleorder/delete',array("order_id"=>$detail["order_id"]),'删除订单','act','remberBtn')}>
+            </if>
+            <if condition="$detail['status'] eq 3">
+                <{:BA('eleorder/tui',array("order_id"=>$detail["order_id"]),'同意退款','act','remberBtn')}>
+            </if>
+            <{:BA('eleorder/index','','返回订单列表','','remberBtn')}>
+      </div>
+    </div> 
+</div>
+
+
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<include  file='public:footer'/>
+

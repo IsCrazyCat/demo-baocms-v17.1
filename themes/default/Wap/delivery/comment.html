@@ -1,0 +1,162 @@
+<include file="public:header"/>
+
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/wap/other/webuploader.js"></script> 
+<script src="/static/default/wap/js/star.js"></script>
+
+<style>
+.list-media-x{margin-top:0.0rem;}
+</style>
+
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			配送员点评
+		</div>
+	<div class="top-signed">
+	</div>
+</header>
+
+
+<form method="post" action="<{:U('delivery/remark',array('order_id'=>$res['order_id']))}>" id="ajaxForm">
+
+    <div class="line padding">
+            <div class="x12">
+                <p class="margin-small-bottom text-gray"><span> 配送员“<{$delivery.name}>”的点评</p>
+            </div>
+        </div>
+    <div class="blank-10 bg"></div>   
+
+
+    <div class="line padding border-bottom">
+        <span class="x3">标签：</span>
+        <span class="x9">
+             <foreach name="tags" item="var">
+                 <label><input class="tag" type="checkbox" name="tag[]" value="<{$var['tag_id']}>" /><{$var['tagName']}></label>
+              </foreach>   
+        </span>
+    </div>
+
+
+	<div class="line padding border-bottom">
+		<div class="x4">
+			综合评价：
+		</div>
+		<div class="x8">
+			<span id="jq_star"></span>
+		</div>
+	</div>
+
+	<div class="line padding border-bottom">
+		<div class="x4">
+			<{$CONFIG['delivery']['d1']}>评价：
+		</div>
+		<div class="x8">
+			<span id="jq_star1"></span>
+		</div>
+	</div>
+	
+	<div class="line padding border-bottom">
+		<div class="x4">
+			<{$CONFIG['delivery']['d2']}>评价：
+		</div>
+		<div class="x8">
+			<span id="jq_star2"></span>
+		</div>
+	</div>
+	
+	<div class="line padding border-bottom">
+		<div class="x4">
+			<{$CONFIG['delivery']['d3']}>评价：
+		</div>
+		<div class="x8">
+			<span id="jq_star3"></span>
+		</div>
+	</div>
+    
+	<div class="blank-10 bg"></div>
+	
+	
+	<script>
+		$(document).ready(function () {
+			$("#jq_star").raty({
+				numberMax: 5,
+				path: '/static/default/wap/image/',
+				starOff: 'star-off.png',
+				starOn: 'star-on.png',
+				scoreName: 'data[score]'
+			});
+			$("#jq_star1").raty({
+				numberMax: 5,
+				path: '/static/default/wap/image/',
+				starOff: 'star-off.png',
+				starOn: 'star-on.png',
+				scoreName: 'data[d1]'
+			});
+			$("#jq_star2").raty({
+				numberMax: 5,
+				path: '/static/default/wap/image/',
+				starOff: 'star-off.png',
+				starOn: 'star-on.png',
+				scoreName: 'data[d2]'
+			});
+			$("#jq_star3").raty({
+				numberMax: 5,
+				path: '/static/default/wap/image/',
+				starOff: 'star-off.png',
+				starOn: 'star-on.png',
+				scoreName: 'data[d3]'
+			});
+		});
+	</script>
+	
+	
+	<div class="line padding">
+		<div class="blank-10"></div>
+			<textarea cols="30" rows="2" name="data[content]" placeholder="请理性点评" style="border:thin solid #eee;width:100%;resize:none;padding:10px;"></textarea>
+		<div class="blank-10"></div>
+	</div>
+    
+    <div class="blank-10 bg"></div>
+     <div class="blank-10"></div>
+     <div class="Upload-img-box">
+        <div id="fileToUpload">上传图片</div>
+           <div class="Upload-img">
+           <div class="list-img loading" style="display:none;"><img src=""></div>
+           <div class="list-img jq_photo" style="display:none;"></div>
+          </div>
+        </div>
+            <script>
+                var width = '<{:thumbSize($CONFIG[attachs][dianping][thumb],0)}>';                     
+                var height = '<{:thumbSize($CONFIG[attachs][dianping][thumb],1)}>';  
+                var uploader = WebUploader.create({                 
+                    auto: true,                             
+                    swf: '/static/default/webuploader/Uploader.swf',                             
+                    server: '<{:U("app/upload/uploadify",array("model"=>"dianping"))}>',                             
+                    pick: '#fileToUpload',                             
+                    resize: true,    
+                    compress : {width:width,height:height,quality:60,allowMagnify: false,crop: true}//裁剪       
+                });
+                uploader.on( 'uploadSuccess', function( file,resporse) {
+                    $(".loading").hide();
+                    var str = '<img src="'+resporse.url+'"><input type="hidden" name="photos[]" value="' + resporse.url + '" />';
+                    $(".jq_photo").show().html(str);
+                });
+                $(document).ready(function () {
+                    $(document).on("click", ".photo img", function () {
+                        $(this).parent().remove();
+                    });
+                });
+            </script>
+        </div>	
+			
+	<div class="container margin">
+			<button class="button button-big button-block bg-dot">提交点评</button>
+		<div class="blank-10"></div>
+	</div>
+</form>
+    
+<include  file='public:footer'/>

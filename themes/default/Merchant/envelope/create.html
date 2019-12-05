@@ -1,0 +1,74 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">红包</a> > <a>创建红包</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">一次只可以创建一条，当前红包结束后才可以创建第二条，红包创建后不可删除只可以结束红包，结束后剩余金额退还到余额</div>
+        </div>
+    </div> 
+    
+    <div class="tuanfabu_tab">
+      <ul>
+        <li class="tuanfabu_tabli on"><a href="<{:U('envelope/create')}>">添加红包</a></li>
+        <li class="tuanfabu_tabli"><a href="<{:U('envelope/index')}>">红包列表</a></li>
+        <li class="tuanfabu_tabli"><a href="<{:U('envelope/logs')}>">红包领取记录</a></li>
+      </ul>
+    </div>
+    
+    
+    <div class="tabnr_change  show">
+    	<form method="post"  action="<{:U('envelope/create')}>"  target="x-frame">
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="tuanfabu_t">红包名称：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="tuanfabu_int tuanfabu_intw1"/>
+                <code>红包名称</code>
+                </div></td>
+            </tr>
+            
+            <tr>
+                <td width="120"><p class="tuanfabu_t">红包简介：</p></td>
+                <td><div class="tuanfabu_nr">
+                     <input type="text" name="data[intro]" value="<{$detail.intro|default=''}>" class="tuanfabu_int tuanfabu_intw3"  />
+                     <code>简单些红包界面，用于领取页面说明，不超过30字</code>
+                </div></td>
+            </tr>
+            <tr>
+                <td width="120"><p class="tuanfabu_t">红包总额：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" name="data[prestore]" value="<{:round($detail['prestore']/100,2)}>" class="tuanfabu_int tuanfabu_intw2" />
+                <code>这里是您打算发布多少金额的红包，用户领取完成后，红包状态自动结束，发布的时候自动扣除余额，您当前余额: <{:round($MEMBER['money']/100,2)}></code>
+                </div></td>
+            </tr>
+            <tr>
+                <td width="120"><p class="tuanfabu_t">红包领取比例：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" name="data[ratio]" value="<{$detail.ratio|default=''}>" class="tuanfabu_int tuanfabu_intw2" />%
+                <code>百分比，1-10，支持小数点，用户领取红包时候金额不够的时候自动结束，剩余金额退到商家对应的账户中</code>
+                </div></td>
+            </tr>
+            
+            <tr>
+                <td width="120"><p class="tuanfabu_t">开始时间：</p></td>
+                <td><div class="tuanfabu_nr">
+                     <input type="text" name="data[bg_date]" value="<{$detail.bg_date|default=''}>" onfocus="WdatePicker();" class="tuanfabu_int tuanfabu_intw2" />
+                     <code>红包领取开始时间，不到这个时间用户不能领取</code>
+                 </div>
+                </td>
+           </tr>
+           
+               
+        </table>
+        <div class="tuanfabu_an">
+        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认发布" />
+        </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>

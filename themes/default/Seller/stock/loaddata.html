@@ -1,0 +1,54 @@
+<foreach name="list" item="item">
+<li class="line ">
+        <dt>
+            <a class="x4">ID：<{$item.order_id}></a>
+            <a class="x8 text-right" href="<{:U('wap/stock/detail',array('stock_id'=>$item['stock_id']))}>">  
+               <{$item.stock.title}> <span class=" iconfont icon-angle-right"></span> 
+            </a>
+        </dt>
+  <dd class="zhong">
+        <div class="x3">
+            <a href="<{:U('stock/detail',array('order_id'=>$item['order_id']))}>">
+            	<img src="<{:config_img($item['stock']['photo'])}>" width="70" height="70" style="width:90%;">
+            </a>
+        </div>
+        <div class="x9">
+            <p><{$item.stock.title}></p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">股权编号：<{$item.stock_number}></span>
+			</p>
+            
+            <if condition="$item['prestige']">
+                <p class="text-small">
+                    <span class="text-gray margin-right"> 使用<{$CONFIG.prestige.name|default='威望'}>：<em class="text-yellow"><{$item.prestige}> 抵扣 &yen;<{:round($item['prestige_deduction_price']/100,2)}>元</em></span>
+                </p>
+            </if>
+            <p class="text-small">
+				<span class="text-dot margin-right"> 数量<{$item.num}> * 每股单价&yen;<{:round($item['price']/100,2)}> 元
+                
+                <if condition="$item['prestige_deduction_price']">
+                 -抵扣 &yen;<{:round($item['prestige_deduction_price']/100,2)}>元
+                </if>
+                = 实付&yen;<{:round($item['need_pay_price']/100,2)}>元</span>
+			</p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">下单时间：<{$item.create_time|date='Y-m-d H:i:s',###}></span>
+		   </p>
+      </div>
+    </dd>
+      <dl>
+      <p class="text-right padding-top">
+          <if condition="$item['status'] eq 0">
+              <a class="button button-little bg-gray" >未付款</a>
+          </if>
+          <if condition="$item['status'] eq 1">
+              <a class="button button-little bg-yellow" >已付款</a>
+              <a class="button button-little bg-dot"  href="<{:U('stock/detail',array('order_id'=>$item['order_id']))}>">查看详情</a>
+          </if>
+          
+       </p>     
+      </dl>
+    </li>
+	<div class="blank-10 bg"></div>
+</foreach>
+

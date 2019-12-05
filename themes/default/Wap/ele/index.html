@@ -1,0 +1,400 @@
+<include file="public:header"/>
+ <script type="text/javascript" src="<{$CONFIG['config']['baidu_map_api']}>"></script>
+<php>
+
+    $areas = D('Area')->where(array('city_id'=>$city_id))->select();
+    foreach ($areas  as $val) {
+       $area_ids[$val['area_id']] = $val['area_id'];
+    }
+    $bizs = D('Business')->where(array('area_id'=>array('IN',$area_ids)))->select();
+    $Area = D('Area')->find($area);
+    $business = D('Business')->find($business);
+</php>
+
+
+
+<style>
+.top-fixed .top-back a{width: 60px;}
+.top-fixed .top-title{width:80%;}
+.top-fixed .top-back i {font-size: 18px;}
+.cate-wrap{font-size:0;background-color:#fff;border-bottom:1px solid #f3f3f3;width:100%;overflow:hidden;}
+.cate-wrap li{box-sizing:border-box;width:25%;float:left}
+.icon2{color:#555;font-size:16px;text-align:center;display:block;padding:.6rem 0}
+.cate-img{background-size:6rem auto;display:inline-block}
+.cate-img img{width:2.6rem;height:2.6rem}
+.cate-desc{display:block}
+.cate-desc{padding-top:.4rem}
+.man_money{padding:1px 5px;height:20px;text-align:center;line-height:20px;color:#fff;font-size:12px !important;cursor:pointer;}
+.full_money{background:#00a0e9;}
+.logistics_full{background:#eb6100}
+.order_price_full{background: #ff2121;}
+
+.bargain-activity{background-color:#fff;padding:.5rem .5rem}
+.bargain-activity .activity-header{font-weight:700;position:relative}
+.bargain-activity .activity-header .more{position:absolute;right:0;color:#999;font-weight:400;vertical-align:middle}
+i.icon{position:relative;display:inline-block;font-style:normal;vertical-align:middle;background-repeat:no-repeat;background-position:center;background-size:100% auto}
+.bargain-activity .goods-list{margin-top:.5rem}
+.row{margin-left:-4%;overflow:hidden}
+.row .col-25{width:21%;margin-left:4%;float:left}
+.bargain-activity .goods-list .goods-item .goods-image{position:relative}
+.bargain-activity .goods-list .goods-item .label{position:absolute;left:7px;z-index:1;width:2.4rem;height:1.8rem;color:#fff;line-height:1.5rem;font-weight:600;text-align:center;background-repeat:no-repeat;background-size:cover;background-position:center;background-image:url(/static/default/wap/image/ele/robot.png)}
+.bargain-activity .goods-list .goods-item img{width:100%;height:4rem}
+.bargain-activity .goods-list .goods-item .goods-title{color:#333;height:.8rem;line-height:.8rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bargain-activity .goods-list .goods-item .price{color:#f6383a}
+.bargain-activity .goods-list .goods-item .price i{font-style:normal}
+.bargain-activity .goods-list .goods-item .price .original-price{color:#999;text-decoration:line-through;font-weight:700}
+</style>
+
+
+	<header class="top-fixed bg-yellow bg-inverse">
+    
+    
+    <div class="top-back"><i class="iconfont icon-dizhi1"></i></div>
+		<if condition="empty($keyword)">
+        	<div class="top-title  get-map-marker">外卖首页</div>
+        </if>
+    
+        
+        
+        
+        
+        
+        
+		<div class="top-search" style="<if condition="empty($keyword)">display:none;</if>">
+			<form method="post" action="<{:U('ele/index')}>">
+				<input name="keyword" placeholder="<{$keyword|default='输入外卖的关键字'}>"  />
+				<button type="submit" class="iconfont icon-search"></button> 
+			</form>
+		</div>
+        <if condition="empty($keyword)">
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+		</div>
+        </if>
+        <div id="allmap" style="display:none;"></div>
+	</header>
+    
+    
+    
+    <script type="text/javascript">
+	<if condition="empty($cate) && empty($business_id) && empty($order) && empty($keyword)">	
+		//变色龙调用函数
+		function gpscallback(result){
+			if(typeof result == 'string'){
+				result = JSON.parse(result)
+			}
+			
+			$('#lbs_lat').val(result.Latitude);
+			$('#lbs_lng').val(result.Longitude);
+			$("#get-map-marker").html(result.Longitude+','+result.Latitude);
+			var point = new BMap.Point(result.Longitude,result.Latitude);
+			var geoc = new BMap.Geocoder();    
+			geoc.getLocation(point, function(rs){
+			  var addComp = rs.addressComponents;
+			  $(".get-map-marker").html(addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+		   });
+	   }
+	   
+	   //识别变色龙还是微信
+	   $(document).ready(function () {
+			if(is_kingkr_obj()){
+				getLocation("gpscallback")
+			}else{
+				  reset();
+			}
+		});	
+		//百度定位
+		function reset() {
+			var addr = $(".get-map-marker").html();
+			$(".get-map-marker").html("定位中…");
+			var map = new BMap.Map("allmap");
+			var point = new BMap.Point(116.331398,39.897445);
+			map.centerAndZoom(point,12);
+			var geolocation = new BMap.Geolocation();
+			geolocation.getCurrentPosition(function(r){
+				if(this.getStatus() == BMAP_STATUS_SUCCESS){
+					var mk = new BMap.Marker(r.point);
+					map.addOverlay(mk);
+					map.panTo(r.point);
+					lat=r.point.lat;
+					lng=r.point.lng;
+					getlat(lng,lat);
+					$('#lbs_lat').val(lat);
+					$('#lbs_lng').val(lng);
+					$("#get-map-marker").html(lng+','+lat);
+				}
+				else {
+				}        
+			},{enableHighAccuracy: true})
+			}
+			function getlat(lng,lat){
+		  if(is_kingkr_obj()){
+			  getLocation("gpscallback")//如果是变色龙
+		  }else{
+				var map = new BMap.Map("allmap"); 
+				var point = new BMap.Point(lng,lat);
+				map.centerAndZoom(point,12);
+				var geoc = new BMap.Geocoder();    
+				var pt = point;
+				geoc.getLocation(pt, function(rs){
+						var addComp = rs.addressComponents;
+						$(".get-map-marker").html(addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+					});        
+				}
+		  }
+	</if>
+
+
+	$(function(){
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+	});
+	</script>	
+
+    
+    
+       <!--广告位开始-->
+     	<div id="tudou-slide" class="tudou-slide">
+			<div class="hd"><ul></ul></div>
+			<div class="bd">
+				<ul>
+					<calldata mdl="Ad" where=" closed=0 AND site_id=73 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+						<li><a href="<{:U('app/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+        <script>
+			TouchSlide({
+				slideCell: "#tudou-slide",
+				titCell: ".hd ul",
+				mainCell: ".bd ul",
+				effect: "left",
+				autoPlay: true,
+				autoPage: true,
+				switchLoad: "_src",
+			});
+		</script>
+    <!--广告位END-->  
+    
+     <if condition="empty($cate) && empty($business_id) && empty($order) && empty($keyword)">
+        <ul class="cate-wrap bbOnepx">
+            <volist name="elecate" id="item" key="index">
+                    <php>$i = $index + 1;</php> 
+                        <li>
+                            <a class="icon2" href="<{:LinkTo('ele/index',array('cate'=>$index))}>" tongji_tag="m_home_job_new">
+                                <span class="cate-img" id="job"><img src="/static/default/wap/image/ele/ele_cate_<{$i}>.png" /></span>
+                                <span class="cate-desc"><{$item}></span>
+                            </a>
+                        </li>
+            </volist>
+        </ul>
+    </if>
+   
+   
+    <div class="blank-10 bg"></div>
+    <div class="bargain-activity">
+			<div class="activity-header text-center">
+				天天特价
+			</div>
+			<div class="goods-list row">
+            
+            <foreach name="product" item="item">
+				<div class="goods-item col-25">
+					<a href="<{:LinkTo('ele/shop',array('shop_id'=>$item['shop_id']))}>">
+						<div class="goods-image padding-bottom">
+							<div class="label text-small"><{:round($item['price']/$item['cost_price']*10,1)}>折</div>
+							<img src="<{:config_img($item['photo'])}>">
+						</div>
+						<div class="goods-title text-small"><{:tu_msubstr($item['product_name'],0,10,false)}></div>
+						<div class="price">
+							<i>&yen;</i><span class="now-price text-small"><{:round($item['price']/100,2)}></span>&nbsp;<span class="original-price text-small">&yen;<{:round($item['cost_price']/100,2)}></span>
+						</div>
+					</a>
+				</div>
+            </foreach>    
+			</div>
+		</div>
+    <div class="blank-10 bg"></div>
+    
+    
+    <div id="filter2" class="filter2">
+    <ul class="tab clearfix">
+       <li class="item">
+        <a href="javascript:void(0);"> 
+            <if condition="!empty($cate)">
+            	<volist name="elecate" id="item" key="index">
+                	<if condition="$cate eq $index">
+                		<span id="str_b_node" style="color:#f60"> <{$item}></span>
+                    </if>
+                </volist>
+            <else/>
+                <span id="str_b_node">选择分类</span>
+            </if>
+            <em></em>
+        </a>
+      </li>
+       <li class="item">
+        <a href="javascript:void(0);"> 
+        <if condition="!empty($business)">
+            <span id="str_b_node" style="color:#f60;"><{$business['business_name']}></span>
+            <else/>
+                <if condition="!empty($area)">
+               <span id="str_b_node" style="color:#f60;"><{$areass[$area]['area_name']}></span>
+                <else/>
+                <span id="str_d_node">选择地区</span>
+                </if>
+            </if><em></em>
+        </a>
+      </li>
+       <li class="item">
+            <a href="javascript:void(0);">
+            <if condition="empty($order)">
+                <span id="str_e_node">选择排序</span>
+            <elseif condition="$order eq a"/>
+                <span id="str_b_node" style="color:#f60;">智能排序</span>
+            <elseif condition="$order eq q"/>
+                <span id="str_b_node" style="color:#f60;">起送价最低</span>
+            <elseif condition="$order eq v"/>
+            	<span id="str_b_node" style="color:#f60;">送餐速度最快</span>
+            <elseif condition="$order eq d"/>
+                <span id="str_b_node" style="color:#f60;">距离最近</span>
+            <elseif condition="$order eq s"/>
+                <span id="str_b_node" style="color:#f60;">销量最高</span>
+            </if>
+            <em></em>
+            </a>
+      </li>
+    </ul>
+    
+    <div class="inner" style=" display:none">
+      <ul>
+       <li ><a  <if condition="empty($cate)">style="color:red;"</if> href="<{:LinkTo('ele/index',$linkArr,array('cate'=>0))}>">全部</a></li>
+       <volist name="elecate" id="item" key="index">
+       <li><a <if condition="$cate eq $index">style="color:red;"</if> href="<{:LinkTo('ele/index',$linkArr,array('cate'=>$index))}>"><{$item}></a></li>
+       </volist>
+       </ul>
+    </div>
+    
+    <div class="inner" style=" display:none">
+      <ul id="inner2">
+        <li class="item">
+        <a class="rights" href="<{:LinkTo('ele/index',array('cat'=>$cat))}>">全部地区</a>
+        </li>
+       <foreach name="areas" item="var">
+           <php>if($var['city_id'] == $city_id){</php>         
+            <li id="cat_<{$var['cate_id']}>"><a class="rights hasUlLink" title="<{$var.cate_name}>" href="javascript:void(0);>"><{$var.area_name}></a>
+               <ul id="items0">  
+               <li><a href="<{:LinkTo('ele/index',array('cat'=>$cat,'area'=>$area_id))}>" class="<if condition='empty($business_id)'>on</if>">全部商圈</a></li>
+                <foreach name="bizs" item="product">
+                   <if condition="$product.area_id eq $var['area_id']"> 
+                       <li><a title="<{$product.business_name}>" href="<{:LinkTo('ele/index',array('cate'=>$cate,'area'=>$var['area_id'],'business'=>$product['business_id'],'order'=>$order))}>"> <{$product.business_name}></a>
+                            
+                   </if>
+                </foreach>
+               </ul>
+             </li>
+          <php>}</php>      
+        </foreach>
+       
+      </ul><!--1级end-->
+    
+    </div>
+    
+    <div class="inner" style="display:none;">
+        <ul>
+          <li><a <eq name="order" value="a"> style="color:red;"</eq> href="<{:LinkTo('ele/index',$linkArr,array('order'=>a))}>">智能排序</a></li>
+          <li><a <eq name="order" value="q"> style="color:red;"</eq> href="<{:LinkTo('ele/index',$linkArr,array('order'=>q))}>">起送价最低</a></li>
+          <li><a <eq name="order" value="v"> style="color:red;"</eq> href="<{:LinkTo('ele/index',$linkArr,array('order'=>v))}>">送餐速度最快</a></li>
+          <li><a <eq name="order" value="d"> style="color:red;"</eq> href="<{:LinkTo('ele/index',$linkArr,array('order'=>d))}>">距离最近</a></li>
+          <li><a <eq name="order" value="s"> style="color:red;"</eq> href="<{:LinkTo('ele/index',$linkArr,array('order'=>s))}>">销量最高</a></li>
+         </ul>
+      </div>
+      
+      <div id="parent_container" class="inner_parent" style="display:none;">
+        <div class="innercontent"></div>
+      </div>
+      <div id="inner_container" class="inner_child" style="display:none;">
+        <div class="innercontent"></div>
+      </div>
+    
+</div>
+<!--end-->    
+
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;">
+<i class="pull2"></i>
+</div>
+
+
+
+	<ul id="shop-list" class="shop-list"></ul>
+
+	<script>
+	
+		showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+
+<include file="public:footer"/>
+
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+    wx.config({
+	debug: false,
+	appId: '<{$signPackage.appId}>',
+    timestamp: '<{$signPackage.timestamp}>',
+    nonceStr: '<{$signPackage.nonceStr}>',
+    signature: '<{$signPackage.signature}>',
+	jsApiList: [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'onMenuShareQZone'
+		]
+	});
+
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+            title: '<{$CONFIG.site.sitename}>."外卖首页"',
+        	link: "<{$CONFIG.site.host}><{:U('wap/ele/index',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act))}>", 
+        	imgUrl: "<{:config_weixin_img($CONFIG['site']['logo'])}>", 
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+     });
+     //分享给朋友
+     wx.onMenuShareAppMessage({
+            title: '<{$CONFIG.site.sitename}>."外卖首页"',
+            desc: '"本地服务一流的点餐平台".<{$CONFIG.site.sitename}>',
+            link: "<{$CONFIG.site.host}><{:U('wap/ele/index',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act))}>", 
+        	imgUrl: "<{:config_weixin_img($CONFIG['site']['logo'])}>", 
+            type: '',
+            dataUrl: '',
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+      });
+});
+
+
+</script>

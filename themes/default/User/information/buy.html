@@ -1,0 +1,138 @@
+<include file="public:header"/>
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('member/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			购买会员等级
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+<style>
+	ul{padding-left:0px;}
+	.integral{ font-weight:bold}
+</style>
+
+<ul id="shangjia_tab">
+	<li class="x6"><a href="<{:U('information/buy')}>"  class="on">购买会员等级</a></li>
+    <li class="x6"><a href="<{:U('information/buylogs')}>" >购买等级记录</a></li>
+</ul>
+
+<div class="blank-40 bg"></div>
+
+<form  class="fabu-form" id="ajaxForm"  method="post" action="<{:U('information/pay')}>" >
+	
+    
+    <if condition="$rankss">
+    <div class="blank-10"></div>
+    <div class="row">
+    	<foreach name="rankss" item="var">
+           <div class="line">
+               <span class="text-gray">升级等级【<{$var.rank_name}>】需要费用</span>
+               <span class="text-dot">&yen;<{:round($var['price']/100,2)}>元</span>
+           </div>
+       </foreach>
+    </div>
+    </if>    
+
+		<div class="row">
+        	<div class="line">
+                <span class="x4">选择等级：</span>
+                <span class="x8">
+                       <select name="rank_id" id="rank_id" class="text-select">
+                           <option value="0">请选择会员等级</option>
+                           <foreach name="rankss" item="var">
+                             <option value="<{$var.rank_id}>" <eq name="var.rank_id" value="$MEMBER.rank_id">selected="selected"</eq> ><{$var.rank_name}></option>
+                           </foreach>
+                      </select>
+                </span>
+			</div>
+        </div>
+
+<script>
+
+$(function(){
+	$("#apply-submit").attr('disabled','disabled');
+	$("#rank_id").on("change",function(){
+		var rank_id = $("#rank_id").val();
+		$.post('<{:U("information/getprice")}>',{rank_id:rank_id},function(result){
+			if(result.code == '1'){
+				$("#apply-submit").removeAttr('disabled');
+				$("#apply-submit").addClass('bg-dot');
+				$("#rank-price").val(result.price);
+				$(".rank-price").html(result.price);
+			}
+			if(result.code == '0'){
+				layer.msg(result.msg,{icon:2});
+			}
+		},'json');
+	});
+});
+
+</script>
+		
+        <div class="row">
+           <div class="line">
+                <span class="x4">需要付款金额：</span>
+                <span class="x8"><span class="rank-price text-dot text-big">请选择等级</span>
+                <input type="hidden" name="price"  id="rank-price" value="0">
+           </div>
+        </div>
+        
+       <div class="blank-10 bg"></div>
+    
+    
+    	<ul id="pay-method" class="pay-method">
+			<foreach name="payment" item="var">
+			<li data-rel="<{$var.code}>" id="<{$var.code}>" class="media media-x payment">
+				<a class="float-left"  href="javascript:;">
+					<img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+				</a>
+				<div class="media-body">
+					<div class="line">
+						<div class="x10">
+						<{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+						</div>
+						<div class="x2">
+							<span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+						</div>
+					</div>
+				</div>
+			</li>
+			</foreach>
+		</ul>
+		<input id="code" type="hidden" name="code" value="" />
+        
+        
+    <div class="container">
+    	<div class="blank-10"></div>
+    	<button type="submit" class="button button-block button-big bg-gray" id="apply-submit">确认升级</button></div>
+    	<div class="blank-10"></div>
+    </form>
+    
+		<script>
+           $(document).ready(function(){
+                var name = $("#<{$CONFIG['pay']['auto']}>").attr("data-rel");//获取默认支付方式的ID
+                if(name == "<{$CONFIG['pay']['auto']}>"){//如果是真
+                    $("#<{$CONFIG['pay']['auto']}>").addClass("active");//给他选中
+                     $("#code").val(name);//给他添加val值
+                 }
+            });
+            //下面就是用户点击选择支付方式时候切换以前的默认不管他
+            $(document).ready(function(){
+                $("#pay-method li").click(function(){
+                   var code = $(this).attr("data-rel");
+                   $("#code").val(code);
+                   $("#pay-method li").each(function(){
+                        $(this).removeClass("active");
+                   });
+                   $(this).addClass("active");
+               });
+            });
+    </script>
+<include file="public:footer"/>
+

@@ -1,0 +1,66 @@
+<foreach name="list" item="item">
+<li class="line ">
+        <dt>
+            <a class="x4">订单编号：<{$item.order_id}></a>
+            <a class="x8 text-right" href="<{:U('wap/ktv/detail',array('ktv_id'=>$item['ktv_id']))}>">  
+               <{$item.ktv.ktv_name}> <span class=" iconfont icon-angle-right"></span> 
+            </a>
+        </dt>
+  <dd class="zhong">
+        <div class="x3">
+            <a href="<{:U('wap/ktv/detail',array('ktv_id'=>$item['ktv_id']))}>">
+            	<img src="<{:config_img($item['room']['photo'])}>" width="70" height="70" style="width:90%;">
+            </a>
+        </div>
+        <div class="x9">
+            <p><{$item.room.title}></p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">订单编号：<{$item.order_number}></span>
+			</p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">姓名：<{$item.name}> &nbsp; &nbsp; 电话：<{$item.mobile}> </span>
+			</p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">预订时间：<{$item.gotime|date='Y-m-d',###}></span>
+			</p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">
+                 验证码：<{$item['code']}></span>
+			</p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">
+                 支付定金：&yen;<{:round($item['price']/100,2)}></span>
+			</p>
+            <if condition="!empty($item['room']['daofu_price'])">
+                <p class="text-small">
+                    <span class="text-yellow margin-right">
+                     还需支付到付金额：&yen;<{:round($item['room']['daofu_price']/100,2)}></span>
+                </p>
+            </if>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">
+                 结算价格：&yen;<{:round($item['jiesuan_price']/100,2)}></span>
+			</p>
+      </div>
+    </dd>
+      <dl>
+          <p class="text-right padding-top">
+              <if condition="$item['status'] eq 0">
+                 <a class="button button-little bg-gray" >未支付</a>
+              <elseif condition="$item[status] eq 1" />
+                 <a class="button button-little bg-blue" >已付款</a>
+              <elseif condition="$item[status] eq 3" />
+                  <a class="button button-little bg-gray" >退款中</a> 
+                  <a target="x-frame" class="button button-little bg-yellow" href="<{:U('ktv/agree_refund',array('order_id'=>$item['order_id']))}>">同意退款</a>  
+              <elseif condition="$item[status] eq 4" />
+                  <a class="button button-little bg-blue" >已退款</a>    
+              <elseif condition="$item[status] eq 8" />
+                  <a class="button button-little bg-yellow" >已完成</a>     
+               </if>
+               <a class="button button-little bg-dot"  href="<{:U('ktv/detail',array('order_id'=>$item['order_id']))}>">详情</a>
+           </p>     
+      </dl>
+    </li>
+	<div class="blank-10 bg"></div>
+</foreach>
+

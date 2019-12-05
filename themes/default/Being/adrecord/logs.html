@@ -1,0 +1,107 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2"> 广告购买</li>
+        <li class="li2 li3">广告点击记录</li>
+      
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里是广告点击后，扣费记录详细表，只作为记录查询，需要二开联系qq 286099981</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+            
+            </div>
+            
+            <div class="left">
+                 <{:TUFZBA('adrecord/index','','返回广告购买记录')}>  
+                 <a href="<{:U('adrecord/logs',array('id'=>$id))}>">刷新本页</a>
+            </div>
+            
+            <div class="right">
+                <form class="" method="post"  action="<{:U('adrecord/logs')}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                    	<div class="seleK">
+                    
+                    	<label>
+                            <span>创建时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        
+                        <label>
+                           <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                           <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                           <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                        </label>
+                        
+                        <span>搜索</span>
+                        <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  />
+                        <input type="submit" value=" 搜索"  class="inptButton" />
+                        </div> 
+                    </div> 
+                </form>
+                
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form   method="post" target="x-frame">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td><input type="checkbox" class="checkAll" rel="log_id" /></td>
+                    <td>日志ID</td>
+                    <td>城市ID</td>
+                    <td>城市名称</td>
+                    <td>广告位置ID</td>
+                    <td>广告位置名称</td>
+                    <td>广告购买记录ID</td>
+                    <td>会员ID</td>
+                    <td>会员昵称</td>
+                    <td>广告标题</td>
+                    <td>广告连接地址</td>
+                    <td>积分变动</td>
+                    <td>积分变动说明</td>
+                    <td>扣积分时间</td>
+                    <td>操作</th>
+                </tr>
+                    <foreach name="list" item="var">
+                <tr>
+                    <td><input class="child_log_id" type="checkbox" name="log_id[]" value="<{$var.log_id}>" /> </td>
+                    <td><{$var.log_id}></td>
+                    <td><{$var.city_id}></td>
+                    <td><{$citys[$var['city_id']]['name']|default='通用'}></td>
+                    <td><{$var.site_id}></td>
+                    <td><{$sites[$var['site_id']]['site_name']}></td>
+                    <td><{$var['id']}></td>
+                    <td><{$var['user_id']}></td>
+                    <td><{$var['nickname']}></td>
+                    <td><{$var.title}></td>
+                    <td><{$var.link_url}></td>
+                    <td><{$var.integral}></td>
+                    <td><{$var.intro}></td>
+                    <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>            
+                    <td>
+                    	<{:TUFZBA('adrecord/logs_delete',array("log_id"=>$var["log_id"],'p'=>$p),'删除','act','remberBtn')}>
+                    </td>
+                </tr>
+            </foreach>
+                    <tr>
+                        <td colspan="20">
+                        	 <{:TUFZBA('adrecord/logs_delete','','批量删除','list',' piliangcaozuo')}>
+                        </td>
+                    </tr>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

@@ -1,0 +1,92 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">农家乐</li>
+        <li class="li2"> 农家乐点评</li>
+        <li class="li2 li3">农家乐点评列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>新增的农家乐点评功能，这里可以编辑评价哦，以及删除评价避免恶意评价。</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('farm/comment_create','','添加点评')}>
+            </div>
+            <div class="right">
+                <form action="<{:U('farm/comment')}>" >  
+                    <div class="seleHidden" id="seleHidden">
+                        <span>点评ID:</span>
+                        <input type="text"  name="comment_id" value="<{$comment_id}>" class="inptText" />
+                        <span>农家乐订单号:</span>
+                        <input type="text"  name="order_id" value="<{$order_id}>" class="inptText" />
+                        <input type="submit" value="搜索"  class="inptButton" />
+                    </div> 
+                    <a style="display: inline-block;" href="#" class="searchG">高级搜索</a>
+                </form>
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form action="<{:U('farm/comment')}>" >  
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                        <span>用户</span>
+                        <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                        <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text" />
+                        <a  href="<{:U('user/select')}>" mini='select' w='800' h='600' class="sumit lt ">选择用户</a>
+                    </div>
+
+                </div>
+                <div class="right">
+                    <input type="submit" value=" 搜索"  class="inptButton" />
+                </div>
+        </form>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <th class="w50"><input type="checkbox" class="checkAll" rel="comment_id" /></th>
+                    <td>点评ID</td>
+                    <td>农家乐订单号</td>
+                    <td>用户</td>
+                    <td>评分</td>
+                    <td>创建时间</td>
+                    <td>创建IP</td>
+                    <td>回复内容</td>
+                    <td>回复时间</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_comment_id" type="checkbox" name="comment_id[]" value="<{$var.comment_id}>" /></td>
+                        <td><{$var.comment_id}></td>
+                        <td><{$var.order_id}></td>
+                        <td><{$users[$var['user_id']]['account']}>(ID:<{$var.user_id}>)</td>
+                        <td><{$var.score}></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td><{$var.create_ip}>(来自<{$var.create_ip_area}>)</td>
+                        <td><{$var.reply}></td>
+                        <td><if condition="!empty($var['reply_time'])"><{$var.reply_time|date='Y-m-d H:i:s',###}></if></td>
+                        <td>
+                            <{:BA('farm/comment_edit',array("comment_id"=>$var["comment_id"]),'编辑','','remberBtn')}>
+                            <{:BA('farm/comment_delete',array("comment_id"=>$var["comment_id"]),'删除','act','remberBtn')}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <{:BA('farm/comment_delete','','批量删除','list',' a2')}>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  

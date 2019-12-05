@@ -1,0 +1,56 @@
+<foreach name="list" item="item">
+            <li class="line">
+                <dt>
+                    <a class="x4">ID：<{$item['cash_id']}></a>
+                     <a class="x8 text-right">申请日期：<{$item['addtime']|date='Y-m-d', ###}></a>
+                </dt>
+                <dd class="zhong">
+                    <div class="x12">
+                    	<p class="text-small"><span class="text-gray">申请金额：&yen; <{:round(($item['money'] + $item['commission'])/100,2)}> 元</span></p>
+                        <p class="text-small"><span class="text-dot">到账金额：&yen; <{:round($item['money']/100,2)}> 元</span></p>
+                        <if condition="!empty($item['commission'])">
+                            <p class="text-small"><span class="text-gray">手续费：&yen; <{:round($item['commission']/100,2)}>元</span></p>
+                        </if>
+                         <if condition="$item['code'] eq bank">
+                            <p class="text-gray">提现银行：<{$item['bank_name']}></p>
+                            <php>$bank_num = substr_replace($item['bank_num'],'****',2,15);</php>
+                            <p class="text-gray">银行账户：<{$bank_num}></p>
+                            <p class="text-gray">提现户名：<{$item['bank_realname']}></p>
+                        </if>
+                        <if condition="$item['code'] eq alipay">
+                            <p class="text-gray">支付宝账户：<{$item['alipay_account']}></p>
+                            <p class="text-gray">支付宝实名姓名：<{$item['alipay_real_name']}></p>
+                            <p>提现方式：支付宝提现，管理员审核后即可到账</p>
+                        </if>
+                        <if condition="$item['code'] eq weixin">
+                        	<p class="text-gray">微信实名姓名：<{$item['re_user_name']}></p>
+                            <p>提现方式：微信提现，管理员审核后即可到账</p>
+                        </if>
+                        <if condition="!empty($item['reason'])">
+                        	<p>拒绝理由：<{$item['reason']}></p>
+                        </if>
+                  </div>
+                </dd>
+                <dl>
+                  <p class="text-right padding-top">
+                        <if condition="$item['code'] eq bank">
+                           <a class="button button-small bg-yellow">银行卡</a>
+                        </if>
+                        <if condition="$item['code'] eq alipay">
+                            <a class="button button-small bg-dot">支付宝</a>
+                        </if>
+                        <if condition="$item['code'] eq weixin">
+                            <a class="button button-small bg-green">微信</a>
+                        </if>
+                        <if condition="$item.status eq 0">
+                            <a class="button button-small border-blue">未审核</a>
+                        <elseif condition="$item.status eq 1"/>
+                            <a class="button button-small border-dot">已通过</a>
+                        <else/>
+                            <a class="button button-small border-gray">已拒绝</a>
+                        </if>
+                   </p>     
+                </dl>
+            </li>
+            <div class="blank-10 bg"></div>
+        </foreach>

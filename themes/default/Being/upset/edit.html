@@ -1,0 +1,68 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+     	<li class="li1">设置</li>
+        <li class="li2">上传设置</li>
+        <li class="li2">参数配置</li>
+    </ul>
+</div>
+<form target="x-frame" action="<{:U('upset/edit',array('id'=>$detail['id']))}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">类型：</td>
+                    <td class="rgTdBt"><{$detail.type|default=''}>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">accessKey</td>
+                    <td class="rgTdBt"><input type="text" name="para[accessKey]" value="<{$detail[para][accessKey]|default=''}>" class="manageInput manageInput2" />
+                    <code>上面显示那个，不要填写反了，不然无法上传</code>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="lfTdBt">secrectKey：</td>
+                    <td class="rgTdBt"><input type="text" name="para[secrectKey]" value="<{$detail[para][secrectKey]|default=''}>" class="manageInput manageInput2" />
+                    <code>下面隐藏那个，注意这一定不要填写反了！</code>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="lfTdBt">domain</td>
+                    <td class="rgTdBt"><input type="text" name="para[domain]" value="<{$detail[para][domain]|default=''}>" class="manageInput" />
+                    <code>您在七牛云通过审核的域名，域名解析见<a target="_blank" href="http://www.520er.com/forum-37-1.html">不会看教程</a></code>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="lfTdBt">bucket：</td>
+                    <td class="rgTdBt"><input type="text" name="para[bucket]" value="<{$detail[para][bucket]|default=''}>" class="manageInput" />
+                    <code>空间名，你七牛云创建的空间名称，必须跟后台一致！不会联系：120--5--85---022</code>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="lfTdBt">timeout：</td>
+                    <td class="rgTdBt"><input type="text" name="para[timeout]" value="<{$detail[para][timeout]|default=''}>" class="manageInput" />
+                    <code>超时设置，默认不要更改</code>
+                    </td>
+                </tr>				
+                <tr>
+                    <td class="lfTdBt">是否启用：</td>
+                    <td class="rgTdBt">
+                        <label>
+                            <input type="radio" <?php if($detail['status'] == 0) echo "checked='checked'";?> name="status" value="0"  />
+                                   不启用
+                        </label>
+                        <label>
+                            <input type="radio" <?php if($detail['status'] == 1) echo "checked='checked'";?> name="status" value="1"  />
+                                   启用
+                        </label>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认编辑" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       
+

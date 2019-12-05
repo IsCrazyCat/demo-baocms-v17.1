@@ -1,0 +1,53 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">产品管理</li>
+        <li class="li2 li3">编辑商品分销</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+
+    <div class="tableBox">
+        <form target="x-frame" action="<{:U('goods/profit',array('goods_id'=>$detail['goods_id']))}>" method="post">
+        
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+               
+      		  <tr>
+               <td class="lfTdBt">开启商城独立分成模式：</td>
+                 <td class="rgTdBt">
+                <input type="radio" name="data[profit_enable]" value="0" <if condition="$profit[profit_enable] eq 0">checked="checked"</if> />免运费
+				<input type="radio" name="data[profit_enable]" value="1" <if condition="$profit[profit_enable] eq 1">checked="checked"</if> />不免运费
+                  <code>开启后下面的设置才有效</code></code>
+                </td>
+              </tr>
+             
+ 			  <tr>
+                    <td  class="lfTdBt">一级分成百分比：</td>
+                    <td class="rgTdBt"><input type="text" name="data[profit_rate1]" value="<{$profit.profit_rate1|default=''}>" class="manageInput" />
+					<code>一级分成百分比请不要乱填写</code>
+                    </td>
+              </tr> 
+              <tr>
+                    <td  class="lfTdBt">二级分成百分比：</td>
+                    <td class="rgTdBt"><input type="text" name="data[profit_rate2]" value="<{$profit.profit_rate2|default=''}>" class="manageInput" />
+					<code>二级分成百分比，请不要乱填写</code>
+                    </td>
+               </tr> 
+               <tr>
+                    <td  class="lfTdBt">三级分成百分比：</td>
+                    <td class="rgTdBt"><input type="text" name="data[profit_rate3]" value="<{$profit.profit_rate3|default=''}>" class="manageInput" />
+					<code>三级分成百分比，请不要乱填写</code>
+                    </td>
+               </tr> 
+      
+    </table>
+
+    <div style="margin-left:140px;margin-top:20px">
+        <input type="submit" value="确认设置"  class="smtQrIpt"  />
+        <div>
+            </form>
+        </div>
+    </div>
+    <include  file='public:footer'/>       

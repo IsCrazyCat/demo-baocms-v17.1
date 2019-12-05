@@ -1,0 +1,126 @@
+<include file="public:header"/>
+<link href="/static/default/wap/other/jquery-ui.css" rel="stylesheet" />
+<script src="/static/default/wap/other/jquery-ui.js"></script> 
+<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('farm/detail',array('farm_id'=>$farm_id))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			农家乐预约
+		</div>
+		<div class="top-signed">
+		</div>
+</header> 
+
+<form action="<{:U('farm/orderCreate')}>" method='post' target="x-frame" class="www_hatudou_com_form "> 
+<div class="padding border-bottom">
+		<div class="line">
+			<span class="x2">日期：</span>
+			<span class="x10"><input class="date datepicker text-input" id='gotime' type="text" name="data[gotime]" value="<{$gotime}>" /></span>
+		</div>
+</div>
+
+<div class="padding border-bottom">
+	<div class="line">
+		<span class="x2">姓名：</span>
+		<span class="x10"><input id='name' class="text-input" type="text" name="data[name]" value="<{$name}>"  placeholder="<if condition="!empty($MEMBER['nickname'])"><{$MEMBER.nickname}><else/>请输入您的姓名</if>"/></span>
+	</div>
+</div>
+<div class="padding border-bottom">
+	<div class="line">
+		<span class="x2">手机：</span>
+		<span class="x10"><input id='mobile' class="text-input"  type="text" name="data[mobile]" value="<{$mobile}>"  placeholder="<if condition="!empty($MEMBER['mobile'])"><{$MEMBER.mobile}><else/>请输入手机号码</if>"/></span>
+	</div>
+</div>
+<div class="padding border-bottom">
+	<div class="line">
+		<span class="x2">备注：</span>
+		<span class="x10"><input id='note' class="text-input"  type="text" name="data[note]" value="<{$note}>"  placeholder="填写备注"/></span>
+	</div>
+</div>
+</div>
+
+		<script>
+            $(document).ready(function() {
+                $('#chk_pid li').click(function(){
+                    $('#chk_pid li').removeClass('on');
+                    $(this).addClass('on');
+                    var val = $(this).attr('val');
+                    $('#pid_val').val(val);
+                }) 
+            });
+        </script>
+<input type='hidden' name='data[pid]' value='0' id='pid_val'>
+
+<div class="seatDelt_tit border_t border_b mt10">
+        <h2 class="fl">可选套餐</h2>
+    </div>
+    <div class="farmDelt_taocan mb10 border_b">
+        <ul id='chk_pid'>
+            <volist name='package' id='pka'>
+                <li class="list" val='<{$pka.pid}>'><{$pka.title}>￥<{$pka.price}><em class="ico"></em></li>
+            </volist>
+        </ul>
+        <script>
+            $(document).ready(function() {
+                $(".farmDelt_taocan .list").each(function(e){
+                    $(this).click(function(){
+                        $(".farmDelt_taocan .list").removeClass("on");
+                        $(this).addClass("on");
+                        $(".farmDelt_taocanList").each(function(i){
+                            if(e==i){
+                                $(".farmDelt_taocanList").hide();
+                                $(this).show();
+                            }else{
+                                $(this).hide();
+                            }
+                        });
+                    });
+                });
+            });
+        </script>
+    </div>
+
+ 
+<nav class="cart-bar">
+	<div class="tudou_result">
+        <input type="submit" value="提交订单" id="sub_btn" class="long_btn button button-block  bg-dot">
+	</div>
+</nav> 
+ <script>
+	jQuery(function($){
+		$.datepicker.regional['zh-CN'] = {
+			closeText: '关闭',
+			prevText: '&#x3c;上月',
+			nextText: '下月&#x3e;',
+			currentText: '今天',
+			monthNames: ['一月','二月','三月','四月','五月','六月',
+			'七月','八月','九月','十月','十一月','十二月'],
+			monthNamesShort: ['一','二','三','四','五','六',
+			'七','八','九','十','十一','十二'],
+			dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+			dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+			dayNamesMin: ['日','一','二','三','四','五','六'],
+			weekHeader: '周',
+			dateFormat: 'yy-mm-dd',
+			firstDay: 1,
+			isRTL: false,
+			showMonthAfterYear: true,
+			yearSuffix: '年'};
+		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+	});
+	$(function() {
+		$('.datepicker').datepicker({
+			beforeShow: function() {
+				$(this).attr("disabled", true);
+			},
+			onClose: function() {
+				$(this).attr("disabled", false);
+			}
+		});
+	});
+</script>
+</form>
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+</body>
+</html>

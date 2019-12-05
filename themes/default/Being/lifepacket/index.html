@@ -1,0 +1,124 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">频道</li>
+        <li class="li2">分类信息</li>
+        <li class="li2 li3">红包创建记录</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span> 这里是分类信息红包创建记录，需要红包直接到用户微信钱包联系q2680.99981</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form  method="post"  action="<{:U('Lifepacket/index')}>"> 
+
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                        
+                         <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        
+                        
+                           <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>红包状态：</span>
+                                <select class="select w120" name="status">
+                                 <option <eq name="status" value="999">selected="selected"</eq> value="999">请选择状态</option>
+                                	<foreach name="statuss" key="key" item="item">
+                                        <option <eq name="status" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                                    </foreach>
+                                </select>
+                            </label>
+                            
+                            <label>
+                                <span>口令模式</span>
+                                <select name="packet_is_command" class="select w80">
+                                    <option value="999">请选择模式</option>
+                                    <option <eq name="packet_is_command" value="1">selected="selected"</eq>  value="1">是</option>
+                                    <option <eq name="packet_is_command" value="0">selected="selected"</eq>  value="0">否</option>
+                                </select>
+                            </label>
+                        
+                            
+                            <span>关键字</span>
+                            <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  />
+                            <input type="submit" value=" 搜索"  class="inptButton" />
+                        </div>
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+
+                       <td class="w50"><input type="checkbox" class="checkAll" rel="packet_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>信息ID</td>
+                        <td>信息标题</td>
+                        <td>创建人</td>
+                        <td>红包数量</td>
+                        <td>单个红包金额</td>
+                        <td>红包总金额</td>
+                        <td>剩余红包金额</td>
+                        <td>已领红包次数</td>
+                        <td>红包状态</td>
+                        <td>是否口令红包</td>
+                        <td>口令内容</td>
+                        <td>创建时间</td>
+                        <td>操作</td>
+                    <foreach name="list" item="var">
+                        <tr>
+                           <td><input class="child_packet_id" type="checkbox" name="packet_id[]" value="<{$var.packet_id}>" /></td>
+                            <td><{$var.packet_id}></td>
+                            <td><{$var.life_id}></td>
+                            <td><{$lifes[$var['life_id']]['title']}></td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td><{$var.packet_num}></td>
+                            <td>&yen;<{:round($var['packet_money']/100,2)}></td>
+                            <td>&yen;<{:round($var['packet_total_money']/100,2)}></td>
+                            <td>&yen;<{:round($var['packet_surplus_money']/100,2)}></td>
+                            <td><{$var.packet_sold_num}></td>
+                            <td><{$statuss[$var['status']]}></td>
+                            <td><eq name="var.packet_is_command" value="0">否<else/>是</eq></td>
+                            <td><{$var.packet_command}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td>
+                            <if condition="$var['status'] eq 8">
+                                <{:TUFZBA('Lifepacket/delete',array("packet_id"=>$var["packet_id"]),'删除','act','remberBtn')}>
+                            </if>
+                            <if condition="$var['status'] eq 3">
+                                <{:TUFZBA('Lifepacket/refund',array("packet_id"=>$var["packet_id"]),'退款','act','remberBtn')}>
+                            </if>
+                            
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+
+

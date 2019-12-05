@@ -1,0 +1,72 @@
+<include  file='public:header'/>
+<style>
+.tuan_table tr.gray{color:#9E9E9E}
+</style>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">五折卡</a> > <a>五折卡订单</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('zhe/order')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+            订单ID：<input type="text" placeholder="订单ID" name="order_id" value="<{$order_id}>"  class="radius3 seleFl" />
+            开始时间：<input type="text" placeholder="输入开始时间"  class="radius3 seleFl"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            结束时间：<input type="text"   placeholder="输入结束时间" class="radius3 seleFl"    name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            状态：<select name="status" class="seleFl w80">
+                    <option <eq name="status" value="999">selected="selected"</eq> value="999">请选择</option>
+                    <option <eq name="status" value="0">selected="selected"</eq>  value="0">未付款</option>
+                    <option <eq name="status" value="1">selected="selected"</eq>  value="1">已付款</option>
+                </select>
+                
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli"><a href="<{:U('zhe/index')}>">五折卡首页</a></li>
+            <li class="tuanfabu_tabli on"><a href="<{:U('zhe/order')}>">五折卡订单</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('zhe/yuyue')}>">五折卡预约</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('zhe/check')}>">五折卡验证</a></li>
+        </ul>
+    </div> 
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+       			<td class="w50">ID</td>
+                <td>城市</td>
+                <td>用户</td>
+                <td>类别</td>
+                <td>状态</td>
+                <td>编号</td>
+                <td>实付金额</td>
+                <td>开始时间</td>
+                <td>结束时间</td>
+                <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                  <td><{$var.order_id}></td>
+                  <td><{$citys[$var['city_id']]['name']}></td>
+                  <td><{$users[$var['user_id']]['nickname']}></td>
+                  <td><if condition="$var['type'] eq 1">周卡<else/>年卡</if></td>
+                  <td><if condition="$var['status'] eq 1">已付款<else/>未付款</if></td>
+                  <td><{$var.number}></td>
+                  <td>&yen;<{:round($var['need_pay']/100,2)}></td>
+                  <td><{$var.start_time|date="Y-m-d H:i:s",###}></td>
+                  <td><{$var.end_time|date="Y-m-d H:i:s",###}></td>
+                  <td>
+                    <a class="href"  mini='confirm' href="<{:U('zhe/order_delete',array('order_id'=>$var['order_id']))}>">删除订单</a>
+				  </td>
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+
+<include  file='public:footer'/>

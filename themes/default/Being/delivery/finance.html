@@ -1,0 +1,107 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">配送</li>
+        <li class="li2">配送管理</li>
+        <li class="li2 li3">配送费用结算</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span>暂时只写入了外卖跟跑腿的费用，商城的费用暂时没有写入</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('delivery/finance')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <span>订单编号</span>
+                        <input type="text" name="keyword" value="<{$keyword}>" class="inptText" />
+                        
+                    </div> 
+                    <label>
+                    <span>订单类型：</span>
+                    <select class="select w120" name="type">
+                          <option <eq name="type" value="999">selected="selected"</eq> value="999">请选择</option>
+                          <option <eq name="type" value="1">selected="selected"</eq>  value="1">商城订单</option>
+                          <option <eq name="type" value="2">selected="selected"</eq>  value="2">外卖订单</option>
+                          <option <eq name="type" value="3">selected="selected"</eq>  value="3">跑腿订单</option>
+                     </select>
+                     </label>
+                     <input type="submit" value="搜索"  class="inptButton" />
+                </form>
+                <a href="javascript:void(0);" class="searchG">高级搜索</a>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form method="post" action="<{:U('delivery/finance')}>">
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text" />
+                        </label>
+                        <label>
+                            <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>"/>
+                            <input type="text"   id="nickname" name="nickname" value="<{$nickname}>" class="text w150 sj" />
+                            <a mini="select"  w="1000" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                        </label>
+                        <label>
+                            <span>关键字:</span>
+                            <input type="text" name="keyword" value="<{$keyword}>" class="inptText" />
+                        </label>
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="submit" value="   搜索"  class="inptButton" />
+                </div>
+        </form>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="money_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>类型</td>
+                    <td>原始订单号</td>
+                    <td>配送员</td>
+                    <td>费用</td>
+                    <td>说明</td>
+                    <td>使用时间</td>
+                    <td>使用IP</td>    
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_money_id" type="checkbox" name="money_id[]" value="<{$var.money_id}>" /></td>
+                        <td><{$var.money_id}></td>
+                        <td>
+                        <if condition="$var['type'] eq ele">
+                        外卖订单 
+                        <elseif condition="$var['type'] eq goods" />
+                        商城订单
+                        <elseif condition="$var['type'] eq running" />
+                        跑腿订单
+                        </if>
+                        
+                        </td>
+                        <td><{$var.running_id}></td>
+                        <td><{$users[$var['user_id']]['account']}></td>
+                        <td>&yen;<{:round($var['money']/100,2)}>元</td>
+                        <td><{$var.intro}></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td><{$var.create_ip}></td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  

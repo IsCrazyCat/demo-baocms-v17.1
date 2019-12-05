@@ -1,0 +1,29 @@
+<include file="public:header"/>
+<div class="content_right">   
+<div class="tgdd">
+    <div class="tgdd_t">
+        <ul>
+            <li class="on"><a href="<{:U('distribution/poster')}>">我的海报</a></li>
+        </ul>
+    </div>
+    <div class="tgdd_nr">
+        <div class="container">
+<if condition="!empty($file)">
+                <div class="padding-large">
+                    <img src="__ROOT__<{$file}>" width="100%" />
+                </div>
+            
+            <else/>
+                <div class="padding-large">
+                    <p class="text-center">生成海报失败，微信配置错误或者是该会员未关注公众号导致请绑定微信后再来生成</p>
+                </div>
+            </if>
+			
+			<p class="text-center">尊敬的<{$detail['nickname']}>，长按海报可保存到手机，已可以分享给好友获取分成</p>
+		</div>
+    </div>
+</div>
+</div>
+</div>
+
+<include file="public:footer"/>

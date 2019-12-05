@@ -1,0 +1,142 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+     <li class="li1">设置</li>
+        <li class="li2">区域设置</li>
+        <li class="li2 li3">城市站点</li>
+    </ul>
+</div>
+<form target="x-frame" action="<{:U('city/edit',array('city_id'=>$detail['city_id']))}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                   <tr>
+                    <td class="lfTdBt">城市名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[name]" value="<{$detail.name|default=''}>" class="manageInput" />
+					&nbsp;&nbsp;<code>当前城市的名称</code>
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">城市拼音：</td>
+                    <td class="rgTdBt"><input type="text" name="data[pinyin]" value="<{$detail.pinyin|default=''}>" class="manageInput" />
+					&nbsp;&nbsp;<code>不要用大写字母，这里是全部小写</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">管理账户：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="user_id" name="data[user_id]" value="<{$detail.user_id|default=''}>" class="manageInput" />
+                            <input class="scAddTextName sj" type="text" name="nickname" id="nickname"  value="<{$user.nickname}>" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择账户</a>
+                    </td>
+                </tr> 
+                
+                 <tr>
+                    <td class="lfTdBt">城市LOGO：</td>
+                 <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
+                        <div id="fileToUpload" >上传缩略图</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_img" width="120" height="80"  src="<{:config_img($detail['photo'])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.sitelogo.thumb}>
+                    </div>
+                    <script>                                            
+						var width = '<{:thumbSize($CONFIG[attachs][sitelogo][thumb],0)}>';                         
+						var height = '<{:thumbSize($CONFIG[attachs][sitelogo][thumb],1)}>';                         
+						var uploader = WebUploader.create({                             
+						auto: true,                             
+						swf: '/static/default/webuploader/Uploader.swf',                             
+						server: '<{:U("app/upload/uploadify",array("model"=>"sitelogo"))}>',                             
+						pick: '#fileToUpload',                             
+						resize: true,  
+						compress : {width:width,height:height,quality: 80,allowMagnify: false,crop: true}                       
+					});                                                 
+					uploader.on( 'uploadSuccess', function( file,resporse) {                             
+						$("#data_photo").val(resporse.url);                             
+						$("#photo_img").attr('src',resporse.url).show();                         
+					});                                                
+					uploader.on( 'uploadError', function( file ) {                             
+						alert('上传出错');                         
+					});                     
+                    </script>
+                </td>
+            </tr>
+                
+                
+                <tr>
+                    <td class="lfTdBt">城市模板风格：</td>
+                    <td class="rgTdBt">
+                        <select name="data[theme]" class="select">
+                            <option value="">请选择</option>
+                            <foreach name="themes" item="item"> 
+                                <option <eq name="detail.theme" value="$item.theme"> selected="selected"</eq> value="<{$item.theme}>"><{$item.name}></option>
+                            </foreach>
+                        </select>
+                        &nbsp;&nbsp;<code>一般不用管</code>
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="lfTdBt">首字母：</td>
+                    <td class="rgTdBt"><input type="text" name="data[first_letter]" value="<{$detail.first_letter|default=''}>" class="manageInput" />
+                        <code>大写字母</code>
+                    </td>
+                </tr>
+                  <tr>
+                    <td class="lfTdBt">城市中心坐标：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            经度<input type="text" name="data[lng]" id="data_lng" value="<{$detail.lng|default=''}>" class="scAddTextName w200" />
+                            纬度 <input type="text" name="data[lat]" id="data_lat" value="<{$detail.lat|default=''}>" class="scAddTextName w200" />
+                        </div>
+                        <a style="margin-left: 10px;" mini="select"  w="600" h="600" href="<{:U('public/maps')}>" class="seleSj">百度地图</a>
+                        
+                </tr>
+                
+                
+                <tr>
+                    <td class="lfTdBt">排序：</td>
+                    <td class="rgTdBt"><input type="text" name="data[orderby]" value="<{$detail.orderby|default=''}>" class="manageInput" />
+                    &nbsp;&nbsp;<code>城市排序</code>
+
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="lfTdBt">是否启用：</td>
+                    <td class="rgTdBt">
+                        <label>
+                            <input type="radio" <?php if($detail['is_open'] == 0) echo "checked='checked'";?> name="data[is_open]" value="0"  />
+                                   不启用
+                        </label>
+                        <label>
+                            <input type="radio" <?php if($detail['is_open'] == 1) echo "checked='checked'";?> name="data[is_open]" value="1"  />
+                                   启用
+                        </label>
+                        &nbsp;&nbsp;<code>选择不启用后相当于关闭当前站点</code>
+                    </td>
+                </tr>
+                                                 <tr>
+                    <td class="lfTdBt">启用二级域名：</td>
+                    <td class="rgTdBt">
+                        <label>
+                            <input type="radio" <?php if($detail['domain'] == 0) echo "checked='checked'";?> name="data[domain]" value="0"  />
+                                   不启用
+                        </label>
+                        <label>
+                            <input type="radio" <?php if($detail['domain'] == 1) echo "checked='checked'";?> name="data[domain]" value="1"  />
+                                   启用
+                        </label>
+                        &nbsp;&nbsp;<code>这里需要设置域名泛解析，在您的VPS主机上已需要对域名解析，虚拟主机不要启用，不明白咨询：Q:286.09.998..1，一般建议不启用</code>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认编辑" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       
+

@@ -1,0 +1,689 @@
+<include  file='public:header'/>  
+
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/wap/other/webuploader.js"></script> 
+<link rel="stylesheet" href="/static/default/wap/honeySwitch/honeySwitch.css">
+<script src="/static/default/wap/honeySwitch/honeySwitch.js"></script>
+
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('life/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		编辑分类信息
+	</div>
+</header>
+
+<style>
+	.Upload-img .jq_photo_more span.resporse_photo, .Upload-img .moreToUpload_img{margin:0 5px 5px 0; float:left; z-index:3;}
+	.Upload-img .jq_photo_more span.resporse_photo img, .Upload-img .jq_uploads_img img{width:100%;margin-bottom:3px;}
+	.Upload-img .jq_photo_more span.resporse_photo a.resporse_a, .Upload-img .jq_uploads_img .moreToUpload_img a{ font-size:12px; color:#FFF;margin-right: 0px;bottom:0;width:45px;height:20px;line-height:20px;text-align:center;background: #06c1ae;padding: 0 10px;border-radius: 2px;}
+	#login-input input.mapinputs{ width:48%; float:left; margin-right:5px;}
+	#login-input input.mapinputs2{ width:100%; float:left; margin:10px 0px;}
+	.life-buy-btn {position:fixed;left:0;right: 0; bottom: 0;background: rgba(0,0,0,0.4);z-index: 10;}
+	.life-buy-btn .life-buy-segment{position: relative;height:62px;line-height:65px;}
+	.life-buy-btn .life-buy-segment .life-buy-wrapper{padding:10px;}
+	.panel-list li em {float:inherit; margin-left:5px;}
+	#data_address_val{ border:none; padding:10px;idth: 100%; margin-left:5px;}
+</style>
+<form class="fabu-form" method="post" id="ajaxForm" action="<{:U('life/edit',array('life_id'=>$detail['life_id']))}>">
+<div class="blank-10"></div>
+
+	<div class="Upload-img-box">
+		<div id="moreToUpload">
+			编辑图片
+		</div>
+        <div class="blank-10"></div>
+		<div class="Upload-img">
+			<div class="list-img loading_photo" style="display:none;">
+            
+			</div>
+			<div class="list-img jq_photo_photo" style="display:none;">
+			</div>
+			<div class="jq_photo_more">
+			</div>
+            <div class="jq_uploads_img">
+                <foreach  name="photos" item="item">
+               		<div class="moreToUpload_img  x3">
+                        <img src="<{:config_img($item['photo'])}>">
+                        <a href="javascript:void(0);">取消</a>  
+                        <input type="hidden" name="photos[]" value="<{$item.photo}>" />  
+                    </div>
+                </foreach>
+			</div>
+		</div>
+	</div>
+	<script>
+    	var width2 = '<{:thumbSize($CONFIG[attachs][life][thumb],0)}>';                     
+		var height2 = '<{:thumbSize($CONFIG[attachs][life][thumb],1)}>'; 
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>"life"))}>',                             
+			pick: '#moreToUpload',
+			fileNumberLimit:10,                    
+			resize: true,    
+			accept: {
+				title: 'Images',
+				extensions: 'gif,jpg,jpeg,png',
+				mimeTypes: 'image/*'
+			}, 
+			compress:{width:width2,height:height2,quality:80,allowMagnify: false,crop: true}     
+        });
+        uploader.on('uploadSuccess', function( file,resporse) {
+            $(".loading_photo").hide();
+			var str = '<span class="resporse_photo x3"><img src="' + resporse.url + '">  <input type="hidden" name="photos[]" value="' + resporse.url + '" /><a class="resporse_a" href="javascript:void(0);">取消</a> </span>';     
+            $(".jq_photo_more").append(str);  
+        });
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
+        $(document).ready(function () {
+            $(document).on("click", ".jq_uploads_img a", function () {
+                $(this).parent().remove();
+            });
+			$(document).on("click", ".jq_photo_more a", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+	<div class="blank-10"></div>
+
+
+<div class="blank-10 bg border-top"></div>
+
+<div class="line">
+	<div class="blank-10"></div>
+	<div class="container">
+		<textarea rows="5" name="details" class="text-area" placeholder=""><{:cleanhtml($ex['details'])}></textarea>
+	</div>
+</div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">选择分类</span>
+		<span class="x4">
+			<select name="channel_id" id="channel_id" class="text-select">
+				<option value="0" selected="selected">请选择频道</option>
+				<foreach name="channelmeans" item="item" key="key">
+					<option value="<{$key}>" <eq name="detail.channel_id" value="$key">selected="selected"</eq>><{$item}></option>
+				</foreach>
+			</select>
+		</span>
+		<span class="x5">
+			<select name="data[cate_id]" id="jquery-cate" class="text-select cate-id-html">
+				<option value="0" selected="selected">← 选择子分类</option>
+                 <foreach name="cat" item="it" key="k">
+                        <option <eq name="detail.cate_id" value="$it.cate_id">selected="selected"</eq> value="<{$it.cate_id}>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<{$it.cate_name}></option>
+                  </foreach>
+			</select>
+		</span>
+	</div>
+</div>
+
+<script>
+	 var ajaxurl = '<{:U("life/ajax",array("cate_id"=>"0000","life_id"=>$detail["life_id"]))}>';
+	 $(document).ready(function (){
+		 
+		//选择分类
+		$("#channel_id").change(function (){
+            var url = '<{:U("life/channels",array("channel_id"=>$detail["channel_id"]))}>';
+            if($(this).val() > 0){
+            	var url2 = url.replace('0000', $(this).val());
+                $.get(url2,function (data){
+                $(".cate-id-html").html(data);
+             },'html');
+           }
+       }); 
+		
+	   //选择属性 
+	   $("#jquery-cate").change(function (){
+		 if($(this).val() > 0){
+			var link = ajaxurl.replace('0000', $(this).val());
+			$.get(link, function (data){
+			$("#jquery-setting").html(data);
+			}, 'html');
+		  }else{
+			layer.msg("请选择分类");
+		 }
+	   });
+	});
+</script>
+
+
+
+<div class="blank-10 bg"></div>  
+<div class="lef" id="jquery-setting">                   
+<if condition="!empty($cate['text1'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.text1}></span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[text1]" value="<{$detail.text1|default=''}>" />
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['text2'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.text2}></span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[text2]" value="<{$detail.text2|default=''}>" />
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['text3'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.text3}></span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[text3]" value="<{$detail.text3|default=''}>" />
+		</span>
+	</div>
+</div>
+</if>
+
+<if condition="!empty($cate['text4'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.text4}></span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[text4]" value="<{$detail.text4|default=''}>" />
+		</span>
+	</div>
+</div>
+</if>
+
+<if condition="!empty($cate['text5'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.text5}></span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[text5]" value="<{$detail.text5|default=''}>" />
+		</span>
+	</div>
+</div>
+</if>
+
+<if condition="!empty($cate['num1'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.num1}></span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[num1]" value="<{$detail.num1|default=''}>" />
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['num2'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.num2}></span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[num2]" value="<{$detail.num2|default=''}>" />
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['select1'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.select1}></span>
+		<span class="x9">
+			<select name="data[select1]" class="text-select">
+			<foreach name="attrs" item="item">
+                <eq name="item.type" value="select1">
+                <option value="<{$item.attr_id}>"  <eq name="detail.select1" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
+                </eq>
+             </foreach>   
+			</select>
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['select2'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.select2}></span>
+		<span class="x9">
+			<select name="data[select2]" class="text-select">
+			  <foreach name="attrs" item="item">
+               <eq name="item.type" value="select2">
+               <option value="<{$item.attr_id}>"  <eq name="detail.select2" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
+               </eq>
+             </foreach>   
+			</select>
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['select3'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.select3}></span>
+		<span class="x9">
+			<select name="data[select3]" class="text-select">
+			<foreach name="attrs" item="item">
+              <eq name="item.type" value="select3">
+              <option value="<{$item.attr_id}>"  <eq name="detail.select3" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
+              </eq>
+            </foreach>   
+			</select>
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['select4'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.select4}></span>
+		<span class="x9">
+			<select name="data[select4]" class="text-select">
+			<foreach name="attrs" item="item">
+              <eq name="item.type" value="select4">
+              <option value="<{$item.attr_id}>"  <eq name="detail.select4" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
+              </eq>
+            </foreach>   
+			</select>
+		</span>
+	</div>
+</div>
+</if>
+
+
+    <if condition="!empty($cate['select5'])"> 
+    <div class="row">
+        <div class="line">
+            <span class="x3"><{$cate.select5}></span>
+            <span class="x9">
+                <select name="data[select5]" class="text-select">
+                <foreach name="attrs" item="item">
+                   <eq name="item.type" value="select5">
+                   <option value="<{$item.attr_id}>"  <eq name="detail.select5" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
+                   </eq>
+               </foreach> 
+                </select>
+            </span>
+        </div>
+    </div>
+    </if>
+
+
+	<div class="row">
+		<div class="line">
+			<span class="x3">标签：</span>
+			<span class="x9">
+                 <foreach name="tags" item="var">
+                     <label><input class="tag" type="checkbox" name="tag[]" value="<{$var['tag_id']}>" <?php if(in_array($var['tag_id'],$tag)){?> checked="checked" <?php }?> /><{$var['tag_name']}></label>
+                 </foreach>   
+			</span>
+		</div>
+	</div>
+
+
+</div>
+
+
+
+<div class="row">
+	<div class="line">
+		<span class="x3">地区</span>
+		<span class="x3">
+			<select name="data[city_id]" id="city_id" class="text-select">
+				<option value="0" selected="selected">城市</option>
+			</select>
+		</span>
+		<span class="x3">
+			<select name="data[area_id]" id="area_id" class="text-select">
+				<option value="0" selected="selected">← 地区</option>
+			</select>
+		</span>
+        
+        <span class="x3">
+			<select name="data[business_id]" id="business_id" class="text-select">
+				<option value="0" selected="selected">← 商圈</option>
+			</select>
+		</span>
+   </div>     
+</div>
+                <script src="<{:U('app/datas/onecity',array('name'=>'cityareas'))}>"></script> 
+                       <script>
+								var city_id = <?php echo (int)$detail['city_id'];?>;
+								var area_id = <?php echo (int)$detail['area_id'];?>;
+								var business_id = <?php echo (int)$detail['business_id'];?>;
+                                $(document).ready(function () {
+                                    var city_str = ' <option value="0">请选择...</option>';
+                                    for (a in cityareas.city) {
+                                        if (city_id == cityareas.city[a].city_id) {
+                                            city_str += '<option selected="selected" value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                        } else {
+                                            city_str += '<option value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                        }
+                                    }
+                                    $("#city_id").html(city_str);
+                                    $("#city_id").change(function () {
+                                        if ($("#city_id").val() > 0) {
+                                            city_id = $("#city_id").val();
+     										   $.ajax({
+													  type: 'POST',
+													  url: "<{:U('app/datas/twoarea')}>",
+													  data:{cid:city_id},
+													  dataType: 'json',
+													  success: function(result){
+                                                         var area_str = ' <option value="0">请选择...</option>';
+                                                        for (a in result) {
+                                                          area_str += '<option value="' + result[a].area_id + '">' + result[a].area_name + '</option>';                                                        }
+                                                       $("#area_id").html(area_str);
+                                                        $("#business_id").html('<option value="0">请选择...</option>');
+													  }
+												});
+                                            $("#area_id").html(area_str);
+                                            $("#business_id").html('<option value="0">请选择...</option>');
+                                        } else {
+                                            $("#area_id").html('<option value="0">请选择...</option>');
+                                            $("#business_id").html('<option value="0">请选择...</option>');
+                                        }
+                                    });
+                                    if (city_id > 0) {
+                                        var area_str = ' <option value="0">请选择...</option>';
+										$.ajax({
+										  type: 'POST',
+										  url: "<{:U('app/datas/twoarea')}>",
+										  data:{cid:city_id},
+										  dataType: 'json',
+										  success: function(result){
+                                             for (a in result) {
+                                                if (area_id == result[a].area_id) {
+                                                    area_str += '<option selected="selected" value="' + result[a].area_id + '">' + result[a].area_name + '</option>';
+                                                } else {
+                                                    area_str += '<option value="' + result[a].area_id + '">' + result[a].area_name + '</option>';
+                                                }
+                                              }
+                                             $("#area_id").html(area_str);
+											}
+										});
+                                    }
+                                    $("#area_id").change(function () {
+                                        if ($("#area_id").val() > 0) {
+                                            area_id = $("#area_id").val();
+                             					$.ajax({
+													  type: 'POST',
+													  url: "<{:U('app/datas/tbusiness')}>",
+													  data:{bid:area_id},
+													  dataType: 'json',
+													  success: function(result) {
+                                                         var business_str = ' <option value="0">请选择...</option>';
+													     for (a in result) {
+												   				business_str += '<option value="' + result[a].business_id + '">' + result[a].business_name + '</option>';
+													     }
+												     	$("#business_id").html(business_str);
+													 }
+											       });
+                                        } else {
+                                            $("#business_id").html('<option value="0">请选择...</option>');
+                                        }
+                                    });
+                                    if (area_id > 0) {                                    
+									   $.ajax({
+										  type: 'POST',
+										  url: "<{:U('app/datas/tbusiness')}>",
+										  data:{bid:area_id},
+										  dataType: 'json',
+										  success: function(result){
+											var business_str = ' <option value="0">请选择...</option>';
+											for (a in result) {
+													if (business_id == result[a].business_id) {
+														business_str += '<option selected="selected" value="' + result[a].business_id + '">' + result[a].business_name + '</option>';
+													} else {
+													  business_str += '<option value="' + result[a].business_id + '">' + result[a].business_name + '</option>';
+													}
+											}
+											 $("#business_id").html(business_str);
+										  }
+									   });
+                                    }
+                                    $("#business_id").change(function () {
+                                        business_id = $(this).val();
+                                    });
+                                });
+                </script> 
+
+
+
+                    
+<div class="row">
+	<div class="line">
+		<span class="x3">联系人</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[contact]" value="<{$detail.contact|default=''}>" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">电话</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[mobile]" value="<{$detail.mobile|default=''}>" />
+		</span>
+	</div>
+</div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">地址</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[addr]" value="<{$detail.addr|default=''}>" />
+		</span>
+	</div>
+</div>
+  <!--商家地图开始-->
+   
+      <div class="blank-10 bg"></div>
+        <input id="data_addr" type="hidden" name="data[addr]" value="<{$detail.addr|default=''}>" />
+        <input id="data_lng" type="hidden" name="data[lng]" value="<{$detail.lng|default=''}>" />
+        <input id="data_lat" type="hidden" name="data[lat]" value="<{$detail.lat|default=''}>" />
+        <div class="panel-list">
+            <ul>
+              <li>
+                 <a title="选择坐标" rel="<{:U('wap/api/maps',array('lat'=>$lat,'lng'=>$lng))}>" onclick="showWindow('90%','90%',this.rel,this.title)">
+                 详细地址：<em id="data_address" class="text-dot"><{$detail.addr|default=''}></em><i class="float-right iconfont icon-angle-right"></i>
+                 </a>
+               </li>
+            </ul>
+        </div>
+        <div class="blank-10 bg"></div>    
+    <!--商家地图结束-->
+
+
+
+<div class="row">
+	<div class="line">
+		<span class="x6">是否置顶 <{$CONFIG.life.top}>元/天</span>
+		<span class="x6">
+			<span class="switch-off" themecolor="#06c1ae" id="fly"></span>
+		</span>
+	</div>
+</div>
+
+
+<div class="row" id="network" style="display:none">
+	<div class="line">
+		<span class="x6">置顶天数</span>
+		<span class="x6">
+			<span class="txt txt-small radius-small bg-yellow tudou-top-jian">-</span>
+			<span class="txt-border txt-small radius-small border-gray"><span class="txt txt-small radius-small  bg-white tudou-top-num">0</span></span>
+			<span class="txt txt-small radius-small bg-yellow tudou-top-jia">+</span>
+            <input type="hidden" value="0" id="tudou-top-hidden-num" name="top_num">
+            <input type="hidden" value="0" id="tudou-top-switch" name="top_switch_num">
+		</span>
+	</div>
+</div>
+
+<div class="row">
+	<div class="line">
+		<span class="x6">是否加急 <{$CONFIG.life.urgent}>元/天</span>
+		<span class="x6">
+			<span class="switch-off" themecolor="#06c1ae" id="fly2"></span>
+		</span>
+	</div>
+</div>
+
+
+<div class="row" id="network2" style="display:none">
+	<div class="line">
+		<span class="x6">加急天数</span>
+		<span class="x6">
+			<span class="txt txt-small radius-small bg-yellow tudou-urgent-jian">-</span>
+			<span class="txt-border txt-small radius-small border-gray"><span class="txt txt-small radius-small  bg-white tudou-urgent-num">0</span></span>
+			<span class="txt txt-small radius-small bg-yellow tudou-urgent-jia">+</span>
+            <input type="hidden" value="0" id="tudou-urgent-hidden-num" name="urgent_num">
+            <input type="hidden" value="0" id="tudou-urgent-switch" name="urgent_switch_num">
+		</span>
+	</div>
+</div>
+
+
+
+
+<input id="life-cate-attr-price" type="hidden" value="<{$cate['price']}>"/>
+<div class="blank-40"></div> 
+
+
+
+<script>
+
+$(function(){
+	switchEvent("#fly",function(){
+		$("#network").slideDown();
+		$("#tudou-top-switch").val(1);
+		var urgent_num = parseInt($(".tudou-urgent-num").text());
+		var top_num = parseInt($(".tudou-top-num").text());
+		changetotal(urgent_num,top_num);//计算价格
+	},function(){
+		$("#network").slideUp();
+		$("#tudou-top-switch").val(0);
+		var urgent_num = parseInt($(".tudou-urgent-num").text());
+		changetotal(urgent_num,0);//计算价格
+	});
+	switchEvent("#fly2",function(){
+		$("#network2").slideDown();
+		$("#tudou-urgent-switch").val(1);//关闭标签后数量为0
+		var urgent_num = parseInt($(".tudou-urgent-num").text());
+		var top_num = parseInt($(".tudou-top-num").text());
+		changetotal(urgent_num,top_num);//计算价格
+	},function(){
+		$("#network2").slideUp();//关闭标签
+		$("#tudou-urgent-switch").val(0);//关闭标签后数量为0
+		var top_num = parseInt($(".tudou-top-num").text());
+		changetotal(0,top_num);//计算价格
+	});
+});
+
+$(function(){
+	$(".cate-id-html").on("change",function(){
+		var cate_id = $(".cate-id-html").val();
+		$.post('<{:U("life/getAttrPrice")}>',{cate_id:cate_id},function(res){
+			if(res.code == '1'){
+				$("#life-attr-submit").addClass("bg-dot");
+				$("#life-cate-attr-price").val(res.price);//赋值
+				var urgent_num = parseInt($(".tudou-urgent-num").text());
+				var top_num = parseInt($(".tudou-top-num").text());
+				changetotal(urgent_num,top_num);//计算价格
+			}
+			if(res.code == '0'){
+				layer.msg(res.msg,{icon:2});
+			}
+		},'json');
+	});
+});
+
+//计算价格
+function changetotal(urgent_num,top_num){
+	var top = "<{$CONFIG.life.top}>" //置顶每天费用
+	var urgent = "<{$CONFIG.life.urgent}>";//加急每天费用
+	var cate_price = $("#life-cate-attr-price").val();//发布分类信息需要的值
+	var price = (cate_price/100).toFixed(2);
+	var all_top_price = (top * top_num).toFixed(2);
+	var all_urgent_price = (urgent * urgent_num).toFixed(2);
+	result = parseFloat(price)+parseFloat(all_top_price)+parseFloat(all_urgent_price);
+	$("#life-attr-price").html(result.toFixed(2));
+}
+
+//购物数量
+$(document).ready(function(){
+	//加急加数量
+	$(".tudou-urgent-jia").click(function(){
+		var urgent_num = parseInt($(".tudou-urgent-num").text());
+		var top_num = parseInt($(".tudou-top-num").text());
+		if(urgent_num < 99){
+			urgent_num++;
+		}
+		$(".tudou-urgent-num").text(urgent_num);
+		$("#tudou-urgent-hidden-num").val(urgent_num);
+		changetotal(urgent_num,top_num);//计算价格
+	});
+		
+	//加急减数量
+	$(".tudou-urgent-jian").click(function(){
+		var urgent_num = parseInt($(".tudou-urgent-num").text());
+		var top_num = parseInt($(".tudou-top-num").text());
+		if(urgent_num >= 1){
+			urgent_num--;
+		}
+		$(".tudou-urgent-num").text(urgent_num);
+		$("#tudou-urgent-hidden-num").val(urgent_num);
+		changetotal(urgent_num,top_num);//计算价格
+	});
+	//加急填写数字
+	$(".tudou-urgent-num").focusout(function(){
+		var urgent_num = parseInt($(".tudou-urgent-num").text());
+		var top_num = parseInt($(".tudou-top-num").text());
+		changetotal(urgent_num,top_num);//计算价格
+	});
+	
+	//置顶加数量
+	$(".tudou-top-jia").click(function(){
+		var urgent_num = parseInt($(".tudou-urgent-num").text());
+		var top_num = parseInt($(".tudou-top-num").text());
+		if(top_num < 99){
+			top_num++;
+		}
+		$(".tudou-top-num").text(top_num);
+		$("#tudou-top-hidden-num").val(top_num);
+			changetotal(urgent_num,top_num);//计算价格
+		});
+		
+	//置顶减数量
+	$(".tudou-top-jian").click(function(){
+		var urgent_num = parseInt($(".tudou-urgent-num").text());
+		var top_num = parseInt($(".tudou-top-num").text());
+		if(top_num >= 1){
+			top_num--;
+		}
+		$(".tudou-top-num").text(top_num);
+		$("#tudou-top-hidden-num").val(top_num);
+		changetotal(urgent_num,top_num);//计算价格
+	});
+	//置顶填写数字
+	$(".tudou-top-num").focusout(function(){
+		var urgent_num = parseInt($(".tudou-urgent-num").text());
+		var top_num = parseInt($(".tudou-top-num").text());
+		changetotal(urgent_num,top_num);//计算价格
+	});
+	
+});	
+</script>
+
+
+   <section class="life-buy-btn">
+            <div class="life-buy-segment">
+                <div class="life-buy-wrapper text-center">
+                	<button type="submit" class="button button-block button-big bg-dot" id="life-attr-submit">编辑信息 <span id="life-attr-price" class="text-small"></span></button>
+                </div>
+            </div>
+   </section>
+
+</form>

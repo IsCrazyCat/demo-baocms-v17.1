@@ -1,0 +1,84 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">课程</a> > <a>课程订单</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('edu/index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+            开始时间：<input type="text" class="radius3 tuan_topser"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"/>
+            结束时间：<input type="text" class="radius3 tuan_topser"  name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"/>
+            订单编号：<input type="text" name="keyword" value="<{$keyword}>" class="radius3 tuan_topser" />
+            类型：
+            <select name="type" class="seleFl w80">
+               <option value="999">请选择</option>
+               <option <eq name="type" value="999">selected="selected"</eq>  value="999">请选择</option>
+               <option <eq name="type" value="1">selected="selected"</eq>  value="1">完整课程</option>
+               <option <eq name="type" value="2">selected="selected"</eq>  value="2">试课</option>
+            </select>
+            状态：
+            <select name="st" class="seleFl w80">
+               <option value="999">请选择</option>
+               <foreach name="types" key="key" item="item">
+                  <option <eq name="st" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+               </foreach>
+            </select>
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            </div>
+        </div>
+    </div>
+    </form>
+    <include  file='edu:nav'/>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>订单ID</td>
+            <td>课程名称</td>
+            <td>课程封面</td>
+            <td>课程类型</td>
+            <td>原价</td>
+            <td>实付价格</td>
+            <td>买家昵称</td>
+            <td>验证码</td>
+            <td>点评状态</td>
+            <td>订单状态</td>
+            <td>下单时间</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.order_id}></td>
+                <td><{$courses[$var['course_id']]['title']}></td>
+                <td><img src="<{:config_img($courses[$var['course_id']]['photo'])}>"  style="width:48px; margin:0px auto;" /></td>
+                <td><eq name="var.type" value="1">课程<else/><a style="color:#F00">试课</a></eq> </td>
+                <td>&yen;<{:round($var['price']/100,2)}>元</td>
+                <td><a style="color:#F00">&yen;<{:round($var['need_pay']/100,2)}>元</a></td>
+                <td>
+                <{$users[$var['user_id']]['nickname']}><br/>
+                <{$users[$var['user_id']]['mobile']}>
+                </td>
+                <td><{$var.code}></td>
+                <td><eq name="var.comment_status" value="0">未点评<else/><a style="color:#F00">已点评</a></eq> </td>
+                <td><{$types[$var['order_status']]}></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                
+         <td>
+                <if condition="$var['order_status'] neq -1">
+                    <a class="radius3 sy_c1an" mini="confirm" href="<{:U('edu/cancel',array('order_id'=>$var['order_id']))}>">取消订单</            
+                </if>
+               <if condition="$var['order_status'] eq -1">
+                     <if condition="$var['closed'] eq 0">
+                     <a class="radius3 sy_c1an" mini="confirm" href="<{:U('edu/order_delete',array('order_id'=>$var['order_id']))}>">删除订单</a
+                     ></if>
+               </if>
+               </td>  
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<include  file='public:footer'/>

@@ -1,0 +1,204 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('live/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title"><{$live.name}></div>
+		<div class="top-share"></div>
+	</header>
+
+<script>
+$(document).ready(function (){
+	var json = <{$url}>;
+	var url = '';
+		for(var i=0;i<json.length;i++){
+			if(i<json.length-1){
+			url+=json[i]+'/';
+		}else{
+			url+=json[i];
+		}
+	}
+	$("#play").attr('src','http://'+url);
+	});
+ </script>
+            
+            
+<div class="panorama_url global_focus">
+   <iframe  scrolling="no" style="border:0px;" width="100%" height="100%" src="" id="play" ></iframe> 
+</div>
+
+       
+
+
+        <div class="blank-10 bg"></div>
+        <if condition="!empty($shopyouhui)"> 
+        	<div class="container2" style="margin:10px;">
+				<div class="form-button"><a  href="<{:U('shop/breaks',array('shop_id'=>$detail['shop_id']))}>" class="button button-block button-big bg-dot text-center" type="submit">优惠买单</a></div>
+			</div>
+        </if>    
+
+      <div class="container2"> 
+        <div class="list-link detail-link radius-none">
+			<div class="line border-bottom">
+				<div class="<if condition="$detail['service_weixin_qrcode']"> x4<else/>x6</if> border-right text-center">
+					<a href="<{:U('shop/gps',array('shop_id'=>$detail['shop_id']))}>"><i class="iconfont icon-daohang"></i> 导航到这去</a>
+				</div>
+                <if condition="$detail['service_weixin_qrcode']"> 
+                    <div class="x4 border-right text-center">
+                        <a id="service_weixin_qrcode" data = "<{:config_img($detail['service_weixin_qrcode'])}>"><i class="iconfont icon-wo"></i> 联系客服</a>
+                    </div>
+                </if>  
+                
+                <div class="<if condition="$detail['service_weixin_qrcode']"> x4<else/>x6</if> text-center">
+					<a href="<{:U('shop/qrcode',array('shop_id'=>$detail['shop_id']))}>"><i class="iconfont icon-erweima2"></i> 二维码名片</a>
+				</div>
+			</div>
+            
+<style>
+.layui-layer-page .layui-layer-content .service_weixin_qrcode{ text-align:center}
+</style>            
+<script>
+	$(document).ready(function(){
+		$(document).on('click','#service_weixin_qrcode',function(e){
+				var img = $(this).attr('data');
+				layer.open({
+				  type: 1,
+				  title: false ,
+				  closeBtn: false,
+				  area: '300px;',
+				  shade: 0.8,
+				  id: 'LAY_layuipro',
+				  resize: false,
+				  btn: ['关闭窗口'],
+				  btnAlign: 'c',
+				  moveType: 1 ,
+				  content: '<div class="service_weixin_qrcode"><img src='+img+'><br/><a>添加客服二维码</a></div>',success: function(layero){
+					var btn = layero.find('.layui-layer-btn');
+				  }
+				});
+				
+			});
+            
+        });
+</script>
+ 	 
+			<a href="<{:U('shop/book',array('shop_id'=>$detail['shop_id']))}>">
+				<span class="txt txt-little radius-little bg-blue">约</span> 预约去消费
+				<span class="float-right iconfont icon-angle-right"></span>
+			</a>
+		</div>
+	</div>
+
+        
+
+        
+
+   <div class="blank-10 bg"></div>
+     <div class="container2">
+		<div class="panel detail-intro radius-none">
+			<div class="panel-head">商家介绍</div>
+			<div class="panel-body">
+                <php>
+                    $pic = getImgs($shop_details['details']);
+                </php>
+                <foreach name="pic" item="var">
+                    <li><a href="<{:U('shop/pic',array('shop_id'=>$detail['shop_id']))}>"><img src="<{:config_img($var)}>" /></a></li>
+                </foreach>
+				<{:cleanhtml($shop_details['details'])}>
+			</div>
+		</div>		
+	</div>
+
+   <div class="blank-10 bg"></div>
+
+       
+       <div class="container2">
+        <div class="panel detail-intro radius-none">
+			<div class="panel-head">本店其他直播 <span class="float-right iconfont icon-angle-right"></span></div>
+		    <div class="main-tuan" id="main-tuan" style="padding:0 10px;">
+            <volist name="list" id="item">		
+	        <li>
+			<a class="line" href="<{:U('live/view',array('live_id'=>$item['live_id']))}>" >
+				<div class="container1">
+                	<div class="des x3">
+                        <img src="<{:config_img($item['photo'])}>"/>	
+                        <span class="zhibo"></span>
+                    </div>
+                    
+					<div class="des x9">
+						<h5><{:tu_msubstr($item['name'],0,12,false)}></h5>
+						<p class="intro"><{:tu_msubstr($item['intro'],0,20,false)}></p>
+						<p class="info"><span class="text-little float-right badge bg-yellow margin-small-top padding-right">观看人数：<{$item['views']}></span></p>
+					</div>
+				</div>
+			</a>
+		</li>			
+		</volist>
+     </div>
+ </div>
+</div>
+
+
+<div class="blank-10"></div>
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
+    wx.config({
+	debug: false,
+	appId: '<{$signPackage.appId}>',
+    timestamp: '<{$signPackage.timestamp}>',
+    nonceStr: '<{$signPackage.nonceStr}>',
+    signature: '<{$signPackage.signature}>',
+	jsApiList: [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'onMenuShareQZone'
+		]
+	});
+</script>
+<script>
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+            title: '<{$detail["name"]}>."推荐的直播"',
+        	link: "<{$CONFIG.site.host}><{:U('wap/live/view',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'live_id'=>$detail['live_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($detail['photo'])}>", 
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+        });
+        //分享给朋友
+        wx.onMenuShareAppMessage({
+            title: '<{$detail["name"]}>."推荐的直播"',
+            desc: '<{$detail["intro"]}>',
+            link: "<{$CONFIG.site.host}><{:U('wap/live/view',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'live_id'=>$detail['live_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($detail['photo'])}>", 
+            type: '',
+            dataUrl: '',
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+        });
+
+});
+
+</script>
+
+
+<include file="public:footer"/>
+
+
+<if condition="!empty($detail['service']) and !empty($detail['service_audit'])">  <!--客服代码-->      
+	<{$detail.service}>	
+</if>
+
+
+

@@ -1,0 +1,25 @@
+<foreach name="list" item="var">
+<li class="line ">
+	<dd class="zhong">
+		<div class="12">
+		<p class="text-small">
+        
+		<if condition="$var[bgtime] lt time()  and  $var[endtime] gt time() and $var['closed'] == 0">
+			<span style="background:#13c213;color:#fff;padding:0px 3px;border-radius:2px;margin-right:10px">广告展示中</span>
+		<elseif condition="$var[bgtime] gt time() and $var['closed'] == 0" />
+			<span style="background:#fe7715;color:#fff;padding:0px 3px;border-radius:2px;margin-right:10px">未开始</span>
+		<elseif condition="time() gt $var[endtime] || $var['closed'] == 1" />
+        	<span style="background:#ff4800;color:#fff;padding:0px 3px;border-radius:2px;margin-right:10px">广告过期</span>
+		</if>
+        
+        
+	        广告位名称 ：[ID:<{$var.ad_id}>] <{$var.site_name}></p>
+			<p class="text-small">剩余积分：<{$var.prestore_integral}> &nbsp; 有效点击量：<{$var.click}> (每点击一次消耗：<{$CONFIG.integral.ad_consume}>积分)
+			</p>
+			<p class="text-small">展示城市：<if condition="$var[cityname] neq '' "><{$var.cityname}><else />通用</if></p>
+			<p class="text-small" style="padding:10px;overflow:hidden">广告图片：<img src="<{:config_img($var['photo'])}>" style="width:100%;max-height:150px"></p>
+			<p class="text-small">开始时间：<{$var.bg_date}> 结束时间：<{$var.end_date}></p>
+		</div>
+	</dd>
+</li>
+</foreach>    

@@ -1,0 +1,15 @@
+<foreach name="list" item="var">
+<li class="line ">
+	<dd class="zhong">
+		<div class="12">
+        	<p class="text-small">日志ID：<{$var.log_id}></p>
+            <p class="text-small">红包类型：<{$types[$var['type']]}></p>
+            <p class="text-small">订单类型：<{$orderTypes[$var['orderType']]}></p>
+			<p class="text-small text-dot">领取金额：&yen;<{:round($var['money']/100,2)}>元</p>
+            <p class="text-small">领取备注：<{$var.intro}></p>
+			<p class="text-small">领取时间：<{$var.create_time|date='Y-m-d H:i:s',###}></p>
+		</div>
+	</dd>
+</li>
+</foreach>        
+         

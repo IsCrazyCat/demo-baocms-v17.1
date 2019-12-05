@@ -1,0 +1,44 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">农家乐</li>
+        <li class="li2">套餐管理</li>
+        <li class="li2 li3">新增套餐</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('farm/setpackage',array('farm_id'=>$detail['farm_id']))}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+               
+                 <tr>
+                    <td class="lfTdBt">套餐名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput" />
+                     <code>套餐的名称</code>
+                    </td>
+                </tr> 
+                 <tr>
+                    <td class="lfTdBt">套餐价格：</td>
+                    <td class="rgTdBt"><input type="text" name="data[price]" value="<{$detail.price|default=''}>" class="manageInput" />
+                     <code>该套餐的购买价格</code>
+                    </td>
+                </tr> 
+                 <tr>
+                    <td class="lfTdBt">结算价格：</td>
+                    <td class="rgTdBt"><input type="text" name="data[jiesuan_price]" value="<{$detail.jiesuan_price|default=''}>" class="manageInput" />
+                     <code>用户确认收货的结算价格</code>
+                    </td>
+                </tr> 
+          
+              
+        
+ 
+    </table>
+            <div style="margin-left:140px;margin-top:20px">
+                <input type="submit" value="确认添加" class="smtQrIpt" />
+           <div>
+</form>
+</div>
+</div>
+<include  file='public:footer'/>       

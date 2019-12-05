@@ -1,0 +1,166 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商家</li>
+        <li class="li2">结算管理</li>
+        <li class="li2 li3">资金记录</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>如果订单是非实物订单，那么需要在商家确认抢购券消费的时候资金才会转入到商家账户，当前结果总计：<a style="color:#f60">&yen;<{:round($money/100,2)}> 元</a></p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('shopmoney/create','','添加资金记录')}>
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('shopmoney/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                     <div class="seleK">
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"  class="text" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"  class="text" />
+                        </label>
+                        <label>
+                            <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                            <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text w150 sj" />
+                            <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="seleSj">选择商家</a>
+                        </label>
+                        
+                        <label>
+                                <span>类型：</span>
+                                <select class="select w120" name="type">
+                                 <option value="0">请选择类型</option>
+                                	<volist name='types' id='item'>
+                                        <option <if condition="$key EQ $st">selected="selected" class="red" </if>  value="<{$key}>"><{$item}></option>
+                                    </volist>
+                                </select>
+                        </label>
+                        
+                        <label>
+                            <span>选择城市：</span>
+                             <select name="city_id" id="city_id"  class="select w100"></select>
+                            <select name="area_id" id="area_id"  class="select w100"></select>
+                        </label>
+                       <script src="<{:U('app/datas/onecity',array('name'=>'cityareas'))}>"></script> 
+                       <script>
+								var city_id = <?php echo (int)$city_id;?>;
+                    			var area_id = <?php echo (int)$area_id;?>;
+                                $(document).ready(function () {
+                                    var city_str = ' <option value="0">请选择...</option>';
+                                    for (a in cityareas.city) {
+                                        if (city_id == cityareas.city[a].city_id) {
+                                            city_str += '<option selected="selected" value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                        } else {
+                                            city_str += '<option value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                        }
+                                    }
+                                    $("#city_id").html(city_str);
+                                    $("#city_id").change(function () {
+                                        if ($("#city_id").val() > 0) {
+                                            city_id = $("#city_id").val();
+     										   $.ajax({
+													  type: 'POST',
+													  url: "<{:U('app/datas/twoarea')}>",
+													  data:{cid:city_id},
+													  dataType: 'json',
+													  success: function(result){
+                                                         var area_str = ' <option value="0">请选择...</option>';
+                                                        for (a in result) {
+                                                          area_str += '<option value="' + result[a].area_id + '">' + result[a].area_name + '</option>';                                                        }
+                                                       $("#area_id").html(area_str);
+													  }
+												});
+                                            $("#area_id").html(area_str);
+                                        } else {
+                                            $("#area_id").html('<option value="0">请选择...</option>');
+                                        }
+                                    });
+									
+                              		if (city_id > 0) {
+                                        var area_str = ' <option value="0">请选择...</option>';
+										$.ajax({
+										  type: 'POST',
+										  url: "<{:U('app/datas/twoarea')}>",
+										  data:{cid:city_id},
+										  dataType: 'json',
+										  success: function(result){
+                                             for (a in result) {
+                                                if (area_id == result[a].area_id) {
+                                                    area_str += '<option selected="selected" value="' + result[a].area_id + '">' + result[a].area_name + '</option>';
+                                                } else {
+                                                    area_str += '<option value="' + result[a].area_id + '">' + result[a].area_name + '</option>';
+                                                }
+                                              }
+                                             $("#area_id").html(area_str);
+											}
+										});
+                                    }
+                                   
+                                });
+                        </script> 
+                
+                 
+                        <label>
+                            <span>订单编号</span>
+                        <input type="text" name="keyword" value="<{$keyword}>" class="inptText" /><input type="submit" value="   搜索"  class="inptButton" />
+                        </label>
+                        </div>
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            <div class="selectNr selectNr2">
+                <div class="left"> <div class="seleK"></div> </div>
+                <div class="right"></div>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="money_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>地区</td>
+                    <td>商家</td>
+                    <td>资金</td>
+                    <td>类型</td>
+                    <td>原始订单ID</td>
+                    <td>说明</td> 
+                    <td>时间</td>
+                    <td>IP</td>   
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_money_id" type="checkbox" name="money_id[]" value="<{$var.money_id}>" /></td>
+                        <td><{$var.money_id}></td>
+                        <td> 
+                            <if condition="$var['city_name']">
+                                <{$var['city_name']}>
+                            </if>
+                            <if condition="$var['area_name']">
+                                →<{$var['area_name']}>
+                            </if>
+                        </td>
+                        <td><{$shops[$var['shop_id']]['shop_name']}></td>
+                        <td><{:round($var['money']/100,2)}></td>
+                        <td><a style="color:#f60"> <{$var.type}></a></td>
+                        <td><{$var.order_id}></td>
+                        <td><{$var.intro}></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td><{$var.create_ip}></td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  

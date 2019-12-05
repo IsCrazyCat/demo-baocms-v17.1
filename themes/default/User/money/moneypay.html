@@ -1,0 +1,83 @@
+<include  file='public:header'/>   
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back();"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			余额充值
+		</div>
+	</header>  
+	
+	<div class="tuan-order">
+		<div class="blank-10 bg"></div>
+		<div class="line border-top border-bottom">
+			<div class="container">
+				<div class="x12 row border-bottom">
+					<span class="float-left">
+						支付编号
+					</span>
+					<span class="float-right">
+						<{$logs.log_id}>
+					</span>
+				</div>
+				<div class="x12 row border-bottom">
+					<span class="float-left">
+						付款缘由
+					</span>
+					<span class="float-right">
+						 余额充值
+					</span>
+				</div>
+				<div class="x12 row">
+					<span class="float-left">
+						支付金额
+					</span>
+					<span class="float-right">
+						<{:round($logs['need_pay']/100,2)}>元
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="blank-50"></div>
+	<div class="container">
+	<{$button}>
+	</div>
+	<div class="blank-20"></div>
+<include file='public:footer'/>   
+
+
+<script src="/static/default/wap/js/app.js"></script>
+<script type="text/javascript">
+	function wxpay(){
+       var out_trade_no = "<{$logs['log_id']}>";
+        $.ajax({
+            type:'post',
+            url: "<{:U('app/pay/order')}>", //(method path)
+            dataType:'json',
+            data: {log_id: out_trade_no},
+            async: true,
+            timeout: 200000,
+            success: function(data){
+                //成功回访
+                pay(data);
+            }
+        });
+    }
+    function pay(data){
+        var order = data;
+        payType(order, "WEIXIN", "payResult");
+    }
+    function payResult(r) {
+        if(r == 0){
+            setTimeout(function(){alert('支付成功');}, 2000);
+            window.location.href="<{:U('wap/payment/yes',array('log_id'=>$logs['log_id']))}>";
+        }else{
+            setTimeout(function(){alert('支付失败请刷新后再试');}, 2000);
+        }
+    }
+	//变色龙支付完成
+</script>  
+
+ 

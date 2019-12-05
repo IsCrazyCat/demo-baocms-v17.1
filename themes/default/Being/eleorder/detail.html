@@ -1,0 +1,133 @@
+
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="clear"></div>
+        </div>
+
+   <div class="selectNr selectNr2">
+        <div class="clear"></div>
+   </div>
+
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+
+                <tr>
+                    <td>商品</td>
+                    <td>单价</td>
+                    <td>数量</td>
+                    <td>总价</td>
+                    <td>餐具费</td>
+                </tr>
+
+               <foreach name="products" item="item">
+                    <tr>
+                        <td><{$products[$item['product_id']]['product_name']}></td>
+                        <td>&yen;<{:round($products[$item['product_id']]['price']/100,2)}></td>
+                        <td>x<{$item.num}></td>
+                        <td>&yen;<{:round($item['total_price']/100,2)}></td>
+                        <td>&yen;<{:round($item['tableware_price']/100,2)}></td>
+                    </tr>
+                </foreach>
+
+            </table>
+        </div>
+        <div class="selectNr" style="margin-bottom:10px;">
+            <div class="left">
+                
+                <div class="smtQr">
+                    <if condition="!empty($detail['pay_time'])">
+                        付款时间：<{$detail.pay_time|date='Y-m-d H:i',###}>
+                    </if>
+                    <if condition="!empty($detail['refund_tim'])">
+                        退款时间：<em class="text-dot"> <{$detail.refund_time|date='Y-m-d H:i',###}>
+                    </if>
+                </div>  
+                <div class="smtQr"> 
+                订单总额：&yen; <{:round($detail['total_price']/100,2)}> 
+                <if condition="!empty($detail['logistics'])">
+                   (含送费：&yen; <{:round($detail['logistics']/100,2)}>)
+                </if>
+                
+                <if condition="!empty($detail['new_money'])">
+                    -新单立减：&yen; <{:round($detail['new_money']/100,2)}>
+                </if>
+                <if condition="!empty($detail['logistics_full_money'])">
+                    -免配送费：&yen; <{:round($detail['logistics_full_money']/100,2)}>
+                </if>
+                <if condition="!empty($detail['reduce_coupun_money'])">
+                    -优惠劵抵扣：&yen; <{:round($detail['reduce_coupun_money']/100,2)}>
+                </if>
+                <if condition="!empty($detail['full_reduce_price'])">
+                    -满减优惠：&yen; <{:round($detail['full_reduce_price']/100,2)}>
+                </if>
+                <if condition="!empty($detail['tableware_price'])">
+                    +餐具费&yen; <{:round($detail['tableware_price']/100,2)}>
+                </if>
+                =合计：&yen; <{:round($detail['need_pay']/100,2)}> 元
+                </div>
+                
+                <div class="smtQr">
+                	收货地址：<{$addr['name']}>  (<{$addr.mobile}>)<{$addr.addr}>
+                </div>
+                <if condition="!empty($detail['message'])">
+                    <div class="smtQr">
+                        订单留言：<{$detail['message']}>
+                    </div>
+                </if>
+            </div>
+        </div>
+        
+        
+        <if condition="$delivery['id']">	
+             <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+    
+                    <tr>
+                        <td>配送员姓名</td>
+                        <td>配送员头像</td>
+                        <td>配送员手机</td>
+                        <td>配送状态栏</td>
+                    </tr>
+    
+                     <tr>
+                        <td><{$delivery['name']}></td>
+                        <td><img style="width:60px;height:60px;border-radius:100%" src="<{:config_img($delivery['photo'])}>" /></td>
+                        <td><{$delivery['mobile']}></td>
+                        <td>
+                        <if condition="$deliveryorder['create_time']">
+                        	创建时间：<{$deliveryorder.create_time|date="Y-m-d H:i:s",###}>
+                        </if> 
+                        <if condition="$deliveryorder['update_time']">
+                        	<br/>接单时间：<{$deliveryorder.update_time|date="Y-m-d H:i:s",###}>
+                        </if> 
+                        <if condition="$deliveryorder['end_time']">
+                        	<br/>完成时间：<{$deliveryorder.end_time|date="Y-m-d H:i:s",###}>
+                        </if> 
+                        
+                        </td>
+                     </tr>
+    
+                </table>
+            </div>
+        </if> 
+        
+        
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <div class="smtQr">
+                	<a>当前订单状态：<{$cfg[$detail['status']]}></a>
+                    <a href="<{:U('eleorder/order_print',array("order_id"=>$detail["order_id"],'st'=>$st))}>" mini="act" class="remberBtn">小票打印</a>
+                </div>
+            </div>
+        </div>
+        
+        
+</div>
+</div>
+
+
+
+
+
+

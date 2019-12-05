@@ -1,0 +1,164 @@
+<include  file='public:header'/>
+<include  file='public:header'/>
+<style>
+.sstoreK{height: 30px;}
+.sstoreK label {margin-bottom: 10px;}
+.main-jsgl .jsglNr .selectNr .left a, .piliangcaozuo, .main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px;}
+.sstoreK .text{height: 28px; width:120px !important;}
+.sstoreK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">外卖频道</li>
+        <li class="li2">便利店频道</li>
+        <li class="li2 li3">商家列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>如果未添加商家，那么不能发布商品，这里可以按照条件搜索外卖商家，已可以查询商家的营业状态等</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="left">
+                <{:BA('store/create','','添加')}>  
+            </div>
+            <div class="right">
+                <form method="post" action="<{:U('store/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                    
+                        <label>
+                           <span>是否打烊：</span>
+                           <select class="select w120" name="is_open">
+                               <option <eq name="is_open" value="999">selected="selected"</eq> value="999">请选择</option>
+                               <option <eq name="is_open" value="0">selected="selected"</eq>  value="0">已打烊</option>
+                               <option <eq name="is_open" value="1">selected="selected"</eq>  value="1">营业中</option>
+                           </select>
+                        </label>
+                        <label>
+                           <span>新客免减：</span>
+                           <select class="select w120" name="is_new">
+                               <option <eq name="is_new" value="999">selected="selected"</eq> value="999">请选择</option>
+                               <option <eq name="is_new" value="0">selected="selected"</eq>  value="0">不支持</option>
+                               <option <eq name="is_new" value="1">selected="selected"</eq>  value="1">支持</option>
+                           </select>
+                        </label>
+                        <span>分类</span>
+                        <select id="cate_id" name="cate_id" class="select">
+                            <option value="0">请选择...</option>
+                            <foreach name="cates" item="var">
+                                <eq name="var.parent_id" value="0">
+                                <option value="<{$var.cate_id}>"  <eq name="var.cate_id" value="$cate_id">selected="selected"</eq> ><{$var.cate_name}></option>                                <foreach name="cates" item="var2">
+                                    <eq name="var2.parent_id" value="$var.cate_id">
+                                    <option value="<{$var2.cate_id}>"  <eq name="var2.cate_id" value="$cate_id">selected="selected"</eq> > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<{$var2.cate_name}></option>
+                                    </eq>
+                                </foreach>
+                                </eq>
+                            </foreach>
+                        </select>
+
+
+                        <span>区域：</span>   
+                        <select name="area_id" id="area_id" class="select manageSelect">
+                            <option value="0">请选择...</option>
+                            <foreach name="areas" item="var">
+                                <option value="<{$var.area_id}>"  <eq name="var.area_id" value="$area_id">selected="selected"</eq> ><{$var.area_name}></option>
+                            </foreach>   
+                        </select>
+                        <span>关键字：</span>   
+                        <input type="text" name="keyword" value="<{$keyword|default=''}>" class="inptText" />
+                        <input type="submit" class="inptButton" value="  搜索" />
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="shop_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>商家名称</td>
+                        <td>是否打烊</td>
+                        <td>是否支持在线付款</td>
+                        <td>是否支持货到付款</td>
+                        <td>新客户下单立减</td>
+                        <td>满多少钱</td>
+                        <td>减多少钱</td>
+                        <td>配送费</td>
+                        <td>满多少免配送费</td>
+                        <td>起送价</td>
+                        <td>满减</td>
+                        <td>卖出数</td>
+                        <td>月卖出数</td>
+                        <td>排序</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_shop_id" type="checkbox" name="shop_id[]" value="<{$var.shop_id}>" /></td>
+                            <td><{$var.shop_id}></td>
+                            <td><{$var.shop_name}></td>
+                            <td>
+                            <eq name="var.is_open" value="1">营业<else/>打烊</eq>
+                            </td>
+                            <td>
+                            <eq name="var.is_pay" value="1">支持<else/>不支持</eq>
+                            </td>
+                            <td>
+                            <eq name="var.is_daofu" value="1">支持<else/>不支持</eq>
+                            </td>
+                            <td><eq name="var.is_new" value="1">新单优惠<else/>无</eq></td>
+                            <td><{:round($var['full_money']/100,2)}></td>
+                            <td><{:round($var['new_money']/100,2)}></td>
+                            <td><{:round($var['logistics']/100,2)}></td>
+                            <td><{:round($var['logistics_full']/100,2)}></td>
+                            <td><{:round($var['since_money']/100,2)}></td>
+                            <td>
+                            <eq name="var.is_full" value="1">
+                                <if condition ="!empty($var['order_price_full_1'])">
+                                满<{:round($var['order_price_full_1']/100,2)}>元
+                                </if>
+                                <if condition ="!empty($var['order_price_reduce_1'])">
+                                减去<{:round($var['order_price_reduce_1']/100,2)}>元
+                                </if>
+                                
+                                <if condition ="!empty($var['order_price_full_2'])">
+                                满<{:round($var['order_price_full_2']/100,2)}>元
+                                </if>
+                                <if condition ="!empty($var['order_price_reduce_2'])">
+                                减去<{:round($var['order_price_reduce_2']/100,2)}>元
+                                </if>
+                            <else/>
+                            	不支持满减
+                            </eq>
+                            </td>
+                            <td><{$var.sold_num}></td>
+                            <td><{$var.month_num}></td>
+                            <td><{$var.orderby}></td>
+                            <td>
+                                <{:BA('store/edit',array("shop_id"=>$var["shop_id"]),'编辑','','remberBtn')}>
+                                <{:BA('store/delete',array("shop_id"=>$var["shop_id"]),'删除','act','remberBtn')}>
+                                <eq name="var.is_open" value="0">
+                                <{:BA('store/opened',array("shop_id"=>$var["shop_id"],'type'=>'open'),'开始接客','act','remberBtn')}>
+                            <else/>
+                            <{:BA('store/opened',array("shop_id"=>$var["shop_id"],'type'=>'closed'),'打烊','act','remberBtn')}>
+                            </eq>
+                            <a target="_blank" class="remberBtn" href="<{:U('shop/login',array('shop_id'=>$var['shop_id']))}>">管理商家</a>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('store/delete','','批量删除','list','a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

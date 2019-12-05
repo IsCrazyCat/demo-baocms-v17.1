@@ -1,0 +1,129 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('market/marketorder',array('status'=>1))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			菜市场订单详情
+		</div>
+		<div class="top-share">
+			<a href="#" id="cate-btn"></a>
+		</div>
+	</header>
+<body>   
+
+
+
+<div class="panel-list">
+	<ul>
+        <li><a href="javascript:;">订单ID：<em><{$order.order_id}></em></a></li>
+        <li><a href="javascript:;">状态：<em class="text-dot">
+        <eq name="order.status" value="0">订单待接单</eq>
+        <eq name="order.status" value="1">订单待配送</eq>
+        <eq name="order.status" value="1">待确认完成</eq>
+        <eq name="order.status" value="8">订单已完成</eq>
+        </em></a></li>
+	</ul>
+</div>
+
+
+
+<div class="blank-10 bg"></div>
+<table class="table">
+	<tr>
+		<th>商品</th>
+		<th>单价</th>
+		<th>数量</th>
+		<th>总价</th>
+	</tr>
+	<foreach name="op" item="item">
+	<tr>
+		<td><{$ep[$item['product_id']]['product_name']}></td>
+		<td>&yen;<{:round($ep[$item['product_id']]['price']/100,2)}></td>
+		<td>×<{$item.num}></td>
+		<td>&yen;<{:round($item['total_price']/100,2)}></td>
+	</tr>
+	</foreach>                    
+</table>
+<div class="blank-10 bg"></div>
+
+
+
+<div class="blank-10 bg"></div>
+
+<div class="container login-open">
+	<div class="blank-10"></div>
+     <if condition="!empty($order['total_price'])">
+                    应付总费用：&yen;<{:round($order['total_price']/100,2)}>元(含配送费)
+                 </if>
+             	 <if condition="!empty($order['new_money'])">
+                    - 新单立减：&yen;<{:round($order['new_money']/100,2)}>元
+                 </if>
+                 <if condition="!empty($order['logistics_full_money'])">
+                    - 免配送费：&yen;<{:round($order['logistics_full_money']/100,2)}>元
+                 </if>
+                 <if condition="!empty($order['reduce_coupun_money'])">
+                   - 优惠劵抵扣费用：&yen;<{:round($order['reduce_coupun_money']/100,2)}>元
+                 </if>
+                 <if condition="!empty($order['full_reduce_price'])">
+                   - 满减优惠：&yen;<{:round($order['full_reduce_price']/100,2)}>元
+                 </if>
+                 <if condition="!empty($order['tableware_price'])">
+                    + 打包费：&yen;<{:round($order['tableware_price']/100,2)}> 元
+                 </if>
+                 <if condition="!empty($order['logistics'])">
+                    + 配送费用：&yen;<{:round($order['logistics']/100,2)}> 元
+                 </if>
+                 <span>= 实际支付：<a  class="text-dot">&yen;<{:round($order['need_pay']/100,2)}>元</a></span>
+       <div class="blank-10"></div>
+</div>
+<div class="blank-10 bg"></div>
+
+<div class="panel-list">
+
+	<ul>
+    	<li><a href="javascript:;">订单结算价：<em>&yen;<{:round($order['settlement_price']/100,2)}>元</em></a></li>
+		<li><a href="javascript:;">订餐人姓名：<em><{$addr.name}></em></a></li>
+		<li><a href="tel:<{$addr.mobile}>">订餐人手机号：<em><{$addr.mobile}></em></a></li>
+		<li><a href="javascript:;">订餐人地址：<em><{$addr.addr}></em></a></li>
+		<li><a href="javascript:;">下单时间：<em><{$order.create_time|date='Y-m-d H:i:s',###}></em></a></li>
+        
+        <if condition="!empty($order['message'])">
+        <li><a href="javascript:;">留言：<em><{$order['message']}></em></a></li>
+        </if>
+        
+        <li><a href="javascript:;">配送方式：<em>
+        <notempty name='do'>第三方配送<else/>商家配送</notempty><!-- （配送费 <span class="fontcl1">￥<{:round($order['logistics']/100,2)}></span>）-->
+        </em></a></li>
+        <notempty name='do'>               
+        <li><a href="javascript:;">配送员：<gt name="do.delivery_id" value="0"><{$delivery.name}>(<{$delivery.mobile}>)<else/>还未接单</gt></a></li>
+		</notempty>
+	</ul>
+
+</div>
+
+
+
+
+
+<div class="blank-20"></div>
+<div class="container login-open">
+
+      <empty name="do">
+        <eq name="order.status" value="0">
+           <a class="button button-block button-big bg-gray text-center">订单未付款</a>
+        </eq>
+        <eq name="order.status" value="1">
+          <a target="x-frame" class="button button-block button-big bg-dot text-center" href="<{:U('market/status',array('order_id'=>$order['order_id'],'status'=>1))}>" >确定配送</a>
+        </eq>
+        <eq name="order.status" value="2">
+           <a target="x-frame" class="button button-block button-big bg-dot text-center" href="<{:U('market/send',array('order_id'=>$order['order_id']))}>" >确定完成</a>
+        </eq>
+        <eq name="order.status" value="8">
+                <a class="button button-block button-big bg-gray text-center" >已完成</a>
+        </eq>
+    </empty>
+</div>   
+    
+<div class="blank-20"></div>
+<include file="public:footer"/>

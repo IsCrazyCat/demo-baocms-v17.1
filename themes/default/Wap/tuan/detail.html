@@ -1,0 +1,425 @@
+<php>$mobile_title = $detail['title'].'抢购';</php>
+
+<include file='public:header'/>   
+
+
+<style>
+.top-fixed .top-title span{padding:0 10px;}
+.top-fixed .top-title span.on{;border-bottom: 2px solid #FFF;}
+.container{margin-top:0rem;}
+.coupon-list2{margin-top:5px!important;}
+.pics img{padding:5px; width:60px; height:50px; float:left}
+.layui-layer-molv .layui-layer-title{background-color:#F8F8F8; border-bottom: 1px solid #eee;color: #333;}
+.txt-border.txt-small{margin:1px;}
+</style>
+
+
+ 
+	<header class="top-fixed bg-yellow bg-inverse detail">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('tuan/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title search center">
+            <span class="on">商品</span>
+            <span>详情</span>
+            <span>评论</span>
+        </div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="share-btn"></a>
+		</div>
+	</header>  
+    
+	<div class="tuan-detail xq_details">
+		<div class="line banner">	
+			<div id="focus" class="focus">
+               <div class="hd"><ul></ul></div>
+               <div class="bd">
+                    <ul>
+                      <li><a href="javascript:void(0);"><img src="<{:config_img($detail['photo'])}>" /></a></li>
+                      <foreach  name="thumb" item="item">
+                      	 <li><a href="javascript:void(0);"><img src="<{:config_img($item)}>" /></a></li>
+                      </foreach>
+                    </ul>
+                </div>
+            </div>
+			<div class="title">
+				<h1><{:tu_msubstr($detail['title'],0,10,false)}></h1>
+				<p><{:tu_msubstr($detail['intro'],0,48,false)}></p>
+			</div>	
+		</div>
+        
+        
+		<div class="line price">
+			<div class="x4">
+				<span class="text-main padding-top"><em><{$detail.tuan_price}></em>元</span>  <del>￥<{$detail.price}></del>	
+			</div>
+			<div class="x8">    
+                <if condition="$tao_arr">
+                    <div class="tao_arr float-right">
+                        <php>$i=0;</php>
+                        <foreach name="tao_arr" item="item">
+                        <php>$i++;</php>
+                            <a <if condition="$item['id'] eq 0">class="button button-small bg-yellow"<else/>class="button button-small bg-dot"</if> <if condition="empty($item['id'])">href="<{:U('tuan/detail',array('tuan_id'=>$tuan_id))}>"<else/>href="<{:U('tuan/detail',array('tuan_id'=>$item['id']))}>"</if> ><{$item.name}></a>
+                        </foreach>
+                     </div>
+               </if>
+           </div> 
+		</div>
+		<hr>
+		<div class="line info">
+			<div class="x6">
+				<span class="txt-border txt-little radius-circle border-green"><div class="txt radius-circle bg-green">退</div></span>
+				<span class="text-green">支持随时退款</span>
+			</div>
+			<div class="x6">
+				<span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray">售</div></span>
+				<span class="text-gray">已售 <{$detail.sold_num}> 份</span>
+			</div>
+            <div class="x6">
+            <if condition="$detail['freebook'] eq 1">
+                <span class="txt-border txt-little radius-circle border-green"><div class="txt radius-circle bg-green">预</div></span>
+                <span class="text-green">免预约</span>
+            <else />
+                <span class="txt-border txt-little radius-circle border-green"><div class="txt radius-circle bg-green">否</div></span>
+                <span class="text-green">需预约</span>
+            </if>
+			</div>
+            <div class="x6">
+				<span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray">距</div></span>
+				<span class="text-gray"><{$detail.d}></span>
+			</div>
+			<if condition="$detail['use_integral']">
+                <div class="x6">
+                    <span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray">抵</div></span>
+                    <span class="text-gray">可使用<{$detail.use_integral}>积分</span>
+                </div>
+            </if>
+            <if condition="$detail['xiangou']">
+                <div class="x6">
+                    <span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray">限</div></span>
+                    <span class="text-gray">限购<{$detail.xiangou}>份</span>
+                </div>
+            </if>
+            <if condition="$detail['num']">
+                <div class="x6">
+                    <span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray">库</div></span>
+                    <span class="text-gray">库存<{$detail.num}>份</span>
+                </div>
+            </if>
+		</div>
+        <hr/>
+        
+        <if condition="$shop['is_profit']"> 
+        <div class="line status">
+			<div class="x3">
+				<span class="">我要分销</span>
+			</div>
+			<div class="x9">
+				<span class="float-right">
+                	<a id="www-hatudou-com-url-btn" href="<{:U('seller/create',array('user_id'=>$MEMBER['user_id'],'type_id'=>2,'id'=>$detail['tuan_id']))}>">添加到我的小店</a><i class="iconfont icon-angle-right"></i>
+                </span>
+			</div>
+		</div>
+        <hr/>
+        </if> 
+        
+        
+		<div class="line status">
+			<div class="x3">
+				<span class="">抢购详情</span>
+			</div>
+			<div class="x9">
+				<span class="float-right"><a class="seedeadei text-dot">点击查看抢购详情</a><i class="iconfont icon-angle-right"></i></span>
+			</div>
+		</div>
+        <hr/>
+		<div class="line status">
+			<div class="x3">
+				<span class="">商家详情</span>
+			</div>
+			<div class="x9">
+				<span class="float-right"><a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><{$shop.shop_name}></a><i class="iconfont icon-angle-right"></i></span>
+			</div>
+		</div>
+        <hr/>
+		<div class="line status">
+			<div class="x7">
+				<span class="ui-starbar"><span style="width:<{:round($score*10,2)}>%"></span></span>
+			</div>
+			<div class="x5">
+				<span class="float-right margin-small-top tbv"><{$pingnum}>人评价 <i class="iconfont icon-angle-right"></i></span>
+			</div>
+		</div>
+         <hr/>
+		<div class="line status">
+			<div class="x3">
+				<span class="">商家电话</span>
+			</div>
+			<div class="x9">
+				<span class="float-right"><a href="tel:<{$shop.tel}>"><{$shop.tel}></a><i class="iconfont icon-angle-right"></i></span>
+			</div>
+		</div>
+        <hr/>
+		<div class="line status">
+			<div class="x2">
+				<span class="">商家地址</span>
+			</div>
+			<div class="x10">
+				<span class="float-right"><a href="<{:U('shop/gps',array('shop_id'=>$detail['shop_id']))}>"><{$shop.addr}>（点击导航）</a><i class="iconfont icon-angle-right"></i></span>
+			</div>
+		</div>
+		<hr/>
+   </div>     
+        
+   <!--商品详情开始-->    
+   <div class="tuan-detail xq_details" style="display:none">     
+		<div class="blank-10 bg"></div>
+		<hr />
+		<div class="line intro">
+			<h2>抢购介绍<span class="float-right iconfont icon-angle-right"></span></h2>
+			<div class="container">
+				<{$tuandetails.details}>
+			</div>
+		</div>
+		<hr />
+		<div class="blank-10 bg"></div>
+		<hr />
+		<div class="line intro">
+			<h2>抢购须知<span class="float-right iconfont icon-angle-right"></span></h2>
+            
+			<div class="container">
+				<{$tuandetails.instructions}>
+			</div>
+		</div>
+		<hr />
+  </div>      
+  <!--商品详情结束-->    
+ 
+   <!--商品评价开始--> 
+   <div class="tuan-detail xq_details comment_de" style="display:none">  
+   <div class="blank-10 bg"></div>
+         <div class="line intro">
+			<h2>抢购评价</h2>
+		</div>
+        <div id="coupon-list" class="coupon-list2"></div>
+   </div>
+   <!--商品评价结束--> 
+   
+   
+<div class="tuan-detail xq_details">     
+        <div class="blank-10 bg"></div>
+         <div class="line intro">
+			<h2>本店其他抢购<span class="float-right iconfont icon-angle-right"></span></h2>
+		</div>
+        
+        <div class="line intro x12 margin-large-bottom padding-big-bottom">
+         <volist name="tuans" id="item" key="index">
+            <li class="x6 float-left padding" onclick="location='<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>'">
+            <div class="line banner">
+                <img src="<{:config_img($item['photo'])}>">	
+                <div class="title1">
+                    <h1><{:tu_msubstr($item['title'],0,8)}></h1>
+                    <p>现价：<{:round($item['tuan_price']/100,2)}></span>&nbsp;&nbsp;<del>￥<{:round($item['price']/100,2)}></del></p>
+            
+                </div>
+            </div>
+            </li>
+        </volist>
+      </div>
+     </div> 
+</div> 
+ 
+ 
+
+
+
+
+
+
+<nav class="cart-bar">
+		<span class="cart">
+			<em class="float-left">抢购价<span class="text-main text-large" id="all_price">&yen;<{$detail.tuan_price}></span></em>
+			<em class="float-left text-small">元</em>
+		</span>
+		<div class="result">
+        		
+		<span>
+			<span class="txt txt-small radius-small bg-yellow jq_jian">-</span>
+			<span class="txt-border txt-small radius-small border-gray"><span class="txt txt-small radius-small  bg-white jq_num">1</span></span>
+			<span class="txt txt-small radius-small bg-yellow jq_jia">+</span>
+            <input type="hidden" value="1" id="hidden_num" name="num">
+		</span>
+				
+        
+        
+         <if condition="$detail['bg_date'] gt $today">  
+               <a class="button bg-gray" href="javascript:void(0);">即将开抢</a>	
+          <else/>
+              <if condition="$detail.num lt 1 ">
+                 <a class="button bg-gray" href="javascript:void(0);">卖光了</a>	
+              <else/>
+                 <a class="button bg-yellow jq-order">立即购买</a>	
+              </if>
+         </if>  
+          
+		</div>
+	</nav>
+	
+<script>
+		//轮播
+ 		TouchSlide({slideCell:"#focus",titCell:".hd ul", mainCell:".bd ul", effect:"left", autoPlay:true,autoPage:true,switchLoad:"_src"});//轮播
+ 		//查看抢购详情
+        $('.seedeadei').click(function(){
+            $('.xq_details').eq(0).hide();
+            $('.xq_details').eq(1).show();
+            $('body').animate({ scrollTop: 0 }, 0);
+            $('.detail').find('.center').find('span').eq(1).addClass('on');
+            $('.detail').find('.center').find('span').eq(0).removeClass('on');
+        })
+        //评论
+        $('.tbv').click(function(){
+			getloaddata();
+            $('.xq_details').eq(0).hide();
+            $('.xq_details').eq(2).show();
+            $('body').animate({ scrollTop: 0 }, 0);
+            $('.detail').find('.center').find('span').eq(2).addClass('on');
+            $('.detail').find('.center').find('span').eq(0).removeClass('on');
+        })
+		//执行
+		function getloaddata(){
+			loaddata('<{:U("tuan/dianpingloading",array("tuan_id"=>$detail["tuan_id"],"p"=>"0000"))}>', $("#coupon-list"), true);
+		}
+        //顶部导航切换
+        $('.detail .search span').click(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+            var a = $('.detail .search span').index(this);
+            $('.xq_details').eq(a).show().siblings('.xq_details').hide();
+            $('.xq_details').eq(2).show();
+            if($('.detail .search span').eq(2).hasClass('on')){
+                $('.comment_de').show();
+				getloaddata();
+            }else{
+                $('.comment_de').hide();
+            }
+            if($('.detail .search span').eq(1).hasClass('on')){
+                $('.tab-con-wrapper').hide();
+                $('.comment_con').hide();
+            }else{
+                $('.tab-con-wrapper').show();
+                $('.comment_con').show();
+            }
+        });
+		
+		function changetotal(num){
+			var price = "<{$detail.tuan_price}>" ;
+			var tuan_num = "<{$detail.num}>" ;
+			$("#all_price").html((price * num).toFixed(1));
+		}
+		//购物数量
+		$(document).ready(function(){
+			//加数量
+			$(".jq_jia").click(function(){
+				var num = parseInt($(".jq_num").text());
+				if(num < 99){
+					num++;
+				}
+				$(".jq_num").text(num);
+				$("#hidden_num").val(num);
+				changetotal(num);
+			});
+			//减数量
+			$(".jq_jian").click(function(){
+				var num = parseInt($(".jq_num").text());
+				if(num > 1){
+					num--;
+				}
+				$(".jq_num").text(num);
+				$("#hidden_num").val(num);
+				changetotal(num);
+			});
+			//填写数字
+			$(".jq_num").focusout(function(){
+				changetotal($(this).text());
+			});
+		
+		
+		var url = "<{:U('tuan/order')}>";
+		var tuan_id = "<{$detail['tuan_id']}>";
+		
+		
+		$(".jq-order").click(function(){
+			
+			var num2 = parseInt($(".jq_num").text());
+            $.post(url,{tuan_id:tuan_id,num2:num2,},function(data){
+                if(data.status == 'login'){
+                    setTimeout(function (){
+                    window.location.href = "<{:U('passport/login')}>";
+                }, 1000)
+				}else if(data.status == 'mobile'){
+                     check_user_mobile('<{:U("tuan/tuan_sendsms")}>','<{:U("tuan/tuan_mobile")}>');
+                 }else if(data.status == 'success'){
+					var url2 = '/wap/tuan/pay/order_id/'+data.order_id;
+					showWindow('100%','100%',url2,'选择支付方式');
+                }else{
+                    layer.msg(data.msg);
+                }
+           },'json')
+          })
+		  
+		  
+		});	
+</script>
+
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+    wx.config({
+	debug: false,
+	appId: '<{$signPackage.appId}>',
+    timestamp: '<{$signPackage.timestamp}>',
+    nonceStr: '<{$signPackage.nonceStr}>',
+    signature: '<{$signPackage.signature}>',
+	jsApiList: [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'onMenuShareQZone'
+		]
+	});
+
+wx.ready(function (){
+    wx.onMenuShareTimeline({
+            title: '<{$detail["title"]}>."推荐的抢购"',
+        	link: "<{$CONFIG.site.host}><{:U('wap/tuan/detail',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'tuan_id'=>$detail['tuan_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($detail['photo'])}>", 
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+        });
+        //分享给朋友
+        wx.onMenuShareAppMessage({
+            title: '<{$detail["title"]}>."推荐的抢购"',
+            desc: '<{$detail["intro"]}>',
+            link: "<{$CONFIG.site.host}><{:U('wap/tuan/detail',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'tuan_id'=>$detail['tuan_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($detail['photo'])}>", 
+            type: '',
+            dataUrl: '',
+            success: function(){
+				layer.msg('分享成功');
+			},
+            cancel: function(){ 
+				layer.msg('分享失败');
+			}
+        });
+
+});
+
+</script>
+
+
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>	

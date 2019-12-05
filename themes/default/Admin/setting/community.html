@@ -1,0 +1,72 @@
+<include  file='public:header'/>
+<style>.lfTdBt {width: 200px;}</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">其他设置</li>
+        <li class="li2 li3">智慧小区</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>以后小区上面需要配置的，都尽量在这里写！二开qq286099981  门禁购买地址： <a href="https://item.taobao.com/item.htm?id=43474802305" target="_blank">点击购买</a></p>
+    <form  target="x-frame" action="<{:U('setting/community')}>" method="post">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+                <tr>
+                    <td class="lfTdBt">门禁APPID：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[appid]" value="<{$CONFIG.community.appid}>" class="manageInput  w360" />
+                        <code>填写门禁APPID <a href="https://www.wmj.com.cn/open/lock/index.html" target="_blank">申请链接 </a>  <a href="https://item.taobao.com/item.htm?id=43474802305" target="_blank"> 点击购买门禁</a></code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">门禁APPSECRET：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[appsecret]" value="<{$CONFIG.community.appsecret}>" class="manageInput  w360" />
+                        <code>填写门禁APPSECRET</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">门禁AESKEY：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[aeskey]" value="<{$CONFIG.community.aeskey}>" class="manageInput  w360" />
+                        <code>填写门禁AESKEY</code>
+                    </td>
+                </tr>
+                
+                
+                 <tr>
+                    <td class="lfTdBt">小区便民电话有效期：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[community_phone_expiry_date]" value="<{$CONFIG.community.community_phone_expiry_date}>" class="manageInput  w80" />
+                        <code>填写整数，按照天计算，比如填写10就是有效期30天</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">小区便民电话默认排序：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[community_phone_orderby]" value="<{$CONFIG.community.community_phone_orderby}>" class="manageInput  w80" />
+                       <code>用户提交便民电话申请后的默认排名，一般写10-100</code>
+                    </td>
+                </tr>
+                
+                  <tr>
+                    <td class="lfTdBt">便民电话自动审核：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[community_phone_audit]" <eq name="CONFIG.community.community_phone_audit" value="1">checked="checked"</eq> value="1"  />开启</label>
+                        <label><input type="radio" name="data[community_phone_audit]"  <eq name="CONFIG.community.community_phone_audit" value="0">checked="checked"</eq>  value="0"  />不开启</label>
+                        <code>如果选择开启，wap手机提交用户提交后无需管理员审核，否则需要后台审核后才会显示！</code>
+                    </td>
+                </tr>
+               
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </form>
+</div>
+<include  file='public:footer'/>       

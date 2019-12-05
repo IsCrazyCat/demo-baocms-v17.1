@@ -1,0 +1,99 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">股权频道</li>
+        <li class="li2">股权商品</li>
+        <li class="li2 li3">商品列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里是股权商品列表，下面可以进行搜索。</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('stock/create','','添加')}>  
+            </div>
+            <div class="right">
+                <form method="post" action="<{:U('stock/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                                <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="inptText w200" />
+                                <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="sumit">选择商家</a>
+                            </label>
+                        <span>状态：</span>   
+                        <select class="selecttop" name="audit">
+                            <option value="0"  >全部</option>
+                            <option value="-1" <eq name="audit" value="-1">selected="selected"</eq> >未审核</option>
+                            <option value="1" <eq name="audit" value="1">selected="selected"</eq>>已审核</option>
+                        </select>
+                        <span>关键字：</span>  
+                        <input type="text" name="keyword" value="<{$keyword|default=''}>" class="inptText" />
+                        <input type="submit" class="inptButton" value="  搜索" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="stock_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>股权名称</td>
+                        <td>商家</td>
+                        <td>缩略图</td>
+                        <td>股权价格</td>
+                        <td>可使用<{$CONFIG.prestige.name|default='威望'}></td>
+                        <td>会员可见类型</td>
+                        <td>股权库存</td>
+                        <td>已售数量</td>
+                        <td>浏览次数</td>
+                        <td>创建时间</td>
+                        <td>创建IP</td>
+                        <td>是否审核</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_stock_id" type="checkbox" name="stock_id[]" value="<{$var.stock_id}>" /> </td>
+                            <td><{$var.stock_id}></td>
+                            <td><{$var.title}></td>
+                            <td><{$shops[$var['shop_id']]['shop_name']|default='平台发布'}></td>
+                            <td><img src="<{:config_img($var['photo'])}>" class="w80" /></td>
+                            <td><{:round($var['price']/100,2)}></td>
+                            <td><{$var.prestige}></td>
+                            <td>
+                            	<eq name="var.is_local" value="0"> 平台会员 </eq>
+                                <eq name="var.is_local" value="1"> 团队会员 </eq>
+                                <eq name="var.is_local" value="2"> 加盟会员 </eq>
+                            </td>
+                            <td><{$var.num}></td>
+                            <td><{$var.sold_num}></td>
+                            <td><{$var.views}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><{$var.create_ip}></td>
+                            <td><eq name="var.audit" value="0">等待审核<else/>正常</eq></td>
+                        <td>
+                            <{:BA('stock/edit',array("stock_id"=>$var["stock_id"]),'编辑','','remberBtn')}>
+                            <{:BA('stock/delete',array("stock_id"=>$var["stock_id"]),'删除','act','remberBtn')}>
+                            <eq name="var.audit" value="0"> <{:BA('stock/audit',array("stock_id"=>$var["stock_id"]),'审核','act','remberBtn')}> </eq>
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('stock/delete','','批量删除','list','a2')}>
+                    <{:BA('stock/audit','','批量审核','list','remberBtn')}>
+                </div>
+            </div>
+        </form>
+    </div>
+    <include  file='public:footer'/>       

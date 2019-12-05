@@ -1,0 +1,34 @@
+<include  file='public:header'/>   
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:u('member/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			会员等级购买记录
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+<style>
+	ul{padding-left:0px;}
+	.list-media-x li dd.zhong, .list-media-x li{border-bottom: 0px solid #eee;}
+</style>
+
+<ul id="shangjia_tab">
+	<li class="x6"><a href="<{:U('information/buy')}>">购买会员等级</a></li>
+    <li class="x6"><a href="<{:U('information/buylogs')}>" class="on">购买等级记录</a></li>
+</ul>
+
+<div class="list-media-x" id="list-media">
+<div class="blank-10 bg"></div>
+	<ul></ul>
+</div>
+<script>
+	$(document).ready(function(){        
+		loaddata('<{$nextpage}>', $("#list-media ul"),true);
+	});
+</script>
+
+<include file='public:footer'/>   

@@ -1,0 +1,209 @@
+<include file='public:header'/> 
+<style>
+.top-fixed .top-title {width: 70%;}
+.cate-wrap{font-size:0;background-color:#fff;border-bottom:1px solid #f3f3f3;width:100%;overflow:hidden;}
+.cate-wrap li{box-sizing:border-box;width:25%;float:left}
+.icon2{color:#555;font-size:16px;text-align:center;display:block;padding:.6rem 0}
+.cate-img{background-size:6rem auto;display:inline-block}
+.cate-img img{width:2.6rem;height:2.6rem}
+.cate-desc{display:block}
+.cate-desc{padding-top:.4rem}
+.filter2 .tab li a em {margin-left:0px;}
+</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<if condition="empty($keyword)">
+        	<div class="top-title">农家乐频道</div>
+        </if>
+		<div class="top-search" style="<if condition="empty($keyword)">display:none;</if>">
+			<form method="post" action="<{:U('farm/index')}>">
+				<input name="keyword" placeholder="<{$keyword|default='输入农家乐的关键字'}>"  />
+				<button type="submit" class="iconfont icon-search"></button> 
+			</form>
+		</div>
+        <if condition="empty($keyword)">
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+		</div>
+        </if>
+        <div id="allmap" style="display:none;"></div>
+	</header>
+  	<script type="text/javascript">
+	$(function(){
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+	});
+	</script>	
+    
+       <!--广告位开始-->
+     	<div id="tudou-slide" class="tudou-slide">
+			<div class="hd"><ul></ul></div>
+			<div class="bd">
+				<ul>
+					<calldata mdl="Ad" where=" closed=0 AND site_id=32 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
+						<li><a href="<{:U('wap/ad/click',array('ad_id'=>$item['ad_id'],'aready'=>2))}>"><img src="<{:config_img($item['photo'])}>" /></a></li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+        <script>
+			TouchSlide({
+				slideCell: "#tudou-slide",
+				titCell: ".hd ul",
+				mainCell: ".bd ul",
+				effect: "left",
+				autoPlay: true,
+				autoPage: true,
+				switchLoad: "_src",
+			});
+		</script>
+    <!--广告位END-->  
+	           
+    <if condition="empty($scity_id) && empty($group_id) && empty($fp) && empty($tp) && empty($cate_id) && empty($keyword)">
+        <ul class="cate-wrap bbOnepx">
+            <volist name="cate" id="c">
+               <li>
+                 <a class="icon2" href="<{:U('farm/index',array('cate_id'=>$key))}>" tongji_tag="m_home_job_new">
+                    <span class="cate-img" id="job"><img src="/static/default/wap/image/farm/fuct<{$key}>.png" /></span>
+                    <span class="cate-desc"><{$c}></span>
+                 </a>
+              </li>
+            </volist>
+            <li>
+                <a class="icon2" href="<{:U('farm/index')}>" tongji_tag="m_home_job_new">
+                    <span class="cate-img" id="job"><img src="/static/default/wap/image/farm/fuct8.png"></span>
+                    <span class="cate-desc">更多</span>
+                </a>
+            </li>
+        </ul>
+    </if>
+ 
+    <div id="filter2" class="filter2">
+    <ul class="tab clearfix">
+       <li class="item">
+        <a href="javascript:void(0);"> 
+            <if condition="!empty($scity_id)">
+              <span id="str_b_node" style="color:#f60"><{$citys[$scity_id]['name']}></span>
+            <else/>
+                <span id="str_b_node">选择城市</span>
+            </if>
+            <em></em>
+        </a>
+      </li>
+       <li class="item">
+        <a href="javascript:void(0);"> 
+            <if condition="!empty($group_id)">
+            	<volist name="group" id="gp">
+                	<if condition="$group_id eq $i">
+                		<span id="str_b_node" style="color:#f60"> <{$gp}></span>
+                    </if>
+                </volist>
+            <else/>
+                <span id="str_b_node">适合人群</span>
+            </if>
+            <em></em>
+        </a>
+      </li>
+       <li class="item">
+            <a href="javascript:void(0);">
+            <if condition="empty($fp) && empty($tp)">
+                <span id="str_e_node">选择价格</span>
+            <elseif condition='$fp eq 0 && $tp eq 200'/>
+                <span id="str_b_node" style="color:#f60;">200以下</span>
+            <elseif condition='$fp eq 200 && $tp eq 300'/>
+                <span id="str_b_node" style="color:#f60;">200-300元</span>
+            <elseif condition='$fp eq 300 && $tp eq 500'/>
+            	<span id="str_b_node" style="color:#f60;">300-500元</span>
+            <elseif condition='$fp eq 500 && $tp eq 0'/>
+                <span id="str_b_node" style="color:#f60;">500元以上</span>
+            </if>
+            <em></em>
+            </a>
+      </li>
+      
+      <li class="item">
+        <a href="javascript:void(0);"> 
+            <if condition="!empty($cate_id)">
+            	<volist name="cate" id="ct">
+                	<if condition="$cate_id eq $i">
+                		<span id="str_b_node" style="color:#f60"> <{$ct}></span>
+                    </if>
+                </volist>
+            <else/>
+                <span id="str_b_node">游玩项目</span>
+            </if>
+            <em></em>
+        </a>
+      </li>
+      
+    </ul>
+    
+
+                
+                
+    <div class="inner" style=" display:none">
+      <ul>
+       <li><a <if condition='empty($scity_id)'>style="color:red;"</if> href="<{:LinkTo('farm/index',array('group_id'=>$group_id,'fp'=>$fp,'tp'=>$tp,'cate_id'=>$cate_id))}>">全部</a></li>
+       <volist name='citys' id='c'>
+       		<li><a <eq name="c.city_id" value="$scity_id">style="color:red;"</eq> href="<{:LinkTo('farm/index',array('scity_id'=>$c['city_id'],'group_id'=>$group_id,'fp'=>$fp,'tp'=>$tp,'cate_id'=>$cate_id))}>"><{$c.name}></a></li>
+       </volist>
+       </ul>
+    </div>
+    
+    
+    <div class="inner" style=" display:none">
+      <ul>
+       <li><a <if condition='empty($group_id)'>style="color:red;"</if> href="<{:LinkTo('farm/index',array('scity_id'=>$scity_id,'fp'=>$fp,'tp'=>$tp,'cate_id'=>$cate_id))}>">全部</a></li>
+       <volist name="group" id="gp">
+       		<li><a <eq name="key" value="$group_id">style="color:red;"</eq> href="<{:LinkTo('farm/index',array('scity_id'=>$scity_id,'group_id'=>$key,'fp'=>$fp,'tp'=>$tp,'cate_id'=>$cate_id))}>"><{$gp}></a></li>
+       </volist>
+       </ul>
+    </div>
+    
+    <div class="inner" style=" display:none">
+      <ul>
+       <li><a <if condition='empty($fp)&&empty($tp)'>style="color:red;"</if> href="<{:LinkTo('farm/index',array('scity_id'=>$scity_id,'group_id'=>$group_id,'cate_id'=>$cate_id))}>">全部</a></li>
+       <li><a <if condition='$fp eq 0 && $tp eq 200'> style="color:red;"</if> href="<{:LinkTo('farm/index',array('scity_id'=>$scity_id,'group_id'=>$group_id,'fp'=>0,'tp'=>200,'cate_id'=>$cate_id))}>">200元以下</a></li>
+       <li><a <if condition='$fp eq 200 && $tp eq 300'> style="color:red;"</if> href="<{:LinkTo('farm/index',array('scity_id'=>$scity_id,'group_id'=>$group_id,'fp'=>200,'tp'=>300,'cate_id'=>$cate_id))}>">200-300元</a></li>
+       <li><a <if condition='$fp eq 300 && $tp eq 500'> style="color:red;"</if> href="<{:LinkTo('farm/index',array('scity_id'=>$scity_id,'group_id'=>$group_id,'fp'=>300,'tp'=>500,'cate_id'=>$cate_id))}>">300-500元</a></li>
+       <li><a <if condition='$fp eq 500 && $tp eq 0'> style="color:red;"</if> href="<{:LinkTo('farm/index',array('scity_id'=>$scity_id,'group_id'=>$group_id,'fp'=>500,'tp'=>0,'cate_id'=>$cate_id))}>">500元以上</a></li>
+      
+       </ul>
+    </div>
+    
+    <div class="inner" style=" display:none">
+      <ul>
+       <li><a <if condition='empty($cate_id)'>style="color:red;"</if> href="<{:LinkTo('farm/index',array('scity_id'=>$scity_id,'group_id'=>$group_id,'fp'=>$fp,'tp'=>$tp))}>">全部</a></li>
+       <volist name="cate" id="ct">
+       		<li><a <eq name="key" value="$cate_id">style="color:red;"</eq> href="<{:LinkTo('farm/index',array('scity_id'=>$scity_id,'group_id'=>$group_id,'fp'=>$fp,'tp'=>$tp,'cate_id'=>$key))}>"><{$ct}></a></li>
+       </volist>
+       </ul>
+    </div>
+    
+    
+      
+      <div id="parent_container" class="inner_parent" style="display:none;"><div class="innercontent"></div></div>
+      <div id="inner_container" class="inner_child" style="display:none;"><div class="innercontent"></div> </div>
+ </div>
+<!--end-->    
+<div id="fullbg" class="fullbg" style="display: none; height: 250px;"><i class="pull2"></i></div>
+
+	<ul id="shop-list" class="shop-list"></ul>
+	<script>
+		showFilter({ibox:'filter2',content1:'parent_container',content2:'inner_container',fullbg:'fullbg'});
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+
+<include file="public:footer"/>

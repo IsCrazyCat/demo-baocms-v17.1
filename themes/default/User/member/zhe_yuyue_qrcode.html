@@ -1,0 +1,27 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('member/zhe_yuyue',array('aready'=>0))}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			五折卡预约
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+<div class="panel-list" style="background: #FBFBFB;">
+	<ul><li><a href="javascript:;">验证码：<em style="font-size:16px; font-weight:bold; color:#F00 "><{$detail['code']}></em></a></li></ul>
+</div>
+
+ <div class="container">           
+	<div class="padding-large">
+            <img width="100%" src="__ROOT__<{$file}>" />
+            <p>消费的时候请出示该二维码给您的商家。</p>
+	</div>
+</div>
+
+<div class="container text-center">
+      <a class="button button-block button-big bg-dot" href="<{:U('member/zhe_yuyue_detail',array('yuyue_id'=>$detail['yuyue_id']))}>">订单详情</a>  
+</div>
+<include  file='public:footer'/>

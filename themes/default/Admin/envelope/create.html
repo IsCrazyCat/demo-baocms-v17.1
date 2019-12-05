@@ -1,0 +1,85 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2">红包</li>
+        <li class="li2 li3">新增红包</li>
+    </ul>
+</div>
+<form  target="x-frame" action="<{:U('envelope/create')}>" method="post">
+    <div class="mainScAdd ">
+
+        <div class="tableBox">
+
+
+         <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+         
+         
+         
+         
+          	<tr>
+                <td class="lfTdBt">红包类型：</td>
+                <td class="rgTdBt">
+                	<volist name="types" id="var">
+                    	<input type="radio" name="data[type]" value="<{$i}>" <if condition="$detail['type'] eq $i">checked="checked"</if> /><{$var}>
+					</volist>
+                </td>
+            </tr>  
+          	<tr>
+                <td  class="lfTdBt">商家：</td>
+                <td class="rgTdBt">
+                    <div class="lt">
+                        <input type="hidden" id="shop_id" oninput="alert(this.value);" name="data[shop_id]" value="<{$detail.shop_id|default=''}>"/>
+                        <input type="text" id="shop_name" name="shop_name" value="" class="scAddTextName sj" />
+                    </div>
+                    <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="seleSj">选择商家</a>
+                </td>
+          	</tr>
+                
+                
+           <tr>
+                <td  class="lfTdBt">红包名称：</td>
+                <td class="rgTdBt">
+                <input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput"/>
+                <code>红包名称</code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td  class="lfTdBt">红包简介：</td>
+                <td class="rgTdBt">
+                     <input type="text" name="data[intro]" value="<{$detail.intro|default=''}>" class="manageInput"  />
+                     <code>简单些红包界面，用于领取页面说明，不超过30字</code>
+                </td>
+            </tr>
+            <tr>
+                <td class="lfTdBt">红包总额：</td>
+                <td class="rgTdBt">
+                <input type="text" name="data[prestore]" value="<{:round($detail['prestore']/100,2)}>" class="manageInput" />
+                <code>这里是您打算发布多少金额的红包，用户领取完成后，红包状态自动结束，发布的时候自动扣除余额，您当前余额: <{:round($MEMBER['money']/100,2)}></code>
+                </td>
+            </tr>
+            <tr>
+                <td  class="lfTdBt">红包领取比例：</td>
+                <td class="rgTdBt">
+                <input type="text" name="data[ratio]" value="<{$detail.ratio|default=''}>" class="manageInput" />%
+                <code>百分比，1-10，支持小数点，用户领取红包时候金额不够的时候自动结束，剩余金额退到商家对应的账户中</code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td  class="lfTdBt">开始时间：</td>
+                <td class="rgTdBt">
+                     <input type="text" name="data[bg_date]" value="<{$detail.bg_date|default=''}>" onfocus="WdatePicker();" class="manageInput" />
+                     <code>红包领取开始时间，不到这个时间用户不能领取</code>
+                </td>
+           </tr>
+           
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       

@@ -1,0 +1,100 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">教育</li>
+        <li class="li2">教育商家</li>
+        <li class="li2 li3">课程列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里是教育商家的课程列表，这里分为2种，一种是试课，添加的时候请选择类型</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('edu/course_create',array('edu_id'=>$detail['edu_id']),'添加课程')}>
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('edu/course',array('edu_id'=>$detail['edu_id']))}>">
+                    <div class="seleHidden" id="seleHidden">
+                    <label>
+                                <span>授课类型：</span>
+                                <select class="select w120" name="type">
+                                    <option <eq name="type" value="999">selected="selected"</eq> value="999">请选择</option>
+                                    <option <eq name="type" value="0">selected="selected"</eq>  value="0">完整课程</option>
+                                    <option <eq name="type" value="1">selected="selected"</eq>  value="1">试课</option>
+                                </select>
+                    </label>
+                    <label>
+                                <span>分类筛选</span>
+                                <select id="cate_id" name="cate_id" class="select w100">
+                                    <option value="0">请选择...</option>
+                                    <foreach name="cates" item="var">
+                                        <eq name="var.parent_id" value="0">
+                                        <option value="<{$var.cate_id}>"  <eq name="var.cate_id" value="$cate_id">selected="selected"</eq> ><{$var.cate_name}></option>                
+                                        <foreach name="cates" item="var2">
+                                            <eq name="var2.parent_id" value="$var.cate_id">
+                                            <option value="<{$var2.cate_id}>"  <eq name="var2.cate_id" value="$cate_id">selected="selected"</eq> > &nbsp;&nbsp;<{$var2.cate_name}></option>
+                                            </eq>
+                                        </foreach>
+                                        </eq>
+                                    </foreach>
+                                </select>
+                            </label>
+                        <span>课程名称</span>
+                        <input type="text" name="keyword" value="<{$keyword}>" class="inptText" /><input type="submit" value="   搜索"  class="inptButton" />
+                    </div> 
+                </form>
+        </div>
+        
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="course_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>名称</td>
+                    <td>类别</td>
+                    <td>封面</td>
+                    <td>类型</td>
+                    <td>原价</td>
+                    <td>课程价格</td>	
+                    <td>试课价格</td>	
+                    <td>销售量</td>			
+                    <td>入住时间</td>
+                    <td class="w360">操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr <eq name="var.type" value="1">style="background:#FFECF6;"</eq>>
+                        <td><input class="child_course_id" type="checkbox" name="course_id[]" value="<{$var.course_id}>" /></td>
+                        <td><{$var.course_id}></td>
+                        <td><{$var.title}></td>
+                        <td><{$cates[$var['cate_id']]['cate_name']}></td>
+                        <td><img src="<{:config_img($var['photo'])}>" class="w80" /></td>
+                        <td><eq name="var.type" value="0">课程<else/><a style="color:#F00">试课</a></eq> </td>
+                        <td>&yen;<{:round($var['price']/100,2)}>元</td>
+                        <td>&yen;<{:round($var['course_price']/100,2)}>元</td>
+                        <td><eq name="var.type" value="1"><a style="color:#F00">&yen;<{:round($var['test_price']/100,2)}>元</a><else/>不支持试课</eq> </td>
+                        <td><{$var.sale}></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                    <td>
+                    <{:BA('edu/course_edit',array("edu_id"=>$var["edu_id"],"course_id"=>$var["course_id"]),'编辑课程','','remberBtn')}>
+                    <eq name="var.audit" value="0"> 
+						<{:BA('edu/course_audit',array("edu_id"=>$var["edu_id"],"course_id"=>$var["course_id"]),'审核课程','act','remberBtn')}>
+                    </eq>
+                    <{:BA('edu/course_delete',array("edu_id"=>$var["edu_id"],"course_id"=>$var["course_id"]),'删除课程','act','remberBtn')}>
+                    </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

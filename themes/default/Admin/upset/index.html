@@ -1,0 +1,60 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">上传设置</li>
+		<li class="li2 li3">配置列表</li>
+    </ul>
+</div>
+<style>
+.main-jsgl .jsglNr, .mainScAdd .jsglNr { border: 0px solid #dbdbdb;}
+</style>
+<div class="main-jsgl">
+    <p class="attention"><span>注意：</span>只能开启一种上传方式，不能都设置为启用状态！不会配置联系：Q.28.60.99.98.1</p>
+    <div class="jsglNr">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>名称</td>
+                        <td>参数</td>
+                        <td>是否开启(0关闭1开启)</td>                
+                        <td class="w120">操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.id}></td>
+                            <td><{$var.type}></td>
+                            <php>
+                            $config = (json_decode($var['para'], true)); 
+                            $secrectKey = substr_replace($config['secrectKey'],'********************',8,20);
+                            </php>
+                            <td>
+                            <if condition="!empty($config['accessKey'])">
+                            	 accessKey: <{$config.accessKey}><br/>
+                            </if>
+                            <if condition="!empty($config['secrectKey'])">
+                            	 secrectKey:<{$secrectKey}><br/>
+                            </if>
+                            <if condition="!empty($config['domain'])">
+                            	 域名:<{$config.domain}><br/>
+                            </if>   
+                            <if condition="!empty($config['bucket'])">
+                            	 空间名:<{$config.bucket}><br/>
+                            </if>    
+                            <if condition="!empty($config['timeout'])">
+                            	 超时时间: <{$config.timeout}>
+                            </if>     
+                            </td>
+                            <td><{$var.status}></td>            
+                            <td>
+                                <{:BA('upset/edit',array("id"=>$var["id"]),'编辑','','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+            </div>
+    </div>
+</div>
+<include  file='public:footer'/>       
+

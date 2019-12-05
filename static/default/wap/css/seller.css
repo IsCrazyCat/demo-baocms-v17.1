@@ -1,0 +1,70 @@
+.fabu-form .row{padding:10px;border-bottom:thin solid #eee}
+.fabu-form .row .x3{color:#999}
+.fabu-form .text-input{border:none;width:100%}
+.fabu-form .text-select{border:none;width:100%;background:#fff!important}
+.fabu-form .text-area{width:100%;border:thin solid #eee;resize:none}
+
+.list-media-x ul{padding:0;list-style:none}
+.list-media-x li{border-bottom:thin solid #eee;}
+.list-media-x p{margin:0}
+.list-media-x li dt{display:block;padding:5px 10px;overflow: hidden;width:100%;border-bottom:1px #eee solid}
+.list-media-x li dl{display:block;padding:0 10px;height:50px;line-height:350px;width:100%}
+.list-media-x li dl i{float:right;color:#999}
+.list-media-x li dd.zhong{display:block;padding:10px;overflow:hidden;width:100%;border-bottom:1px #eee solid}
+.list-media-x li dd.zhong span.album{ font-size:12px; color:#FFF;margin-right: 0px;position:absolute;right:10%;bottom:0;width:45px;height:20px;line-height:20px;text-align:center;background: #06c1ae;}
+.list-media-x li dd.zhong a img{padding-bottom:0}
+.list-media-x li dt a i{font-style:normal;float:right}
+.list-media-x li dt a{font-weight:400;}
+.list-media-x li dt span{font-weight:400;}
+
+
+.index_floor_lou{width:100%;overflow: hidden;background:#FFF;border-bottom:1px solid #dcdcdc}
+.floor_body {width:100%; overflow:hidden;}
+.floor_body h2{height: 35px; line-height: 35px;font-size: 16px;font-weight: normal;color:#7f7f7f; border-bottom:1px solid #eceaea;}
+.floor_body h2 em{width:3px; height:15px; background:#E4010D; margin-right:5px; margin-top:10px; float:left;}
+.geng{width:80px;height:25px; float:right; padding-top:5px;}
+.geng a{display:block; float:left;width:70px; line-height:25px; height:25px;color:#7f7f7f; font-size:13px;}
+.geng span{display:block;float:left; width:15px;height: 25px;background-size: auto 280px;background-position: 0 -248px;}
+.floor_body ul{ width:95%; overflow:hidden; margin:auto;display: flex;-webkit-flex-flow: row;align-items: flex-end;flex-wrap: wrap;}
+.floor_body ul li {width: 33.33%;display: inline-block; text-align: center;margin-top: 10px;}
+.floor_body ul li .index_pro{ width:95%; overflow:hidden; margin:auto;}
+.timerBox{ width:100%; height:20px; position:absolute; bottom:0px; text-align:center;background-color:rgba(49,50,51,0.4); font-size:12px; color:#FFF; line-height:20px;}
+.floor_body ul li .products_kuang {width:100%; margin:auto;overflow: hidden; position:relative;}
+.floor_body ul li .products_kuang img{display:block;width:100%; margin:auto}
+.floor_body ul li .goods_name {font-size:12px; width:100%; margin:auto; color:#999; height:30px; overflow:hidden; margin:auto; cursor:hand;text-align:left; line-height:150%; padding-top:8px; padding-bottom:8px;}
+.floor_body ul li .price{width:100%; overflow:hidden; margin:auto; position:relative; border-top:1px solid #eeeeee; margin-top:5px;}
+.floor_body ul li .price .price_pro{  width:100%;  display: block;font-size:14px; color: #F23015; height:40px; line-height:40px; text-align:left}
+.floor_body ul li .btns{ position:absolute; display:block;right:5px;height:25px;width:25px;background: #f23; border-radius:50%; bottom:8px;}
+.floor_body ul li .btns img{ display:block; width:25px;height:25px; }
+
+.worker_container{margin: 0 auto;padding: 10px;}
+.worker_line{ overflow:hidden;}
+.worker_detail-base { margin:5px 0;}
+.worker_detail-base p{margin:0;color:#999;}
+.worker_detail-base h1{font-size:16px;font-weight:700;margin-bottom:5px;}
+.worker_detail-base .pic img{width:80%;height:80%;position:relative;border-radius: 100%;}
+.worker_detail-base .pic span.album{position: absolute; right:10%;bottom: 0;width: 20px;height: 20px;line-height: 20px;text-align: center;background-color: rgba(0,0,0,.5);color: #fff;-webkit-transform: scale(.75);-moz-transform: scale(.75);-ms-transform: scale(.75);-o-transform: scale(.75); transform: scale(.75);-webkit-transform-origin: 100% 100%;-moz-transform-origin: 100% 100%;-ms-transform-origin: 100% 100%;-o-transform-origin: 100% 100%; transform-origin: 100% 100%;}
+
+
+.index-tab .tab-body p {margin-bottom:5px;line-height:inherit;}
+.index-tab .tab-nav {padding:0;text-align:center;}
+.index-tab .tab-nav a{border:none!important;padding:10px 10px!important;}
+.index-tab .tab-nav .active a{border-bottom:1px solid #F60!important;}
+.index-tab .tab-body{border-top:1px solid #dedede;margin-top:-1px;padding-top:0px;}
+.index-tab .tab-body .more a{ display: block;text-align: center;padding: 10px 0px 0px 5px;background-color: #fff;}
+.index-tab .tab-body ul{padding:5px;list-style:none;overflow:hidden;}
+.index-tab .tab-body li{padding:5px;}
+.index-tab .tab-body li img{width:100%;border-radius:3px;}
+
+.index-tuan ul{list-style:none;padding:0;}
+.index-tuan .container1{padding:10px 0;border-bottom:thin solid #dedede;overflow: hidden;}
+.index-tuan .container1:last-child{border:none;}
+.index-tuan .container1 img{float:left;overflow:hidden;width:68px; height:68px;}
+.index-tuan .container1 .des {padding-left:10px;}
+.index-tuan .container1 .des h5{height:20px;line-height:20px;overflow:hidden;}
+.index-tuan .container1 .des .intro{color:#999;overflow:hidden;margin:0;}
+.index-tuan .container1 .des .info {margin:0;overflow:hidden;}
+.index-tuan .container1 .des .info del{color:#999;margin-left:20px;}
+.index-tuan .container1 .des .info em{font-size:14px;}
+.index-tuan .container1 .des .intro2{background: #ff9933;position: absolute;top: 10px;right: 10px;color: #ffffff;text-align: center;font-size: 13px;border-radius: 5px;height: 30px;line-height: 30px;width: 30px;}
+.index-tuan .container1 .des .intro2:before{content: '';position: absolute;left: 0;bottom: -4px;width: 0px;height: 0px;border: 6px solid transparent;border-left-color: #ff9933;}

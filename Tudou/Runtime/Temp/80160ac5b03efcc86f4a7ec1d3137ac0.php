@@ -1,0 +1,3 @@
+<?php
+//000000000600a:1:{i:0;a:16:{s:5:"ad_id";s:3:"217";s:7:"site_id";s:2:"65";s:7:"city_id";s:1:"0";s:7:"user_id";N;s:5:"title";s:12:"小区家政";s:8:"link_url";s:34:"http://www.upgrade.com/wap/appoint";s:5:"photo";s:54:"http://images4.5maiche.cn/2018-01-14_5a5b10089ad16.png";s:4:"code";s:24:"最好的技师在这里";s:17:"prestore_integral";s:1:"0";s:5:"click";s:1:"0";s:9:"is_target";s:1:"0";s:7:"bg_date";s:10:"2018-01-14";s:8:"end_date";s:10:"2020-01-16";s:10:"reset_time";N;s:6:"closed";s:1:"0";s:7:"orderby";s:1:"4";}}
+?>

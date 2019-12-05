@@ -1,0 +1,69 @@
+<include file="public:header"/>
+
+<style>
+.user-block-top{display:block;overflow:hidden;background:#FFF;}
+.user-block-top>h2{padding:0 12px;border-bottom:1px solid #F1F1F1;font-size:16px;line-height:40px}
+.user-block-top>h2>a{display:block}
+.user-block-top>ul>li{float:left!important;padding:10px 0;width:20%;text-align:center;font-size:14px}
+.user-block-top>ul>li>a{display:block;border-left:1px solid #F1F1F1;font-size:12px}
+.user-block-top>ul>li:first-child>a{border-left:0}
+.user-block-top>ul>li>a>i{display:block;color:#999;font-size:26px;line-height:30px}
+.user-panel-list{display:flex;padding-bottom:10px;}
+.user-panel-list ul{padding:0;list-style:none;width:100%;}
+.user-panel-list li{float:left;overflow:hidden;padding:.2rem 0;width:25%;height:75px;border-right:thin solid #eee;border-bottom:thin solid #eee;background:#fff;text-align:center}
+.user-panel-list li.on{border-right:0px solid #eee;}
+.user-panel-list li i{float:right;color:#999}
+.user-panel-list li span{display:inline-block;margin:2px;width:2rem;height:2rem;vertical-align:top;font-size:24px}
+.user-panel-sub li p{height:1rem;color:#888;font-size:12px;line-height:1rem}
+</style>
+
+
+
+    
+    
+<div class="member-top">
+    <div class="member-info">
+    <div class="user-avatar"> 
+    <img src="<{:config_img($MEMBER['face'])}>"> 
+    </div>
+    <div class="user-name"> 
+    <span>
+                    <if condition="!empty($MEMBER['nickname'])">
+                    <{$MEMBER.nickname}>
+                    <else/>
+                    <{$MEMBER.account}>
+                    </if>
+                    <if condition="!empty($ranks[$MEMBER['rank_id']]['rank_name'])">
+                    <sup><{$ranks[$MEMBER['rank_id']]['rank_name']}></sup>
+                    </if>
+    </div>
+    </div>
+        <div class="member-collect">
+            <span><a href="<{:u('money/index')}>"><em>&yen;<{:round($MEMBER['money']/100,2)}></em><p>我的余额</p></a> </span>
+            <span><a href="<{:U('profit', array('status'=>1))}>"><em>&yen;<{:round($profit_ok/100,2)}></em><p>我的分成</p></a> </span>
+            <span><a href="<{:U('profit', array('status'=>2))}>"><em>&yen;<{:round($profit_cancel/100,2)}></em><p>已取消的分成</p></a> </span>
+        </div>
+    </div>   
+</div>
+
+
+<div class="user-block-top margin-top">
+    <h2><a href="<{:U('eleorder/index')}>">常用操作</a></h2>
+    <div class="user-panel-list">
+        <ul>
+            <li><a href="<{:U('wap/seller/shop', array('user_id'=>$MEMBER['user_id']))}>"><span class="iconfont icon-shangjia2"></span><p>我的店铺</p></a></li>
+            <li><a href="<{:U('wap/seller/set', array('user_id'=>$MEMBER['user_id']))}>"><span class="iconfont icon-guanli"></span><p>店铺设置</p></a></li>
+            <li><a class="text-yellow"  href="<{:U('wap/seller/goods', array('user_id'=>$MEMBER['user_id']))}>"><span class="iconfont icon-iconuser text-yellow"></span><p>我的分成商品</p></a></li>
+            <li><a href="<{:U('profit', array('status'=>1))}>"><span class="iconfont icon-youhui"></span><p>推广订单</p></a></li>
+            <li><a href="<{:U('profit', array('status'=>1))}>"><span class="iconfont icon-kecheng"></span><p>佣金明细</p></a></li>
+            <li><a class="text-dot"  href="<{:U('subordinate')}>"><span class="iconfont icon-fangxiangxia text-dot"></span><p>我的下级</p></a></li>
+            <li><a class="text-yellow" href="<{:U('superior')}>"><span class="iconfont icon-shouqi text-yellow"></span><p>我的上级</p></a></li>
+            <li><a class="text-blue" href="<{:U('wap/api/qrcode', array('fuid'=>$MEMBER['user_id']))}>"><span class="iconfont icon-erweima1 text-blue"></span><p>我的二维码</p></a></li>
+            <li><a href="<{:U('wap/api/poster', array('fuid'=>$MEMBER['user_id']))}>"><span class="iconfont icon-shouji2"></span><p>我的海报</p></a></li>
+        </ul>
+    </div>
+</div>
+
+
+
+<include  file='public:footer'/>

@@ -1,0 +1,120 @@
+    <footer class="foot-fixed">		
+    <a class="foot-item   <if condition="($act eq 'index') AND ($ctl eq 'index')">active</if>" href="<{:U('index/index')}>">		
+    	<span class="iconfont icon-shouye"></span>		
+        	<span class="foot-label">首页</span>		
+            </a>
+            		
+            <if condition="$open_running eq '1' ">
+            
+            <a class="foot-item  <if condition="($ctl eq 'lists') AND ($act neq 'express')">active</if>" href="<{:U('lists/scraped')}>">		
+            <span class="iconfont icon-trlogonline"></span><span class="foot-label">配送</span></a>		
+            
+            <a class="foot-item <eq name="ctl" value="running">active</eq>" href="<{:U('running/index',array('aready'=>1))}>">			
+            <span class="iconfont icon-trlogonline"></span><span class="foot-label">跑腿</span></a>	
+            
+            <a class="foot-item <eq name="act" value="money">active</eq>" href="<{:U('money/index')}>">			
+            <span class="iconfont icon-maidan"></span><span class="foot-label">资金</span></a>
+            
+            <else/>
+            
+            
+            <a class="foot-item <eq name="ctl" value="scraped">active</eq>" href="<{:U('lists/scraped')}>">		
+            <span class="iconfont icon-fabu"></span><span class="foot-label">抢新单</span></a>		
+            
+            <a class="foot-item <eq name="ctl" value="distribution">active</eq>" href="<{:U('lists/distribution')}>">			
+            <span class="iconfont icon-fabu"></span><span class="foot-label">配送中</span></a>	
+            
+            <a class="foot-item <eq name="ctl" value="finished">active</eq>" href="<{:U('lists/finished')}>">			
+            <span class="iconfont icon-fabu"></span><span class="foot-label">已完成</span></a>
+            	
+            </if>
+            	
+            
+            <a class="foot-item <eq name="act" value="set">active</eq>" href="<{:U('set/index')}>">			
+            <span class="iconfont icon-guanli"></span><span class="foot-label">设置</span></a>
+          
+            
+            </footer>	
+        <iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+        
+        
+  <script src="/static/default/wap/js/jquery.timers-1.2.js"></script>        
+  <script type="text/javascript" language="javascript">
+	  $(document).ready(function(){
+		$('<audio id="btnMp3"><source src="/static/default/mp3/2.mp3" type="audio/mpeg"></audio>').appendTo('body');
+		function showReminds(){
+		   var id = "{$DELIVERY['id']}";
+		   var uid = "{$DELIVERY['user_id']}";
+		   $.post('<{:U("app/api/notice")}>',{id:id,uid:uid},function(result){
+			  if(result.code == '1'){
+				 layer.msg(result.msg,{
+					 time: 3000,
+					 btn: ['我知道了']
+				});
+				$('#btnMp3')[0].play();
+			  }else{
+				 layer.msg(result.msg,{icon:6});
+			  }
+		  },'json');
+		}
+		
+		$('body').everyTime('1das','B',function(){
+			showReminds()//执行函数
+		},5);
+	})
+</script>
+   
+   
+ 
+<if condition="empty($lat)">
+<script>  
+doLocation();  
+//获取距离
+function initLocation(){
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r) {
+	 	if(this.getStatus() === 0) {
+			//console.log(r.address);
+	  		var address = r.address.province + r.address.city + r.address.district + r.address.street;
+	  		$.post("/delivery/index/dingwei.html",{lat:r.point.lat,lon:r.point.lng,address:address,type:'browser'},function(response){
+	  			$("span[attr-ctrl='distance']").each(function(){   
+  					var lat = $(this).attr("attr-lat");
+  					var lon = $(this).attr("attr-lon");
+  					d = getGreatCircleDistance(lat,lon,response.lat,response.lon);
+  					$(this).html(d);
+	  			});
+	  		});
+		}else {
+	    	layer.msg('定位失败，原因：' + this.getStatus(),2000,2);
+		}        
+	},{enableHighAccuracy: true});
+}
+function doLocation(){
+	var script = document.createElement("script");
+	script.src ="https://api.map.baidu.com/api?v=2.0&ak=te1e01OcptQgwrg4SyBdPx6h&callback=initLocation";
+	document.body.appendChild(script);
+}
+
+//计算距离
+var EARTH_RADIUS = 6378137.0; 
+var PI = Math.PI;
+function getRad(d){
+    return d*PI/180.0;
+}
+//定为换算
+function getGreatCircleDistance(lat1,lng1,lat2,lng2){
+    var radLat1 = getRad(lat1);
+    var radLat2 = getRad(lat2);
+    var a = radLat1 - radLat2;
+    var b = getRad(lng1) - getRad(lng2);
+    var s = 2*Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+    s = s*EARTH_RADIUS;
+    s = Math.round(s*10000)/10000000.0;
+    s = s.toFixed(2) + 'KM';
+    return s;
+}
+</script>
+</if>
+
+      </body>
+   </html>

@@ -1,0 +1,62 @@
+<include file="public:header"/>
+<script src="/static/default/wap/other/roll.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		发布预约
+	</div>
+	<div class="top-signed">
+	</div>
+</header>
+
+<div id="index-cate" class="index-cate">
+	<script>
+		$(function(){
+			$(".index-cate .cate-name a").click(function () {
+				$(".index-cate .cate-name a").removeClass('active');
+				$(this).addClass('active');
+				var cate = $(this).attr('rel');
+				$('.list-more').hide();
+				$('.' + cate).show();
+				//alert('.' + cate);
+			});
+		});
+	</script>
+
+    <div class="www-hatudou-com-similar" style="display: block;">
+        <a href="">
+           <span>请<b id="similar_num">展开下面的二级分类预约</b></span>
+           <em>查看发布教程<i></i></em>
+        </a>
+    </div>
+
+    <div class="blank-10 bg"></div>
+	<volist name="cates" id="var">
+    	<if condition="$var.parent_id eq 0">
+            <ul>
+                <li class="cate-name">
+                    <a rel="cate-more-<{$var['cate_id']}>" href="javascript:;">
+                        <span class="cate-name"><{$var['cate_name']}></span>
+                        <span  class="float-right text-gray"><i class="icon-angle-down"></i><span> 展开分类</span></span>
+                    </a>
+                </li>
+                <li class="cate-list">
+                    <span class="list-more cate-more-<{$var['cate_id']}>" style="display:none;">
+                        <volist name="cates" id="k">
+                            <if condition="$k.parent_id eq $var['cate_id']">
+                                 <a href="<{:U('book/order',array('cate_id'=>$k['cate_id']))}>"><{$k.cate_name}></a>
+                            </if>
+                        </volist>
+                    </span>
+                </li>
+            </ul>
+        </if>
+	</volist>
+</div>
+
+
+    
+    
+<include file="public:footer"/>

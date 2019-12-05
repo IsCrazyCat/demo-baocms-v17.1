@@ -1,0 +1,21 @@
+<table class="table">
+    <tr>
+      <th>菜名</th>
+      <th>单价</th>
+      <th>餐具费</th>
+      <th>操作</th>
+   </tr>
+   <foreach name="cartgoods" item="item">
+   <tr class="hide-<{$item.product_id}>">
+     <td><{$item.product_name}></td>
+     <td>&yen;<{:round($item['price']/100,2)}></td>
+     <td>&yen;<{:round($item['tableware_price']/100,2)}></td>
+     <td>
+         <li><span class="cart-dec" type="button" did="<{$item.product_id}>" onclick="dec(this);">－</span></li>
+         <li><input did="<{$item.product_id}>" class="ordernum-<{$item.product_id}>" type="text" value="<{$item.cart_num|default='0'}>"></li>
+         <li><span class="cart-inc" type="button"  did="<{$item.product_id}>" onclick="addcart(this);">＋</span></li>
+         <li><span class="cart-inc margin-left" type="button"  did="<{$item.product_id}>" onclick="del(this);">x</span></li>
+     </td>
+    </tr>
+    </foreach>
+</table>

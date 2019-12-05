@@ -1,0 +1,52 @@
+<include  file='public:header'/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/easyui/easyui.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/easyui/icon.css">
+<script type="text/javascript" src="__PUBLIC__/easyui/jquery.easyui.min.js"></script>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">分销</li>
+        <li class="li2">分销管理</li>
+        <li class="li2 li3">族谱表</li>
+    </ul>
+</div>
+
+
+<div class="main-wrap">
+        
+        <div class="result-wrap">
+           
+                <div class="config-items">
+                   
+                    <div class="result-content">
+                        
+<table title="推荐图" class="easyui-treegrid" style="width:100%;height:550px"
+			data-options="
+                url: '<{$CONFIG.site.host}>/backstage/user/family',
+				method: 'get',
+				lines: true,
+				rownumbers: true,
+				idField: 'user_id',
+				treeField: 'nickname',
+			">
+		<thead>
+			<tr>
+				<th data-options="field:'nickname'" width="220">账号</th>
+				
+				<th data-options="field:'prestige'" width="150"><{$CONFIG.prestige.name|default='威望'}></th>
+				<th data-options="field:'integral'" width="150">积分</th>
+				<th data-options="field:'rank_id'" width="150">级别</th>
+			</tr>
+		</thead>
+	</table>
+                    </div>
+                </div>
+         
+        </div>
+    </div>
+       
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

@@ -1,0 +1,160 @@
+<include  file='public:header'/>   
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back();"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			订单支付
+		</div>
+	</header>  
+    
+<style>
+.layui-layer-page .layui-layer-content{ padding:20px;}
+.layui-layer-page .layui-layer-content input[type='password']{ width:100%; height:36px; border:1px solid #ccc; background:#fff; margin-bottom:10px; text-indent:10px; font-size:14px;}
+.layui-layer-page .layui-layer-content input[type='button']{ width:100%; height:40px; border:none; background:#2FBDAA; color:#fff; font-size:16px;cursor:pointer}
+.reset_password{cursor:pointer}
+.layui-layer-page .layui-layer-content input.blue{background:#33b095;}
+.layui-layer-page .layui-layer-content p{ line-height:28px; color:#999;}
+.layui-layer-page .layui-layer-content .check_box{ overflow:hidden; margin-bottom:5px;}
+.layui-layer-page .layui-layer-content .check_box label{ display:block; float:left; margin-right:20px; margin-bottom:10px;}
+</style>	
+
+
+	<div class="tuan-order">
+		<div class="blank-10 bg"></div>
+		<div class="line border-top border-bottom">
+			<div class="container">
+				<div class="x12 row border-bottom">
+					<span class="float-left">
+						支付编号
+					</span>
+					<span class="float-right">
+						<{$logs.log_id}>
+					</span>
+				</div>
+				<div class="x12 row border-bottom">
+					<span class="float-left">
+						付款缘由
+					</span>
+					<span class="float-right">
+						<{$types[$logs['type']]}>
+					</span>
+				</div>
+                <div class="x12 row border-bottom">
+					<span class="float-left">
+						支付方式
+					</span>
+					<span class="float-right">
+						<{$paytypes[$logs['code']]}>
+					</span>
+				</div>
+				<div class="x12 row">
+					<span class="float-left">
+						实际支付金额
+					</span>
+					<span class="float-right text-dot">
+					&yen; <{:round($logs['need_pay']/100,2)}>元
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="blank-50"></div>
+	<div class="container">
+	<{$button}>
+	</div>
+    
+<div class="blank-20"></div>
+
+
+
+<!--支付宝支付-->
+<if condition = "$paytype[$logs['code']]['code'] == alipay">
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#alipaysubmit").submit();
+	});
+</script>  
+</if>
+
+
+<!--微信公众号支付-->
+<if condition = "$logs['code'] == weixin">
+	<script type="text/javascript">
+		callpay();
+    </script>
+</if>
+
+
+
+
+<!--余额支付-->   
+<if condition = "$paytype[$logs['code']]['code'] == money">
+<script type="text/javascript">
+	$(document).ready(function(){
+	 	var url = "<{$host}><{:U('user/member/pay',array('logs_id'=>$logs['log_id'],'code'=>'money'))}>";
+		layer.msg('正在启动余额支付，请稍后......');
+		if(url){
+			setTimeout(function (){
+				window.location.href = url;
+			},1000);
+		}
+	});
+</script>
+</if>
+
+<!--积分支付-->   
+<if condition = "$paytype[$logs['code']]['code'] == integral">
+
+<script type="text/javascript">
+	$(document).ready(function(){
+	 	var url = "<{$host}><{:U('user/member/pay',array('logs_id'=>$logs['log_id'],'code'=>'integral'))}>";
+		layer.msg('正在启动积分支付，请稍后......');
+		if(url){
+			setTimeout(function (){
+				window.location.href = url;
+			},1000);
+		}
+	});
+</script>
+
+</if>
+
+
+<!--微信APP支付-->   
+<script type="text/javascript">
+	function wxpay(){
+       var out_trade_no = "<{$logs['log_id']}>";
+        $.ajax({
+            type:'post',
+            url: "<{:U('app/pay/order')}>", 
+            dataType:'json',
+            data: {log_id: out_trade_no},
+            async: true,
+            timeout: 200000,
+            success: function(data){
+                pay(data);
+            }
+        });
+    }
+    function pay(data){
+        var order = data;
+        payType(order, "WEIXIN", "payResult");
+    }
+    function payResult(r) {
+        if(r == 0){
+            setTimeout(function(){
+				layer.msg('支付成功');
+			}, 2000);
+            window.location.href="<{:U('wap/payment/yes',array('log_id'=>$logs['log_id']))}>";
+        }else{
+            setTimeout(function(){
+				layer.msg('支付失败请刷新后再试');
+			}, 2000);
+        }
+    }
+</script>
+
+
+<include file='public:footer'/>    

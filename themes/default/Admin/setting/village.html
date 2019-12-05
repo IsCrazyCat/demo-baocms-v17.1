@@ -1,0 +1,49 @@
+<include  file='public:header'/>
+<style>.lfTdBt {width: 200px;}</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">其他设置</li>
+        <li class="li2 立li3">乡村配置</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>以后智慧乡村上面需要配置的，都尽量在这里写！ </p>
+    <form  target="x-frame" action="<{:U('setting/village')}>" method="post">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+                  <tr>
+                    <td class="lfTdBt">wap会员中心开启乡村链接：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[user_is_show]" <eq name="CONFIG.village.user_is_show" value="1">checked="checked"</eq> value="1"  />开启</label>
+                        <label><input type="radio" name="data[user_is_show]"  <eq name="CONFIG.village.user_is_show" value="0">checked="checked"</eq>  value="0"  />不开启</label>
+                        <code>如果选择开启，wap会员中心显示我加入的乡村！</code>
+                    </td>
+                </tr>
+               
+               
+                <tr>
+                    <td class="lfTdBt">商品入驻乡村：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[goods_enter_is_show]" <eq name="CONFIG.village.goods_enter_is_show" value="1">checked="checked"</eq> value="1"  />开启</label>
+                        <label><input type="radio" name="data[goods_enter_is_show]"  <eq name="CONFIG.village.goods_enter_is_show" value="0">checked="checked"</eq>  value="0"  />不开启</label>
+                        <code>开启后再PC商家的商品列表会有入驻到乡村的按钮，点击可进去入驻页面！</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">抢购入驻乡村：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[tuan_enter_is_show]" <eq name="CONFIG.village.tuan_enter_is_show" value="1">checked="checked"</eq> value="1"  />开启</label>
+                        <label><input type="radio" name="data[tuan_enter_is_show]"  <eq name="CONFIG.village.tuan_enter_is_show" value="0">checked="checked"</eq>  value="0"  />不开启</label>
+                        <code>开启后再PC商家的抢购列表会有入驻到乡村的按钮，点击可进去入驻页面，一般抢购不建议开启！</code>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </form>
+</div>
+<include  file='public:footer'/>       

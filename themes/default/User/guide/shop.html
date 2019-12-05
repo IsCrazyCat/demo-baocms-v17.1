@@ -1,0 +1,34 @@
+<include file="public:header"/>
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('guide/shop')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">我推荐的商家</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+<style>
+
+.list-media-x li{padding-bottom:0px !important;}
+</style>
+
+<ul id="shangjia_tab">
+	<li class="x3"><a href="<{:LinkTo('guide/index')}>" <if condition="$act eq 'index'">class="on"</if>>推荐首页</a></li>
+    <li class="x3"><a href="<{:LinkTo('guide/shop')}>" <if condition="$act eq 'shop'">class="on"</if>>推荐商家</a></li>
+    <li class="x3"><a href="<{:LinkTo('guide/logs')}>" <if condition="$act eq 'logs'">class="on"</if>>分成日志</a></li>
+    <li class="x3"><a href="<{:U('wap/api/guideqrcode', array('user_id'=>$MEMBER['user_id']))}>" <if condition="$act eq 'guideqrcode'">class="on"</if>>推荐二维码</a></li>
+</ul>
+<div class="list-media-x" id="list-media-x">
+<div class="blank-10 bg"></div>
+	<ul></ul>
+</div>	
+
+<script>
+	$(document).ready(function (){
+		loaddata('<{$nextpage}>', $("#list-media-x ul"), true);
+	});
+</script>
+<include file='public:footer'/>

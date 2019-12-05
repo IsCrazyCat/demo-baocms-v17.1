@@ -1,0 +1,48 @@
+<include  file='public:header'/>
+<style>
+/*发布帖子*/
+.post-form .form-title select{height:40px;width:200%;padding:10px;background:#fff!important;border:none!important;margin:-1px;outline:none}
+</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('village/detail',array('village_id'=>$detail['village_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			发布
+		</div>
+		<div class="top-share">
+		</div>
+	</header>
+	<form class="post-form"  id="ajaxForm" action="<{:U('village/fabu',array('village_id'=>$detail[village_id]))}>" method="post" >
+    	<div class="blank-10 bg"></div> 
+		<div class="line border-bottom">
+			<div class="x9 form-title">
+				<select name="data[type]">
+					<option value="">点击选择类型</option>
+					<option value="1">通知</option>
+                    <option value="2">展示</option>
+				</select>
+			</div>
+		</div>
+       <div class="blank-10 bg"></div> 
+		<div class="line border-bottom">
+			<div class="x12 form-title">
+				<input type="text" name="data[title]" value="" placeholder="请输入标题"  />
+			</div>
+		</div>
+		<div class="line border-bottom">
+			<textarea class="form-content" name="data[context]" placeholder="填写内容"></textarea>
+		</div>
+        
+        
+        <div class="container">
+            <div class="blank-30"></div>
+            <button  type="submit" class="button button-block button-big bg-dot">发布</button>
+            <div class="blank-30"></div>
+        </div>
+
+
+	</form>
+	
+
+<include  file='public:footer'/> 

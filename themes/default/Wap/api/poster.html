@@ -1,0 +1,80 @@
+<php>$mobile_title = $MEMBER.nickname."给您推荐的海报";
+$mobile_title = $detail["nickname"]."给您分享的海报";
+</php>
+<include file="public:header"/>
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			<{$detail["nickname"]}>的海报
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+<div class="list-media-x" id="list-media">
+	<ul>
+		<div class="container">
+
+			<div class="padding-large">
+				<img src="__ROOT__<{$file}>" width="100%" />
+			</div>
+			<p class="text-center">尊敬的<{$detail['nickname']}>，长按海报可保存到手机，已可以分享给好友获取分成</p>
+		</div>
+
+	</ul>
+</div>
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+    wx.config({
+	debug: false,
+	appId: '<{$signPackage.appId}>',
+    timestamp: '<{$signPackage.timestamp}>',
+    nonceStr: '<{$signPackage.nonceStr}>',
+    signature: '<{$signPackage.signature}>',
+	jsApiList: [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'onMenuShareQZone'
+		]
+	});
+
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+            title: '<{$detail["nickname"]}>."给您分享的海报"',
+        	link: "<{$CONFIG.site.host}><{:U('wap/api/qrcode',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'user_id'=>$MEMBER['user_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($file)}>", 
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+     });
+     //分享给朋友
+     wx.onMenuShareAppMessage({
+            title: '<{$detail["nickname"]}>."给您分享的海报"',
+            desc: '<{$detail["nickname"]}>."给您分享海报了，快去扫码关注吧"',
+            link: "<{$CONFIG.site.host}><{:U('wap/api/qrcode',array('fuid'=>$MEMBER['user_id'],'controller'=>$ctl,'action'=>$act,'user_id'=>$MEMBER['user_id']))}>", 
+        	imgUrl: "<{:config_weixin_img($file)}>", 
+            type: '',
+            dataUrl: '',
+            success: function (){
+				layer.msg('分享成功');
+			},
+            cancel: function (){ 
+				layer.msg('分享失败');
+			}
+      });
+});
+</script>
+
+
+<include  file='public:footer'/>

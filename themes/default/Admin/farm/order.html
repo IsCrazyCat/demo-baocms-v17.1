@@ -1,0 +1,102 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">农家乐管理</li>
+        <li class="li2">农家乐订单</li>
+        <li class="li2 li3">农家乐订单列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span>这里可以删除没有参与农家乐的订单，已付款的订单无法删除，可以根据下面的成交记录筛选订单！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+         	<div class="left">
+                <{:BA('farm/create','','添加农家乐')}>
+            </div>
+            <div class="right">
+                <form method="post" action="<{:U('farm/order')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            
+                            <label>
+                                <span>  订单ID：</span>   <input type="text" name="order_id" value="<{$order_id|default=''}>" class="inptText" /><input type="submit" class="inptButton" value="搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="order_id" /></td>
+                        <td>订单ID</td>
+                        <td>农家乐名称</td>
+                        <td>套餐</td>
+                        <td>订单价格</td>
+                        <td>结算价格</td>
+                        <td>姓名</td>
+                        <td>电话</td>
+                        <td>预订时间</td>
+                        <td>订单状态</td>
+                        <td>下单时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_order_id" type="checkbox" name="order_id[]" value="<{$var.order_id}>" /></td>
+                            <td><{$var.order_id}></td>
+                            <td><{$farms[$var['farm_id']]['farm_name']}></td>
+                            <td><{$var.package.title}></td>
+                            <td><{$var.amount}></td>
+                            <td><{$var.jiesuan_amount}></td>
+                            <td><{$var.name}></td>
+                            <td><{$var.mobile}></td>
+                            <td><{$var.gotime|date='Y-m-d H:i:s',###}></td>
+                            <td>
+                                <if condition="$var['order_status'] eq -1">
+                                    <font style="color:red;">已取消</font>
+                                <elseif condition="$var['order_status'] eq 2"/>
+                                    <font style="color:green;">已完成</font>
+                                <elseif condition="$var['order_status'] eq 1"/>
+                                    已付款
+                                <else/>
+                                    待处理
+                                </if>
+                            </td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                        <td>
+                        
+                            <if condition="$var['order_status'] eq 1">
+                                  <{:BA('farm/complete',array("order_id"=>$var["order_id"]),'确认订单','act','remberBtn_small_quxiao')}>
+                            </if>
+                            <if condition="$var['order_status'] neq -1">
+                                <{:BA('farm/cancel',array("order_id"=>$var["order_id"]),'取消订单','act','remberBtn_small_quxiao')}>
+                            </if>
+                            <if condition="$var['order_status'] eq -1">
+                                <if condition="$var['closed'] eq 0">
+                                    <{:BA('farm/order_delete',array("order_id"=>$var["order_id"]),'删除订单','act','remberBtn_small_quxiao')}>
+                                </if>
+                            </if>
+          
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<include  file='public:footer'/>       

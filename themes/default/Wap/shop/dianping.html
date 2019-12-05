@@ -1,0 +1,28 @@
+<include  file='public:header'/>  
+<script src="/static/default/wap/js/dialog.js"></script>
+<link href="/static/default/wap/css/dianping.css" rel="stylesheet">
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$detail.shop_name}>
+		</div>
+        <div class="top-ping">
+        <a href="<{:U('user/dianping/index',array('shop_id'=>$detail['shop_id']))}>" class="iconfont icon-fabu">点评</a>
+		</div>
+	</header>
+<style>
+ul{ padding-left:0px;}
+.coupon-list2 {margin-top:0px;}
+.pics_img{width:60px; height:50px;float:left;padding-right:5px}
+</style>    
+<include file="shop:nav"/>
+
+ <div id="coupon-list" class="coupon-list2"></div>
+    <script>
+        $(document).ready(function (){
+            loaddata('<{:U("shop/dianpingloading",array("shop_id"=>$detail["shop_id"],"p"=>"0000"))}>', $("#coupon-list"), true);
+        });
+    </script>
+<include  file='public:footer'/>   

@@ -1,0 +1,67 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商城规格</a> > <a>规格列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('goodsattr/index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            选择类型：
+            <select class="seleFl w80" name="audit">
+               <option value="0"><if condition="!empty($type_id)"><{$goodsTypeList[$type_id]['name']}><else/>所有分类</if></option>
+               <foreach name="goodsTypeList" item="v" key="k" >
+                    <option value="<{$v['id']}>"><{$v['name']}></option>
+			  </foreach>
+            </select>
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('goodsattr/spec')}>">添加规格+</a></div>
+        </div>
+    </div>
+    </form>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli on"><a href="<{:U('goodsattr/index')}>">商品规格列表</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('goodsshopcate/index')}>">商品分类列表</a></li>
+        </ul>
+    </div> 
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+             <td class="w50">ID</td>
+             <td>规格类型</td>
+             <td>规格名称</td>
+             <td>规格项</td>
+             <td>排序</td>
+             <td>操作</td>
+        </tr>
+        <foreach name="specList" item="list">
+            <tr>
+                <td><{$list.id}></td>
+                <td><{$goodsTypeList[$list[type_id]][name]}></td>
+                <td><{$list.name}></td>
+                <td><{$list.spec_item}></td>
+                <td> <input type="text" class="form-control input-sm" onchange="updateSort('spec','id','<{$list.id}>','order',this)" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" onpaste="this.value=this.value.replace(/[^\d]/g,'')"  size="4" value="<{$list.order}>" /></td>
+                <td>
+                    <a href="<{:U('goodsattr/spec',array('id'=>$list['id']))}>">编辑</a>
+                    <a mini='confirm' href="<{:U('goodsattr/delete',array('id'=>$list['id']))}>">删除</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<script>
+    $(document).ready(function(){		
+		<?php
+		    if($_GET['type_id']){
+			   echo "$('#type_id').val(".$_GET['type_id'].");"; 
+			}
+		?>
+			$('#button-filter').trigger('click');
+    });
+</script> 
+
+
+<include  file='public:footer'/>

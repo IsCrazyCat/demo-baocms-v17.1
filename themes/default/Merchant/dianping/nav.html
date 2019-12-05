@@ -1,0 +1,17 @@
+<div class="tuanfabu_tab">
+   <ul>
+     <li class="tuanfabu_tabli tabli_change  <eq name="act" value="index">on</eq>"><a href="<{:U('dianping/index')}>">商家点评</a></li>
+     <if condition="$CONFIG['operation']['tuan']"> 
+     	<li class="tuanfabu_tabli tabli_change  <eq name="act" value="tuan">on</eq>"><a href="<{:U('dianping/tuan')}>">抢购点评</a></li>
+     </if>
+     <if condition="$CONFIG['operation']['mall']"> 
+         <li class="tuanfabu_tabli tabli_change  <eq name="act" value="mall">on</eq>"><a href="<{:U('dianping/mall')}>">商城点评</a></li>
+     </if>
+     <if condition="$CONFIG['operation']['ele']"> 
+     	<li class="tuanfabu_tabli tabli_change  <eq name="act" value="waimai">on</eq>"><a href="<{:U('dianping/waimai')}>">外卖点评</a></li>
+     </if>
+     <if condition="$CONFIG['operation']['booking']"> 
+        <li class="tuanfabu_tabli tabli_change  <eq name="act" value="booking">on</eq>"><a href="<{:U('dianping/booking')}>">订座点评</a></li>
+     </if>
+   </ul>
+</div> 

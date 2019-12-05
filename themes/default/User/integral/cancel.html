@@ -1,0 +1,44 @@
+<include  file='public:header'/>   
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">积分核销记录</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+<!-- 筛选TAB -->
+<style>
+ul{ padding-left:0px;}
+.list-media-x li dd.zhong, .list-media-x li { border-bottom: 0px solid #eee;}
+</style>
+<include file="integral:nav"/>
+<div class="list-media-x" id="list-media">
+	<div class="blank-10 bg"></div>
+    <ul>
+        <foreach name="list" item="item">
+            <div class="line padding border-bottom">
+                <div class="x12 text-small">
+                    <p class="text-gray">核销ID：<{$item['cancel_id']}></p>
+                    <p class="text-gray">核销积分数量：<a class="text-red"><{$item.integral}></a></p>
+                    <php>$shop = D('Shop')->find($item['shop_id']);</php>
+                    <p class="text-gray">核销商家名称：<a class="text-red"><{$shop.shop_name}></a></p>
+                    <p class="text-gray">核销时间：<{$item.create_time|date='Y-m-d H:i:s',###}></p>
+                </div>
+            </div>
+
+            <div class="line padding border-bottom" style="background: #F9F9F9;">
+                <span class="x12 text-gray text-small">核销说明：<{$item['intro']}></span>
+            </div>
+            <div class="blank-10 bg"></div>
+        </foreach>
+       </ul>
+</div>
+<div class="container login-open">
+	<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+</div>
+
+
+<include file='public:footer'/>   

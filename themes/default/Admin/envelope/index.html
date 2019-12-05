@@ -1,0 +1,117 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2">红包</li>
+        <li class="li2 li3">红包列表</li>
+    </ul>
+</div>
+
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span> 这里显示商家跟平台的红包，已可以添加商家或者平台红包 </p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+        	<div class="left">
+                <{:BA('envelope/create','','添加红包')}>
+            </div>
+            <div class="right">
+                <form method="post" action="<{:U('envelope/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <span>开始时间</span>
+                                <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                            </label>
+                            <label>
+                                <span>结束时间</span>
+                                <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                            </label>
+                            <label>
+                                <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                                <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text " />
+                                <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="sumit">选择商家</a>
+                            </label>
+                            <label>
+                                <span>红包类型：</span>
+                                <select class="select w120" name="type">
+                                 <option <eq name="type" value="999">selected="selected"</eq> value="999">请选择类型</option>
+                                	<foreach name="types" key="key" item="item">
+                                        <option <eq name="type" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                                    </foreach>
+                                </select>
+                            </label>
+                            
+                            <label>
+                                <span>红包状态：</span>
+                                <select class="select w120" name="closed">
+                                     <option <eq name="closed" value="999">selected="selected"</eq> value="999">请选择状态</option>
+                                     <option <eq name="closed" value="0">selected="selected"</eq>  value="0">进行中</option>
+                                     <option <eq name="closed" value="1">selected="selected"</eq>  value="1">已结束</option>
+                                </select>
+                            </label>
+                            
+                            <label>
+                                <span> 关键字：</span>   
+                                <input type="text" name="envelope_id" value="<{$keyword}>" class="inptText" />
+                                <input type="submit" class="inptButton" value="搜索" />
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="envelope_id" /></td>
+                        <td class="w50">红包ID</td>
+                        <td>红包类型</td>
+                        <td>商家ID</td>
+                        <td>商家昵称</td>
+                        <td>红包标题</td>
+                        <td>红包备注</td>
+                        <td>红包总额</td>
+                        <td>红包领取比例</td>
+                        <td>开始时间</td>
+                        <td>红包状态</td>
+                        <td>创建时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_envelope_id" type="checkbox" name="envelope_id[]" value="<{$var.envelope_id}>" /></td>
+                            <td><{$var.envelope_id}></td>
+                            <td><{$types[$var['type']]}></td>
+                            <td><{$var['shop_id']|default='无'}></td>
+                            <td><{$var['shop']['shop_name']|default='无'}></td>
+                            <td><{$var.title}></td>
+                            <td><{$var.intro}></td>
+                            <td>￥<{:round($var['prestore']/100,2)}></td>
+                            <td><{$var.ratio}>%</td>
+                            <td><{$var.bg_date}></td>
+                            <td><if condition="$var['closed'] eq 0">进行中<else/>已结束</if></td>
+                            <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                            <td>
+                                <if condition="$var['closed'] egt 0">
+                                    <{:BA('envelope/closed',array("envelope_id"=>$var["envelope_id"]),'完成','act','remberBtn')}>
+                                </if>
+                                <{:BA('envelope/logs',array("envelope_id"=>$var["envelope_id"]),'领取记录','','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<include  file='public:footer'/>       

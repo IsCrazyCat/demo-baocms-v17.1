@@ -1,0 +1,108 @@
+<foreach name='list' item='item'>
+<if condition="$item['cate_id'] eq 1">
+<li class="mod-1" onclick="location='<{:u('pinche/detail',array('pinche_id'=>$item['pinche_id']))}>'">
+   <if condition="!empty($item['photo'])">
+     <img class="pic flex" src="<{:config_img($item['photo'])}>" />
+   </if>
+   <div class="des flex">
+       <h4>
+           <span class="title">车找人 </span>
+           <strong class="text-big"><{$item['goplace']}>--><{$item['toplace']}> </strong>
+           <if condition="!empty($item['middleplace'])">
+                  -途经（<{$item['middleplace']}>）
+           </if>
+           <a href="tel:<{$item['mobile']}>" class="float-right button button-little-mobile text-center"><{$item['num_1']}>空位</a>
+       </h4>    
+       <php>
+           $start_time = strtotime($item['start_time']);
+       </php>
+       <p>
+           时间：<a class="text-black"><{:pincheTime($start_time)}>/<{$item['start_time_more']}></a> 
+           电话：<a href="tel:<{$item['mobile']}>" class="text-dot"><{$item['mobile']}></a>  
+           <if condition="$item['top_time']"><span>置顶</span></if>
+       </p>
+       <p>发布于：<{$item.create_time|date='Y-m-d ',###}> <a class="float-right iconfont icon-liulan"> <{$item['views']}></a> </p>
+   </div>
+</li>
+
+
+<elseif condition="$item['cate_id'] eq 2"/>
+
+<li class="mod-2" onclick="location='<{:u('pinche/detail',array('pinche_id'=>$item['pinche_id']))}>'">
+   <if condition="!empty($item['photo'])">
+     <img class="pic flex" src="<{:config_img($item['photo'])}>" />
+   </if>
+   <div class="des flex">
+       <h4>
+           <span class="title">人找车 </span> 
+           <strong class="text-big"><{$item['goplace']}>--><{$item['toplace']}> </strong>
+           <if condition="!empty($item['middleplace'])">
+                  -途经（<{$item['middleplace']}>）
+           </if>
+           <a href="tel:<{$item['mobile']}>" class="float-right button button-little-mobile text-center"><{$item['num_1']}>空位</a>
+       </h4>    
+       <php>
+           $start_time = strtotime($item['start_time']);
+       </php>
+       <p> 时间：<a class="text-black"><{:pincheTime($start_time)}>/<{$item['start_time_more']}></a> 
+           电话：<a href="tel:<{$item['mobile']}>" class="text-dot"><{$item['mobile']}></a>  
+           <if condition="$item['top_time']"><span>置顶</span></if></p>
+       <p>发布于：<{$item.create_time|date='Y-m-d ',###}> <a class="float-right iconfont icon-liulan"> <{$item['views']}></a> </p>
+   </div>
+</li>
+
+
+<elseif condition="$item['cate_id'] eq 3"/>
+
+<li class="mod-2" onclick="location='<{:u('pinche/detail',array('pinche_id'=>$item['pinche_id']))}>'">
+   <if condition="!empty($item['photo'])">
+     <img class="pic flex" src="<{:config_img($item['photo'])}>" />
+   </if>
+   <div class="des flex">
+       <h4>
+           <span class="title">车找货 </span> 
+           <strong class="text-big"><{$item['goplace']}>--><{$item['toplace']}> </strong>
+           <if condition="!empty($item['middleplace'])">
+                  -途经（<{$item['middleplace']}>）
+           </if>
+           <a href="tel:<{$item['mobile']}>" class="float-right button button-little-mobile text-center"><{$item['num_1']}>空位</a>
+       </h4>    
+       <php>
+           $start_time = strtotime($item['start_time']);
+       </php>
+       <p> 时间：<a class="text-black"><{:pincheTime($start_time)}>/<{$item['start_time_more']}></a> 
+           电话：<a href="tel:<{$item['mobile']}>" class="text-dot"><{$item['mobile']}></a>  
+           <if condition="$item['top_time']"><span>置顶</span></if></p>
+      <p>发布于：<{$item.create_time|date='Y-m-d ',###}> <a class="float-right iconfont icon-liulan"> <{$item['views']}></a> </p>
+   </div>
+</li>
+
+
+<elseif condition="$item['cate_id'] eq 4"/>
+
+<li class="mod-2" onclick="location='<{:u('pinche/detail',array('pinche_id'=>$item['pinche_id']))}>'">
+   <if condition="!empty($item['photo'])">
+     <img class="pic flex" src="<{:config_img($item['photo'])}>" />
+   </if>
+   <div class="des flex">
+       <h4>
+           <span class="title">货找人 </span> 
+           <strong class="text-big"><{$item['goplace']}>--><{$item['toplace']}> </strong>
+           <if condition="!empty($item['middleplace'])">
+                  -途经（<{$item['middleplace']}>）
+           </if>
+           <a href="tel:<{$item['mobile']}>" class="float-right button button-little-mobile text-center"><{$item['num_1']}>空位</a>
+       </h4>    
+       <php>
+           $start_time = strtotime($item['start_time']);
+       </php>
+       <p> 时间：<a class="text-black"><{:pincheTime($start_time)}>/<{$item['start_time_more']}></a> 
+           电话：<a href="tel:<{$item['mobile']}>" class="text-dot"><{$item['mobile']}></a>  
+           <if condition="$item['top_time']"><span>置顶</span></if></p>
+       <p>发布于：<{$item.create_time|date='Y-m-d ',###}> <a class="float-right iconfont icon-liulan"> <{$item['views']}></a> </p>
+   </div>
+</li>
+</if>
+<div class="blank-10 bg"></div>
+</foreach>
+

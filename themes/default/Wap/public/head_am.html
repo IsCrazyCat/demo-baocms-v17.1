@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml" class="am-touch js cssanimations"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title><if condition="!empty($seo_title)"><{$seo_title}>_</if><{$CONFIG.site.sitename}></title>
+    
+    <link rel="stylesheet" href="/static/default/news/css/amazeui.min.css">
+    <link rel="stylesheet" href="/static/default/news/css/<{$ctl}>.css"/>
+    <script src="/static/default/news/js/amazeui.min.js" type="text/javascript"></script>
+    <script src="/static/default/wap/other/layer.js"></script>
+    <script src="/static/default/wap/js/jquery.form.js"></script>
+    <script src="/static/default/wap/js/public.js"></script>
+
+</head>
+
+<if condition="empty($lat)">      
+	<script>
+		doLocation();		
+		//获取距离
+		function initLocation(){
+			var url = "<{$url}>";
+			var geolocation = new BMap.Geolocation();
+			geolocation.getCurrentPosition(function(r){
+				if(this.getStatus() === 0) {
+					var address = r.address.province + r.address.city + r.address.district + r.address.street;
+					$.post("/wap/index/dingwei.html",{lat:r.point.lat,lon:r.point.lng,address:address,url:url,type:'browser'},function(response){
+						
+						$("span[attr-ctrl='distance']").each(function(){   
+							var lat = $(this).attr("attr-lat");
+							var lon = $(this).attr("attr-lon");
+							d = getGreatCircleDistance(lat,lon,response.lat,response.lon);
+							$(this).html(d);
+						});
+						
+						if(response.code == 1){
+							return false;
+						}
+						
+						//没有匹配到城市
+						if(response.code == 6){
+							layer.confirm(response.msg, {
+							  btn: ['去默认城市','关闭'] //按钮
+							},function(){
+							  layer.msg('正在带您去默认城市'+response.city_name, {icon:1});
+							  location.href = response.url;
+							},function(){
+							  
+							});
+						}
+						
+						//已经匹配到城市
+						if(response.code == 2){
+							 layer.confirm(response.msg,{icon: 6}, function(){
+								location.href = response.url;
+							 });
+						}
+						
+						
+					});
+				}else {
+					layer.msg('定位失败，原因：' + this.getStatus(),2000,2);
+				}        
+			},{enableHighAccuracy: true});
+		}
+		function doLocation(){
+			var script = document.createElement("script");
+			script.src ="https://api.map.baidu.com/api?v=2.0&ak=te1e01OcptQgwrg4SyBdPx6h&callback=initLocation";
+			document.body.appendChild(script);
+		}
+		
+		//计算距离
+		var EARTH_RADIUS = 6378137.0; 
+		var PI = Math.PI;
+		function getRad(d){
+			return d*PI/180.0;
+		}
+		//定为换算
+		function getGreatCircleDistance(lat1,lng1,lat2,lng2){
+			var radLat1 = getRad(lat1);
+			var radLat2 = getRad(lat2);
+			var a = radLat1 - radLat2;
+			var b = getRad(lng1) - getRad(lng2);
+			var s = 2*Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+			s = s*EARTH_RADIUS;
+			s = Math.round(s*10000)/10000000.0;
+			s = s.toFixed(2) + 'KM';
+			return s;
+		}
+    </script>
+</if>
+        

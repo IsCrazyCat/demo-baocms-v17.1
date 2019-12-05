@@ -1,0 +1,126 @@
+<include  file='public:header'/>
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">股权管理</li>
+        <li class="li2">股权订单</li>
+        <li class="li2 li3">股权订单列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+	<p class="attention"><span>注意：</span>这里可以删除没有参与股权的订单，已付款的订单无法删除，可以根据下面的成交记录筛选订单！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="right">
+                <form method="post" action="<{:U('stock/order')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK">
+                            <label>
+                                <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                                <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text " />
+                                <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="sumit">选择商家</a>
+                            </label>
+                            <label>
+                                <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                                <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text " />
+                                <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                            </label>
+                            <label>
+                                <span>状态：</span>
+                                <select class="select w120" name="st">
+                                    <option <eq name="st" value="999">selected="selected"</eq> value="999">请选择</option>
+                                    <option <eq name="st" value="0">selected="selected"</eq>  value="0">未付款</option>
+                                    <option <eq name="st" value="1">selected="selected"</eq>  value="1">已付款</option>
+                                </select>
+                            </label>
+                            <label>
+                                <span>订单ID：</span>   
+                                <input type="text" name="order_id" placeholder=" 股权编号/订单ID" value="<{$order_id|default=''}>" class="inptText" />
+                                <input type="submit" class="inptButton" value="搜索" /></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form  target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="order_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>股权名称</td>
+                        <td>股权编码</td>
+                        <td>购买账户</td>
+                        <td>所属商家</td>
+                        <td>购买数量</td>
+                        <td>购买单价</td>
+                        <td>使用<{$CONFIG.prestige.name|default='威望'}></td>
+                        <td><{$CONFIG.prestige.name|default='威望'}>抵扣比例</td>
+                        <td><{$CONFIG.prestige.name|default='威望'}>抵扣金额</td>
+                        <td>购买金额</td>
+                        <td>付款状态</td>
+                        <td>股权人姓名</td>
+                        <td>股权人电话</td>
+                        <td>创建时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_order_id" type="checkbox" name="order_id[]" value="<{$var.order_id}>" /></td>
+                            <td><{$var.order_id}></td>
+                            <td><{$stock[$var['stock_id']]['title']}></td>
+                            <td><{$var.stock_number}></td>
+                            <td><{$users[$var['user_id']]['nickname']}></td>
+                            <td><{$shops[$var['shop_id']]['shop_name']}></td>
+                            <td><{$var.num}></td>
+                            <td>&yen;<{:round($var['price']/100,2)}>元</td>
+                            <td><{$var.prestige}></td>
+                            <td><{$var.prestige_deduction_ratio}></td>
+                            <td>&yen;<{:round($var['prestige_deduction_price']/100,2)}>元</td>
+                            <td>&yen;<{:round($var['need_pay_price']/100,2)}>元</td>
+                            <td>
+                                <eq name="var.status" value="0">未付款</eq>
+                                <eq name="var.status" value="1">已付款</eq>
+                            </td>
+                            <td><{$var.name}></td>
+                            <td><{$var.mobile}></td>
+                        	<td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                            <td>
+                                <eq name="var.status" value="0">
+                                    <{:BA('stock/order_delete',array("order_id"=>$var["order_id"]),'删除订单','act','remberBtn_small_quxiao')}>
+                                </eq>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+       $(document).ready(function (e) {
+			$(".tips").click(function () {
+				var tipnr = $(this).attr('rel');
+				layer.tips(tipnr, $(this), {
+					tips: [4, '#1ca290'],
+					time: 4000
+				});
+			})
+		});
+    </script>
+<include  file='public:footer'/>       

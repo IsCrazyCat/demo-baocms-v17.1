@@ -1,0 +1,68 @@
+<foreach name="list" item="var">   
+<li class="line ">
+      <dt><a class="x3">ID：<{$var.life_id}></a><a class="x9 text-right">发布日期：<{$var.create_time|date='Y-m-d H:i:s ',###}></a></dt>
+        
+      <dd class="zhong">
+         <div class="12">
+            <p class="text-small">标题：<{$var.title}></p>
+            <p class="text-small">分类：<{$cates[$var['cate_id']]['cate_name']}></p>
+            
+            <if condition="$var['money'] GT 0"> 
+            	<p class="text-small">售价：&yen;<{:round($var['money']/100,2)}>元，已售<{$var.buy_num}>次</p>
+            </if> 
+            
+            <p class="text-small">区域：<{$var['city']['name']}> - <{$var['area']['area_name']}> - <{$var['business']['business_name']}>&nbsp;&nbsp;&nbsp;&nbsp;浏览：<{$var.views}>次</p>
+            <if condition="$var['top_date'] EGT $today"> 
+            <p class="text-small text-dot">已置顶(<{$var.top_date}>到期)</p>
+            </if> 
+            <if condition="$var['urgent_date'] EGT $today"> 
+            <p class="text-small text-blue">已加急(<{$var.urgent_date}>到期)</p>
+            </if> 
+         </div>
+      </dd>
+       
+      <dl>
+         <p class="x12"> 
+         <if condition="$var['top_date'] ELT $today">  
+         <a class="button button-small bg-green margin-top" target="x-frame"  href="<{:U('life/top',array('life_id'=>$var['life_id'],'day'=>7))}>">置顶7天</a>
+         <a class="button button-small bg-green margin-top"  target="x-frame" href="<{:U('life/top',array('life_id'=>$var['life_id'],'day'=>30))}>">置顶30天</a>
+         </if> 
+         <if condition="$var['urgent_date'] ELT $today">   
+         <a class="button button-small bg-dot margin-top" target="x-frame" href="<{:U('life/urgent',array('life_id'=>$var['life_id'],'day'=>7))}>">加急7天</a>
+         <a class="button button-small bg-dot margin-top" target="x-frame"  href="<{:U('life/urgent',array('life_id'=>$var['life_id'],'day'=>30))}>">加急30天</a>
+         </if>
+         <eq name="var.audit" value="0">
+         	<a class="button button-small border-gray margin-top">等待审核</a>
+         <else/>
+             <a class="button button-small border-dot margin-top">正常</a>
+             <a class="button button-small border-blue margin-top" target="x-frame"  href="<{:U('life/flush',array('life_id'=>$var['life_id']))}>">刷新</a>
+             <a class="button button-small border-blue margin-top" href="<{:u('wap/life/detail',array('life_id'=>$var['life_id']))}>">详情</a>
+             <a class="button button-small border-yellow margin-top" href="<{:u('life/packet',array('life_id'=>$var['life_id']))}>">红包管理</a>
+         </eq>
+         <a class="button button-small bg-yellow margin-top" href="<{:u('life/edit',array('life_id'=>$var['life_id']))}>">编辑</a>
+         
+         <eq name="var.closed" value="0">
+         	<a class="button button-small bg-yellow margin-top" id="www-hatudou-com-url-btn" href="<{:U('life/closed',array('life_id'=>$var['life_id']))}>">下架</a>
+         <else/>
+            <a class="button button-small bg-blue margin-top" id="www-hatudou-com-url-btn" href="<{:U('life/closed',array('life_id'=>$var['life_id']))}>">上架</a>
+         </eq>
+         <a class="button button-small bg-gray margin-top" id="www-hatudou-com-url-btn" href="<{:U('life/delete',array('life_id'=>$var['life_id']))}>">彻底删除</a>
+         
+         <if condition="$var['money'] gt 0">  
+             <eq name="var.status" value="0">
+                 <a class="button button-small border-gray margin-top">未付款</a>
+                 <a class="button button-small bg-blue margin-top" href="<{:U('wap/life/pay',array('life_id'=>$var['life_id']))}>">去付款</a>
+             </eq>
+             <eq name="var.status" value="1">
+                <a class="button button-small border-green margin-top">已付款</a>
+             </eq>
+         </if> 
+         
+         
+       </p>
+       
+      </dl>
+    </li>
+    <div class="blank-10"></div>
+    <div class="blank-10 bg"></div>
+   </foreach>    

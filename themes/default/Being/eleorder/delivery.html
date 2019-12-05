@@ -1,0 +1,66 @@
+
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">    
+              <form class="search_form" method="post" action="<{:U('eleorder/delivery')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <span>配送员名字/电话/地址/id</span>
+                        <input type="text" name="name" value="<{$keyword}>" class="inptText" /><input type="submit" value=" 搜索"  class="inptButton" />
+                    </div> 
+                </form>
+              
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+   <div class="selectNr selectNr2">
+        <div class="clear"></div>
+   </div>
+
+     <form target="x-frame"  action="<{:U('eleorder/delivery',array('order_id'=>$order_id,'st'=>$st))}>" method="post">
+       	<input type="hidden" name="order_id" value="<{$order_id}>">
+        <input type="hidden" name="st" value="<{$st}>">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+
+                <tr>
+                   <td class="w50">ID</td>
+                    <td>姓名</td>
+                    <td>手机</td>
+                    <td>地址</td>
+                    <td>配送中</td>
+                    <td>已完成</td>
+                    <td>时间</td>
+                </tr>
+
+               <foreach name="list" item="var">
+                    <tr>
+                        <td><input type="radio" name="id" rel="<{$var.name}>" value="<{$var.id}>" /><{$var.id}></td>
+                        <td><{$var.name}></td>
+                        <td><{$var.mobile}></td>
+                        <td><{$var.addr}></td>
+                        <td><{$var.order_have}></td>
+                        <td><{$var.order_ok}></td>
+                       	<td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                    </tr>
+                </foreach>
+
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+                <div class="smtQr"><input type="submit" value="确定接单" class="smtQrIpt" /></div>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+
+
+
+
+
+

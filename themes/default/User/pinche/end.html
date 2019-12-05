@@ -1,0 +1,56 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			已结束的拼车
+		</div>
+		 <div class="top-search" style="display:none;">
+			<form method="post" action="<{:U('pinche/index')}>">
+				<input name="keyword" placeholder="输入关键字"  />
+				<button type="submit" class="iconfont icon-search"></button> 
+			</form>
+	</div>
+	<div class="top-share">
+		<a id="search-btn" href="javascript:void(0);"><i class="iconfont icon-search"></i></a>
+        <a href="<{:u('wap/pinche/create')}>"><i class="iconfont icon-fabu"></i></a>
+	</div>
+	</header>
+<script type="text/javascript">
+	$(function(){
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+	});
+	</script>  
+
+<ul id="shangjia_tab">
+        <li style="width:33.333333367%;"><a href="<{:u('user/pinche/index')}>">进行中</a></li>
+        <li style="width:33.333333367%;"><a href="<{:u('user/pinche/end')}>"  class="on">已结束</a></li>
+        <li style="width:33.333333367%;"><a href="<{:u('user/pinche/del')}>" >已删除</a></li>
+</ul>
+
+
+
+<div class="list-media-x" id="list-media">
+<div class="blank-10 bg"></div>
+	<ul></ul>
+</div>	
+
+
+<script>
+	$(document).ready(function () {
+		loaddata('<{$nextpage}>', $("#list-media ul"), true);
+	});
+</script>
+
+
+<include file="public:footer"/>

@@ -1,0 +1,92 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2"> 广告</li>
+        <li class="li2 li3">广告申请记录</li>
+      
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>同一个城市轮播图不得超过10张,如有用户购买广告，只需选择对应用户即可，无则留空，需要二开联系qq 286099981</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+            </div>
+            <div class="right">
+                <form class="" method="post"  action="<{:U('adrecord/index')}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                        <span>搜索</span>
+                        <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  />
+                        <input type="submit" value=" 搜索"  class="inptButton" />
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form   method="post" target="x-frame">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td><input type="checkbox" class="checkAll" rel="id" /></td>
+                    <td>ID</td>
+                    <td>广告位置名称</td>
+                    <td>广告ID</td>
+                    <td>广告位置ID</td>
+                    <td>所属城市</td>
+                    <td>广告名称</td>
+                    <td>链接地址</td>
+                    <td>购买用户</td>
+                    <td>预存积分</td>
+                    <td>广告展示时间</td>
+                    <td>状态</td>
+                    <td>操作</th>
+                </tr>
+                    <foreach name="list" item="var">
+                <tr>
+                    <td><input class="child_id" type="checkbox" name="id[]" value="<{$var.id}>" /> </td>
+                    <td><{$var.id}></td>
+                    <td><{$sites[$var['site_id']]['site_name']}></td>
+                    <td style="color:#F00"><{$var['ad_id']|default='未审核无广告ID'}></td>
+                    <td><{$var['site_id']}></td>
+                    <td><{$citys[$var['city_id']]['name']|default='通用'}></td>
+                    <td><{$var.title}></td>
+                    <td><{$var.link_url}></td>
+                    <td><{$var.nickname}></td>
+                    <td><{$var.prestore_integral}></td>
+                    <td><{$var.active_time}>天</td>
+                    <td>
+                        <if condition="$var.audit eq 1">
+                        	已审核
+                        <elseif condition="$var.audit eq -1"/>
+                        	审核失败
+                        <else/>
+                        	待审核
+                        </if>
+                    </td>             
+                    <td>
+                        <if condition="$var.audit neq 1 and ($var.audit neq -1)">
+                            <{:BA('adrecord/audit',array("id"=>$var["id"]),'审核','act','remberBtn')}>
+                            <{:BA('adrecord/fail',array("id"=>$var["id"]),'审核失败','act','remberBtn')}>
+                        </if>
+                        <{:BA('adrecord/edit',array("id"=>$var["id"]),'编辑','','remberBtn')}>
+                        <{:BA('ad/index',array("site_id"=>$var["site_id"]),'查看广告','','remberBtn')}>
+                        <{:BA('adrecord/logs',array("id"=>$var["id"]),'广告点击记录','','remberBtn')}>
+                        <{:BA('adrecord/delete',array("id"=>$var["id"]),'删除','act','remberBtn')}>
+                    </td>
+                </tr>
+            </foreach>
+                    <tr>
+                        <td colspan="20">
+                            <{:BA('adrecord/delete','','批量删除','list',' piliangcaozuo')}>
+                        </td>
+                    </tr>
+                </table>
+                <{$page}>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

@@ -1,0 +1,88 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员管理</li>
+        <li class="li2">会员回收站</li>
+        <li class="li2 li3">彻底删除会员</li>
+    </ul>
+</div>
+<style>
+.shang{ background:#F00; color:#FFF; padding:0 5px; margin:0 5px;}
+.delivery{ background: #00F; color:#FFF; padding:0 5px; margin:0 5px;}
+</style>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>注意这里一旦删除数据后无法恢复数据，谨慎操作，如果您想彻底删除该会员，可以使用这里删除，不需要用到数据库里面删除会员信息~</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('user/create','','添加会员','load','',700,600)}>
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('user/recycle')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <label>
+                            <span>账户</span>
+                            <input type="text" name="account" value="<{$account}>" class="inptText" />
+                        </label>
+                        
+                          <label>
+                            <span>手机号码</span>
+                            <input type="text" name="mobile" value="<{$mobile}>" class="inptText" />
+                        </label>
+                        <label>
+                            <span>昵称</span>
+                            <input type="text" name="nickname" value="<{$nickname}>" class="inptText" />
+                            <input type="submit" value="   搜索"  class="inptButton" />
+                        </label>
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+        <div class="clear"></div>
+    </div>
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="user_id" /></td>
+                    <td class="w50">ID</td>
+                    <td>账户（昵称）</td>
+                    <td>会员等级</td>
+                    <td>余额</td>
+                    <td>积分</td>
+                    <td><{$CONFIG.prestige.name|default='威望'}></td>
+                    <td>冻结金</td>
+                    <td>注册时间</td>
+                    <td class="w150">操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_user_id" type="checkbox" name="user_id[]" value="<{$var.user_id}>" /></td>
+                        <td><{$var.user_id}></td>
+                        <td><{$var.account}></td>
+                        <td><{$rank[$var['rank_id']]['rank_name']|default="无等级"}><br/></td>
+                        <td><{:round($var['money']/100,2)}></td>
+                        <td><{$var.integral}></td>
+                        <td><{$var.prestige}></td>
+                        <td>商户冻结金：&yen; <{:round($var['frozen_gold']/100,2)}>元</eq>会员冻结金&yen; <{:round($var['frozen_money']/100,2)}>元</td>
+                        <td><{$var.reg_time|date='Y-m-d H:i:s',###}></td>
+                        <td>
+                        	<{:BA('user/renew',array("user_id"=>$var["user_id"]),'恢复','act','remberBtn')}>
+                        	<{:BA('user/recycle_delete',array("user_id"=>$var["user_id"]),'彻底删除','act','remberBtn')}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+            	<{:BA('user/renew','','批量恢复','list',' remberBtn')}>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

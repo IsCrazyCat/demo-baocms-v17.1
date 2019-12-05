@@ -1,0 +1,96 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back(-1);"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			余额充值
+		</div>
+	</header>
+
+<style>
+	ul{padding-left:0px;}
+</style>
+
+<ul id="shangjia_tab">
+	<li class="x3"><a href="<{:U('money/index')}>" class="on">余额充值</a></li>
+    <li class="x3"><a href="<{:U('cash/index')}>">申请提现</a></li>
+    <li class="x3"><a href="<{:U('cash/cashlog')}>">提现日志</a></li>
+    <li class="x3"><a href="<{:U('logs/moneylogs')}>" >日志管理</a></li>
+</ul>
+
+
+<if condition="!empty($CONFIG[cash][is_recharge])">
+	<div class="blank-10 bg"></div>
+    <div class="container" style="margin-top:2.2rem;">
+        <p>
+            <if condition="!empty($CONFIG[cash][recharge_full_1]) && !empty($CONFIG[cash][recharge_give_1]) && ($CONFIG[cash][recharge_full_1] GT $CONFIG[cash][recharge_give_1])">
+             单笔充值满：<a style="color:#F00">&yen;<{$CONFIG[cash][recharge_full_1]}> </a> 元,送：<{$CONFIG[cash][recharge_give_1]}> 元
+            </if>
+            <hr/>
+            <if condition="!empty($CONFIG[cash][recharge_full_2]) && !empty($CONFIG[cash][recharge_give_2]) && ($CONFIG[cash][recharge_full_2] GT $CONFIG[cash][recharge_give_2])">
+            单笔充值满：<a style="color:#F00">&yen;<{$CONFIG[cash][recharge_full_2]}> </a> 元,送：<{$CONFIG[cash][recharge_give_2]}> 元
+            </if>
+            <hr/>
+            <if condition="!empty($CONFIG[cash][recharge_full_3]) && !empty($CONFIG[cash][recharge_give_3]) && ($CONFIG[cash][recharge_full_3] GT $CONFIG[cash][recharge_give_3])">
+             单笔充值满：<a style="color:#F00">&yen;<{$CONFIG[cash][recharge_full_3]}> </a> 元,送：<{$CONFIG[cash][recharge_give_3]}> 元
+            </if>
+            <hr/>
+            <if condition="$CONFIG['prestige']['activate']">
+            充值<a style="color:#F00">&yen;<{$CONFIG['prestige']['activate']}></a> 元，即可自动激活<{$CONFIG.prestige.name|default='威望'}>。
+            </if>
+        </p>
+    </div>
+</if>
+
+<if condition="empty($CONFIG[cash][is_recharge])">
+	<div class="blank-40"></div>
+</if>
+<div class="blank-10 bg"></div>
+
+<form method="post" action="<{:U('money/moneypay')}>">
+<div class="line padding">
+    <span class="x3">充值金额：</span>
+	<span class="x9">
+		<input class="text-input" type="text" name="money" placeholder="请输入充值金额" />
+	</span>
+</div>
+<ul id="pay-method" class="pay-method">
+	<foreach name="payment" item="var">
+	<if condition="$var['code'] neq 'money'">
+	<li data-rel="<{$var.code}>" class="media media-x payment">
+		<a class="float-left"  href="javascript:;">
+			<img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+		</a>
+		<div class="media-body">
+			<div class="line">
+				<div class="x10">
+				<{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+				</div>
+				<div class="x2">
+					<span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+				</div>
+			</div>
+		</div>
+	</li>
+	</if>
+	</foreach>
+</ul>
+<input id="code" type="hidden" name="code" value="" />
+<script>
+	$("#pay-method li").click(function(){
+		var code = $(this).attr("data-rel");
+		$("#code").val(code);
+		$("#pay-method li").each(function(){
+			$(this).removeClass("active");
+		});
+		$(this).addClass("active");
+	});
+</script>
+
+<div class="blank-30"></div>
+<div class="container"><button type="submit" class="button button-block button-big bg-dot">提交充值</button></div>
+<div class="blank-30"></div>
+
+</form>
+<include file="public:footer"/>

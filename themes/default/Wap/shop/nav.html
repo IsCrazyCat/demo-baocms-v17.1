@@ -1,0 +1,66 @@
+<div class="select_wrapper">
+   <div class="select_01" id="wrapper2">
+     <ul class="tab-hd" id="scroller2">
+         <li id="all_nwes" class=" <if condition="$act eq 'detail'">active</if> item"><a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>">首页</a></li>
+         <if condition="$CONFIG['operation']['tuan']">
+            <eq name="grade.is_tuan" value="1">
+         		<li class="item <eq name="act" value="tuan">current</eq>"><a class="active" href="<{:U('shop/tuan',array('shop_id'=>$detail['shop_id']))}>">团购</a></li>
+            </eq>
+         </if>
+         <if condition="$CONFIG['operation']['jifen']">
+         	<eq name="grade.is_jifen" value="1">
+         		<li class="item <eq name="act" value="jifen">current</eq>"><a class="active" href="<{:U('shop/jifen',array('shop_id'=>$detail['shop_id']))}>">积分</a></li>
+            </eq>
+         </if>
+         <if condition="$CONFIG['operation']['mall']">
+             <eq name="grade.is_mall" value="1">
+                <li class="item <eq name="act" value="mall">current</eq>"><a class="active" href="<{:U('mall/index',array('shop_id'=>$detail['shop_id']))}>">商城</a></li>
+             </eq>
+         </if>
+         <if condition="$CONFIG['operation']['booking']">
+             <eq name="grade.is_booking" value="1">
+                <li class="item <eq name="act" value="booking">current</eq>"><a class="active" href="<{:U('shop/booking',array('shop_id'=>$detail['shop_id']))}>">订座</a></li>
+             </eq>
+         </if>
+         <if condition="$CONFIG['operation']['hotel']">
+             <eq name="grade.is_hotel" value="1">
+                <li class="item <eq name="act" value="hotel">current</eq>"><a class="active" href="<{:U('shop/hotel',array('shop_id'=>$detail['shop_id']))}>">酒店</a></li>
+             </eq>
+         </if>
+         <if condition="$CONFIG['operation']['life']">
+             <eq name="grade.is_life" value="1">
+                <li class="item <eq name="act" value="news">life</eq>"><a class="active" href="<{:U('shop/life',array('shop_id'=>$detail['shop_id']))}>">信息</a></li>
+             </eq>
+         </if>
+         <if condition="$CONFIG['operation']['coupon']">
+             <eq name="grade.is_coupon" value="1">
+                <li class="item <eq name="act" value="news">coupon</eq>"><a class="active" href="<{:U('shop/coupon',array('shop_id'=>$detail['shop_id']))}>">优惠劵</a></li>
+             </eq>
+         </if>
+         <if condition="$CONFIG['operation']['ele']">
+             <eq name="grade.is_ele" value="1">
+                <li class="item <eq name="act" value="ele">current</eq>"><a class="active" href="<{:U('ele/shop',array('shop_id'=>$detail['shop_id']))}>">外卖</a></li>
+             </eq>
+         </if>
+         <li class="item <eq name="act" value="news">current</eq>"><a class="active" href="<{:U('shop/news',array('shop_id'=>$detail['shop_id']))}>">新闻</a></li>
+         <li class="item <eq name="act" value="dianping">current</eq>"><a class="active" href="<{:U('shop/dianping',array('shop_id'=>$detail['shop_id']))}>">点评</a></li>
+      </ul>
+     <div class="more" id="iscrollto"><span></span></div>
+     </div>
+</div>	
+
+		<script>
+        (function($){
+            $('#scroller2').css('width',(90*$('#scroller2').find('li').length)+40+'px'); 
+            window['myScroll2'] = new IScroll('#wrapper2', {
+                scrollX: true,
+                scrollY: false,
+                click:true,
+                keyBindings: true
+            });
+            $('#iscrollto').click(function(){
+                window['myScroll2'].scrollBy(-100,0,500)
+            });
+        })(jQuery);
+        window.onload=function(){loaded_page();}
+        </script>

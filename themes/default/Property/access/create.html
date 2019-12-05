@@ -1,0 +1,48 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="javascript:void(0);">小区管理</a> > <a href="javascript:void(0);">添加门锁</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="tabnr_change  show">
+        <form method="post"  action="<{:U('access/create')}>"  target="x-frame">
+            <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">序列号：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[lock_sn]" value="<{$detail.lock_sn|default=''}>" class="tuanfabu_int tuanfabu_intw1" />
+                            <code>锁的序列号，这个序列号贴在每个模块的标签上</code>
+                        </div>
+                        </td>
+                </tr>
+                
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">SIM号码：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[sim_no]" value="<{$detail.sim_no|default=''}>" class="tuanfabu_int tuanfabu_intw1" />
+                            <code>锁的SIM号码，和设备序列号一样，贴在设备上的</code>
+                        </div>
+                        </td>
+                </tr>
+                
+                
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">备注：</p></td>
+                    <td><div class="tuanfabu_nr">
+                    	<textarea style="width:260px; height: 140px;" placeholder="请输入内容" name="data[intro]" row="3"></textarea>
+                        <code>填写设备序备注，30字以内</code>
+                        </div>
+                        </td>
+                </tr>
+               
+            </table>
+            <div class="tuanfabu_an">
+                <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认发布" />
+            </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>
+
+

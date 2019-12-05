@@ -1,0 +1,32 @@
+<foreach name="list" item="item">
+   <li class="line">
+        <dt>
+            <a class="x3">日志ID：<{$item.log_id}></a>
+            <a class="x9 text-right"></a>
+        </dt>
+          <dd class="zhong">
+                <div class="x12">
+                    
+                    <p class="text-small">家政订单号：<span class="text-gray"><{$item.order_id}></span></p>
+                    <p class="text-small">优惠卡名称：<span class="text-gray"><{$item.card.title}></span></p>
+                    <p class="text-small">商家ID：<span class="text-gray"><{$item.shop_id}></span></p>
+                    <p class="text-small">商家名称：<span class="text-gray"><{$item.shop.shop_name}></span></p>
+                    <p class="text-small">优惠卡卡号：<span class="text-dot"><{$item.card.cardNumber}></span></p>
+                    <p class="text-small">优惠卡满多少使用：<span class="text-blue">&yen;<{:round($item['card']['fullMoney']/100,2)}> 元</span></p>
+                    <p class="text-small">优惠卡面值：<span class="text-yellow">&yen;<{:round($item['card']['cardMoney']/100,2)}> 元</span></p>
+                    
+                    <if condition="!empty($item['create_time'])">
+                    	<p class="text-small">使用时间：<span class="text-gray"><{$item.create_time|date='Y-m-d H:i',###}></span></p>
+                    </if>
+                    
+              </div>
+          </dd>
+          
+      <dl>
+          <p class="text-right padding-top x12">
+              <a class="button button-small border-dot"><{$statuss[$item['status']]}></a>
+          </p>
+      </dl>
+  </li>
+  <div class="blank-10 bg"></div>
+</foreach>

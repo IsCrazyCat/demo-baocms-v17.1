@@ -1,0 +1,34 @@
+<volist name="list" id="var">
+	<div class="line padding border-bottom">
+		<div class="x6">
+			<img src="<{:config_img($var['community']['pic'])}>" width="90%" />
+		</div>
+		<div class="x6">
+			<p>名称：<{:tu_Msubstr($var['community']['name'],0,30,false)}></p>
+			<p class="text-gray text-small">地址：<{:tu_Msubstr($var['community']['addr'],0,30,false)}></p>
+			<p class="text-gray text-small"><if condition="!empty($var['community']['tel'])">电话：<{$var.community.tel}><else />未提供</if></p>
+			<p class="text-gray text-small">物业公司：<{$var.community.property}></p>
+		</div>
+	</div>
+   <div class="line padding border-bottom">
+		<span class="x12">
+            <p class="text-gray text-small">业主姓名：<{:tu_Msubstr($var['owner']['name'],0,30,false)}></p>
+			<p class="text-gray text-small">有效期：<{$var.bg_date}> - <{$var.end_date}> </p>
+			<p class="text-gray text-small">门禁名称：<{$var.access.intro}></p>
+            <p class="text-gray">门禁状态：<eq name="var.access.online" value="1"><a class="text-dot"> 在线 </a><else/><a class="text-gray"> 离线 </a></eq> 最后更新：<a class="text-yellow"><{$var.access.query_time|date="Y-m-d H:i:s",###}></a></p>
+        </span>
+	</div>
+         
+	<div class="line padding">
+		<span class="x12 text-right">
+            <a class="button button-small border-yellow" href="<{:U('wap/community/detail',array('community_id'=>$var['community_id']))}>">浏览小区</a>
+            <a class="button button-small bg-blue" id="www-hatudou-com-url-btn"  href="<{:U('community/state',array('list_id'=>$var['list_id'],'id'=>$var['id']))}>">更新门禁状态</a>
+            <a class="button button-small bg-dot" id="www-hatudou-com-url-btn" href="<{:U('community/open',array('id'=>$var['id']))}>">我要开门</a>
+            <php>
+            	$time = time();	
+            </php>
+            <a class="button button-small border-dot" href="<{:U('community/qrcode',array('list_id'=>$var['list_id'],'id'=>$var['id'],'time'=>$time))}>">生成临时二维码</a>
+        </span>
+	</div>
+	<div class="blank-10 bg"></div>
+</volist>

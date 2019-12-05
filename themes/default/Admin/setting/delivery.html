@@ -1,0 +1,58 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">配送员配置</li>
+    </ul>
+</div>
+<p class="attention"><span>注意：</span>首先再这里配置配送员评分项以及其他的项目，请第一次点击下保存</p>
+<form  target="x-frame" action="<{:U('setting/delivery')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+            
+            	<tr>
+                    <td class="lfTdBt">配送员抢单间隔时间：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[interval_time]" value="<{$CONFIG['delivery']['interval_time']|default='300'}>" class="manageInput w150" />
+                        <code>单位秒，这里是配送员接单第一单后再次抢单需要间隔多少秒</code>
+                    </td>
+                </tr>
+            
+            
+            
+                <tr>
+                    <td class="lfTdBt">配送员评分项1：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[d1]" value="<{$CONFIG['delivery']['d1']|default='描述相符'}>" class="manageInput w150" />
+                        <code>配送员评分项1</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">配送员评分项2：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[d2]" value="<{$CONFIG['delivery']['d2']|default='服务态度'}>" class="manageInput w150" />
+                        <code>配送员评分项2</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">配送员评分项2：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[d3]" value="<{$CONFIG['delivery']['d3']|default='快速守时'}>" class="manageInput w150" />
+                        <code>配送员评分项2</code>
+                    </td>
+                </tr>
+                
+              
+                        
+                        
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>   

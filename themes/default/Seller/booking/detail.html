@@ -1,0 +1,80 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('booking/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			订座订单详情
+		</div>
+		<div class="top-share">
+			<a href="#" id="cate-btn"></a>
+		</div>
+	</header>
+<body>   
+
+<style>
+.panel-list li.padding10 {padding:10px; text-align:center;}
+.panel-list li.padding10 a { font-size:16px;}
+</style>
+
+<div class="panel-list">
+	<ul>
+        <li><a href="javascript:;">订座订单号：<em><{$detail.order_id}></em></a></li>
+        <li><a href="javascript:;">下单时间：<em><{$detail.create_time|date='Y-m-d H:i',###}></em></a></li>
+        <if condition="$log['is_paid'] eq 1">
+        	<li><a href="javascript:;">支付成功：<em><{$log.pay_time|date='Y-m-d H:i',###}></em></a></li>
+        </if>
+        <if condition="$detail['order_status'] eq 2">
+        	<li><a href="javascript:;">订单完成时间：<em><{$detail.update_time|date='Y-m-d H:i',###}></em></a></li>
+        </if>
+        <if condition="$detail['code'] eq wait">
+        	<li><a href="javascript:;">支付方式：<em class="text-dot">店内支付</em></a></li>
+        </if>
+        <if condition="$detail['order_status'] eq -1">
+        	<li><a href="javascript:;">取消订单时间：<em><{$detail.update_time|date='Y-m-d H:i',###}></em></a></li>
+        </if>
+        <if condition="$list">                            
+            <volist name="list" id="item">         
+            <li><a href="javascript:;"><{$menus[$item['menu_id']]['menu_name']}>
+            <em class="text-dot">x<{$item.num}>&nbsp;￥<{:round($item['price']/100,1)}>&nbsp;&nbsp;&nbsp;￥<{:round($item['amount']/100,1)}></em></a></li>
+            </volist>                                     
+         </if>
+ 	
+
+	</ul>
+</div>
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+		<li><a href="javascript:;">订座商家：<em><{$shop.shop_name}></em></a></li>
+		<li><a href="javascript:;">订座时间：<em class="text-dot"><{$detail.ding_date}> &nbsp;<{$detail.ding_time}></em></a></li>
+		<li><a href="javascript:;">订座人数：<em><{$detail['ding_num']|default="未选择"}></em></a></li>
+		<li><a href="javascript:;">订座选择：<em><if condition="!empty($detail['room_id'])"><{$room['name']}><else/>大厅</if></em></a></li>
+		<li><a href="javascript:;">订座情况：<em><if condition="$detail['menu_amount'] eq 0">未点餐<else/>已点餐</if></em></a></li>
+        <li><a href="javascript:;">订座联系人：<em><{$detail.name}>&nbsp;&nbsp;<if condition="$detail['sex'] eq 1">先生<else/>女士</if></em></a></li>
+        <li><a href="javascript:;">订座手机号：<em><{$detail.mobile}></em></a></li>
+        <li><a href="javascript:;">支付总额：<em>￥<{:round($detail['amount']/100,1)}></span>(<if condition="$detail['order_status'] eq 1"> 未消费 <elseif condition="$detail['order_status'] eq 2"/> 已消费 <elseif condition="$detail['order_status'] eq -1"/> 已取消 <else/>未支付</if>)</em></a></li>
+	</ul>
+</div>
+
+<div class="blank-30"></div>
+
+<div class="container login-open">
+
+		  <if condition="$detail['order_status'] eq 1">
+              <a target="x-frame" class="button button-block button-big bg-blue text-center"  href="<{:U('booking/complete',array('order_id'=>$detail['order_id']))}>">确认消费</a>
+          </if>
+          <if condition="$detail['order_status'] neq -1">
+          	<div class="blank-20"></div>
+             <a target="x-frame"  class="button button-block button-big bg-yellow text-center"  href="<{:U('booking/cancel',array('order_id'=>$detail['order_id']))}>">取消订单</a>
+          </if>
+          <if condition="$detail['order_status'] eq -1">
+               <if condition="$detail['closed'] eq 0">
+                    <div class="blank-20"></div>
+                    <a target="x-frame"  class="button button-block button-big bg-gray text-center" href="<{:U('booking/delete',array('order_id'=>$detail['order_id']))}>">删除订单</a>
+              </if>
+          </if>    
+
+<div class="blank-20"></div>
+
+<include file="booking:footer"/>

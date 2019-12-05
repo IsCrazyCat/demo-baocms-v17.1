@@ -1,0 +1,60 @@
+<foreach name="list" item="item">
+    <li class="line padding">
+       <div class="x12">
+        	<p class="text-gray text-small">跑腿订单ID：<{$item.running_id}></p>
+			<p class="text-gray text-small">跑腿需求：<{$item.title}></a></p>
+            <p class="text-gray text-small">跑腿地址：<{$item.addr}></a></p>
+            <p class="text-gray text-small">跑腿电话：<{$item.mobile}></a></p>
+            <p class="text-dot text-small">支付价格：单价&yen;<{:round($item['price']/100,2)}>元  +  跑腿费：&yen;<{:round($item['freight']/100,2)}>元  = 实际支付：&yen;<{:round($item['need_pay']/100,2)}>元</p>
+            <p class="text-gray text-small">发布时间：<{$item.create_time|date='Y-m-d H:i:s',###}> </p>
+		</div>
+			
+        <div class="blank-10"></div>
+        <p class="text-right padding-top">
+            <a href="<{:U("running/detail",array('running_id'=>$item['running_id']))}>" class="button button-small bg-blue">详情</a>
+            <a href="tel:<{$item.mobile}>" class="button button-small border-blue">联系买家</a>
+            <eq name="item.status" value="1"><a href="javascript:void(0);" class="button button-small border-yellow">等待接单</a></eq>
+            <eq name="item.status" value="2"><a href="javascript:void(0);" class="button button-small border-yellow">跑腿中</a></eq>
+            <eq name="item.status" value="3"><a href="javascript:void(0);" class="button button-small border-gray">跑完腿</a></eq> 
+            <eq name="item.status" value="1"><a href="javascript:void(0);" val="<{$item.running_id}>" class="button button-small bg-dot qiang_btn">抢单</a></eq>
+            <eq name="item.status" value="2"><a href="javascript:void(0);" val="<{$item.running_id}>" class="button button-small bg-dot ok_btn">确认完成</a></eq>
+        </p>
+
+        </div>
+    </li>
+
+    <div class="blank-10 bg"></div>
+</foreach>
+
+ <script type="text/javascript" language="javascript">
+                $(document).ready(function () {
+                    $('.qiang_btn').click(function () {
+                        var id = $(this).attr('val');
+                        $.post('<{:U("running/qiang")}>', {running_id: id}, function (result) {
+                            if (result.status == 'success') {
+                                layer.msg(result.message);
+                                setTimeout(function () {
+                                    location.reload(true);
+                                    window.location.href = "<{:U('running/index',array('aready'=>2))}>";
+                                }, 1500);
+                            } else {
+                                layer.msg(result.message);
+                            }
+                        }, 'json');
+                    })
+
+                    $('.ok_btn').click(function () {
+                        var id = $(this).attr('val');
+                        $.post('<{:U("running/running_ok")}>', {running_id: id}, function (result) {
+                            if (result.status == 'success') {
+                                layer.msg(result.message, {icon: 6});
+                                setTimeout(function () {
+                                    window.location.href = "<{:U('running/index',array('aready'=>3))}>";
+                                }, 1500);
+                            } else {
+                                layer.msg(result.message);
+                            }
+                        }, 'json');
+                    })
+                })
+   </script>

@@ -1,0 +1,115 @@
+<php>$mobile_title = $detail['name'];</php>
+<include  file='public:header'/>   
+<script src="__TMPL__statics/js/swiper.min.js" type="text/javascript" charset="utf-8"></script> 
+<style>
+.detail-worker{ display:block; overflow:hidden;}
+.detail-photo{ width:90px; padding:5px; margin-top:15px;}
+.hd-detail .detail-info2 {background: #FFF; padding: 0 10px;}
+.hd-detail .detail-info2 h1{height:40px;line-height:40px;font-size:14px;border-bottom:thin solid #eee;font-weight:bold;}
+.hd-detail .detail-info2 p{line-height:20px;border-bottom:thin solid #eee;padding:10px 0;margin:0;}
+.hd-detail .detail-info2 p:last-child{border:none!important;}
+
+
+</style>
+	<header class="top-fixed bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('appoint/worker_list',array('appoint_id'=>$detail['appoint_id']))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			技师详情页
+		</div>
+       <div class="top-signed"></div>
+	</header>  
+	<div class="blank-10 bg"></div>
+	
+	<div class="hd-detail tuan-detail">
+    	<div class="detail-worker">
+            <div class="x4">
+                <a href="javascript:void(0);"><img class="detail-photo" src="<{:config_img($detail['photo'])}>" /></a>
+            </div>
+            <div class="x8">
+                <div class="detail-info2">
+                    <p>姓名：<{$detail.name}></p>
+                    <p>星级：<{$stars[$detail['star']]}></p>
+                    <p>档期：
+                        <foreach name="dates" item="var" key="index">
+                          <?php if(in_array($index,$date_ids)){?> <a class="week_ids"><{$var}></a> <?php }?>
+                        </foreach>   
+                    </p>
+                    <p>职务：<{$detail.office}></p>
+                    <p>身高：<{$detail.height}></p>
+                    <p>年龄：<{$detail.age}></p>
+                    <p>生肖：<{$zodiacs[$detail['zodiac']]}></p>
+                    <p>星座：<{$constellatorys[$detail['constellatory']]}></p>
+                    <p>文化水平：<{$detail.culture}></p>
+                    <p>工作年限：<{$detail.working_age}></p>
+                    <p>户籍地：<{$detail.household}></p>
+                    <p>普通话水平：<{$mandarins[$detail['mandarin']]}></p>
+                    <p>服务价格：<b class="pointcl"><{:round($detail['price']/100,2)}></b>元</p>
+                </div>
+            </div>
+        </div>
+        <div class="blank-10 bg"></div>
+        <div class="line status">
+			<div class="x6">
+				<span class="ui-starbar"><span style="width:<{:round($score*20,2)}>%"></span></span>
+			</div>
+			<div class="x6">
+				<span class="float-right margin-small-top"><a href="<{:U('appoint/workerdianping',array('worker_id'=>$detail['worker_id']))}>"><{$pingnum}>人评价了该技师</a> <i class="iconfont icon-angle-right"></i></span>
+			</div>
+		</div>
+
+        <div class="blank-10 bg"></div>
+        <if condition="!empty($list)">
+            <div class="goods_title">
+                <span class="left"><{$detail.name}> . 证件展示</span>
+               
+            </div>
+            <div class="goods_limit_buy mb10">
+            	<div class="locatLabel_switch swiper-container5 swiper-container-horizontal swiper-container-free-mode">
+                    <div class="swiper-wrapper">
+                    <foreach name="list" item="var">
+						<div class="box swiper-slide">
+                            <a href="<{:config_img($var['photo'])}>"><img src="<{:config_img($var['photo'])}>" width="" height="">
+                            <p class="txt_center overflow_clear"><{$var['name']}></p>
+                            <p class="txt_center fontcl1">类型：<{$certs[$var['cert']]}></p></a> 
+                        </div>  
+                       </foreach>                       
+                    </div>
+                </div>
+                
+		         <script>
+                    var swiper = new Swiper('.swiper-container5', {
+                        pagination: '.swiper-pagination5',
+                        slidesPerView: 3,
+                        paginationClickable: true,
+                        spaceBetween: 10,
+						autoplay: 3000,
+                        freeMode: true
+                    });
+                </script>
+            </div>
+         </if>   
+         
+         
+        <div class="blank-10 bg"></div>
+		<div class="detail-info">
+			<h1><{$detail.name}> . 专业技能</h1>
+			<p><{$detail.skill}></p>
+		</div>
+        
+		<div class="blank-10 bg"></div>
+		<div class="detail-info">
+			<h1><{$detail.name}> . 简单介绍</h1>
+			<p><{$detail.intro}></p>
+		</div>
+		<div class="blank-20"></div>
+
+        <section class="appoint_buy_btn">
+            <div class="appoint_buy_segment">
+                <div class="appoint_buy_wrapper text-right">
+                	<a class="button button-big bg-yellow" href="<{:U('appoint/yuyue',array('appoint_id'=>$detail['appoint_id'],'worker_id'=>$detail['worker_id'],'orderType'=>'2'))}>">候选面试</a>
+                 	<a class="button button-big bg-dot" href="<{:U('appoint/yuyue',array('appoint_id'=>$detail['appoint_id'],'worker_id'=>$detail['worker_id'],'orderType'=>'1'))}>">立即预约</a>
+                </div>
+            </div>
+        </section>

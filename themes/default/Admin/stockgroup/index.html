@@ -1,0 +1,65 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">群</li>
+        <li class="li2 li3">群列表</li>
+    </ul>
+</div>
+<div class="main-jsgl">
+    <p class="attention"><span>注意：</span>这里显示群列表！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin: 10px 20px;">
+            <div class="left">
+                <{:BA('stockgroup/create',array('jury_id'=>$jury_id),'添加群')}>
+            </div>
+            <form method="post" action="<{:U('stockgroup/index')}>">
+                <div class="right">
+                    <input type="text" name="keyword" placeholder=" 输入群名称"  value="<{$keyword}>" class="inptText" />
+                    <input type="submit" value="  搜索"  class="inptButton" />
+                </div>
+            </form>
+        </div>
+        <form target="x-frame" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="group_id" /></td>
+                        <td class="w50">群ID</td>
+                        <td>群名称</td>
+                        <td>队伍名称-->团队名称</td>
+                        <td>群简介</td>
+                        <td>群排序</td>
+                        <td>创建时间</td>
+                        <td>创建IP</td>
+                        <td class="w120">操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_group_id" type="checkbox" name="group_id[]" value="<{$var.group_id}>"/></td>
+                            <td><{$var.group_id}></td>
+                            <td><{$var.group_name}></td>
+                            <td><{$teams[$var['team_id']]['team_name']}>--><{$jurys[$var['jury_id']]['jury_name']}></td>
+                            <td><{$var.intro}></td>
+                            <td><{$var.orderby}></td>
+                            <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                        	<td><{$var.create_ip}></td>
+                            <td>
+                                <{:BA('stockgroup/edit',array("group_id"=>$var["group_id"]),'编辑','','remberBtn')}>
+                                <{:BA('stockgroup/delete',array("group_id"=>$var["group_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr">
+                <div class="left">
+                    <{:BA('stockgroup/delete','','批量删除','list','a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       
+

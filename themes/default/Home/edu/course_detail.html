@@ -1,0 +1,200 @@
+<include file="public:header" /> 
+<include file="public:top"/>
+<script type="text/javascript" src="__TMPL__statics/js/jquery.qrcode.min.js"></script>
+<script>
+    $(function () {
+        $('#selectBoxInput').click(function () {
+            $('.selectList').toggle(300);
+        });
+        $(".selectList li a").click(function () {
+            $("#selectBoxInput").html($(this).html());
+            $('.selectList').hide();
+        });
+    });//头部搜索框js
+    $(function () {
+        $('.sy_flsxAll').click(function () {
+            $('.sy_flsxAllList').toggle();
+        });
+    });
+</script>
+
+<style>
+/*部分样式重写*/
+.spxq_slider {height: 265px;}
+.spxq_bq span{ width:80px;}
+.spxq_qgjjKq{ width:180px;}
+.zy_content { padding-top: 0px;}
+.spxq_xqgm_l h3 {margin-bottom:10px; }
+.spxq_xqgm_l .spxq_xqjj { margin-bottom: 10px;}
+.zy_content_l{ width:1200px;}
+.sy_sjcpwx canvas{width: 102px;height: 102px;margin: 0px auto;padding: 10px; background: #fff;}
+</style>
+<div class="nav">
+    <div class="navList">
+        <ul>
+            <li class="navListAll"><span class="navListAllt">全部课程分类</span>
+                <div class="shadowy navAll">
+                    <include file="public:cate_edu"/>
+                </div>
+            </li>
+    <li class="navLi"><a class="navA <if condition='$ctl eq zhe and $act eq index'>on</if> " href="<{:U('edu/course')}>">首页</a></li>   
+    <php>$i=0;</php>     
+    <foreach name="cates" item="item">
+        <eq name="item.parent_id" value="0"> 
+            <php>$i++;if($i <= 6){</php>
+            <li class="navLi"><a class="navA <if condition="$cat eq $item['cate_id']">on</if> " href="<{:U('edu/course',array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a></li>
+            <php>}</php>
+        </eq>
+    </foreach>
+        </ul>
+    </div>
+</div>
+<div class="content zy_content" style="position: relative;">
+    <div class="spxq_loca">
+       <a href="<{:U('index/index')}>">首页</a>&gt;&gt;
+       <a href="<{:U('edu/course')}>">教育</a>&gt;&gt;
+       <if condition="!empty($catstr)">
+            <if condition="empty($catestr)">
+            	<a href="<{:U('edu/course',array('cat'=>$detail['cate_id']))}>"><{$catstr}></a>&gt;&gt;
+            <else/>
+                <a href="<{:U('edu/course',array('cat'=>$cat))}>"><{$catstr}></a>&gt;&gt;
+                <a href="<{:U('edu/course',array('cat'=>$cat,'cate_id'=>$detail['cate_id']))}>"><{$catestr}></a>&gt;&gt;
+            </if>
+        </if>
+        <a href="<{:U('edu/course_detail',array('course_id'=>$detail['course_id']))}>"><{$detail['title']}></a>
+    </div>
+    <div class="spxq_xqgm">
+        <div class="left spxq_xqgm_l">
+            <h3><{$detail.title}></h3>
+            <div class="spxq_qg">
+                <div class="left spxq_qg_l">
+                    <div class="spxq_slider">
+                        <div class="spxq_bq"><eq name="detail.type" value="1"><span class="spxq_bq1">支持试课<em></em></span></eq></div>
+                        <ul class="slides">
+                            <li class="sy_hotgzLi" data-thumb="<{:config_img($detail['photo'])}>">
+                            	<img src="<{:config_img($detail['photo'])}>" width="470" height="285" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="right spxq_qg_r">
+                    <div class="spxq_qgjgk">
+                        <span class="detail_spxq_qg_tit">课程价</span>
+                        <span class="spxq_qgjg">
+                        	<small>&yen;</small>
+                            <b><{:round($detail['course_price']/100,2)}></b>
+                            <eq name="detail.type" value="1">
+                                <span class="detail_spxq_qg_tit">试课价</span>
+                            	<small>&yen;</small>
+                            	<b><{:round($detail['test_price']/100,2)}></b>
+                            </eq>
+                            <del>&yen;<{:round($detail['price']/100,2)}></del>
+                        </span>
+                    </div>
+                    
+                    <div class="spxq_qgjgk">
+                        <span class="spxq_qgps">已售<span class="spxq_qgsnum"><{$detail['sale']}></span></span>
+                        <span class="spxq_qgps"><{$counts}>人已评价</span>
+                       
+                    </div>
+                    
+                    <div class="spxq_qgjgk">
+                        <span class="spxq_qgps">年龄段：<span class="spxq_qgsnum"><{$age[$detail['age_id']]}></span></span>
+                        <span class="spxq_qgps">时间段：<span class="spxq_qgsnum"><{$get_time[$detail['time_id']]}></span></span>
+                        <span class="spxq_qgps">类型：<span class="spxq_qgsnum"><{$class[$detail['class_id']]}></span></span>
+                    </div>
+                    
+                    
+                    <div class="spxq_qgjgk">
+                        <span class="spxq_qgps">课时：<span class="spxq_qgsnum"><{$detail['class_time']}></span></span>
+                        <span class="spxq_qgps">上课时间：<span class="spxq_qgsnum"><{$detail['course_time']}></span></span>
+                        <span class="spxq_qgps">报名时间：<span class="spxq_qgsnum"><{$detail['apply_time']}></span></span>
+                    </div>
+                  
+                    <div class="spxq_qgjgk">
+						<div class="left spxq_qgjjAn">
+                            <a  target="x-frame"  href="<{:U('edu/buy',array('course_id'=>$detail['course_id']))}>" class="spxq_qgjjKq spxq_qgjjLq jq_addcart2">购买完整课程 &yen;<{:round($detail['course_price']/100,2)}></a>
+                            <eq name="detail.type" value="1">
+                            	<a  target="x-frame" href="<{:U('edu/buy',array('course_id'=>$detail['course_id'],'type'=>1))}>" class="spxq_qgjjKk jq_addcart">我要试课 &yen;<{:round($detail['test_price']/100,2)}></a>
+                            </eq>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="right spxq_xqgm_r">
+            <div class="spxq_qgwx"> 
+			<script type="text/javascript">
+				$(function () {
+					var str = "<{$host}><{:U('wap/edu/course_detail',array('course_id'=>$detail['course_id']))}>";
+					$("#code_<{$detail.course_id}>").empty();
+					$('#code_<{$detail.course_id}>').qrcode(str);
+				})
+			   </script>
+				<a href="<{:U('edu/course_detail',array('course_id'=>$detail['course_id']))}>">
+                	<div class="sy_sjcpwx"  id="code_<{$detail.course_id}>"></div>
+                </a>
+                <p>扫描商家微信</p>
+            </div>      
+        </div>
+    </div>
+    <div class="spxqBox">
+        <div class="left zy_content_l">
+            <div class="spxq_xqT">
+                <ul>
+                    <li class="on"><code rel="spxq_xqBt1">课程详情</code><em></em></li>
+                    <li><code rel="spxq_xqBt2">用户评价(<{$counts}>)</code><em></em></li>
+                </ul>
+            </div>
+            
+           
+            <div class="spxq_xqBt1">
+                <div class="spxq_xqBt">课程详情</div>
+                <div class="spxq_xqNr"><{$detail.details}></div>
+            </div>
+            <div class="spxq_xqBt2">
+                <div class="spxq_xqBt">
+                    <div class="left">用户评价(<{$counts}>)</div>
+                    <div class="right spxq_xqBt_r">我买过本单，<a class="spxq_pjAn" href="<{:U('members/edu/noindex')}>">我要评价</a></div>
+                </div>
+                <div class="spxq_xqNr">
+                    <ul>
+                        <foreach name="list" item="var">
+                            <li class="spxq_pjList">
+                                <div class="left spxq_pjList_l">
+                                    <div class="spxq_pjTx">
+										<img  width="50" height="50"  src="<{:config_img($users[$var['user_id']]['face'])}>" />
+                                    </div>
+                                    <p class="spxq_pjYh"><{:config_user_name($users[$var['user_id']]['nickname'])}></p>
+                                   
+                                </div>
+                                <div class="left spxq_pjList_r">
+                                 <span class="spxq_qgpstarBg"><span class="spxq_qgpstar  spxq_qgpstar<{:round($var['score']*10,2)}>">&nbsp;</span></span>
+                                    <span class="spxq_pjTime"><{$var.create_time|date='Y-m-d',###}></span></div>
+                                    <p class="spxq_pjP"><{$var.contents}></p>
+                                    <ul class="spxq_pjUl">
+                                        <foreach name="pics" item="pic">
+                                            <eq name="pic.order_id" value="$var.order_id">
+                                            <li class="spxq_pjLi"><a href="javascript:void(0);" rel=" <{:config_img($pic['pic'])}>" >
+                                            <img src=" <{:config_img($pic['pic'])}>" width="100" height="100" /></a></li>
+                                            </eq>
+                                        </foreach>
+                                    </ul>
+                                </div>
+                            </li>
+                        </foreach>
+                        <div class="x">
+                            <{$page}>
+                        </div>
+                    </ul>
+                </div>
+    </div>
+       
+</div>
+
+<div class="mask_bg mask_spxq_pjLi_img_mask">
+	<div class="mask_spxq_pjLi_img"><img src="" width="300" height="300" /></div>
+</div>
+<div class="clear"></div>
+<include file="public:footer"/>

@@ -1,0 +1,79 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">优惠卡</li>
+        <li class="li2">优惠卡管理</li>
+        <li class="li2 li3">编辑优惠卡</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+
+    <div class="tableBox">
+
+        <form target="x-frame" action="<{:U('appoint/card_edit',array('card_id'=>$detail['card_id']))}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+            
+             	<tr>
+                    <td  class="lfTdBt">优惠卡名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput" />
+                    <code>输入发放优惠卡的名称</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td  class="lfTdBt">优惠卡卡号：</td>
+                    <td class="rgTdBt"><input type="text" name="data[cardNumber]" value="<{$detail.cardNumber|default=''}>" class="manageInput" />
+                    <code>优惠卡的卡号</code>
+                    </td>
+                </tr>
+                
+             	<tr>
+                    <td  class="lfTdBt">优惠卡面值：</td>
+                    <td class="rgTdBt"><input type="text" name="data[cardMoney]" value="<{:round($detail['cardMoney']/100,2)}>" class="manageInput" />
+                    <code>当前优惠卡可以抵扣的金额，建议填写5-50元，单笔订单超过这个面值时候可用</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td  class="lfTdBt">满多少使用：</td>
+                    <td class="rgTdBt"><input type="text" name="data[fullMoney]" value="<{:round($detail['fullMoney']/100,2)}>" class="manageInput" />
+                    <code>必须大于优惠卡面值，比如满100使用，这里的面值就应该是100以内</code>
+                    </td>
+                </tr>
+       
+                <tr>
+                    <td class="lfTdBt">所属会员：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="user_id" name="data[user_id]" value="<{$detail.user_id|default=''}>" class="manageInput" />
+                            <input class="scAddTextName sj" type="text" name="nickname" id="nickname"  value="<{$user.nickname}>" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择账户</a>
+                    </td>
+                </tr> 
+                
+                <tr>
+                    <td  class="lfTdBt">开始日期：</td>
+                    <td class="rgTdBt"><input type="text" name="data[bg_date]" value="<{$detail.bg_date|default=''}>" onfocus="WdatePicker();"  class="inputData" />
+                    <code>优惠卡到这个时间才能使用这个</code>
+                    </td>
+                </tr>
+            
+                <tr>
+                    <td  class="lfTdBt">过期日期：</td>
+                    <td class="rgTdBt"><input type="text" name="data[end_date]" value="<{$detail.end_date|default=''}>" onfocus="WdatePicker();"  class="inputData" />
+                    <code>超过这个日期后这个优惠卡无法使用</code>
+                    </td>
+                </tr>
+        
+
+    </table>
+                 <div style="margin-left:140px;margin-top:20px">
+                <input type="submit" value="确认编辑" class="smtQrIpt" />
+                <div>
+</form>
+</div>
+</div>
+<include  file='public:footer'/>       

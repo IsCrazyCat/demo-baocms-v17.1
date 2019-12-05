@@ -1,0 +1,259 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">商城订单</li>
+        <li class="li2 li3">商城订单列表</li>
+    </ul>
+</div>
+
+<style>
+.seleK{height: 30px;}
+.seleK label {margin-bottom: 10px;}
+.main-sc .jsglNr .selectNr .right span{line-height:30px; height: 30px; padding-right: 0;}
+.seleK .text{height: 28px; width:120px !important;}
+.seleK .sumit{height:30px;padding-left:27px;background-position:6px center;padding-right:10px;line-height:30px}
+.main-sc .jsglNr .selectNr .right .select{height: 30px; line-height: 30px;width: 80px;margin-right:5px}
+.inptText{width: 120px; height: 28px; line-height: 30px;}
+.inptButton{height: 30px;line-height:30px;background:rgb(0, 153, 204); width:70px;text-align: center;}
+
+.tuan_table{border-collapse:collapse;border:1px solid #e1e6eb;border-top:none 0;text-align:center}
+.tuan_table tr{border-top:solid 1px #e1e6eb}
+.tuan_table td{padding:10px 0}
+.tuan_table3{border-collapse:collapse;height:34px;border:1px solid #ddd;text-align:center}
+.tuan_table1{border-collapse:collapse;border:1px solid #ececec;text-align:center}
+.tuan_table1:hover{border-color:#09C}
+.tuan_table1 span.td_top_1{margin-left:40px;color:#3c3c3c}
+.tuan_table1 tr.tr_left_2{height:34px;background:#EAF8FF}
+.tuan_table1 tr td.left10{text-align:left;text-indent:15px}
+.tuan_table1 tr td a.href{color:#36c}
+.tuan_table1 tr td a.href:hover{color:#ff6000}
+.tuan_table1 tr{border-bottom:solid 0 #ececec}
+.tuan_table1 td.td_left_1{width:40%}
+.tuan_table1 tr.tr_left_3{height:34px;background:#F3F1F1}
+.tuan_table1 tr td.left11{text-align:right;text-indent:15px;padding-right:20px}
+.tuan_table1 td.left6 img{margin-top:5px}
+.tuan_table1 td.left8 span.need_pay{margin-bottom:5px;display:block}
+.tuan_table2{border-right:1px solid #ececec;border-top:none 0;text-align:center;padding:5px}
+.tuan_table2 td.left1{width:55%;float:left;margin-left:5px;text-align:left!important}
+.tuan_table2 td.left2{width:15%}
+.tuan_table2 td.left3{width:15%}
+.tuan_table2 td.left4{width:15%}
+.sure_express{width:50px}
+.tuan_table1 td.left6,.tuan_table1 td.left7,.tuan_table1 td.left8{border-right:1px solid #ececec;padding:10px 5px}
+.index__production___yfP3y{margin-left:10px;text-align:left}
+.index__table___3bFkf a{color:#3c3c3c;text-decoration:none;word-break:break-all}
+.index__table___3bFkf a img{width:80px}
+.index__production___yfP3y a img{width:58px}
+.index__pic___TScfk{float:left;overflow:hidden}
+.index__pic___TScfk img{max-width:50px}
+.index__infos___A6XLq{margin-left:60px}
+.index__table___3bFkf p{margin:8px 0;line-height:1}
+.index__table___3bFkf p{margin:8px 0;line-height:1}
+.index__table___3bFkf a:hover{color:#ff6800;text-decoration:none}
+.blank-10 {height: 10px; width: 100%;}
+.tuan_table{border-collapse:collapse;border:1px solid #e1e6eb;border-top:none 0;text-align:center}
+.tuan_table tr{border-top:solid 1px #e1e6eb}
+.tuan_table td{padding:10px 0}
+.tuan_table3{border-collapse:collapse;height:34px;border:1px solid #ddd;text-align:center}
+.tuan_table1{border-collapse:collapse;border:1px solid #ececec;text-align:center}
+.tuan_table1:hover{border-color:#09C}
+.tuan_table1 span.td_top_1{margin-left:40px;color:#3c3c3c}
+.tuan_table1 tr.tr_left_2{height:34px;background:#EAF8FF}
+.tuan_table1 tr td.left10{text-align:left;text-indent:15px}
+.tuan_table1 tr td a.href{color:#36c}
+.tuan_table1 tr td a.href:hover{color:#ff6000}
+.tuan_table1 tr{border-bottom:solid 0 #ececec}
+.tuan_table1 td.td_left_1{width:40%}
+.tuan_table1 tr.tr_left_3{height:34px;background:#F3F1F1}
+.tuan_table1 tr td.left11{text-align:right;text-indent:15px;padding-right:20px}
+.tuan_table1 td.left6 img{margin-top:5px}
+.tuan_table1 td.left8 span.need_pay{margin-bottom:5px;display:block}
+.tuan_table2{border-right:1px solid #ececec;border-top:none 0;text-align:center;padding:5px}
+.tuan_table2 td.left1{width:55%;float:left;margin-left:5px;text-align:left!important}
+.tuan_table2 td.left2{width:15%}
+.tuan_table2 td.left3{width:15%}
+.tuan_table2 td.left4{width:15%}
+.sure_express{width:50px}
+.tuan_table1 td.left6,.tuan_table1 td.left7,.tuan_table1 td.left8{border-right:1px solid #ececec;padding:10px 5px}
+.index__production___yfP3y{margin-left:10px;text-align:left}
+.index__table___3bFkf a{color:#3c3c3c;text-decoration:none;word-break:break-all}
+.index__table___3bFkf a img{width:80px}
+.index__production___yfP3y a img{width:58px}
+.index__pic___TScfk{float:left;overflow:hidden}
+.index__pic___TScfk img{max-width:50px}
+.index__infos___A6XLq{margin-left:60px}
+.index__table___3bFkf p{margin:8px 0;line-height:1}
+.index__table___3bFkf p{margin:8px 0;line-height:1}
+.index__table___3bFkf a:hover{color:#ff6800;text-decoration:none}
+.main-jsgl .jsglNr table tr td {
+    height: auto;
+    text-align: inherit;
+    color: rgb(84, 84, 84);
+    font-family: 微软雅黑;
+    font-size: 12px;
+    vertical-align: middle;
+    padding-top: 10px;
+    line-height: inherit;
+    padding-bottom: 10px;
+}
+</style>
+
+
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>这里是新版的后台上管理，可以做很多事情的！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none; padding-bottom: 0px;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('order/index')}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                        <div class="seleK"> 
+                            <label>
+                            <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>" />
+                            <input type="text" name="nickname" id="nickname"  value="<{$nickname}>"   class="text w150" />
+                            <a style="margin-right: 5px;" mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="sumit">选择用户</a>
+                        </label>
+                        <label>
+                            <span>商家</span>
+                            <input type="hidden" id="shop_id" name="shop_id" value="<{$shop_id|default=''}>"/>
+                            <input type="text"   id="shop_name" name="shop_name" value="<{$shop_name}>" class="text w150" />
+                            <a style="margin-right: 5px;"  href="<{:U('shop/select')}>" mini='select' w='800' h='600' class="sumit">选择商家</a>
+                        </label>
+                        <label>
+                            <span>状态</span>
+                            <select name="st" class="select w80">
+                                <option value="999">请选择</option>
+                                <foreach name="types" key="key" item="item">
+                                    <option <eq name="st" value="$key">selected="selected"</eq>  value="<{$key}>"><{$item}></option>
+                                </foreach>
+
+                            </select>
+                        </label>
+                        <label>
+                            <span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>"  onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  class="text w150" />
+                        </label>
+                        <label>
+                            <span>订单编号</span>
+                            <input type="text" name="keyword" value="<{$keyword}>" class="inptText w100" />
+                        </label>
+
+                                <input type="submit" value="   搜索"  class="inptButton" />
+                            </label>
+                        </div>
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            <div class="selectNr selectNr2">
+                <div class="left">
+                </div>
+                <div class="right">
+                </div>
+                <div class="clear"></div>
+            </div>
+        <div class="tableBox">
+
+            <form  target="x-frame" method="post">
+<div class="blank-20"></div>
+     <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="350">详情</td>
+            <td>单价</td>
+            <td>数量</td>
+            <td>总价</td>
+            <td>买家姓名</td>
+            <td>状态</td>
+            <td>实付金额</td>
+            <td>评价</td>
+     </table>
+     <div class="blank-10"></div>
+        <form  target="x-frame" method="post">
+        
+<foreach name="list" item="order">  
+  <table  class="tuan_table1"  width="100%" border="0">
+  <tr class="tr_left_2" <eq name="order.is_daofu" value="1">style="background:#FFEAD2;"<else/>style="background:#EAF8FF;"</eq> >
+    <td class="left10" colspan="5">
+    订单ID：<span class="mallorder_jg"><{$order.order_id}></span>
+    <span class="td_top_1">交易时间：<{$order.create_time|date='Y-m-d H:i:s',###}>
+    <span class="td_top_1">
+   <if condition="!empty($order['address_id'])">
+   收货地址：
+   <{$addrs[$order['address_id']]['xm']}>--<{$addrs[$order['address_id']]['tel']}>--<{$addrs[$order['address_id']]['area_str']}>---<{$addrs[$order['address_id']]['info']}>
+   </span>
+   </if>
+    </td>
+  </tr>
+  <tr>
+    <td class="td_left_1"> 
+    
+    <foreach name="goods" item="good">
+    <eq name="good.order_id" value="$order.order_id">
+    <table  class="tuan_table2" width="100%" border="0">
+      <tr class="tr_left_1">
+      
+        <td class="left1">
+         <!--商品展示开始-->
+        <div class="index__production___yfP3y" >
+        <a class="index__pic___TScfk" ><img src="<{:config_img($products[$good['goods_id']]['photo'])}>" ></a>
+        <div class="index__infos___A6XLq" >
+            <p ><a><span><{$products[$good['goods_id']]['title']}></span></a></p>
+            <if condition="!empty($good[key_name])">
+          <span style="color:red;">规格：<{$good[key_name]}></span>
+			</if>        	
+        	</div>
+		</div>
+       <!--商品展示END-->
+        
+        </td>
+        <td class="left2">&yen;<{:round($good['price']/100,2)}></td>
+        <td class="left3"><{$good['num']}></td>
+        <td class="left4">&yen;<{:round($good['total_price']/100,2)}></td>
+        <td class="left5"> <if condition="$order['status'] neq 0  && $order['is_daofu'] neq 0">
+			<{$goodtypes[$good['status']]}>
+            </if></td>
+      </tr>
+     
+    </table>
+    </eq>
+    </foreach>
+    
+    </td>
+    <td class="left6" width="9%">
+        <{$users[$order['user_id']]['account']}>
+        <eq name="order.is_mobile" value="1"><br/><img src="/themes/default/Merchant/statics/images/mobile.png" /></eq>
+    </td>
+    <td class="left7" width="8%">
+        <eq name="order.is_daofu" value="1">货到付款<br/></eq>
+        <{$types[$order['status']]}><br/>
+        <eq name="order.is_print" value="1">已打印<br/></eq> 
+    </td>
+    <td class="left8"width="10%">
+        <span style="font-weight:bold;color:#F00">实付：&yen;<{:round($order['need_pay']/100,2)}></span> <eq name="order.is_change" value="1">[改]</eq> <br/>
+        <if condition="!empty($order['coupon_price'])">
+           <span> -优惠劵抵用&yen;<{:round($order['coupon_price']/100,2)}>元</span><br/>
+        </if>
+        <if condition="!empty($order['use_integral'])">
+           <span> -积分抵扣&yen;<{:deduction($order['use_integral'])}>元</span><br/>
+        </if>
+        <if condition="!empty($order['mobile_fan'])">
+           <span> -手机下单立减&yen;<{:round($order['mobile_fan']/100,2)}>元</span><br/>
+        </if>         
+        <span  style="color:#00F"> +配送费：&yen;<{:round($order['express_price']/100,2)}>元</span><br/>
+    </td>
+    <td class="left9"width="9%"><eq name="order.is_dianping" value="1">已点评<else/>未评</eq></td>
+  </tr>
+ 
+</table>
+<br/>
+</foreach>
+
+    <{$page}>
+</div>
+        <include  file='public:footer'/>       

@@ -1,0 +1,58 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="JavaScript:void(0);">物业管理</a> > <a href="javascript:void(0);">门锁列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('access/lists')}>">
+        <div class="radius5 tuan_top">
+            <div class="tuan_top_t">
+                <div class="left tuan_topser_l">
+                    序列号：
+                    <input type="text" class="radius3 tuan_topser"  name="keyword" value="<{$keyword}>"/>
+                    <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+                </div>
+                <div class="right tuan_topfb_r">
+                    <a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('access/lists')}>">刷新门锁状态</a>
+                    <a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('access/create')}>">添加门锁+</a>
+                </div>
+            </div> 
+        </div>
+    </form>
+
+    
+    
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>ID</td>
+            <td>备注</td>
+            <td>序列号</td>
+            <td>SIM号码</td>
+            <td>设备状态</td>
+            <td>状态查询时间</td>
+            <td>创建时间</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.list_id}></td>
+                <td><{$var.intro}></td>
+                <td><{$var.lock_sn}></td>
+                <td><{$var.sim_no|default='暂无'}></td>
+                <td><eq name="var.online" value="1">在线<else/>不在线</eq></td>
+                <td style="color:#F00"><{$var.query_time|date='Y-m-d H:i:s',###}></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td>
+                    <a class="radius3 sy_lookan" mini='confirm' href="<{:U('access/delete',array('list_id'=>$var['list_id']))}>">删除设备</a>
+                    <a class="radius3 sy_lookan" href="<{:U('access/user',array('list_id'=>$var['list_id']))}>">用户列表</a>
+                    <a class="radius3 sy_lookan" mini='confirm' href="<{:U('access/state',array('list_id'=>$var['list_id']))}>">查询状态</a>
+                </td>
+                </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+<include  file='public:footer'/>

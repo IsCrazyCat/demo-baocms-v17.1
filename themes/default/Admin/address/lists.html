@@ -1,0 +1,95 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">收货地址</li>
+        <li class="li2 li3">全国收货地址列表</li>
+    </ul>
+</div>
+
+
+
+<div class="main-jsgl main-sc">
+<p class="attention"><span>注意：</span> 这里显示全国收货地址列表</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('address/lists')}>">
+                
+                    <div class="left">
+                         <{:BA('address_create','','添加地址','load','',600,300)}>
+                    </div>
+            
+                    <div class="seleHidden" id="seleHidden">
+                    <div class="seleK">
+                        <label>
+                                <span>地域等级</span>
+                                <select id="level" name="level" class="selecttop w120"  >
+                                    <option value="999">请选择等级</option>
+                                    <option value="1" <eq name="level" value="1">selected="selected"</eq>>1级</option>  
+                                    <option value="2" <eq name="level" value="2">selected="selected"</eq>>2级</option>
+                                    <option value="3" <eq name="level" value="3">selected="selected"</eq>>3级</option>
+                                    <option value="4" <eq name="level" value="4">selected="selected"</eq>>4级</option>              
+                                </select>
+                        </label>
+                        <label>
+                        <span>关键字</span>
+                            <input type="text" placeholder="关键字" name="keyword" value="<{$keyword}>" class="inptText" />
+                            <input type="submit" value="   搜索"  class="inptButton" />
+                        </label>
+                    </div> 
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+            
+    <form  target="x-frame" method="post">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50"><input type="checkbox" class="checkAll" rel="id" /></td>
+                    <td class="w50">ID</td>
+                    <td>名称</td>
+                    <td>行政区</td>
+                    <td>等级</td>
+                    <td>upid</td>
+                    <td>排序</td>
+                    <td>商城订单数量</td>
+                    <td>商城订单金额</td>
+                    <td>操作</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input class="child_id" type="checkbox" name="id[]" value="<{$var.id}>" /></td>
+                        <td><{$var.id}></td>
+                        <td><{$var.name}></td>
+                        <td><{$var.intro}></td>
+                        <td><{$var.level}></td>
+                        <td><{$var.upid}></td>
+                        <td><{$var.displayorder}></td>
+                        <td><{$var.num}></td>
+                        <td style="color:#F00"> &yen; <{:round($var['price']/100,2)}> 元</td>
+                        <td>
+                            <{:BA('address/address_delete',array("id"=>$var["id"],"p"=>$p),'删除','act','remberBtn')}>
+                            <if condition="($var['level'] neq 3) AND $var['level'] neq 4"> 
+                            	<{:BA('address/address_create',array("upid"=>$var["id"],"level"=>$var["level"]+1,"p"=>$p),'添加子地址','load','remberBtn',600,300)}>
+                            </if>
+                            <{:BA('address/address_edit',array("id"=>$var["id"],"upid"=>$var["upid"],"level"=>$var["level"],"p"=>$p),'编辑','load','remberBtn',600,300)}>
+                        </td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  
+
+

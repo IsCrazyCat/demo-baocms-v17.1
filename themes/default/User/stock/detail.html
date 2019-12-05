@@ -1,0 +1,95 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('stock/index',array('st'=>0))}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			股权订单详情
+		</div>
+		<div class="top-share">
+			<a href="#" id="cate-btn"></a>
+		</div>
+	</header>
+<body>   
+<style>
+.panel-list li.padding10 { padding:0 10px;}
+.panel-list li a.button-small { margin:10px 0; padding:0 10px; text-align:center; font-size:14px;}
+.list-media-x{ margin-top:0rem; }
+.list-media-x h3{ margin:5px;}
+</style>
+<div class="panel-list">
+	<ul>
+        <li class="padding10">
+            <if condition="$detail['status'] eq 0">
+               <a class="button button-small bg-dot"  href="<{:U('wap/stock/pay',array('order_id'=>$detail['order_id']))}>">去付款</a>
+            <elseif condition="$detail['status'] eq 1"/>
+               <a class="button button-small bg-dot">订单已支付</a>
+               <a class="button button-small bg-blue"  href="<{:U('wap/stock/query',array('order_id'=>$detail['order_id']))}>">查看电子股单</a>
+            </if>
+        </li>
+	</ul>
+</div>
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+		<li><a href="javascript:;">订单编号：<em><{$detail.order_id}></em></a></li>
+		<li><a href="javascript:;">股权名称：<{$detail.stock.title}></a></li>
+        <li><a href="javascript:;">股权编号：<em class="text-dot"><{$detail.stock_number}></em></a></li>
+        <li><a href="javascript:;">股权数量：<em class="text-dot"><{$detail.num}></em></a></li>
+        <li><a href="javascript:;">股权单价：<em class="text-yellow"><{:round($detail['price']/100,2)}></em></a></li>
+        
+        <if condition="$detail['prestige']">
+        	<li><a href="javascript:;">使用<{$CONFIG.prestige.name|default='威望'}>：<em class="text-yellow"><{$detail.prestige}></em></a></li>
+        </if>
+        <if condition="$detail['prestige_deduction_ratio']">
+        	<li><a href="javascript:;"><{$CONFIG.prestige.name|default='威望'}>抵扣比例：<em class="text-blue"><{$detail.prestige_deduction_ratio}>%</em></a></li>
+        </if>
+        <if condition="$detail['prestige_deduction_price']">
+        	<li><a href="javascript:;"><{$CONFIG.prestige.name|default='威望'}>抵扣金额：<em class="text-dot"><{:round($detail['prestige_deduction_price']/100,2)}></em></a></li>
+        </if>
+		<li><a href="javascript:;">订单总额：<em class="text-dot">&yen;<{:round($detail['need_pay_price']/100,2)}> 元</em></a></li>
+		<li><a href="javascript:;">股权人姓名：<em><{$detail.name}></em></a></li>
+        <li><a href="javascript:;">股权人手机：<em> <{$detail.mobile}></em></a></li>
+        <li><a href="javascript:;">下单时间：<em><{$detail.create_time|date='Y-m-d H:i:s',###}></em></a></li>
+        </ul>
+</div>
+<div class="blank-10 bg"></div>
+<div class="list-media-x">
+    <h3 class="list-shop-x">
+        <a href="<{:U('wap/stock/detail',array('stock_id'=>$detail['stock_id']))}>">股权商品信息<i class="iconfont icon-angle-right float-right"></i></a>
+    </h3>
+	<ul>
+		<li class="line padding">
+			<div class="x3">
+				<img style="width:90%;" src="<{:config_img($detail['stock']['photo'])}>" />
+			</div>
+			<div class="x9">
+				<p><{$detail['stock']['title']}></p>
+				<p class="text-small">单价：<span class="text-dot"> &yen; <{:round($detail['price']/100,2)}> 元</span></p>
+                <p class="text-small">已售：<span class="text-gray"><{$detail['stock']['sold_num']}>份</span></p>
+			</div>
+		</li> 
+	</ul>
+</div>
+
+
+<div class="blank-30"></div>
+
+<style>.container a{ text-align:center}</style>
+<div class="container login-open">   
+	<if condition="!$detail['status']">
+   		<a class="button button-block button-big bg-dot"  id="pay_btn">在线支付:￥<{:round($detail['need_pay_price']/100,2)}></a>
+    </if>
+
+    <script>
+        $(document).ready(function(){
+            $("#pay_btn").click(function(){
+                var url = "<{:U('wap/stock/pay',array('order_id'=>$detail['order_id']))}>";
+                window.location.href = url;
+            })
+        })
+    </script>
+</div>   
+<div class="blank-20"></div>
+<div class="blank-10 bg"></div>
+<include file="public:footer"/>

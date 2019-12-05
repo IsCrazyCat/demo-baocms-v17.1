@@ -1,0 +1,61 @@
+<php>
+
+
+
+
+<foreach name="list" item="var">
+<li>	
+	<if condition="$var['bsti'] eq 0">
+		<a class="item line" href="<{:U('market/shop',array('shop_id'=>$var['shop_id']))}>">
+		<div class="x3">
+			<img src="<{:config_img($shops[$var['shop_id']]['photo'])}>">
+		</div>
+		<div class="x9">
+				<h5><{$var['shop_name']}>
+					<eq name="var.is_pay" value="1"> <span class="fu">付</span></eq>
+					<eq name="var.is_full" value="1"> <span class="fan">惠</span></eq>
+					<eq name="var.is_new" value="1"><span class="jian">减</span></eq>
+				</h5>				
+                <p class="des-star">
+					<span class="ui-starbar"><span style="width:<{:round($var['score']*2,2)}>%"></span></span>
+					<span class="float-right"><{$var.d}>/<span class=""><{$var['distribution']}>分钟</span></span>
+				</p>
+				<p class="des-addr">
+                <i class="mui-icon mui-icon-location"></i>
+                &yen;<{:round($var['since_money']/100,2)}>起送/配送费 &yen;<{:round($var['logistics']/100,2)}>/已售<{$var['sold_num']}>
+                </p>
+                <eq name="var.is_new" value="1">
+                    <p class="des-addr">
+                        <span class="man_money full_money">新单立减</span>
+                        单笔满&yen;<{:round($var['full_money']/100,2)}>元减 &yen;<{:round($var['new_money']/100,2)}>元
+                	</p>
+                </eq>
+                <if condition="!empty($var['logistics_full'])">
+                    <p class="des-addr">
+                        <span class="man_money logistics_full">免配送</span>
+                        单笔满&yen;<{:round($var['logistics_full']/100,2)}>元免配送费
+                	</p>
+                </if>
+                <eq name="var.is_full" value="1">
+                    <p class="des-addr">
+                        <span class="man_money order_price_full">满减</span>
+                        <if condition="!empty($var['order_price_full_1'])">
+                        	单笔满&yen;<{:round($var['order_price_full_1']/100,2)}>元减 &yen;<{:round($var['order_price_reduce_1']/100,2)}>元
+                        </if>
+                        <if condition="!empty($var['order_price_full_2'])">
+                        	，单笔满&yen;<{:round($var['order_price_full_2']/100,2)}>元减 &yen;<{:round($var['order_price_reduce_2']/100,2)}>元
+                        </if>
+                	</p>
+                </eq>
+                <if condition="!empty($var['radius'])">
+                	<p class="des-addr"><i class="icon-motorcycle"></i> 配送半径：<{$var.radius}> KM</p>
+                </if>
+                <p class="des-addr"><i class="icon-map-marker"></i> <{$shops[$var['shop_id']]['addr']}></p>
+		</div></a>
+        
+       </if>
+       
+       
+      
+</li>
+</foreach>

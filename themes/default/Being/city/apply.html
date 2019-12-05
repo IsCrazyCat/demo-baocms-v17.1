@@ -1,0 +1,39 @@
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form  target="x-frame" action="<{:U('city/apply',array('city_id'=>$city_id))}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    
+                    
+                     <tr>
+                    <td class="lfTdBt">选择二级城市代理：</td>
+                    <td class="rgTdBt"> 
+                        <select id="data[agent_id]" name="agent_id" class="seleFl w200">
+                            <foreach name="agents" item="var">
+                                <eq name="var.parent_id" value="0">
+                                <option style="color:#ccc" value="<{$var.agent_id}>"  <eq name="var.agent_id" value="$detail.agent_id">selected="selected"</eq> ><{$var.agent_name}></option>                
+                                <foreach name="agents" item="var2">
+                                    <eq name="var2.parent_id" value="$var.agent_id">
+                                    <option value="<{$var2.agent_id}>"  <eq name="var2.agent_id" value="$detail.agent_id">selected="selected"</eq> > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;======<{$var2.agent_name}></option>
+                                    </eq>
+                                </foreach>
+                                </eq>
+                            </foreach>
+                        </select>
+                        <code>必须选择二级城市代理，不可选择一级城市代理</code>
+                    </td> 
+                </tr>
+                
+               
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确定入驻" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,74 @@
+<include  file='public:header'/>
+<style>
+.lfTdBt { width: 200px;}
+.profit{ text-align:center; color:#000; font-weight:bold; background:#ECECEC;}
+</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">商家功能</li>
+        <li class="li2 li3">功能设置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>商家的基本设置写在这里</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="x-frame" action="<{:U('setting/shop')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+             <tr>
+                    <td class="lfTdBt">开启商家点赞：</td>
+                    <td class="rgTdBt">
+                    <label>
+                    	<input type="radio" name="data[is_shop_zan]" <eq name="CONFIG.shop.is_shop_zan" value="1">checked="checked"</eq> value="1"/>
+                    	开启
+                    </label>
+                    <label>
+                    	<input type="radio" name="data[is_shop_zan]" <eq name="CONFIG.shop.is_shop_zan" value="0">checked="checked"</eq> value="0"/>
+                    	关闭
+                    </label>
+                    <code>点击开启后，wap商家详情页出现点赞按钮，会员可对商家进行点赞，关闭后不出现按钮。</code>
+                    </td>
+                </tr>
+              
+                <tr>
+                    <td class="lfTdBt" >会员每天可点赞次数：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[day_zan_num]" value="<{$CONFIG.shop.day_zan_num}>" class="scAddTextName w80" />
+                        <code>会员每天可总点赞多少次，建议填写3-5，留空不限制，建议不要留空，不然会出现刷积分的情况。</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" >同一个商家每天点赞次数：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[day_shop_zan_num]" value="<{$CONFIG.shop.day_shop_zan_num}>" class="scAddTextName w80" />
+                        <code>会员每天可对同一个商家点赞多少次，建议填写1-2，留空不限制。</code>
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    <td  class="lfTdBt">点赞一次奖励多少积分：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[zan_reward_integral]" value="<{$CONFIG.shop.zan_reward_integral}>" class="scAddTextName  w80" />
+                        <code>会员每操作一次点赞可获得多少积分，只能填写整数，建议填写1-3留空不奖励积分。</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td  class="lfTdBt">商家入驻扣除费用：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[shop_apply_prrice]" value="<{$CONFIG.shop.shop_apply_prrice}>" class="scAddTextName  w80" />
+                        <code>单位元，不支持负数，建议填写整数，不填写或者填写为0不生效，具体是在商家入驻成功后扣除相关费用，如果会员余额不足，无法入驻，建议留空或者填写为0。</code>
+                    </td>
+                </tr>
+               
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

@@ -1,0 +1,290 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">站点功能</li>
+        <li class="li2">功能开关</li>
+    </ul>
+</div>
+
+<div class="main-jsgl main-sc">
+
+    <p class="attention"><span>注意：</span>支持大部分板块，关闭后只是前台用户看不到，后台还是可看到功能列表。第一步您应该来这里配置功能！</p>
+
+    <form  target="x-frame" action="<{:U('setting/operation')}>" method="post">
+
+        <div class="tableBox">
+
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+<tr>
+<td class="lfTdBt">直接关闭PC：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[pchome]" <eq name="CONFIG.operation.pchome" value="1">checked="checked"</eq> value="1"  />开启PC</label>
+<label><input type="radio" name="data[pchome]"  <eq name="CONFIG.operation.pchome" value="0">checked="checked"</eq>  value="0"  />关闭PC</label>
+<code>建议关闭PC，一般只用wap下单，PC没有开启的必要，强烈建议哦</code>
+</td>
+</tr>               
+                
+                
+<tr>
+<td class="lfTdBt">商城频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[mall]" <eq name="CONFIG.operation.mall" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[mall]"  <eq name="CONFIG.operation.mall" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>针对本地的商城，目前支持多属性，快递发货，已支持抢单，一般可开启这个频道，如果没有必要的用户可以不开启。</code>
+</td>
+</tr> 
+
+              
+<tr>
+<td class="lfTdBt">外卖频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[ele]" <eq name="CONFIG.operation.ele" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[ele]"  <eq name="CONFIG.operation.ele" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>最近优化比较多的板块，完美运营的板块，本地运营可以开启，当然，您已可以关闭。</code>
+</td>
+</tr> 
+
+<tr>
+<td class="lfTdBt">菜市场频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[market]" <eq name="CONFIG.operation.market" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[market]"  <eq name="CONFIG.operation.market" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code></code>
+</td>
+</tr> 
+
+
+<tr>
+<td class="lfTdBt">便利店频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[store]" <eq name="CONFIG.operation.store" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[store]"  <eq name="CONFIG.operation.store" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>很不错的便利店</code>
+</td>
+</tr> 
+
+
+<tr>
+<td class="lfTdBt">抢购频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[tuan]" <eq name="CONFIG.operation.tuan" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[tuan]"  <eq name="CONFIG.operation.tuan" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>这个就是团购，模式太老土了，再说已竞争不过其他大平台，个人认为没什么必要开启。</code>
+</td>
+</tr> 
+
+
+<tr>
+<td class="lfTdBt">家政频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[appoint]" <eq name="CONFIG.operation.appoint" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[appoint]"  <eq name="CONFIG.operation.appoint" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>这个是针对多商家的家政，支持技师，支持店员中心抢单操作，支持退款，支持在线支付，优化得还比较不错的频道。</code>
+</td>
+</tr>
+
+
+<tr>
+<td class="lfTdBt">预约频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[book]" <eq name="CONFIG.operation.book" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[book]"  <eq name="CONFIG.operation.book" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>这里的预约是基于商家分类拓展的新功能，客户可以根据商家分类进行多选项预约，支持自动定位，上传图片，已支持退款，支持商家抢单，但是不支持配送员抢单操作，算是新频道，新功能，这个看自己的需求，一般的网站是没有必要开启的。</code>
+</td>
+</tr>
+
+
+<tr>
+<td class="lfTdBt">股权频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[stock]" <eq name="CONFIG.operation.stock" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[stock]"  <eq name="CONFIG.operation.stock" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>股权就是一个简单的功能，客户购买商家的股权后，回在会员中心生成一个股权证书，已可以后台配置自己的团购管理股权，个人认为开启的必要性不大，一般我不建议开启这个频道，反正这个频道优化的不错，建议不开启吧。</code>
+</td>
+</tr>
+
+
+<tr>
+<td class="lfTdBt">预订频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[booking]" <eq name="CONFIG.operation.booking" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[booking]"  <eq name="CONFIG.operation.booking" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>这个其实就是订座，没毛用，优化得不好，订座可以用外卖就行了，这个就是多余的，不是很完善，我们建议关闭这个频道。</code>
+</td>
+</tr>
+
+
+<tr>
+<td class="lfTdBt">KTV频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[ktv]" <eq name="CONFIG.operation.ktv" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[ktv]"  <eq name="CONFIG.operation.ktv" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>适合用于本地ktv预订，这个针对性太强，强烈建议除非你只做KTV，否则建议关闭，模块写得还一般，有需要二开的客户后期可以联系我二开。</code>
+</td>
+</tr>
+
+<tr>
+<td class="lfTdBt">教育频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[edu]" <eq name="CONFIG.operation.edu" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[edu]"  <eq name="CONFIG.operation.edu" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>不是很完美的板块，一直没更新过的板块，不过功能很全面，还支持点评哦，可以购买试课，不过个人建议不要开启哦。</code>
+</td>
+</tr>
+
+
+
+<tr>
+<td class="lfTdBt">众筹频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[crowd]" <eq name="CONFIG.operation.crowd" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[crowd]"  <eq name="CONFIG.operation.crowd" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>非必须千万不要开启，没必要的功能，简直是多余的。</code>
+</td>
+</tr>
+
+
+
+<tr>
+<td class="lfTdBt">酒店频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[hotels]" <eq name="CONFIG.operation.hotels" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[hotels]"  <eq name="CONFIG.operation.hotels" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>酒店频道，还一般的频道，没必要开启，毕竟，这个酒店系统太不专业了。</code>
+</td>
+</tr>
+
+<tr>
+<td class="lfTdBt">农家频道乐：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[farm]" <eq name="CONFIG.operation.farm" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[farm]"  <eq name="CONFIG.operation.farm" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>不是很专业，跟专业的旅游系统没法对比的，看你自己的需求吧，如果觉得必须，就可以开启，否则，没必要开启，毕竟这个市场太小了。</code>
+</td>
+</tr>
+
+
+
+<tr>
+<td class="lfTdBt">跑腿频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[running]" <eq name="CONFIG.operation.running" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[running]"  <eq name="CONFIG.operation.running" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>针对网站站长设计的功能，商家中心不支持管理跑腿，自己觉得没多大用，建议关闭。</code>
+</td>
+</tr>          
+        
+<tr>
+<td class="lfTdBt">五折卡频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[zhe]" <eq name="CONFIG.operation.zhe" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[zhe]"  <eq name="CONFIG.operation.zhe" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>新功能，有需要的可以开启，目前比较完成，可以开启，记得去五折卡设置那边设置下购买周卡，年卡的价格。</code>
+</td>
+</tr>  
+
+<tr>
+<td class="lfTdBt">贴吧部落：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[thread]" <eq name="CONFIG.operation.thread" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[thread]"  <eq name="CONFIG.operation.thread" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>这个是类似论坛，只是功能比较少，如果有运营需要的亲，可以去开启，一般是不建议开启的，看自己的业务需求。</code>
+</td>
+</tr>
+
+
+<tr>
+<td class="lfTdBt">拼车频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[pinche]" <eq name="CONFIG.operation.pinche" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[pinche]"  <eq name="CONFIG.operation.pinche" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>本地频道功能，还可以的吧，可以开启运营下，反正根据自己的业务来吧。</code>
+</td>
+</tr>
+
+
+<tr>
+<td class="lfTdBt">新闻资讯：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[news]" <eq name="CONFIG.operation.news" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[news]"  <eq name="CONFIG.operation.news" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>本地发布新闻用这个功能，这个一般都需要的吧。</code>
+</td>
+</tr>
+
+<tr>
+<td class="lfTdBt">分类信息：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[life]" <eq name="CONFIG.operation.life" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[life]"  <eq name="CONFIG.operation.life" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>本地分类信息，支持订阅，支持举报，支持微信模板消息推送，目前所有O2O系统中优化得最好的一个分类信息系统，可以开启，这个功能复杂，需要后台配置好。</code>
+</td>
+</tr>
+
+<tr>
+<td class="lfTdBt">积分商城：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[jifen]" <eq name="CONFIG.operation.jifen" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[jifen]"  <eq name="CONFIG.operation.jifen" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>客户用自己的积分来兑换商品，支持多商家，一般需要开启，还是有用的。</code>
+</td>
+</tr>
+
+<tr>
+<td class="lfTdBt">优惠劵频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[coupon]" <eq name="CONFIG.operation.coupon" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[coupon]"  <eq name="CONFIG.operation.coupon" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>优惠劵频道还行，一般可以开启这个功能，可以跟商城搭配只用效果更佳哦。</code>
+</td>
+</tr>
+
+<tr>
+<td class="lfTdBt">云购频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[cloud]" <eq name="CONFIG.operation.cloud" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[cloud]"  <eq name="CONFIG.operation.cloud" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>因为政策原因，不建议开启，一般没啥用，加上这功能写的就很垃圾，不过这个版本的云购支持在线付款，带了智能付款系统，还行的吧</code>
+</td>
+</tr> 
+
+<tr>
+<td class="lfTdBt">活动频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[huodong]" <eq name="CONFIG.operation.huodong" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[huodong]"  <eq name="CONFIG.operation.huodong" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>本地发布活动需要这个频道，一般不建议开启，这个活动不支持支付定金，所以我们不建议开启哦！</code>
+</td>
+</tr> 
+ 
+ <tr>
+<td class="lfTdBt">小区频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[community]" <eq name="CONFIG.operation.community" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[community]"  <eq name="CONFIG.operation.community" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>本地小区，没鸟用的东西，虽然带了物业管理，物业缴费，但是总觉得这个没有市场，浪费表情的频道！</code>
+</td>
+</tr> 
+
+<tr>
+<td class="lfTdBt">村镇频道：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[village]" <eq name="CONFIG.operation.village" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[village]"  <eq name="CONFIG.operation.village" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>还是那句话，没鸟用，真的，村镇现在不成熟，做不了的，个人觉得哈，本来农村回上网的人就不多，开启没啥用，个人见解，当然你要运营这个频道你已可以开启！</code>
+</td>
+</tr>                 
+
+            </table>
+
+        </div>
+
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+
+    </form>
+
+</div>
+
+<include  file='public:footer'/>       

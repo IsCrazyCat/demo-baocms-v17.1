@@ -1,0 +1,58 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">酒店</li>
+        <li class="li2">酒店品牌</li>
+        <li class="li2 li3">品牌列表</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里是添加酒店品牌的，添加品牌后商家添加酒店的时候即可选择此品牌！</p>
+    <div class="jsglNr">
+    <form  target="x-frame" method="post">
+        <div class="selectNr" style="border-top: 1px solid #dbdbdb;">
+            <div class="left">
+                <{:BA('hotelbrand/create','','添加品牌','load','',500,280)}>
+            </div>
+            <div class="right">
+                     <{:BA('hotelbrand/update','','更新','list','remberBtn')}>
+           </div>
+        </div>
+
+        <div class="tableBox">
+            
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF; text-align:center;">
+                    <tr bgcolor="#eee" height="48px;" style="color:#666; font-size:16px; line-height:48px;">
+                        <td>品牌名称</td>
+                        <td>该品牌下面拥有酒店数量</td>
+                        <td>排序</td>
+                        <td>操作</td>
+                    </tr>
+
+                    <foreach name="list" item="var">
+                        <tr bgcolor="#fff" height="48px" style="font-size:14px; color:#545454; text-align:left; line-height:48px;">
+                            <td style="padding-left:20px;"><{$var.title}>(<{$var.type}>)</td>
+                            <php>$num = D('Hotel')->where(array('type'=>$var['type']))->count();</php>
+                            <td style="text-align:center"><{$num}> 家酒店</td>
+                            <td style="padding-left:70px;"><input name="orderby[<{$var.type}>]" value="<{$var.orderby}>" type="text" class="remberinput w80" /></td>
+                            <td style="text-align:center;"> 
+                        <{:BA('hotelbrand/edit',array("type"=>$var["type"]),'编辑','load','remberBtn',300,280)}>
+                        <{:BA('hotelbrand/delete',array("type"=>$var["type"]),'删除','act','remberBtn')}>
+                        </td>
+                        </tr>
+                    </foreach>     
+                </table>
+            
+        </div>
+    </div>
+</div>
+</form>
+<include  file='public:footer'/>
+
+
+
+
+
+
+

@@ -1,0 +1,89 @@
+<include file='public:header'/> 
+<php>
+    $areas = D('Area')->where(array('city_id'=>$city_id))->select();
+    $Area = D('Area')->find($area_id);
+</php>   
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			同城跑腿
+		</div>
+	</header>
+<style>
+.shop-list .item {padding: 10px 0 !important;}
+footer {height: 3.0rem;}
+
+.cate-wrap{font-size:0;background-color:#fff;border-bottom:1px solid #f3f3f3;width:100%;overflow:hidden;}
+.cate-wrap li{box-sizing:border-box;width:20%;float:left}
+.icon2{color:#555;font-size:16px;text-align:center;display:block;padding:.6rem 0}
+.cate-img{background-size:6rem auto;display:inline-block}
+.cate-img img{width:2.6rem;height:2.6rem}
+.cate-desc{display:block}
+.cate-desc{padding-top:.4rem}
+
+
+.shop-list .item{overflow:hidden;padding:10px 0;border-bottom:thin solid #EEE;display:block;position:relative;}
+.shop-list .item .pic{float:left;width:100px;height:80px;width:80px;}
+.shop-list .item .des{float:left;width:100%;padding-left:10px;left:0;}
+.shop-list .item .des h5{overflow:hidden;margin-bottom:5px;width:100%;}
+.shop-list .item .des .info span.ui-starbar{ margin-top:5px;}
+.shop-list .item .des .info span.shopyouhui{color:#F00;font-size:14px; padding: 0 3px;float: right;}
+.shop-list .item .des .distance{float:right;}
+.shop-list .item .des .addr{padding:5px 0;font-size:12px;color:#999;display: block;}
+
+
+</style>
+	
+
+    
+    
+    <ul class="cate-wrap bbOnepx">
+                            
+                    <li>
+                            <a class="icon2" href="<{:U('user/apply/delivery')}>" tongji_tag="m_home_job_new">
+                                <span class="cate-img" id="job"><img src="/static/default/wap/image/tuan/tuan_cate_1.png"></span>
+                                <span class="cate-desc">注册骑手</span>
+                            </a>
+                        </li>    
+                    <li>
+                            <a class="icon2" href="<{:U('user/running/create')}>" tongji_tag="m_home_job_new">
+                                <span class="cate-img" id="job"><img src="/static/default/wap/image/tuan/tuan_cate_2.png"></span>
+                                <span class="cate-desc">发布信息</span>
+                            </a>
+                        </li>    
+                    <li>
+                            <a class="icon2" href="<{:U('delivery/running/index',array('aready'=>1))}>" tongji_tag="m_home_job_new">
+                                <span class="cate-img" id="job"><img src="/static/default/wap/image/tuan/tuan_cate_3.png"></span>
+                                <span class="cate-desc">抢单专区</span>
+                            </a>
+                        </li>    
+                    <li>
+                            <a class="icon2" href="<{:U('delivery/running/index',array('aready'=>1))}>" tongji_tag="m_home_job_new">
+                                <span class="cate-img" id="job"><img src="/static/default/wap/image/tuan/tuan_cate_4.png"></span>
+                                <span class="cate-desc">优秀骑手榜</span>
+                            </a>
+                        </li>    
+                    <li>
+                            <a class="icon2" href="<{:U('delivery/running/index',array('aready'=>1))}>" tongji_tag="m_home_job_new">
+                                <span class="cate-img" id="job"><img src="/static/default/wap/image/tuan/tuan_cate_5.png"></span>
+                                <span class="cate-desc">投诉建议</span>
+                            </a>
+                        </li>       
+   </ul>
+    
+    
+
+
+	<div class="container">
+		<ul id="shop-list" class="shop-list"></ul>
+    </div>
+
+	<script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+	
+<include file="public:footer"/>
