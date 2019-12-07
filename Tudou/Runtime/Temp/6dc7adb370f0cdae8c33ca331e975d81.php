@@ -1,0 +1,3 @@
+<?php
+//000000000600a:1:{i:0;a:21:{s:9:"coupon_id";s:1:"1";s:7:"shop_id";s:1:"1";s:7:"cate_id";s:2:"69";s:7:"city_id";s:2:"32";s:7:"area_id";s:2:"57";s:11:"business_id";s:1:"0";s:5:"title";s:16:"upgrade优惠卷";s:5:"photo";s:43:"/attachs/2018/05/22/thumb_5b03bf8735d23.jpg";s:10:"full_price";s:5:"20000";s:12:"reduce_price";s:4:"1000";s:8:"discount";N;s:11:"expire_date";s:10:"2020-05-30";s:5:"views";s:1:"6";s:9:"downloads";s:1:"0";s:5:"intro";s:16:"upgrade优惠卷";s:5:"audit";s:1:"1";s:3:"num";s:4:"2222";s:9:"limit_num";s:2:"11";s:6:"closed";s:1:"0";s:11:"create_time";s:10:"1526972260";s:9:"create_ip";s:13:"111.37.71.184";}}
+?>

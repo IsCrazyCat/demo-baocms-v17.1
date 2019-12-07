@@ -8,16 +8,14 @@ class SettingModel extends CommonModel
     public function fetchAll()
     {
         $cache = cache(array('type' => 'File', 'expire' => $this->cacheTime));
-//        if (!($data = $cache->get($this->token))) {
+        if (!($data = $cache->get($this->token))) {
             $result = $this->select();
             foreach ($result as $row) {
-                $row['v']= preg_replace('!s:(\d+):"(.*?)";!se', "'s:'.strlen('$2').':\"$2\";'", $row['v'] );
-                $row['v']= str_replace("\r", "", $row['v']);
                 $row['v'] = unserialize($row['v']);
                 $data[$row[$this->pk]] = $row['v'];
             }
             $cache->set($this->token, $data);
-//        }
+        }
         $this->settings = $data;
         return $this->settings;
     }

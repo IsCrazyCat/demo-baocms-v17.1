@@ -2,7 +2,7 @@
 class ShopnewsAction extends CommonAction{
 
 
-      //qq 286099981
+      //qq 2593523213
 	  public function sitemap() {
             $list = D('Article')->field('article_id,create_time')->order('Article_id desc')->limit(10000)->select();
             $sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\r\n";

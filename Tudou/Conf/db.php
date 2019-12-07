@@ -3,9 +3,9 @@
     return  array(
     'DB_TYPE'   =>  'mysql',
     'DB_HOST'   =>  '127.0.0.1',
-    'DB_NAME'   =>  'baocms_v17',//数据库名字
-    'DB_USER'   =>  'baocms',//数据库用户名
-    'DB_PWD'    =>  'baocms',//数据库密码
+    'DB_NAME'   =>  'baocmsdemo',//数据库名字
+    'DB_USER'   =>  'baocmsdemo',//数据库用户名
+    'DB_PWD'    =>  'baocmsdemo',//数据库密码
     'DB_PORT'   =>   3306 ,
     'DB_CHARSET'=>  'utf8',
     'DB_PREFIX' =>  'tu_',

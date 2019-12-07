@@ -58,7 +58,7 @@ class CommunityorderModel extends CommonModel{
 		$Users = D('Users')->find($Community['user_id']);
 		
 		D('Users')->addMoney($Users['user_id'], $Paymentlogs['need_pay'], '订单ID【'.$order_id.'】缴纳物业费结算给物业管理员');//给业主管理员钱钱
-		//短信通知微信通知代码暂时先删除，需要联系qq 286099981
+		//短信通知微信通知代码暂时先删除，需要联系qq 2593523213
         return true;
     }
 	//获取账单月份
