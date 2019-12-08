@@ -1,0 +1,10 @@
+.idea
+composer.lock
+*.log
+Tudou/Runtime
+Tudou/Runtime/Cache
+Tudou/Runtime/Logs
+Tudou/Runtime/Data
+Tudou/Runtime/Temp
+Tudou/Runtime/~crons.php
+Tudou/Runtime/~runtime.php
