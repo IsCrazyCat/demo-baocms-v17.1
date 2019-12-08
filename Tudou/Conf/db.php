@@ -11,6 +11,6 @@
     'DB_PREFIX' =>  'tu_',
     'AUTH_KEY'  =>  '520efebc109577cc0a86de013d0164ac', //这个KEY只是保证部分表单在没有SESSION 的情况下判断用户本人操作的作用
     'TU_KEY'   => '520efebc109577cc0a86de013d0164ac',
-	'COOKIE_DOMAIN' => 'www.baocmsdemo.com',      // Cookie有效域名
+	'COOKIE_DOMAIN' => 'volunteer.zmkm0523.com',      // Cookie有效域名
 
 );
