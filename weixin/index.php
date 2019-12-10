@@ -18,6 +18,7 @@ define('BASE_PATH' ,getcwd().'/..');
 define('GROUP_NAME','Weixin');
 define('APP_DEBUG',true);//调试模式
 define('APP_NAME', 'Tudou');//定义项目名称
-define('NOW_TIME',time());//定义项目路径
+define('NOW_TIME',time());//定义项目当前时间戳
+define('NOW_TIME_FORMAT',date("Y-m-d H:i:s",time()));//定义项目当前时间戳
 define('APP_PATH', BASE_PATH.'/Tudou/');
 require BASE_PATH.'/Core/ThinkPHP.php';//加载框架入文件
